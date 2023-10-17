@@ -14,7 +14,7 @@ const CustomLayout = ({children} : {children: React.ReactNode}) => {
         <ConfigProvider theme={theme}>
           <Layout>
             <Header />
-            <Content style={{ padding: '20px 50px', background: 'white' }} >{children}</Content>
+            <Content style={{ /* padding: '20px 50px', */ background: 'white' }} >{children}</Content>
             <Footer />
           </Layout>
         </ConfigProvider>
