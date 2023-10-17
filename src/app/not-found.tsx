@@ -6,7 +6,7 @@ import Image from 'next/image';
 import NotFoundImage from '../../public/not-found.png';
 
 const NotFound = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <Row justify={'center'}>
