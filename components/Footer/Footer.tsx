@@ -6,12 +6,11 @@ const { Footer } = Layout;
 
 const FooterPage = () => {
     return (
-        <Footer>
-          <Row justify={'center'}>
-            <Col xs={24} sm={24} md={24} lg={24} xl={10} xxl={10}>
-              이용약관 개인정보처리방침 위치기반서비스 이용약관 이용자보호 비전과 계획 청소년보호정책
-            </Col>
-          </Row>
+        <Footer style={{ padding: 0, fontSize: 13, color: '#44576c' }}>
+            <div className='container'>
+                <div style={{ fontWeight: 700, color: '#98a8b9', marginBottom: 10 }}>2023 Mooeat</div>
+                <span style={{ fontWeight: 700 }}>개인정보 처리방침</span> <span>이용약관</span>
+            </div>
         </Footer>
     )
 }

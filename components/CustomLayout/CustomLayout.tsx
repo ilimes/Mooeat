@@ -3,7 +3,7 @@
 import StyledComponentsRegistry from '../../lib/AntdRegistry'
 import Header from '../../components/Header/Header'
 import Footer from '../../components/Footer/Footer'
-import { ConfigProvider, Layout } from 'antd'
+import { Col, ConfigProvider, Layout, Row } from 'antd'
 import theme from '../../theme/themeConfig'
 
 const { Content } = Layout;
