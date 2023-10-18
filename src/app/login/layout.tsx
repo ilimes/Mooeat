@@ -1,5 +1,9 @@
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return <div style={{ padding: '20px 50px' }}>{children}</div>;
+  return (
+    <div className="container">
+      <div>{children}</div>
+    </div>
+  )
 };
 
 export default Layout;

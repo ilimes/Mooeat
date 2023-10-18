@@ -18,7 +18,7 @@ const NotFound = () => {
           <div>찾으시려는 페이지의 주소가 잘못 입력되었거나,</div>
           <div>페이지 주소가 변경 또는 삭제되어 더는 사용하실 수 없습니다.</div>
         </div>
-        <Button type='primary' onClick={() => router.push('/')} style={{ fontWeight: 'bold', marginBottom: 20, width: '95%', height: 50 }}>홈으로 이동</Button>
+        <Button type='primary' onClick={() => router.push('/')} style={{ fontWeight: 'bold', marginBottom: 20, width: '90%', height: 50 }}>홈으로 이동</Button>
       </Col>
     </Row>
   )
