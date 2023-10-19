@@ -6,3 +6,9 @@ body {
     margin: 0 auto;
     padding: 16px;
 }
+
+.login-container {
+    max-width: 372px !important;
+    margin: 0 auto;
+    padding: 16px;
+}
