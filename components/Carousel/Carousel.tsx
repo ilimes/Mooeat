@@ -20,14 +20,14 @@ const CarouselComponent = () => {
                             <div>
                                 <Row>
                                     <Col span={11} style={{ padding: 16, marginTop: 50 }}>
-                                        <div style={{ fontWeight: 700, color: '#fff', fontSize: 24 }}>
-                                            Mooeat에 오신것을 환영합니다.
-                                        </div>
+                                        <span style={{ fontWeight: 700, color: '#fff', fontSize: 24, background: 'linear-gradient(to top, #323232 45%, transparent 50%)' }}>
+                                            Mooeat에 오신것을 환영합니다!
+                                        </span>
                                         <div style={{ fontWeight: 100, color: '#fff', fontSize: 18 }}>
-                                            Mooeat이 오픈하였습니다 🎉
+                                            Mooeat 사이트가 오픈하였습니다 🎉
                                         </div>
                                         <div style={{ fontWeight: 100, color: '#fff', fontSize: 14, marginTop: 30 }}>
-                                            자세히보기 >
+                                            자세히보기 {'>'}
                                         </div>
                                     </Col>
                                     <Col span={13} style={{ overflow: 'hidden' }}>

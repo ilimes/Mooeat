@@ -1,6 +1,5 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Noto_Sans_KR, Montserrat, Roboto } from 'next/font/google'
 import CustomLayout from '@components/CustomLayout/CustomLayout'
 
 export const metadata: Metadata = {
@@ -16,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <CustomLayout children={children} />
+        <main>
+          <CustomLayout children={children} />
+        </main>
       </body>
     </html>
   )
