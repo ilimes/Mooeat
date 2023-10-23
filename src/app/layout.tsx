@@ -16,7 +16,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main>
-          <CustomLayout children={children} />
+          <CustomLayout>
+            {children}
+          </CustomLayout>
         </main>
       </body>
     </html>
