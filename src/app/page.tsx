@@ -7,7 +7,7 @@ const Home: React.FC = () => {
   return (
     <>
       <CarouselComponent />
-      <div className='container'>
+      <div>
         <MainPage />
       </div>
     </>
