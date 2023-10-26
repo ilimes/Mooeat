@@ -16,7 +16,8 @@ const NotFound = () => {
         <div style={{ marginBottom: 30 }}>
           <div>요청하신 페이지를 찾을 수 없어요 😢</div>
           <div>찾으시려는 페이지의 주소가 잘못 입력되었거나,</div>
-          <div>페이지 주소가 변경 또는 삭제되어 더는 사용하실 수 없습니다.</div>
+          <div>페이지 주소가 변경 또는 삭제되어</div>
+          <div>현재 사용할 수 없는 상태입니다.</div>
         </div>
         <Button type='primary' onClick={() => router.push('/')} style={{ fontWeight: 'bold', marginBottom: 20, width: '90%', height: 50 }}>홈으로 이동</Button>
       </Col>
