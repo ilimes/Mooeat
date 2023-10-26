@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mooeat
 
-## Getting Started
+### 개발 환경 설정
+- [ ] [NodeJS](https://nodejs.org/ko/) : v18.16.1
+  - 노드 버전 매니저([nvm](https://github.com/nvm-sh/nvm))를 사용하는 것을 추천합니다.
+- [ ] 패키지 매니저 : [npm](https://nodejs.org/en/)
+- [ ] 최신 개발 branch는 **`develop`** 입니다.
 
-First, run the development server:
-
+### 저장소 클론
+**`git clone`** 명령어를 실행하여 원격 저장소의 커밋을 로컬 저장소에 내려받습니다.
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ git clone https://github.com/ilimes/Mooeat.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 개발 branch 내려받기
+**`git pull`** 명령어로 **`develop`** branch를 내려받습니다.
+```bash
+$ git pull origin develop
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 의존성 설치
+**`npm i`** 또는 **`npm install`** 명령어로 의존성 설치를 진행합니다.
+```bash
+$ npm i
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### .env 작성
+**`.env`** 를 작성하여 프로젝트 디렉토리에 넣어줍니다. 아래는 예시입니다.
+```bash
+EXAMPLE=xxx.xxx.xxx.xxx
+```
 
-## Learn More
+### 개발 서버 띄우기
+**`npm run dev`** 명령어로 개발 서버를 띄웁니다. 
+```bash
+$ npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
