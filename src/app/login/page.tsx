@@ -5,8 +5,10 @@ import styled from "styled-components";
 import GoogleIcon from '../../../public/svg/google.svg';
 import Kakao from '../../../public/svg/kakao.svg';
 import Mail from '../../../public/svg/mail.svg';
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const router = useRouter();
   return (
     <div style={{ marginTop: 30 }}>
       <Title>Mooeat 로그인</Title>
@@ -15,7 +17,7 @@ const Login = () => {
       <RegisterButton icon={<Kakao style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>카카오로 로그인</RegisterButton>
       <RegisterButton icon={<Mail style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>이메일로 로그인</RegisterButton>
       <BtnGroup>
-        <span>비밀번호 재설정</span> · <span>계정 찾기</span> · <span>회원가입</span>
+        <StyledSpan style={{ marginLeft: 0 }}>비밀번호 재설정</StyledSpan> · <StyledSpan>계정 찾기</StyledSpan> · <StyledSpan onClick={() => router.push('/join')}>회원가입</StyledSpan>
       </BtnGroup>
     </div>
   );
@@ -48,4 +50,14 @@ export const BtnGroup = styled.div`
   margin: 20px 0;
   font-size: 14px;
   color: #606060;
+`
+
+export const StyledSpan = styled.span`
+  && {
+    margin: 0 5px;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 `

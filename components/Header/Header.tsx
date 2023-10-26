@@ -55,7 +55,7 @@ const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed }: { isM
         alignItems: "center",
         background: "#fff",
         boxShadow: "0 1px 5px rgba(57, 63, 72, 0.2)",
-        padding: 16
+        padding: 16,
       }}
     >
       <StyledDiv>
@@ -72,14 +72,14 @@ const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed }: { isM
               onSelect={(e) => setSelectedKeys([e?.key])}
             />
             <div style={{ width: 100, textAlign: 'center', marginRight: 10 }}>
-              <Button type="primary" onClick={() => router.push('/join')} style={{ fontSize: 15 }}>
+              <StyledButton type="primary" onClick={() => router.push('/join')}>
                 회원가입
-              </Button>
+              </StyledButton>
             </div>
             <div style={{ width: 100, textAlign: 'center' }}>
-              <Button onClick={() => router.push('/login')} style={{ fontSize: 15 }}>
+              <StyledButton onClick={() => router.push('/login')} >
                 로그인
-              </Button>
+              </StyledButton>
             </div>
           </>
         }
@@ -123,4 +123,14 @@ export const StyledDiv = styled.div`
   background: #fff;
   margin: 0 auto;
   width: 1200px;
+`
+
+export const StyledButton = styled(Button)`
+  && {
+    font-size: 15px;
+    transition: all 0.1s linear;
+    &:hover {
+        transform: scale(1.03);
+    }
+  }
 `
