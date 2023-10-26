@@ -26,7 +26,7 @@ const CarouselComponent = () => {
                         <Carousel autoplay dotPosition={'bottom'} style={{ background: colors?.[nowIndex], display: 'flex', justifyContent: 'center', transition: '0.15s', height: 350 }} afterChange={(number) => setNowIndex(number)}>
                             <div onClick={() => router.push(links?.[nowIndex])}>
                                 <Row style={{ maxWidth: 1200, margin: '0 auto', cursor: 'pointer' }}>
-                                    <Col span={11} style={{ padding: 16, marginTop: 100 }}>
+                                    <Col span={12} style={{ padding: 16, marginTop: 100 }}>
                                         <span style={{ fontWeight: 700, color: '#fff', fontSize: 24, background: 'linear-gradient(to top, #323232 45%, transparent 50%)' }}>
                                             Mooeat에 오신것을 환영합니다!
                                         </span>
@@ -37,7 +37,7 @@ const CarouselComponent = () => {
                                             자세히보기 {'>'}
                                         </div>
                                     </Col>
-                                    <Col span={13} style={{ overflow: 'hidden' }}>
+                                    <Col span={12} style={{ overflow: 'hidden' }}>
                                         <Image src={TestImg} height={350} alt="테스트 이미지" />
                                     </Col>
                                 </Row>

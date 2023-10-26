@@ -36,6 +36,10 @@ const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed }: { isM
       key: 4,
       label: "커뮤니티",
     },
+    {
+      key: 5,
+      label: "고객센터",
+    },
   ];
 
   const onClickLogo = () => {
@@ -127,7 +131,7 @@ export const StyledDiv = styled.div`
 
 export const StyledButton = styled(Button)`
   && {
-    font-size: 15px;
+    font-size: 14px;
     transition: all 0.1s linear;
     &:hover {
         transform: scale(1.03);
