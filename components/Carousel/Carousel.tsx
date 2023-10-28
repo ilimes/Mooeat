@@ -23,7 +23,7 @@ const CarouselComponent = () => {
             <div style={{ marginTop: 10 }}>
                 <Row>
                     <Col span={24}>
-                        <Carousel autoplay dotPosition={'bottom'} style={{ background: colors?.[nowIndex], display: 'flex', justifyContent: 'center', transition: '0.15s', height: 350 }} afterChange={(number) => setNowIndex(number)}>
+                        <Carousel autoplay dotPosition={'bottom'} style={{ background: colors?.[nowIndex], display: 'flex', justifyContent: 'center', transition: '0.35s', height: 350 }} afterChange={(number) => setNowIndex(number)}>
                             <div onClick={() => router.push(links?.[nowIndex])}>
                                 <Row style={{ maxWidth: 1200, margin: '0 auto', cursor: 'pointer' }}>
                                     <Col span={12} style={{ padding: 16, marginTop: 100 }}>

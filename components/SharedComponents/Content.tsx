@@ -1,4 +1,4 @@
-import useIntersectionObserver from "@/utils/useIntersectionObserver";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { useRef } from 'react';
 
 const Content = ({children}: {children: React.ReactNode}) => {

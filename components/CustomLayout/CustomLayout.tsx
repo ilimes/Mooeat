@@ -8,7 +8,7 @@ import { ConfigProvider, Layout, Grid } from 'antd'
 import theme from '../../theme/themeConfig'
 import { useState, useEffect } from 'react'
 import Utils from '@/utils/utils'
-import useIsMobile from '../../utils/useIsMobile'
+import useIsMobile from '../../hooks/useIsMobile'
 import MobileNav from '../MobileNav/MobileNav'
 
 const { Content } = Layout;
