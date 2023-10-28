@@ -20,7 +20,7 @@ const CarouselComponent = () => {
     
     return (
         <>
-            <div style={{ marginTop: 10 }}>
+            <div>
                 <Row>
                     <Col span={24}>
                         <Carousel autoplay dotPosition={'bottom'} style={{ background: colors?.[nowIndex], display: 'flex', justifyContent: 'center', transition: '0.35s', height: 350 }} afterChange={(number) => setNowIndex(number)}>
