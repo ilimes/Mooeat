@@ -5,7 +5,7 @@ import { LoginOutlined, UserAddOutlined, CameraOutlined } from '@ant-design/icon
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Buttons from "./Buttons";
-import useIntersectionObserver from "@/utils/useIntersectionObserver";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { useRef } from 'react';
 import Content from "../SharedComponents/Content";
 
