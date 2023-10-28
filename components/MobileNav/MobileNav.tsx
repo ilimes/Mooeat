@@ -1,4 +1,6 @@
-import { Layout, Menu, Drawer, Button } from "antd";
+'use client'
+
+import { Layout, Menu, Drawer, Button, Divider } from "antd";
 import {
     CloseOutlined,
     UploadOutlined,
@@ -13,65 +15,63 @@ import Image from "next/image";
 
 const { Sider } = Layout;
 
-const MobileNav = ({ collapsed, setCollapsed }: { collapsed: boolean, setCollapsed: Dispatch<SetStateAction<boolean>> }) => {
+const MobileNav = ({ collapsed, setCollapsed, items }: { collapsed: boolean, setCollapsed: Dispatch<SetStateAction<boolean>>, items: any }) => {
     const router = useRouter();
 
     const onClickLogo = () => {
         router.push('/');
         setCollapsed(false);
     }
+    
+    const onClickMenu = (path: string) => {
+        router.push(path)
+        setCollapsed(false);
+    }
 
     return (
-        <Drawer
-            placement="right"
-            closable={false}
-            onClose={() => setCollapsed(false)}
-            open={collapsed}
-            styles={{ body: { padding: '0 20px' }}}
-            width={'100%'}
-        >
-            <div style={{ display: 'flex', height: 64 }}>
-                <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
-                <Button
-                    type="text"
-                    icon={<CloseOutlined />}
-                    onClick={() => setCollapsed(!collapsed)}
-                    style={{
-                        fontSize: '22px',
-                        width: 42,
-                        height: 48,
-                        marginTop: 7,
-                        marginLeft: 'auto'
-                    }}
-                />
-            </div>
-            <div className="mobile-nav-menu">
-                <div className="demo-logo-vertical" />
-                <Menu
-                    theme="light"
-                    mode="inline"
-                    defaultSelectedKeys={['1']}
-                    items={[
-                        {
-                            key: '1',
-                            icon: <UserOutlined />,
-                            label: 'nav 1',
-                        },
-                        {
-                            key: '2',
-                            icon: <VideoCameraOutlined />,
-                            label: 'nav 2',
-                        },
-                        {
-                            key: '3',
-                            icon: <UploadOutlined />,
-                            label: 'nav 3',
-                        },
-                    ]}
-                />
-            </div>
-        </Drawer>
-    )
+      <Drawer
+        placement="right"
+        closable={false}
+        onClose={() => setCollapsed(false)}
+        open={collapsed}
+        styles={{ body: { padding: "0 20px" } }}
+        width={"100%"}
+      >
+        <div style={{ display: "flex", height: 64 }}>
+          <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
+          <Button
+            type="text"
+            icon={<CloseOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: "22px",
+              width: 42,
+              height: 48,
+              marginTop: 5,
+              marginLeft: "auto",
+            }}
+          />
+        </div>
+        <div className="mobile-nav-menu">
+          <div className="demo-logo-vertical" />
+          <h3>로그인 후 이용해주세요.</h3>
+          <Menu
+            theme="light"
+            mode="inline"
+            defaultSelectedKeys={["0"]}
+            onClick={() => setCollapsed(false)}
+            items={items}
+          />
+          <Divider />
+            <StyledButton onClick={() => onClickMenu("/login")}>
+              로그인
+            </StyledButton>
+            <StyledButton type="primary" onClick={() => onClickMenu("/join")} style={{ marginLeft: 10 }}>
+              회원가입
+            </StyledButton>
+        </div>
+      </Drawer>
+    );
 }
 
 export default MobileNav;
@@ -84,4 +84,13 @@ export const StyledLogo = styled(Image)`
     font-size: 20px;
     cursor: pointer;
     }
+`
+export const StyledButton = styled(Button)`
+  && {
+    font-size: 15px;
+    transition: all 0.1s linear;
+    &:hover {
+        transform: scale(1.03);
+    }
+  }
 `

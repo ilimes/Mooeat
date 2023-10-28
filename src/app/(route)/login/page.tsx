@@ -2,9 +2,9 @@
 
 import { Button } from "antd";
 import styled from "styled-components";
-import GoogleIcon from '../../../public/svg/google.svg';
-import Kakao from '../../../public/svg/kakao.svg';
-import Mail from '../../../public/svg/mail.svg';
+import GoogleIcon from '@/public/svg/google.svg';
+import Kakao from '@/public/svg/kakao.svg';
+import Mail from '@/public/svg/mail.svg';
 import { useRouter } from "next/navigation";
 
 const Login = () => {

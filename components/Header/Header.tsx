@@ -1,50 +1,24 @@
-"use client";
+"use client"
 
 import { Layout, Menu, Button } from "antd";
 import type { MenuProps } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { use, useState, useEffect, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import Logo from "../../public/logo.png";
 import { ServerStyleSheet } from "styled-components";
 
 const { Header } = Layout;
 
-const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed }: { isMobile: boolean, isMobileToggle: boolean, collapsed: boolean, setCollapsed: Dispatch<SetStateAction<boolean>> }) => {
-  const [selectedKeys, setSelectedKeys] = useState(["1"]);
+const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed, items }: { isMobile: boolean, isMobileToggle: boolean, collapsed: boolean, setCollapsed: Dispatch<SetStateAction<boolean>>, items: any }) => {
+  const [selectedKeys, setSelectedKeys] = useState(["0"]);
   const router = useRouter();
-
-  const items1: MenuProps["items"] = [
-    {
-      key: 1,
-      label: "홈",
-      onClick: () => router.push('/')
-    },
-    {
-      key: 2,
-      label: "친구",
-      onClick: () => router.push('/ㅇㅈㅇㅈ')
-    },
-    {
-      key: 3,
-      label: "보관함",
-      onClick: () => router.push('/login')
-    },
-    {
-      key: 4,
-      label: "커뮤니티",
-    },
-    {
-      key: 5,
-      label: "고객센터",
-    },
-  ];
 
   const onClickLogo = () => {
     router.push('/');
-    setSelectedKeys(["1"]);
+    setSelectedKeys(["0"]);
   }
 
   return (
@@ -71,18 +45,18 @@ const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed }: { isM
               theme="light"
               mode="horizontal"
               selectedKeys={selectedKeys}
-              items={items1}
+              items={items}
               style={{ width: "100%", fontWeight: 700, fontSize: 18 }}
               onSelect={(e) => setSelectedKeys([e?.key])}
             />
-            <div style={{ width: 100, textAlign: 'center', marginRight: 10 }}>
-              <StyledButton type="primary" onClick={() => router.push('/join')}>
-                회원가입
-              </StyledButton>
-            </div>
             <div style={{ width: 100, textAlign: 'center' }}>
               <StyledButton onClick={() => router.push('/login')} >
                 로그인
+              </StyledButton>
+            </div>
+            <div style={{ width: 100, textAlign: 'center', marginLeft: 10 }}>
+              <StyledButton type="primary" onClick={() => router.push('/join')}>
+                회원가입
               </StyledButton>
             </div>
           </>
@@ -98,7 +72,7 @@ const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed }: { isM
                 fontSize: '22px',
                 width: 42,
                 height: 48,
-                marginTop: 7,
+                marginTop: 5,
               }}
             />
           </div>
