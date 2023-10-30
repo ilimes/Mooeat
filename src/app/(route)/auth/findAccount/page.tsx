@@ -2,20 +2,24 @@
 
 import { Button } from "antd";
 import styled from "styled-components";
+import Mail from '@/public/svg/mail.svg';
 import { useRouter } from "next/navigation";
 
-const Friends = () => {
+const FindId = () => {
   const router = useRouter();
   return (
-    <div>
-      <Title>친구목록</Title>
-      <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
-      ㅇ
+    <div style={{ marginTop: 30 }}>
+      <Title>계정 찾기</Title>
+      <Explain>아래 방법 중 한 가지를 선택하여 계정을 찾을 수 있습니다.</Explain>
+      <RegisterButton icon={<Mail style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>이메일로 계정찾기</RegisterButton>
+      <BtnGroup>
+        위 방법으로 계정을 찾을 수 없나요? <StyledSpan onClick={() => router.push('/help')}>문의하기</StyledSpan>
+      </BtnGroup>
     </div>
   );
 };
 
-export default Friends;
+export default FindId;
 
 export const Title = styled.div`
   font-size: 26px;

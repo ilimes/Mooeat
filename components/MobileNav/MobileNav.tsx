@@ -8,15 +8,17 @@ import {
     VideoCameraOutlined,
 } from '@ant-design/icons';
 import Logo from "../../public/logo.png";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 
 const { Sider } = Layout;
 
 const MobileNav = ({ collapsed, setCollapsed, items }: { collapsed: boolean, setCollapsed: Dispatch<SetStateAction<boolean>>, items: any }) => {
     const router = useRouter();
+    const pathname = usePathname();
+    const [selectedKeys, setSelectedKeys] = useState([pathname]);
 
     const onClickLogo = () => {
         router.push('/');
@@ -27,6 +29,10 @@ const MobileNav = ({ collapsed, setCollapsed, items }: { collapsed: boolean, set
         router.push(path)
         setCollapsed(false);
     }
+
+    useEffect(() => {
+      setSelectedKeys([pathname]);
+    }, [pathname])
 
     return (
       <Drawer
@@ -58,15 +64,15 @@ const MobileNav = ({ collapsed, setCollapsed, items }: { collapsed: boolean, set
           <Menu
             theme="light"
             mode="inline"
-            defaultSelectedKeys={["0"]}
+            selectedKeys={selectedKeys}
             onClick={() => setCollapsed(false)}
             items={items}
           />
           <Divider />
-            <StyledButton onClick={() => onClickMenu("/login")}>
+            <StyledButton onClick={() => onClickMenu("/auth/login")}>
               로그인
             </StyledButton>
-            <StyledButton type="primary" onClick={() => onClickMenu("/join")} style={{ marginLeft: 10 }}>
+            <StyledButton type="primary" onClick={() => onClickMenu("/auth/join")} style={{ marginLeft: 10 }}>
               회원가입
             </StyledButton>
         </div>

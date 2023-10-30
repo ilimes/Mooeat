@@ -4,7 +4,7 @@ import { Layout, Menu, Button } from "antd";
 import type { MenuProps } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import Image from "next/image";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { use, useState, useEffect, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import Logo from "../../public/logo.png";
@@ -13,16 +13,19 @@ import { ServerStyleSheet } from "styled-components";
 const { Header } = Layout;
 
 const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed, items }: { isMobile: boolean, isMobileToggle: boolean, collapsed: boolean, setCollapsed: Dispatch<SetStateAction<boolean>>, items: any }) => {
-  const [selectedKeys, setSelectedKeys] = useState(["0"]);
   const router = useRouter();
+  const pathname = usePathname();
+  const [selectedKeys, setSelectedKeys] = useState([pathname]);
 
   const onClickLogo = () => {
     router.push('/');
-    setSelectedKeys(["0"]);
   }
 
+  useEffect(() => {
+    setSelectedKeys([pathname]);
+  }, [pathname])
+
   return (
-    // <StyledDiv>
     <Header
       style={{
         position: "sticky",
@@ -50,12 +53,12 @@ const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed, items }
               onSelect={(e) => setSelectedKeys([e?.key])}
             />
             <div style={{ width: 100, textAlign: 'center' }}>
-              <StyledButton onClick={() => router.push('/login')} >
+              <StyledButton onClick={() => router.push('/auth/login')} >
                 로그인
               </StyledButton>
             </div>
             <div style={{ width: 100, textAlign: 'center', marginLeft: 10 }}>
-              <StyledButton type="primary" onClick={() => router.push('/join')}>
+              <StyledButton type="primary" onClick={() => router.push('/auth/join')}>
                 회원가입
               </StyledButton>
             </div>
@@ -79,7 +82,6 @@ const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed, items }
         }
       </StyledDiv>
     </Header>
-    // </StyledDiv>
   );
 };
 

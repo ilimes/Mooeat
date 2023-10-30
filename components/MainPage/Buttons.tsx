@@ -28,7 +28,7 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
                         <StyledCard
                             hoverable
                             bodyStyle={{ padding: 16 }}
-                            onClick={() => router.push('/join')}
+                            onClick={() => router.push('/auth/join')}
                         >
                             <div style={{ fontSize: 14, color: '#47408f', fontWeight: 'bold', marginBottom: 10 }}>
                                 지금 바로 가입해보세요!
@@ -43,7 +43,7 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
                         <StyledCard
                             hoverable
                             bodyStyle={{ padding: 16 }}
-                            onClick={() => router.push('/login')}
+                            onClick={() => router.push('/auth/login')}
                         >
                             <div style={{ fontSize: 14, color: '#47408f', fontWeight: 'bold', marginBottom: 10 }}>
                                 지금 바로 로그인해보세요!

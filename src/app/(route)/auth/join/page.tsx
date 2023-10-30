@@ -15,12 +15,13 @@ const Join = () => {
       <Explain>Mooeat에 회원가입 합니다.</Explain>
       <RegisterButton icon={<GoogleIcon style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>구글로 회원가입</RegisterButton>
       <RegisterButton icon={<Kakao style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>카카오로 회원가입</RegisterButton>
-      <RegisterButton icon={<Mail style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />} onClick={() => router.push('/join/email')}>이메일로 회원가입</RegisterButton>
+      <RegisterButton icon={<Mail style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />} onClick={() => router.push('/auth/join/email')}>이메일로 회원가입</RegisterButton>
       <BtnGroup>
         <span>이미 계정이 있으신가요?</span>
+        <StyledSpan onClick={() => router.push('/auth/login')}>로그인</StyledSpan>
       </BtnGroup>
       <BtnGroup>
-        <span>계정 찾기</span>
+        <StyledSpan style={{ marginLeft: 0 }} onClick={() => router.push('/auth/findAccount')}>계정 찾기</StyledSpan>
       </BtnGroup>
     </div>
   );
@@ -53,4 +54,14 @@ export const BtnGroup = styled.div`
   margin: 20px 0;
   font-size: 14px;
   color: #606060;
+`
+
+export const StyledSpan = styled.span`
+  && {
+    margin: 0 5px;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 `
