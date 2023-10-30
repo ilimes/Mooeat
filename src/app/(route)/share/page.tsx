@@ -9,7 +9,7 @@ const Share = () => {
   return (
     <div>
       <Title>공유하기</Title>
-      <Explain>공유하기 입니다.</Explain>
+      <Explain>등록된 친구에게 내 식단을 공유해보세요.</Explain>
       ㅇ
     </div>
   );

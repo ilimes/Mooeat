@@ -36,7 +36,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
 
   const getMenuList = async () => {
     const result = await fetchData();
-    const list = result?.list?.map((e: any, i: number) => ({ key: i, label: e.menu_nm, onClick: () => router.push(e.menu_path)}));
+    const list = result?.list?.map((e: any) => ({ key: e.menu_path, label: e.menu_nm, onClick: () => router.push(e.menu_path)}));
     setItems(list);
   }
 

@@ -17,7 +17,7 @@ const Login = () => {
       <RegisterButton icon={<Kakao style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>카카오로 로그인</RegisterButton>
       <RegisterButton icon={<Mail style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>이메일로 로그인</RegisterButton>
       <BtnGroup>
-        <StyledSpan style={{ marginLeft: 0 }}>비밀번호 재설정</StyledSpan> · <StyledSpan>계정 찾기</StyledSpan> · <StyledSpan onClick={() => router.push('/join')}>회원가입</StyledSpan>
+        <StyledSpan onClick={() => router.push('/auth/passwordIssue')} style={{ marginLeft: 0 }}>비밀번호 재설정</StyledSpan> · <StyledSpan onClick={() => router.push('/auth/findAccount')}>계정 찾기</StyledSpan> · <StyledSpan onClick={() => router.push('/auth/join')}>회원가입</StyledSpan>
       </BtnGroup>
     </div>
   );

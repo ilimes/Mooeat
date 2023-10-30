@@ -5,9 +5,6 @@ import CustomLayout from '@components/CustomLayout/CustomLayout'
 export const metadata: Metadata = {
   title: 'Mooeat',
   description: 'Mooeat',
-  // icons: {
-  //   icon: '/icon.png',
-  // },
 }
 
 export default function RootLayout({

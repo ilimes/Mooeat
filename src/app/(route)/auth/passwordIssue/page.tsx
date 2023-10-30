@@ -1,21 +1,24 @@
 'use client'
 
-import { Button } from "antd";
+import { Button, Input } from "antd";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 
-const Friends = () => {
+const PasswordIssue = () => {
   const router = useRouter();
   return (
-    <div>
-      <Title>친구목록</Title>
-      <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
-      ㅇ
+    <div style={{ marginTop: 30 }}>
+      <Title>비밀번호 재설정</Title>
+      <Explain>가입 시 입력한 이메일 주소로 재설정 메일을 보내드립니다.</Explain>
+      <Input placeholder="이메일 주소" style={{ height: 40, marginBottom: 10 }} />
+      <Button type="primary" htmlType="submit" style={{ width: '100%', height: 47, fontWeight: 'bold', fontSize: 14 }}>
+        이메일 전송
+      </Button>
     </div>
   );
 };
 
-export default Friends;
+export default PasswordIssue;
 
 export const Title = styled.div`
   font-size: 26px;
