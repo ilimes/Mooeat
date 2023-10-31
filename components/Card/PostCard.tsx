@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Avatar } from 'antd';
+import { Card, Avatar, Row, Col } from 'antd';
 import { EyeOutlined, CommentOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
@@ -8,7 +8,8 @@ const { Meta } = Card;
 const PostCard = ({obj}: {obj: any}) => {
     const getCardInfo = () => {
         if (obj?.category === 'free') {
-            return { cateName: '자유', cateColor: '#03A9F4', backgrounColor: '#ECF9FF' }
+            // return { cateName: '자유', cateColor: '#03A9F4', backgrounColor: '#ECF9FF' }
+            return { cateName: '자유', cateColor: '#5662F6', backgrounColor: '#E9EBFE' }
         }
         if (obj?.category === 'food') {
             return { cateName: '음식', cateColor: '#FF9E2D', backgrounColor: '#FFFBE3' }
@@ -31,19 +32,24 @@ const PostCard = ({obj}: {obj: any}) => {
           <div>
               <Avatar size="large" icon={<UserOutlined />} />
           </div>
-          <div>
-            <div style={{ fontSize: 14 }}>라임</div>
-            <div style={{ fontSize: 13, color: 'grey' }}>1일 전</div>
-          </div>
+          <StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 14 }}>라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>1일 전</StyledOutDiv>
+          </StyledOutDiv>
         </div>
         {/* 조회수, 댓글, 좋아요 영역 */}
-        <div style={{ fontSize: 15, marginTop: 15 }}>
-          <div style={{ float: 'left' }}>
-            <EyeOutlined style={{ color: '#beb4b4' }} /> 1  <CommentOutlined style={{ color: '#beb4b4' }} /> 2 
-          </div>
-          <div style={{ float: 'right' }}>
-            <LikeOutlined style={{ color: '#beb4b4' }} /> 3
-          </div>
+        <div style={{ position: 'absolute', bottom: 20 }}>
+          <Row gutter={[15, 15]}>
+            <Col style={{ fontSize: 14 }}>
+              <EyeOutlined style={{ color: '#beb4b4' }} /> 1 
+            </Col>
+            <Col style={{ fontSize: 14 }}>
+              <CommentOutlined style={{ color: '#beb4b4' }} /> 2 
+            </Col>
+            <Col style={{ fontSize: 14 }}>
+              <LikeOutlined style={{ color: '#beb4b4' }} /> 3
+            </Col>
+          </Row>
         </div>
       </StyledCard>
     );
@@ -67,5 +73,14 @@ export const StyledCard = styled(Card)<{ background: any, catecolor: any }>`
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
+  }
+`
+
+export const StyledOutDiv = styled.div`
+  && {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
 `

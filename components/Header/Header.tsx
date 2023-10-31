@@ -1,8 +1,8 @@
 "use client"
 
-import { Layout, Menu, Button } from "antd";
+import { Layout, Menu, Button, Popover, Col, Row, Card, Avatar, Badge } from "antd";
 import type { MenuProps } from "antd";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined, BellOutlined, UserOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { useRouter, usePathname } from 'next/navigation';
 import { use, useState, useEffect, Dispatch, SetStateAction } from "react";
@@ -55,6 +55,13 @@ const HeaderPage = () => {
             style={{ width: "100%", fontWeight: 700, fontSize: 18 }}
             onSelect={(e) => setSelectedKeys([e?.key])}
           />
+          <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottomRight">
+            <div style={{ marginRight: 20 }}>
+              <Badge dot={true}>
+                <BellOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
+              </Badge>
+            </div>
+          </Popover>
           <div style={{ width: 100, textAlign: 'center' }}>
             <StyledButton onClick={() => router.push('/auth/login')} >
               로그인
@@ -70,6 +77,11 @@ const HeaderPage = () => {
       <div className="mobile-btn">
         <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
         <div style={{ marginLeft: 'auto' }}>
+          <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottomRight">
+            <Badge dot={true} style={{ marginRight: 10 }}>
+              <BellOutlined style={{ fontSize: 20, marginRight: 10, cursor: 'pointer' }} />
+            </Badge>
+          </Popover>
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -86,6 +98,76 @@ const HeaderPage = () => {
     </Header>
   );
 };
+
+const popOverContent = () => {
+  return (
+    <StyledPopoverDiv style={{ width: 300, height: 400, overflowY: 'auto', overflowX: 'hidden' }}>
+      <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10 }}>
+        <Alert3 />
+        <Alert2 />
+        <Alert />
+        <Alert />
+        <Alert />
+      </Row>
+    </StyledPopoverDiv>
+  )
+}
+
+const Alert = () => {
+  return (
+    <StyledAlertCol span={24}>
+      <div style={{ display: 'flex', gap: 10 }}>
+        <div>
+          <Avatar size="large" icon={<UserOutlined />} />
+        </div>
+        <div>
+          <StyledOutDiv style={{ fontSize: 14 }}>
+            가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라
+          </StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>2분 전</StyledOutDiv>
+        </div>
+      </div>
+    </StyledAlertCol>
+  )
+}
+
+const Alert2 = () => {
+  return (
+    <StyledAlertCol span={24}>
+      <div style={{ display: 'flex', gap: 10 }}>
+        <div>
+          <Avatar size="large" icon={<UserOutlined />} />
+        </div>
+        <div>
+          <StyledOutDiv style={{ fontSize: 14 }}>
+            <Point>LIME</Point>님이 회원님의 글에 <Point>좋아요</Point>를 눌렀습니다.
+          </StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>2분 전</StyledOutDiv>
+        </div>
+      </div>
+    </StyledAlertCol>
+  )
+}
+
+const Alert3 = () => {
+  return (
+    <Col span={24}>
+      <div style={{ display: 'flex', gap: 10 }}>
+        <div>
+          <Avatar size="large" icon={<UserOutlined />} />
+        </div>
+        <div>
+          <StyledOutDiv style={{ fontSize: 14 }}>
+            <span style={{ fontWeight: 'bold' }}>Mooeat님의 친구추가 요청이 도착하였습니다.</span>
+          </StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>2분 전</StyledOutDiv>
+          <Button type="primary" style={{ fontSize: 13, margin: '7px 7px 0 0' }}>수락</Button>
+          <Button style={{ fontSize: 13 }}>거절</Button>
+        </div>
+      </div>
+    </Col>
+  )
+}
 
 export default HeaderPage;
 
@@ -114,5 +196,45 @@ export const StyledButton = styled(Button)`
     &:hover {
         transform: scale(1.03);
     }
+  }
+`
+
+export const StyledOutDiv = styled.div`
+  && {
+    width: 100%;
+    font-size: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+`
+
+export const Point = styled.span`
+  font-weight: bold; 
+  color: #47408F;
+`
+
+export const StyledAlertCol = styled(Col)`
+  && {
+    &:hover {
+      background: #eee;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
+`
+
+export const StyledPopoverDiv = styled.div`
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #45556066;
+    border-radius: 20px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
   }
 `

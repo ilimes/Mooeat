@@ -1,6 +1,7 @@
 'use client'
 
-import { Button } from "antd";
+import { Button, Col, Row, Card, Divider, Avatar, Empty } from "antd";
+import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 
@@ -8,12 +9,47 @@ const Friends = () => {
   const router = useRouter();
   return (
     <div>
-      <Title>친구목록</Title>
+      <Title>친구</Title>
       <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
-      ㅇ
+      <Row gutter={[15, 15]}>
+        <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
+          <Card title={[<div style={{ fontWeight: 'bold', float: 'left', fontSize: 18 }}>등록된 친구</div>, <Button size="middle" type="primary" style={{ float: 'right', fontSize: 13, fontWeight: 'bold', paddingRight: 22, height: 30 }}><PlusOutlined />추가</Button>]} bodyStyle={{ padding: '5px 17px', height: 'calc(100vh - 260px)', overflow: 'auto' }} style={{ background: '#F2F4F6' }}>
+            <Row gutter={[10, 10]}>
+              <Friend />
+              <Friend />
+              <Friend />
+              <Friend />
+              <Friend />
+            </Row>
+          </Card>
+        </Col>
+        <Col xs={0} sm={0} md={0} lg={18} xl={18} xxl={18}>
+          <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
+            <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>항목이 존재하지 않습니다.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }}/>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };
+
+const Friend = () => {
+  return (
+    <Col span={24}>
+      <Card bodyStyle={{ padding: 15 }}>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <div>
+            <Avatar size="large" icon={<UserOutlined />} />
+          </div>
+          <StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 14 }}>라임</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>ilimes@github.com</StyledOutDiv>
+          </StyledOutDiv>
+        </div>
+      </Card>
+    </Col>
+  )
+}
 
 export default Friends;
 
@@ -51,5 +87,14 @@ export const StyledSpan = styled.span`
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+`
+
+export const StyledOutDiv = styled.div`
+  && {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
   }
 `
