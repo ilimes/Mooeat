@@ -63,7 +63,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
 export default CustomLayout;
 
 export const fetchData = async () => {
-  const res = await fetch(`http://${process.env.NEXT_PUBLIC_FRONT_URL}/api/menu`, {
+  const res = await fetch(`/api/menu`, {
     method: 'POST',
   });
   const result = await res.json();
