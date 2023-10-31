@@ -8,6 +8,17 @@ body {
     -moz-osx-font-smoothing: auto;
 }
 
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 10%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translateZ(0);
+    }
+}
+
 .container {
     max-width: 1200px !important;
     margin: 0 auto;
@@ -20,17 +31,6 @@ body {
     padding: 16px;
 }
 
-@keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translate3d(0, 10%, 0);
-    }
-    to {
-        opacity: 1;
-        transform: translateZ(0);
-    }
-}
-
 .fade {
     position: relative;
     animation: fadeInUp 0.7s;
@@ -38,4 +38,26 @@ body {
 
 .default {
     opacity: 0;
+}
+
+.pc-menu-btn {
+    display: none;
+    justify-content: center;
+    background: #fff;
+    margin: 0 auto;
+    width: 1200px;
+    @media (min-width: 991px) {
+        display: flex;
+    }
+}
+
+.mobile-btn {
+    justify-content: center;
+    display: flex;
+    background: #fff;
+    margin: 0 auto;
+    width: 1200px;
+    @media (min-width: 991px) {
+        display: none;
+    }
 }

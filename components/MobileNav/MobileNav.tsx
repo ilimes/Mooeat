@@ -12,13 +12,17 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { collapseState, menuState } from "@/recoil/states";
 
 const { Sider } = Layout;
 
-const MobileNav = ({ collapsed, setCollapsed, items }: { collapsed: boolean, setCollapsed: Dispatch<SetStateAction<boolean>>, items: any }) => {
+const MobileNav = () => {
     const router = useRouter();
     const pathname = usePathname();
     const [selectedKeys, setSelectedKeys] = useState([pathname]);
+    const [collapsed, setCollapsed] = useRecoilState(collapseState);
+    const menuList = useRecoilValue(menuState);
 
     const onClickLogo = () => {
         router.push('/');
@@ -66,7 +70,7 @@ const MobileNav = ({ collapsed, setCollapsed, items }: { collapsed: boolean, set
             mode="inline"
             selectedKeys={selectedKeys}
             onClick={() => setCollapsed(false)}
-            items={items}
+            items={menuList}
           />
           <Divider />
             <StyledButton onClick={() => onClickMenu("/auth/login")}>

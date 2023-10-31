@@ -16,7 +16,7 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
                             onClick={() => router.push('/share')}
                         >
                             <div style={{ fontSize: 14, color: '#47408f', fontWeight: 'bold', marginBottom: 10 }}>
-                                무엇을 먹었는지 공유해보세요!
+                                나의 식단을 공유해보세요!
                             </div>
                             <div style={{ fontSize: 26, fontWeight: 'bold' }}>
                                 <CameraOutlined />{" "}

@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import CustomLayout from '@components/CustomLayout/CustomLayout'
+import RecoilRootProvider from '@/lib/RecoilRootProvider'
 
 export const metadata: Metadata = {
   title: 'Mooeat',
@@ -16,9 +17,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main>
-          <CustomLayout>
-            {children}
-          </CustomLayout>
+          <RecoilRootProvider>
+            <CustomLayout>
+              {children}
+            </CustomLayout>
+          </RecoilRootProvider>
         </main>
       </body>
     </html>

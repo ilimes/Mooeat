@@ -11,33 +11,29 @@ import Utils from '@/utils/utils'
 import useIsMobile from '../../hooks/useIsMobile'
 import MobileNav from '../MobileNav/MobileNav'
 import { useRouter } from 'next/navigation'
+import { collapseState, isMobileState, menuState } from '@/recoil/states'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 
 const { Content } = Layout;
 
 const CustomLayout = ({ children }: { children: React.ReactNode }) => {
-  const [isMobileToggle, setIsMobileToggle] = useState(false);
-  const [collapsed, setCollapsed] = useState<boolean>(false);
-  const [items, setItems] = useState([]);
-  const isMobile = useIsMobile();
+  const [isMobile, setIsMobile] = useRecoilState(isMobileState);
+  const setCollapsed = useSetRecoilState<boolean>(collapseState);
+  const setMenuList = useSetRecoilState(menuState);
+  const mobile = useIsMobile();
   const router = useRouter();
-  const props = { isMobile, isMobileToggle, collapsed, setCollapsed, items };
-
-  useEffect(() => {
-    if (isMobile) {
-      setIsMobileToggle(true);
-    } else {
-      setIsMobileToggle(false);
-    }
-  }, [isMobile]);
 
   useEffect(() => {
     setCollapsed(false);
-  }, [isMobileToggle])
+
+    if (mobile) setIsMobile(true);
+    else setIsMobile(false);
+  }, [mobile]);
 
   const getMenuList = async () => {
     const result = await fetchData();
     const list = result?.list?.map((e: any) => ({ key: e.menu_path, label: e.menu_nm, onClick: () => router.push(e.menu_path)}));
-    setItems(list);
+    setMenuList(list);
   }
 
   useEffect(() => {
@@ -49,10 +45,10 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
       <StyledComponentsRegistryAnt>
         <ConfigProvider theme={theme}>
           <Layout>
-            <Header {...props} />
-            <Content style={{ background: 'white' }} >{children}</Content>
+            <Header />
+            <Content style={{ background: 'white' }}>{children}</Content>
             <Footer />
-            {isMobileToggle && <MobileNav {...props} />}
+            {isMobile && <MobileNav />}
           </Layout>
         </ConfigProvider>
       </StyledComponentsRegistryAnt>

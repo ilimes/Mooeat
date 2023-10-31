@@ -9,13 +9,18 @@ import { use, useState, useEffect, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import Logo from "../../public/logo.png";
 import { ServerStyleSheet } from "styled-components";
+import { collapseState, isMobileState, menuState } from "@/recoil/states";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const { Header } = Layout;
 
-const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed, items }: { isMobile: boolean, isMobileToggle: boolean, collapsed: boolean, setCollapsed: Dispatch<SetStateAction<boolean>>, items: any }) => {
+const HeaderPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
+  const [collapsed, setCollapsed] = useRecoilState(collapseState);
+  const menuList = useRecoilValue(menuState);
+  const isMobile = useRecoilValue(isMobileState);
 
   const onClickLogo = () => {
     router.push('/');
@@ -39,48 +44,45 @@ const HeaderPage = ({ isMobile, isMobileToggle, collapsed, setCollapsed, items }
         padding: 16,
       }}
     >
-      <StyledDiv>
+      <div className="pc-menu-btn">
         <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
-        {
-          !isMobile &&
-          <>
-            <Menu
-              theme="light"
-              mode="horizontal"
-              selectedKeys={selectedKeys}
-              items={items}
-              style={{ width: "100%", fontWeight: 700, fontSize: 18 }}
-              onSelect={(e) => setSelectedKeys([e?.key])}
-            />
-            <div style={{ width: 100, textAlign: 'center' }}>
-              <StyledButton onClick={() => router.push('/auth/login')} >
-                로그인
-              </StyledButton>
-            </div>
-            <div style={{ width: 100, textAlign: 'center', marginLeft: 10 }}>
-              <StyledButton type="primary" onClick={() => router.push('/auth/join')}>
-                회원가입
-              </StyledButton>
-            </div>
-          </>
-        }
-        {
-          isMobile &&
-          <div style={{ marginLeft: 'auto' }}>
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: '22px',
-                width: 42,
-                height: 48,
-                marginTop: 5,
-              }}
-            />
+        <>
+          <Menu
+            theme="light"
+            mode="horizontal"
+            selectedKeys={selectedKeys}
+            items={menuList}
+            style={{ width: "100%", fontWeight: 700, fontSize: 18 }}
+            onSelect={(e) => setSelectedKeys([e?.key])}
+          />
+          <div style={{ width: 100, textAlign: 'center' }}>
+            <StyledButton onClick={() => router.push('/auth/login')} >
+              로그인
+            </StyledButton>
           </div>
-        }
-      </StyledDiv>
+          <div style={{ width: 100, textAlign: 'center', marginLeft: 10 }}>
+            <StyledButton type="primary" onClick={() => router.push('/auth/join')}>
+              회원가입
+            </StyledButton>
+          </div>
+        </>
+      </div>
+      <div className="mobile-btn">
+        <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
+        <div style={{ marginLeft: 'auto' }}>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: '22px',
+              width: 42,
+              height: 48,
+              marginTop: 5,
+            }}
+          />
+        </div>
+      </div>
     </Header>
   );
 };

@@ -1,11 +1,14 @@
+'use client'
+
 import { useState, useEffect } from 'react';
-import { Carousel, Col, Row } from 'antd';
+import { Carousel, Col, Row, Spin } from 'antd';
 import Image from 'next/image';
 import TestImg from '../../public/test.png';
 import { useRouter } from 'next/navigation';
 import Lottie from 'lottie-react';
 import animationData from '@/public/lottie/Animation - 1698595350015.json';
 import useIsMobile from '@/hooks/useIsMobile';
+import NoSSr from '../NoSsr/NoSSr';
 
 const contentStyle: React.CSSProperties = {
   height: '200px',
@@ -20,6 +23,7 @@ const CarouselComponent = () => {
   const [nowIndex, setNowIndex] = useState(0);
   const textMargin = isMobile ? 0 : 120;
   const imgHeight = isMobile ? 200 : 350;
+  const isRender = typeof window !== 'undefined';
   const contents = [
     {
       topText: 'Mooeat에 오신것을 환영합니다!',
@@ -88,49 +92,56 @@ const CarouselComponent = () => {
       <div>
         <Row>
           <Col span={24}>
-            <Carousel
-              autoplay
-              dotPosition={"bottom"}
-              speed={700}
-              style={{
-                background: contents?.[nowIndex]?.background,
-                display: "flex",
-                justifyContent: "center",
-                transition: "0.35s",
-                height: 370,
-              }}
-              afterChange={(number) => setNowIndex(number)}
-            >
-              {
-                contents?.map((e, i) =>
-                  <div key={i} onClick={() => router.push(e?.link)}>
-                    <Row
-                      style={{
-                        maxWidth: 1200,
-                        margin: "0 auto",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {isMobile && <>
-                        <Col span={24} style={{ overflow: "hidden" }}>
-                          {e?.img}
-                        </Col>
-                        <Col span={24} style={{ padding: 16, marginTop: textMargin }}>
-                          <TextComponent e={e} i={i} />
-                        </Col>
-                      </>}
-                      {!isMobile && <>
-                        <Col span={12} style={{ padding: 16, marginTop: textMargin }}>
-                          <TextComponent e={e} i={i} />
-                        </Col>
-                        <Col span={12} style={{ overflow: "hidden" }}>
-                          {e?.img}
-                        </Col>
-                      </>}
-                    </Row>
-                  </div>)
-              }
-            </Carousel>
+            {/* {!isRender &&
+              <div style={{ background: contents?.[nowIndex]?.background}}>
+                <Spin size='large' style={{ height: 370, display: 'flex', justifyContent: 'center', alignItems: 'center' }} />
+              </div>
+            } */}
+            <NoSSr>
+                <Carousel
+                  autoplay
+                  dotPosition={"bottom"}
+                  speed={700}
+                  style={{
+                    background: contents?.[nowIndex]?.background,
+                    display: "flex",
+                    justifyContent: "center",
+                    transition: "0.35s",
+                    height: 370,
+                  }}
+                  afterChange={(number) => setNowIndex(number)}
+                >
+                  {
+                    contents?.map((e, i) =>
+                      <div key={i} onClick={() => router.push(e?.link)}>
+                        <Row
+                          style={{
+                            maxWidth: 1200,
+                            margin: "0 auto",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {isMobile && <>
+                            <Col span={24} style={{ overflow: "hidden" }}>
+                              {e?.img}
+                            </Col>
+                            <Col span={24} style={{ padding: 16, marginTop: textMargin }}>
+                              <TextComponent e={e} i={i} />
+                            </Col>
+                          </>}
+                          {!isMobile && <>
+                            <Col span={12} style={{ padding: 16, marginTop: textMargin }}>
+                              <TextComponent e={e} i={i} />
+                            </Col>
+                            <Col span={12} style={{ overflow: "hidden" }}>
+                              {e?.img}
+                            </Col>
+                          </>}
+                        </Row>
+                      </div>)
+                  }
+                </Carousel>
+              </NoSSr>
           </Col>
         </Row>
       </div>
