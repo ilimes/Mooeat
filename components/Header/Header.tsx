@@ -105,9 +105,9 @@ const popOverContent = () => {
       <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10 }}>
         <Alert3 />
         <Alert2 />
-        <Alert />
-        <Alert />
-        <Alert />
+        <Alert key={1} />
+        <Alert key={2} />
+        <Alert key={3} />
       </Row>
     </StyledPopoverDiv>
   )

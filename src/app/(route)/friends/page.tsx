@@ -15,11 +15,11 @@ const Friends = () => {
         <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
           <Card title={[<div style={{ fontWeight: 'bold', float: 'left', fontSize: 18 }}>등록된 친구</div>, <Button size="middle" type="primary" style={{ float: 'right', fontSize: 13, fontWeight: 'bold', paddingRight: 22, height: 30 }}><PlusOutlined />추가</Button>]} bodyStyle={{ padding: '5px 17px', height: 'calc(100vh - 260px)', overflow: 'auto' }} style={{ background: '#F2F4F6' }}>
             <Row gutter={[10, 10]}>
-              <Friend />
-              <Friend />
-              <Friend />
-              <Friend />
-              <Friend />
+              <Friend key={1} />
+              <Friend key={2} />
+              <Friend key={3} />
+              <Friend key={4} />
+              <Friend key={5} />
             </Row>
           </Card>
         </Col>
