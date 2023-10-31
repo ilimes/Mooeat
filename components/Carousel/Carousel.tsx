@@ -6,7 +6,9 @@ import Image from 'next/image';
 import TestImg from '../../public/test.png';
 import { useRouter } from 'next/navigation';
 import Lottie from 'lottie-react';
-import animationData from '@/public/lottie/Animation - 1698595350015.json';
+import animationData from '@/public/lottie/Animation - 1698745940539.json'; 
+import animationData2 from '@/public/lottie/Animation - 1698595350015.json';
+import animationData3 from '@/public/lottie/Animation - 1698745819488.json'; 
 import useIsMobile from '@/hooks/useIsMobile';
 import NoSSr from '../NoSsr/NoSSr';
 
@@ -41,16 +43,16 @@ const CarouselComponent = () => {
       background: '#E5B175',
       textBackground: '#D98B35',
       link: '/auth/join',
-      img: <Image src={TestImg} height={imgHeight} alt="테스트 이미지" style={{ margin: '0 auto' }} />
+      img: <Lottie animationData={animationData2} loop={true} style={{ width: 340, height: imgHeight, margin: '0 auto' }} />
     },
     {
       topText: '3번쨰 캐러샐 입니다',
       bottomText: '안녕하세요 😊',
       forwardText: '자세히보기',
-      background: '#000000',
-      textBackground: 'grey',
+      background: '#004AD5',
+      textBackground: '#2972FF',
       link: '/test2',
-      img: <Image src={TestImg} height={imgHeight} alt="테스트 이미지" />
+      img: <Lottie animationData={animationData3} loop={true} style={{ width: 340, height: imgHeight, margin: '0 auto' }} />
     }
   ];
 

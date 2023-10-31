@@ -100,7 +100,7 @@ const Community = () => {
       <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 'bold', marginTop: 15 }} />
       <Row gutter={[15, 15]}>
         {example?.filter(e => activeKey === 'all' ? e : e?.category?.includes(activeKey))?.map((e, i) => (
-          <Col key={i} xs={24} sm={24} md={24} lg={24} xl={6} xxl={6}>
+          <Col key={i} xs={24} sm={24} md={24} lg={8} xl={6} xxl={6}>
             <PostCard obj={e} />
           </Col>
         ))}
