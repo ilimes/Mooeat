@@ -55,7 +55,7 @@ const HeaderPage = () => {
             style={{ width: "100%", fontWeight: 700, fontSize: 18 }}
             onSelect={(e) => setSelectedKeys([e?.key])}
           />
-          <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottomRight">
+          <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottom">
             <div style={{ marginRight: 20 }}>
               <Badge dot={true}>
                 <BellOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
@@ -77,7 +77,7 @@ const HeaderPage = () => {
       <div className="mobile-btn">
         <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
         <div style={{ marginLeft: 'auto' }}>
-          <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottomRight">
+          <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottomLeft">
             <Badge dot={true} style={{ marginRight: 10 }}>
               <BellOutlined style={{ fontSize: 20, marginRight: 10, cursor: 'pointer' }} />
             </Badge>
@@ -101,7 +101,7 @@ const HeaderPage = () => {
 
 const popOverContent = () => {
   return (
-    <StyledPopoverDiv style={{ width: 300, height: 400, overflowY: 'auto', overflowX: 'hidden' }}>
+    <StyledPopoverDiv style={{ width: 290, height: 450, overflowY: 'auto', overflowX: 'hidden' }}>
       <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10 }}>
         <Alert3 />
         <Alert2 />

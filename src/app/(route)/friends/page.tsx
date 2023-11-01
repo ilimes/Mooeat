@@ -36,7 +36,7 @@ const Friends = () => {
 const Friend = () => {
   return (
     <Col span={24}>
-      <Card bodyStyle={{ padding: 15 }}>
+      <StyledCard bodyStyle={{ padding: 15 }}>
         <div style={{ display: 'flex', gap: 10 }}>
           <div>
             <Avatar size="large" icon={<UserOutlined />} />
@@ -46,7 +46,7 @@ const Friend = () => {
             <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>ilimes@github.com</StyledOutDiv>
           </StyledOutDiv>
         </div>
-      </Card>
+      </StyledCard>
     </Col>
   )
 }
@@ -96,5 +96,14 @@ export const StyledOutDiv = styled.div`
     white-space: nowrap;
     text-overflow: ellipsis;
     word-break: break-all;
+  }
+`
+
+export const StyledCard = styled(Card)`
+  && {
+    &:hover {
+      border: 1px solid black;
+      cursor: pointer;
+    }
   }
 `
