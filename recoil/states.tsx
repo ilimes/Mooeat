@@ -24,3 +24,11 @@ export const collapseState = atom({
   key: 'isCollapsed',
   default: false,
 });
+
+/**
+ * Mobile 화면에서 Notification 접힘 여부
+ */
+export const notiCollapseState = atom({
+  key: 'isNotiCollapsed',
+  default: false,
+});

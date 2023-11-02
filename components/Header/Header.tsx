@@ -1,16 +1,16 @@
 "use client"
 
-import { Layout, Menu, Button, Popover, Col, Row, Card, Avatar, Badge } from "antd";
+import { Layout, Menu, Button, Popover, Col, Row, Card, Avatar, Badge, Drawer } from "antd";
 import type { MenuProps } from "antd";
-import { MenuFoldOutlined, MenuUnfoldOutlined, BellOutlined, UserOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined, BellOutlined, UserOutlined, CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { useRouter, usePathname } from 'next/navigation';
 import { use, useState, useEffect, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import Logo from "../../public/logo.png";
 import { ServerStyleSheet } from "styled-components";
-import { collapseState, isMobileState, menuState } from "@/recoil/states";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { collapseState, isMobileState, menuState, notiCollapseState } from "@/recoil/states";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 const { Header } = Layout;
 
@@ -19,6 +19,7 @@ const HeaderPage = () => {
   const pathname = usePathname();
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
+  const setNotiCollapsed = useSetRecoilState(notiCollapseState);
   const menuList = useRecoilValue(menuState);
   const isMobile = useRecoilValue(isMobileState);
 
@@ -29,6 +30,12 @@ const HeaderPage = () => {
   useEffect(() => {
     setSelectedKeys([pathname]);
   }, [pathname])
+
+  useEffect(() => {
+    if (!isMobile) {
+      setNotiCollapsed(false);
+    }
+  }, [isMobile])
 
   return (
     <Header
@@ -77,11 +84,13 @@ const HeaderPage = () => {
       <div className="mobile-btn">
         <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
         <div style={{ marginLeft: 'auto' }}>
-          <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottomLeft">
+          {/* <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottomLeft"> */}
+          <span onClick={() => setNotiCollapsed(true)}>
             <Badge dot={true} style={{ marginRight: 10 }}>
               <BellOutlined style={{ fontSize: 20, marginRight: 10, cursor: 'pointer' }} />
             </Badge>
-          </Popover>
+          </span>
+          {/* </Popover> */}
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -95,13 +104,14 @@ const HeaderPage = () => {
           />
         </div>
       </div>
+      <AlertDrawer />
     </Header>
   );
 };
 
 const popOverContent = () => {
   return (
-    <StyledPopoverDiv style={{ width: 290, height: 450, overflowY: 'auto', overflowX: 'hidden' }}>
+    <StyledPopoverDiv style={{ width: 320, height: 450, overflowY: 'auto', overflowX: 'hidden' }}>
       <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10 }}>
         <Alert3 />
         <Alert2 />
@@ -166,6 +176,49 @@ const Alert3 = () => {
         </div>
       </div>
     </Col>
+  )
+}
+
+const AlertDrawer = () => {
+  const [notiCollapsed, setNotiCollapsed] = useRecoilState(notiCollapseState);
+  return (
+    <Drawer
+      title={
+        <div style={{ display: "flex", height: 64, alignItems: 'baseline' }}>
+          <div style={{ fontWeight: 'bold', fontSize: 18 }}>알림</div>
+          <Button
+            type="text"
+            icon={<CloseOutlined />}
+            onClick={() => setNotiCollapsed(!notiCollapsed)}
+            style={{
+              fontSize: "22px",
+              width: 42,
+              height: 48,
+              marginTop: 5,
+              marginLeft: "auto",
+            }}
+          />
+        </div>
+      }
+      placement="top"
+      closable={false}
+      onClose={() => setNotiCollapsed(false)}
+      open={notiCollapsed}
+      styles={{ body: { padding: "0 20px" }, header: { padding: "0 20px" } }}
+      height={"100%"}
+    >
+      <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10, overflow: 'auto' }}>
+        <Alert3 />
+        <Alert2 />
+        <Alert key={1} />
+        <Alert key={2} />
+        <Alert key={3} />
+        <Alert key={4} />
+        <Alert key={5} />
+        <Alert key={6} />
+        <Alert key={7} />
+      </Row>
+    </Drawer>
   )
 }
 
