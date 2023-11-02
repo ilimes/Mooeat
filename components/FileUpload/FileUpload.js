@@ -108,7 +108,7 @@ export const StyledSvg = styled.svg`
 `
 
 export const StyledLabel = styled.label`
-    width: 800px;
+    width: 100%;
     height: 300px;
     margin: auto;
     background-color: #fff;
