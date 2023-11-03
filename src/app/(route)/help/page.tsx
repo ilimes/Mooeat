@@ -9,7 +9,7 @@ const Help = () => {
   return (
     <div>
       <Title>고객센터</Title>
-      <Explain>고객센터 입니다.</Explain>
+      <Explain>도움이 필요하신가요?</Explain>
       ㅇ
     </div>
   );

@@ -9,7 +9,7 @@ const Feed = () => {
   return (
     <div>
       <Title>피드</Title>
-      <Explain>피드 입니다.</Explain>
+      <Explain>친구 및 구독한 유저의 글을 모아서 볼 수 있는 공간입니다.</Explain>
       ㅇ
     </div>
   );

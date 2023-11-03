@@ -13,6 +13,8 @@ import MobileNav from '../MobileNav/MobileNav'
 import { useRouter } from 'next/navigation'
 import { collapseState, isMobileState, menuState } from '@/recoil/states'
 import { useRecoilState, useSetRecoilState } from 'recoil'
+import { AnimatePresence } from 'framer-motion';
+import Wrapper from './Wrapper'
 
 const { Content } = Layout;
 
@@ -46,7 +48,11 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
         <ConfigProvider theme={theme}>
           <Layout>
             <Header />
-            <Content style={{ background: 'white' }}>{children}</Content>
+            <AnimatePresence>
+              <Wrapper>
+                <Content style={{ background: 'white' }}>{children}</Content>
+              </Wrapper>
+            </AnimatePresence>
             <Footer />
             {isMobile && <MobileNav />}
           </Layout>

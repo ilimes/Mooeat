@@ -246,9 +246,6 @@ export const StyledButton = styled(Button)`
   && {
     font-size: 15px;
     transition: all 0.1s linear;
-    &:hover {
-        transform: scale(1.03);
-    }
   }
 `
 

@@ -5,55 +5,50 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import Content from "../SharedComponents/Content";
 
 const Buttons = ({ router }: { router: AppRouterInstance }) => {
+    const btnInfoList = [
+        {
+            topMessage: '나의 식단을 공유해보세요!',
+            icon: <CameraOutlined />,
+            title: '공유하기',
+            link: '/share'
+        },
+        {
+            topMessage: '지금 바로 가입해보세요!',
+            icon: <UserAddOutlined />,
+            title: '회원 가입',
+            link: '/auth/join'
+        },
+        {
+            topMessage: '지금 바로 로그인해보세요!',
+            icon: <LoginOutlined />,
+            title: '공유하기',
+            link: '/auth/login'
+        },
+    ]
+
     return (
         <div className="container">
             <Content>
                 <Row gutter={[16, 16]}>
-                    <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
-                        <StyledCard
-                            hoverable
-                            bodyStyle={{ padding: 16 }}
-                            onClick={() => router.push('/share')}
-                        >
-                            <div style={{ fontSize: 14, color: '#47408f', fontWeight: 'bold', marginBottom: 10 }}>
-                                나의 식단을 공유해보세요!
-                            </div>
-                            <div style={{ fontSize: 26, fontWeight: 'bold' }}>
-                                <CameraOutlined />{" "}
-                                공유하기
-                            </div>
-                        </StyledCard>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
-                        <StyledCard
-                            hoverable
-                            bodyStyle={{ padding: 16 }}
-                            onClick={() => router.push('/auth/join')}
-                        >
-                            <div style={{ fontSize: 14, color: '#47408f', fontWeight: 'bold', marginBottom: 10 }}>
-                                지금 바로 가입해보세요!
-                            </div>
-                            <div style={{ fontSize: 26, fontWeight: 'bold' }}>
-                                <UserAddOutlined />{" "}
-                                회원 가입
-                            </div>
-                        </StyledCard>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
-                        <StyledCard
-                            hoverable
-                            bodyStyle={{ padding: 16 }}
-                            onClick={() => router.push('/auth/login')}
-                        >
-                            <div style={{ fontSize: 14, color: '#47408f', fontWeight: 'bold', marginBottom: 10 }}>
-                                지금 바로 로그인해보세요!
-                            </div>
-                            <div style={{ fontSize: 26, fontWeight: 'bold' }}>
-                                <LoginOutlined />{" "}
-                                로그인
-                            </div>
-                        </StyledCard>
-                    </Col>
+                    {btnInfoList?.map((e, i) => (
+                        <Col key={i} xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
+                            <button style={{ width: '100%' }}>
+                                <StyledCard
+                                    hoverable
+                                    bodyStyle={{ padding: 16 }}
+                                    onClick={() => router.push(e?.link)}
+                                >
+                                    <div style={{ fontSize: 14, color: '#47408f', fontWeight: 'bold', marginBottom: 10 }}>
+                                        {e?.topMessage}
+                                    </div>
+                                    <div style={{ fontSize: 26, fontWeight: 'bold' }}>
+                                        {e?.icon}{" "}
+                                        {e?.title}
+                                    </div>
+                                </StyledCard>
+                            </button>
+                        </Col>
+                    ))}
                 </Row>
             </Content>
         </div>

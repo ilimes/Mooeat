@@ -61,3 +61,24 @@ body {
         display: none;
     }
 }
+
+button {
+    background-color: inherit;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    transition: 0.15s;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+  
+button:hover {
+    transition: 0.15s;
+    box-shadow: inset 0px 0px 999px 5px rgba(255, 255, 255, 0.05);
+}
+
+button:active {
+    transition: 0.15s;
+    transform: scale(0.97);
+}
