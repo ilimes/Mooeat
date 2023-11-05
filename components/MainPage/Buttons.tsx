@@ -21,7 +21,7 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
         {
             topMessage: '지금 바로 로그인해보세요!',
             icon: <LoginOutlined />,
-            title: '공유하기',
+            title: '로그인',
             link: '/auth/login'
         },
     ]

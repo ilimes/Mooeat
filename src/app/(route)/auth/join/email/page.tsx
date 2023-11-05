@@ -1,31 +1,42 @@
 'use client'
 
 import { Button, Checkbox, Form, Input, Drawer, message } from "antd";
+import { LeftOutlined } from '@ant-design/icons'
 import styled from "styled-components";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const onFinish = (values: any) => {
+const onFinish = async (values: any) => {
   if (!values?.agree) {
     message.warning('개인정보 수집 및 이용에 동의하신 후 가입이 가능합니다.');
     return;
   }
-  message.success('가입 완료');
-  console.log('Success:', values);
+
+  const result = await fetchData(values);
+  if (result?.success) {
+    message.success('가입 성공!');
+  } else {
+    message.warning(result?.message || '가입 실패');
+  }
 };
 
 const onFinishFailed = (errorInfo: any) => {
-  message.error('필수 항목을 모두 입력해주세요.');
-  console.log('Failed:', errorInfo);
+  if (errorInfo?.errorFields?.find((e: any) => e.name?.[0] === 'user_id' && e.errors?.[0] != null)) {
+    message.error('형식에 맞게 이메일을 입력해주세요.');
+  } else {
+    message.error('필수 항목을 모두 입력해주세요.');
+  }
 };
 
 type FieldType = {
-  email?: string;
-  nickname?: string;
+  user_id?: string;
+  user_nm?: string;
   password?: string;
   agree?: string;
 };
 
 const Join = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -33,8 +44,6 @@ const Join = () => {
       <Title>이메일로 회원가입</Title>
       <StyledForm
         name="basic"
-        // labelCol={{ span: 8 }}
-        // wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
         onFinish={onFinish}
@@ -45,8 +54,7 @@ const Join = () => {
           이메일 <Req>(필수)</Req>
         </StyledTitleDiv>
         <Form.Item<FieldType>
-          // label="이메일"
-          name="email"
+          name="user_id"
           rules={[{ required: true, message: '형식에 맞게 이메일을 입력해주세요.', type: 'email' }]}
           hasFeedback
           validateTrigger="onBlur"
@@ -57,7 +65,6 @@ const Join = () => {
           비밀번호 <Req>(필수)</Req>
         </StyledTitleDiv>
         <Form.Item<FieldType>
-          // label="비밀번호"
           name="password"
           rules={[{ required: true, message: '비밀번호를 입력해주세요.' }]}
           hasFeedback
@@ -69,8 +76,7 @@ const Join = () => {
           닉네임 <Req>(필수)</Req>
         </StyledTitleDiv>
         <Form.Item<FieldType>
-          // label="닉네임"
-          name="nickname"
+          name="user_nm"
           rules={[{ required: true, message: '닉네임을 입력해주세요.' }]}
           hasFeedback
           validateTrigger="onBlur"
@@ -98,6 +104,9 @@ const Join = () => {
           </Button>
         </Form.Item>
       </StyledForm>
+      <BtnGroup>
+        <StyledSpan style={{ marginLeft: 0 }} onClick={() => router.push('/auth/join')}><LeftOutlined style={{ marginRight: 5 }} />다른 방식으로 회원가입</StyledSpan>
+      </BtnGroup>
       <Drawer
         height={'80%'}
         title="개인정보 처리방침"
@@ -179,3 +188,23 @@ export const StyledDetailSpan = styled.span`
     text-decoration: underline;
   }
 `
+
+export const StyledSpan = styled.span`
+  && {
+    margin: 0 5px;
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+`
+
+export const fetchData = async (formData: object) => {
+  const res = await fetch(`/api/join`, {
+    method: 'PUT',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+  
+  return result?.data;
+}

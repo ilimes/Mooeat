@@ -2,7 +2,7 @@
 
 import { Button, Col, Row, Tabs } from "antd";
 import type { TabsProps } from "antd";
-import { FormOutlined } from "@ant-design/icons";
+import { FormOutlined, AppstoreOutlined, UnorderedListOutlined, AppstoreFilled } from "@ant-design/icons";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import PostCard from '@/components/Card/PostCard';
@@ -29,6 +29,7 @@ const items: TabsProps['items'] = [
 const Community = () => {
   const router = useRouter();
   const [activeKey, setActiveKey] = useState('all');
+  const [type, setType] = useState('tile');
   const example = [
     {
       title: '제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다',
@@ -97,6 +98,23 @@ const Community = () => {
       >
         <FormOutlined /> 작성하기
       </Button>
+      <div style={{ fontSize: 24, float: 'right' }}>
+        {
+          <button style={{ fontSize: 24, marginRight: 10 }} onClick={() => setType('tile')}>
+            {
+              type === 'tile' &&
+              <AppstoreFilled style={{ color: '#4F4791' }} />
+            }
+            {
+              type != 'tile' &&
+              <AppstoreOutlined style={{ color: '#bcbcbc' }} />
+            }
+          </button>
+        }
+        <button style={{ fontSize: 24 }} onClick={() => setType('list')}>
+          <UnorderedListOutlined style={{ color: type === 'list' ? '#4F4791' : '#bcbcbc' }} />
+        </button>
+      </div>
       <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 'bold', marginTop: 15 }} />
       <Row gutter={[15, 15]}>
         {example?.filter(e => activeKey === 'all' ? e : e?.category?.includes(activeKey))?.map((e, i) => (
