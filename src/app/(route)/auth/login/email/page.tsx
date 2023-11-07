@@ -6,23 +6,23 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const onFinish = (values: any) => {
-  // if (!values?.agree) {
-  //   message.warning('개인정보 수집 및 이용에 동의하신 후 가입이 가능합니다.');
-  //   return;
-  // }
-  message.success('로그인 완료');
-  console.log('Success:', values);
+const onFinish = async (values: any) => {
+  const result = await fetchData(values);
+  if (result?.success) {
+    message.success('성공적으로 로그인 되었습니다. Mooeat에 오신것을 환영합니다 🎉');
+    localStorage.setItem('token', result?.token);
+  } else {
+    message.warning(result?.message || '로그인에 실패하였습니다.');
+  }
 };
 
 const onFinishFailed = (errorInfo: any) => {
   message.error('필수 항목을 모두 입력해주세요.');
-  console.log('Failed:', errorInfo);
+  // console.log('Failed:', errorInfo);
 };
 
 type FieldType = {
-  email?: string;
-  nickname?: string;
+  user_id?: string;
   password?: string;
   agree?: string;
 };
@@ -49,7 +49,7 @@ const EmailLogin = () => {
         </StyledTitleDiv>
         <Form.Item<FieldType>
           // label="이메일"
-          name="email"
+          name="user_id"
           rules={[{ required: true, message: '형식에 맞게 이메일을 입력해주세요.', type: 'email' }]}
           hasFeedback
           validateTrigger="onBlur"
@@ -159,3 +159,13 @@ export const StyledSpan = styled.span`
     }
   }
 `
+
+export const fetchData = async (formData: object) => {
+  const res = await fetch(`/api/login`, {
+    method: 'POST',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+  
+  return result?.data;
+}
