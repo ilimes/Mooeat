@@ -1,6 +1,6 @@
 "use client"
 
-import { Layout, Menu, Button, Popover, Col, Row, Card, Avatar, Badge, Drawer } from "antd";
+import { Layout, Menu, Button, Popover, Col, Row, Card, Avatar, Badge, Drawer, message, Empty } from "antd";
 import type { MenuProps } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined, BellOutlined, UserOutlined, CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import { use, useState, useEffect, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import Logo from "../../public/logo.png";
 import { ServerStyleSheet } from "styled-components";
-import { collapseState, isMobileState, menuState, notiCollapseState } from "@/recoil/states";
+import { collapseState, isMobileState, menuState, notiCollapseState, userInfoState } from "@/recoil/states";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 const { Header } = Layout;
@@ -19,11 +19,28 @@ const HeaderPage = () => {
   const pathname = usePathname();
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const setNotiCollapsed = useSetRecoilState(notiCollapseState);
   const menuList = useRecoilValue(menuState);
   const isMobile = useRecoilValue(isMobileState);
 
   const onClickLogo = () => {
+    router.push('/');
+  }
+
+  /**
+   * 로그아웃
+   */
+  const logout = () => {
+    // 토큰 비우기
+    localStorage.removeItem("token");
+
+    // 유저 정보 비우기
+    setUserInfo(null);
+
+    message.info('로그아웃 되었습니다.')
+
+    // 홈으로 이동
     router.push('/');
   }
 
@@ -62,35 +79,51 @@ const HeaderPage = () => {
             style={{ width: "100%", fontWeight: 700, fontSize: 18 }}
             onSelect={(e) => setSelectedKeys([e?.key])}
           />
-          <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottom">
-            <div style={{ marginRight: 20 }}>
-              <Badge dot={true}>
-                <BellOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
-              </Badge>
-            </div>
-          </Popover>
-          <div style={{ width: 100, textAlign: 'center' }}>
-            <StyledButton onClick={() => router.push('/auth/login')} >
-              로그인
-            </StyledButton>
-          </div>
-          <div style={{ width: 100, textAlign: 'center', marginLeft: 10 }}>
-            <StyledButton type="primary" onClick={() => router.push('/auth/join')}>
-              회원가입
-            </StyledButton>
-          </div>
+          {
+            userInfo &&
+            <>
+              <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottom">
+                <div style={{ marginRight: 20 }}>
+                  <Badge dot={true}>
+                    <BellOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
+                  </Badge>
+                </div>
+              </Popover>
+              <div style={{ width: 100, textAlign: 'center' }}>
+                <StyledButton onClick={logout} >
+                  로그아웃
+                </StyledButton>
+              </div>
+            </>
+          }
+          {
+            !userInfo &&
+            <>
+              <div style={{ width: 100, textAlign: 'center' }}>
+                <StyledButton onClick={() => router.push('/auth/login')} >
+                  로그인
+                </StyledButton>
+              </div>
+              <div style={{ width: 100, textAlign: 'center', marginLeft: 10 }}>
+                <StyledButton type="primary" onClick={() => router.push('/auth/join')}>
+                  회원가입
+                </StyledButton>
+              </div>
+            </>
+          }
         </>
       </div>
       <div className="mobile-btn">
         <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
         <div style={{ marginLeft: 'auto' }}>
-          {/* <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottomLeft"> */}
-          <span onClick={() => setNotiCollapsed(true)}>
-            <Badge dot={true} style={{ marginRight: 10 }}>
-              <BellOutlined style={{ fontSize: 20, marginRight: 10, cursor: 'pointer' }} />
-            </Badge>
-          </span>
-          {/* </Popover> */}
+          {
+            userInfo &&
+            <span onClick={() => setNotiCollapsed(true)}>
+              <Badge dot={true} style={{ marginRight: 10 }}>
+                <BellOutlined style={{ fontSize: 20, marginRight: 10, cursor: 'pointer' }} />
+              </Badge>
+            </span>
+          }
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -113,11 +146,13 @@ const popOverContent = () => {
   return (
     <StyledPopoverDiv style={{ width: 320, height: 450, overflowY: 'auto', overflowX: 'hidden' }}>
       <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10 }}>
-        <Alert3 />
+        <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description="알림이 존재하지 않습니다." />
+        {/* 더미 항목 */}
+        {/* <Alert3 />
         <Alert2 />
         <Alert key={1} />
         <Alert key={2} />
-        <Alert key={3} />
+        <Alert key={3} /> */}
       </Row>
     </StyledPopoverDiv>
   )
@@ -208,7 +243,9 @@ const AlertDrawer = () => {
       height={"100%"}
     >
       <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10, overflow: 'auto' }}>
-        <Alert3 />
+        <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description="알림이 존재하지 않습니다." />
+        {/* 더미 데이터 */}
+        {/* <Alert3 />
         <Alert2 />
         <Alert key={1} />
         <Alert key={2} />
@@ -216,7 +253,7 @@ const AlertDrawer = () => {
         <Alert key={4} />
         <Alert key={5} />
         <Alert key={6} />
-        <Alert key={7} />
+        <Alert key={7} /> */}
       </Row>
     </Drawer>
   )
@@ -286,5 +323,21 @@ export const StyledPopoverDiv = styled.div`
     border-radius: 20px;
     background-clip: padding-box;
     border: 2px solid transparent;
+  }
+`
+
+const StyledEmpty = styled(Empty)`
+  && {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 360px;
+    justify-content: center;
+    align-items: center;
+
+    > .ant-empty-description {
+      color: grey;
+      font-size: 14px;
+    }
   }
 `

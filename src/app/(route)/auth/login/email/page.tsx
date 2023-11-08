@@ -1,17 +1,37 @@
 'use client'
 
-import { Button, Checkbox, Form, Input, Drawer, message } from "antd";
+import { Button, Checkbox, Form, Input, Drawer, message, Spin } from "antd";
 import { LeftOutlined } from '@ant-design/icons'
 import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { fetchUserInfoData } from "@/components/CustomLayout/CustomLayout";
+import { useSetRecoilState } from "recoil";
+import { userInfoState } from "@/recoil/states";
 
-const onFinish = async (values: any) => {
+const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router: any) => {
+  setIsLoading(true);
   const result = await fetchData(values);
   if (result?.success) {
-    message.success('성공적으로 로그인 되었습니다. Mooeat에 오신것을 환영합니다 🎉');
+    // 로딩 스피너 종료
+    setIsLoading(false);
+
+    // 토큰 로컬스토리지에 추가
     localStorage.setItem('token', result?.token);
+
+    // 회원 정보 조회 후 추가
+    const userInfo = await fetchUserInfoData(result?.token);
+    if (userInfo) {
+      setUserInfo(userInfo);
+    }
+
+    message.success('성공적으로 로그인 되었습니다. Mooeat에 오신것을 환영합니다 🎉');
+
+    // 홈으로 이동
+    router.push('/');
+    
   } else {
+    setIsLoading(false);
     message.warning(result?.message || '로그인에 실패하였습니다.');
   }
 };
@@ -29,7 +49,9 @@ type FieldType = {
 
 const EmailLogin = () => {
   const router = useRouter();
+  const setUserInfo = useSetRecoilState(userInfoState);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <div style={{ marginTop: 30 }}>
@@ -40,7 +62,7 @@ const EmailLogin = () => {
         // wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
-        onFinish={onFinish}
+        onFinish={(values) => onFinish(values, setIsLoading, setUserInfo, router)}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
@@ -84,7 +106,12 @@ const EmailLogin = () => {
 
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '100%', height: 47, fontWeight: 'bold', fontSize: 14, marginTop: 10 }}>
-            로그인
+            {
+              isLoading && <StyledSpin />
+            }
+            {
+              !isLoading && <>로그인</>
+            }
           </Button>
         </Form.Item>
       </StyledForm>
@@ -169,3 +196,11 @@ export const fetchData = async (formData: object) => {
   
   return result?.data;
 }
+
+export const StyledSpin = styled(Spin)`
+    && {
+        & .ant-spin-dot-item {
+            background-color: white;
+        }
+    }
+`
