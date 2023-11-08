@@ -1,11 +1,11 @@
 'use client'
 
-import { Layout, Menu, Drawer, Button, Divider } from "antd";
+import { Layout, Menu, Drawer, Button, Divider, message } from "antd";
 import {
-    CloseOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
+  CloseOutlined,
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
 } from '@ant-design/icons';
 import Logo from "../../public/logo.png";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -13,75 +13,110 @@ import styled from "styled-components";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { collapseState, menuState } from "@/recoil/states";
+import { collapseState, menuState, userInfoState } from "@/recoil/states";
 
 const { Sider } = Layout;
 
 const MobileNav = () => {
-    const router = useRouter();
-    const pathname = usePathname();
-    const [selectedKeys, setSelectedKeys] = useState([pathname]);
-    const [collapsed, setCollapsed] = useRecoilState(collapseState);
-    const menuList = useRecoilValue(menuState);
+  const router = useRouter();
+  const pathname = usePathname();
+  const [selectedKeys, setSelectedKeys] = useState([pathname]);
+  const [collapsed, setCollapsed] = useRecoilState(collapseState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const menuList = useRecoilValue(menuState);
 
-    const onClickLogo = () => {
-        router.push('/');
-        setCollapsed(false);
-    }
-    
-    const onClickMenu = (path: string) => {
-        router.push(path)
-        setCollapsed(false);
-    }
+  const onClickLogo = () => {
+    router.push('/');
+    setCollapsed(false);
+  }
 
-    useEffect(() => {
-      setSelectedKeys([pathname]);
-    }, [pathname])
+  const onClickMenu = (path: string) => {
+    router.push(path)
+    setCollapsed(false);
+  }
 
-    return (
-      <Drawer
-        placement="right"
-        closable={false}
-        onClose={() => setCollapsed(false)}
-        open={collapsed}
-        styles={{ body: { padding: "0 20px" } }}
-        width={"100%"}
-      >
-        <div style={{ display: "flex", height: 64 }}>
-          <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
-          <Button
-            type="text"
-            icon={<CloseOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "22px",
-              width: 42,
-              height: 48,
-              marginTop: 5,
-              marginLeft: "auto",
-            }}
-          />
-        </div>
-        <div className="mobile-nav-menu">
-          <div className="demo-logo-vertical" />
+  /**
+   * 로그아웃
+   */
+  const logout = () => {
+    // 토큰 비우기
+    localStorage.removeItem("token");
+
+    // 유저 정보 비우기
+    setUserInfo(null);
+
+    message.info('로그아웃 되었습니다.')
+
+    // 홈으로 이동
+    router.push('/');
+  }
+
+  useEffect(() => {
+    setSelectedKeys([pathname]);
+  }, [pathname])
+
+  return (
+    <Drawer
+      placement="right"
+      closable={false}
+      onClose={() => setCollapsed(false)}
+      open={collapsed}
+      styles={{ body: { padding: "0 20px" } }}
+      width={"100%"}
+    >
+      <div style={{ display: "flex", height: 64 }}>
+        <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
+        <Button
+          type="text"
+          icon={<CloseOutlined />}
+          onClick={() => setCollapsed(!collapsed)}
+          style={{
+            fontSize: "22px",
+            width: 42,
+            height: 48,
+            marginTop: 5,
+            marginLeft: "auto",
+          }}
+        />
+      </div>
+      <div className="mobile-nav-menu">
+        <div className="demo-logo-vertical" />
+        {
+          userInfo &&
+          <h3>{userInfo?.user_nm} 님 반가워요 :)</h3>
+        }
+        {
+          !userInfo &&
           <h3>로그인 후 이용해주세요.</h3>
-          <Menu
-            theme="light"
-            mode="inline"
-            selectedKeys={selectedKeys}
-            onClick={() => setCollapsed(false)}
-            items={menuList}
-          />
-          <Divider />
+        }
+        <Menu
+          theme="light"
+          mode="inline"
+          selectedKeys={selectedKeys}
+          onClick={() => setCollapsed(false)}
+          items={menuList}
+        />
+        <Divider />
+        {
+          userInfo &&
+          <StyledButton onClick={logout}>
+            로그아웃
+          </StyledButton>
+        }
+        {
+          !userInfo &&
+          <>
             <StyledButton onClick={() => onClickMenu("/auth/login")}>
               로그인
             </StyledButton>
             <StyledButton type="primary" onClick={() => onClickMenu("/auth/join")} style={{ marginLeft: 10 }}>
               회원가입
             </StyledButton>
-        </div>
-      </Drawer>
-    );
+          </>
+        }
+      </div>
+    </Drawer>
+  );
 }
 
 export default MobileNav;
