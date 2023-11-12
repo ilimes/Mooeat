@@ -25,7 +25,7 @@ const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router
       setUserInfo(userInfo);
     }
 
-    message.success('성공적으로 로그인 되었습니다. Mooeat에 오신것을 환영합니다 🎉');
+    message.success('성공적으로 로그인 되었습니다.');
 
     // 홈으로 이동
     router.push('/');
