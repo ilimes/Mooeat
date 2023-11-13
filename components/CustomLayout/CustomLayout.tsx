@@ -11,7 +11,7 @@ import Utils from '@/utils/utils'
 import useIsMobile from '../../hooks/useIsMobile'
 import MobileNav from '../MobileNav/MobileNav'
 import { useRouter } from 'next/navigation'
-import { collapseState, isMobileState, menuState, userInfoState } from '@/recoil/states'
+import { collapseState, isMobileState, menuState, userInfoLoadingState, userInfoState } from '@/recoil/states'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import Wrapper from './Wrapper'
 
@@ -20,6 +20,7 @@ const { Content } = Layout;
 const CustomLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMobile, setIsMobile] = useRecoilState(isMobileState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const setUserInfoLoading = useSetRecoilState(userInfoLoadingState);
   const setCollapsed = useSetRecoilState<boolean>(collapseState);
   const setMenuList = useSetRecoilState(menuState);
   const mobile = useIsMobile();
@@ -60,6 +61,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
         alert('토큰이 만료되어 로그아웃 되었습니다.');
       }
     }
+    await setUserInfoLoading(true);
   }
 
   useEffect(() => {

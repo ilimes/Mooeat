@@ -40,3 +40,11 @@ export const userInfoState = atom({
   key: 'userInfo',
   default: null,
 });
+
+/**
+ * 유저 정보 로딩 여부
+ */
+export const userInfoLoadingState = atom({
+  key: 'userInfoLoading',
+  default: false,
+});

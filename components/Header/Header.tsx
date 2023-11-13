@@ -9,7 +9,7 @@ import { use, useState, useEffect, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import Logo from "../../public/logo.png";
 import { ServerStyleSheet } from "styled-components";
-import { collapseState, isMobileState, menuState, notiCollapseState, userInfoState } from "@/recoil/states";
+import { collapseState, isMobileState, menuState, notiCollapseState, userInfoLoadingState, userInfoState } from "@/recoil/states";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 const { Header } = Layout;
@@ -20,6 +20,7 @@ const HeaderPage = () => {
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const isLoading = useRecoilValue(userInfoLoadingState);
   const setNotiCollapsed = useSetRecoilState(notiCollapseState);
   const menuList = useRecoilValue(menuState);
   const isMobile = useRecoilValue(isMobileState);
@@ -80,6 +81,10 @@ const HeaderPage = () => {
             onSelect={(e) => setSelectedKeys([e?.key])}
           />
           {
+            isLoading &&
+              (
+                <>
+                {
             userInfo &&
             <>
               <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottom">
@@ -111,6 +116,10 @@ const HeaderPage = () => {
               </div>
             </>
           }
+                </>
+              )
+          }
+          
         </>
       </div>
       <div className="mobile-btn">
