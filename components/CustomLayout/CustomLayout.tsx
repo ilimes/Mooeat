@@ -50,7 +50,6 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
 
     // 토큰이 존재할 때
     if (token) {
-      console.log('token', localStorage.getItem("token"))
       const result = await fetchUserInfoData(token);
       
       // 토큰이 만료되지 않고 정상적인 경우
