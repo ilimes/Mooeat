@@ -5,7 +5,7 @@ import { getToken } from "next-auth/jwt"
 const secret = process.env.NEXTAUTH_SECRET
 
 const withAuthList = ["/friends", "/share"]
-const withOutAuthList = ["/auth/login", "/auth/login/email"]
+const withOutAuthList = ["/auth/login", "/auth/login/email", "/auth/join", "/auth/join/email"]
 
 export async function middleware(req: NextRequest) {
   const session = await getToken({ req, secret, raw: true })

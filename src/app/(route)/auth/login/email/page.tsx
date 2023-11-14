@@ -13,34 +13,26 @@ import { userInfoState } from "@/recoil/states";
 const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router: any) => {
   setIsLoading(true);
   // const result = await fetchData(values);
-  const result = await signIn('credentials', {
+  const res = await signIn('credentials', {
     user_id: values?.user_id,
     password: values?.password,
-    signinUrl: '/auth/login/email',
-    callbackUrl: '/'
+    // callbackUrl: '/',
+    redirect: false,
   })
-  console.log('ok',result)
-  if (result?.ok) {
+
+  if (res?.ok) {
     // 로딩 스피너 종료
     setIsLoading(false);
-
-    // // 토큰 로컬스토리지에 추가
-    // localStorage.setItem('token', result?.token);
-
-    // 회원 정보 조회 후 추가
-    // const info = await fetchUserInfoData(result?.token);
-    // if (info) {
-    //   setUserInfo(info?.user_info);
-    // }
-
-    message.success('성공적으로 로그인 되었습니다.');
-
-    // 홈으로 이동
-    router.push('/');
-    
   } else {
     setIsLoading(false);
-    // message.warning(result?.message || '로그인에 실패하였습니다.');
+  }
+
+  // 에러 핸들링
+  if (res?.status === 401) {
+    message.warning('아이디 혹은 비밀번호가 일치하지 않습니다.');
+    router.push('/auth/login/email');
+  } else {
+    router.push('/')
   }
 };
 
