@@ -35,15 +35,13 @@ const HeaderPage = () => {
    * 로그아웃
    */
   const logout = () => {
+    signOut();
     // 토큰 비우기
     // localStorage.removeItem("token");
 
     // 유저 정보 비우기
     // setUserInfo(null);
 
-    signOut();
-
-    message.info('로그아웃 되었습니다.')
 
     // 홈으로 이동
     // router.push('/');
