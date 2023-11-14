@@ -13,11 +13,13 @@ import MobileNav from '../MobileNav/MobileNav'
 import { useRouter } from 'next/navigation'
 import { collapseState, isMobileState, menuState, userInfoLoadingState, userInfoState } from '@/recoil/states'
 import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useSession } from 'next-auth/react'
 import Wrapper from './Wrapper'
 
 const { Content } = Layout;
 
 const CustomLayout = ({ children }: { children: React.ReactNode }) => {
+  const { data: session, status } = useSession()
   const [isMobile, setIsMobile] = useRecoilState(isMobileState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
   const setUserInfoLoading = useSetRecoilState(userInfoLoadingState);

@@ -1,5 +1,6 @@
 'use client'
 
+import { signIn } from 'next-auth/react'
 import { Button, Checkbox, Form, Input, Drawer, message, Spin } from "antd";
 import { LeftOutlined } from '@ant-design/icons'
 import styled from "styled-components";
@@ -11,19 +12,26 @@ import { userInfoState } from "@/recoil/states";
 
 const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router: any) => {
   setIsLoading(true);
-  const result = await fetchData(values);
-  if (result?.success) {
+  // const result = await fetchData(values);
+  const result = await signIn('credentials', {
+    user_id: values?.user_id,
+    password: values?.password,
+    signinUrl: '/auth/login/email',
+    callbackUrl: '/'
+  })
+  console.log('ok',result)
+  if (result?.ok) {
     // 로딩 스피너 종료
     setIsLoading(false);
 
-    // 토큰 로컬스토리지에 추가
-    localStorage.setItem('token', result?.token);
+    // // 토큰 로컬스토리지에 추가
+    // localStorage.setItem('token', result?.token);
 
     // 회원 정보 조회 후 추가
-    const userInfo = await fetchUserInfoData(result?.token);
-    if (userInfo) {
-      setUserInfo(userInfo);
-    }
+    // const info = await fetchUserInfoData(result?.token);
+    // if (info) {
+    //   setUserInfo(info?.user_info);
+    // }
 
     message.success('성공적으로 로그인 되었습니다.');
 
@@ -32,7 +40,7 @@ const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router
     
   } else {
     setIsLoading(false);
-    message.warning(result?.message || '로그인에 실패하였습니다.');
+    // message.warning(result?.message || '로그인에 실패하였습니다.');
   }
 };
 

@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import Logo from "../../public/logo.png";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useSession, signOut } from 'next-auth/react'
 import styled from "styled-components";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
@@ -20,6 +21,7 @@ const { Sider } = Layout;
 const MobileNav = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -40,15 +42,16 @@ const MobileNav = () => {
    */
   const logout = () => {
     // 토큰 비우기
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
 
     // 유저 정보 비우기
-    setUserInfo(null);
+    // setUserInfo(null);
+    signOut();
 
     message.info('로그아웃 되었습니다.')
 
     // 홈으로 이동
-    router.push('/');
+    // router.push('/');
   }
 
   useEffect(() => {
@@ -82,11 +85,11 @@ const MobileNav = () => {
       <div className="mobile-nav-menu">
         <div className="demo-logo-vertical" />
         {
-          userInfo &&
-          <h3>{userInfo?.user_nm} 님 반가워요 :)</h3>
+          session &&
+          <h3>{session?.user?.token?.userInfo?.user_nm} 님 반가워요 :)</h3>
         }
         {
-          !userInfo &&
+          !session &&
           <h3>로그인 후 이용해주세요.</h3>
         }
         <Menu
@@ -98,13 +101,13 @@ const MobileNav = () => {
         />
         <Divider />
         {
-          userInfo &&
+          session &&
           <StyledButton onClick={logout}>
             로그아웃
           </StyledButton>
         }
         {
-          !userInfo &&
+          !session &&
           <>
             <StyledButton onClick={() => onClickMenu("/auth/login")}>
               로그인
