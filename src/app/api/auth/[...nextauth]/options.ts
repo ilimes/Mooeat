@@ -37,7 +37,7 @@ export const options: NextAuthOptions = {
             },
 
             async authorize(credentials, req) {
-                const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
+                const res = await fetch(`http://${process.env.NEXTAUTH_URL}/api/login`, {
                 // const res = await fetch(`/api/login`, {
                     method: 'POST',
                     headers: {
@@ -72,7 +72,7 @@ export const options: NextAuthOptions = {
                 // // 데이터베이스에 유저가 있는지 확인
                 const token = user?.data?.token;
                 const res = await fetch(
-                    `${process.env.NEXTAUTH_URL}/api/userInfo`,
+                    `http://${process.env.NEXTAUTH_URL}/api/userInfo`,
                     {
                         method: 'POST',
                         body: JSON.stringify(token)
