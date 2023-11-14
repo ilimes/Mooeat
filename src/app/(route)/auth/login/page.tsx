@@ -1,16 +1,26 @@
 'use client'
 
-import { Button } from "antd";
+import { useEffect } from "react";
+import { Alert, Button } from "antd";
 import styled from "styled-components";
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
 import Mail from '@/public/svg/mail.svg';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Login = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const required = searchParams?.get('required');
+
   return (
     <div style={{ marginTop: 30 }}>
+      {
+        required &&
+        <div style={{ marginBottom: 20 }}>
+          <Alert message="로그인 후 이용 가능한 서비스입니다." type="warning" showIcon style={{ fontSize: 14 }} />
+        </div>
+      }
       <Title>Mooeat 로그인</Title>
       <Explain>Mooeat에 로그인 합니다.</Explain>
       <RegisterButton icon={<GoogleIcon style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>구글로 로그인</RegisterButton>

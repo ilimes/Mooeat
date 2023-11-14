@@ -4,9 +4,11 @@ import { Button, Col, Row, Card, Divider, Avatar, Empty } from "antd";
 import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Friends = () => {
   const router = useRouter();
+  
   return (
     <div>
       <Title>친구</Title>

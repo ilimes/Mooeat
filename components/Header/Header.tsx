@@ -11,12 +11,14 @@ import Logo from "../../public/logo.png";
 import { ServerStyleSheet } from "styled-components";
 import { collapseState, isMobileState, menuState, notiCollapseState, userInfoLoadingState, userInfoState } from "@/recoil/states";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useSession, signOut } from 'next-auth/react';
 
 const { Header } = Layout;
 
 const HeaderPage = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -34,15 +36,17 @@ const HeaderPage = () => {
    */
   const logout = () => {
     // 토큰 비우기
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
 
     // 유저 정보 비우기
-    setUserInfo(null);
+    // setUserInfo(null);
+
+    signOut();
 
     message.info('로그아웃 되었습니다.')
 
     // 홈으로 이동
-    router.push('/');
+    // router.push('/');
   }
 
   useEffect(() => {
@@ -81,69 +85,74 @@ const HeaderPage = () => {
             onSelect={(e) => setSelectedKeys([e?.key])}
           />
           {
-            isLoading &&
-              (
-                <>
+            status != 'loading' &&
+            (
+              <>
                 {
-            userInfo &&
-            <>
-              <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottom">
-                <div style={{ marginRight: 20 }}>
-                  <Badge dot={true}>
-                    <BellOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
-                  </Badge>
-                </div>
-              </Popover>
-              <div style={{ width: 100, textAlign: 'center' }}>
-                <StyledButton onClick={logout} >
-                  로그아웃
-                </StyledButton>
-              </div>
-            </>
+                  session &&
+                  <>
+                    <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottom">
+                      <div style={{ marginRight: 20 }}>
+                        <Badge dot={true}>
+                          <BellOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
+                        </Badge>
+                      </div>
+                    </Popover>
+                    <div style={{ width: 100, textAlign: 'center' }}>
+                      <StyledButton onClick={logout} >
+                        로그아웃
+                      </StyledButton>
+                    </div>
+                  </>
+                }
+                {
+                  !session &&
+                  <>
+                    <div style={{ width: 100, textAlign: 'center' }}>
+                      <StyledButton onClick={() => router.push('/auth/login')} >
+                        로그인
+                      </StyledButton>
+                    </div>
+                    <div style={{ width: 100, textAlign: 'center', marginLeft: 10 }}>
+                      <StyledButton type="primary" onClick={() => router.push('/auth/join')}>
+                        회원가입
+                      </StyledButton>
+                    </div>
+                  </>
+                }
+              </>
+            )
           }
-          {
-            !userInfo &&
-            <>
-              <div style={{ width: 100, textAlign: 'center' }}>
-                <StyledButton onClick={() => router.push('/auth/login')} >
-                  로그인
-                </StyledButton>
-              </div>
-              <div style={{ width: 100, textAlign: 'center', marginLeft: 10 }}>
-                <StyledButton type="primary" onClick={() => router.push('/auth/join')}>
-                  회원가입
-                </StyledButton>
-              </div>
-            </>
-          }
-                </>
-              )
-          }
-          
         </>
       </div>
       <div className="mobile-btn">
         <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
         <div style={{ marginLeft: 'auto' }}>
           {
-            userInfo &&
-            <span onClick={() => setNotiCollapsed(true)}>
-              <Badge dot={true} style={{ marginRight: 10 }}>
-                <BellOutlined style={{ fontSize: 20, marginRight: 10, cursor: 'pointer' }} />
-              </Badge>
-            </span>
+            status != 'loading' && (
+              <>
+                {
+                  session &&
+                  <span onClick={() => setNotiCollapsed(true)}>
+                    <Badge dot={true} style={{ marginRight: 10 }}>
+                      <BellOutlined style={{ fontSize: 20, marginRight: 10, cursor: 'pointer' }} />
+                    </Badge>
+                  </span>
+                }
+                <Button
+                  type="text"
+                  icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                  onClick={() => setCollapsed(!collapsed)}
+                  style={{
+                    fontSize: '22px',
+                    width: 42,
+                    height: 48,
+                    marginTop: 5,
+                  }}
+                />
+              </>
+            )
           }
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '22px',
-              width: 42,
-              height: 48,
-              marginTop: 5,
-            }}
-          />
         </div>
       </div>
       <AlertDrawer />

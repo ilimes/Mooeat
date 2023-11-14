@@ -18,14 +18,18 @@ const nextConfig = {
         return config;
     },
     /* CORS 우회 방법 proxy 대체하여 rewrites */
-    async rewrites() {
-        return [
-          {
-            source: "/api/:path*",
-            destination: `http://${process.env.NEXT_PUBLIC_FRONT_URL}/api/:path*`,
-          },
-        ];
-    },
+    // async rewrites() {
+    //     return [
+    //       {
+    //         source: "/api/:path*",
+    //         destination: `http://${process.env.NEXT_PUBLIC_FRONT_URL}/api/:path*`,
+    //       },
+    //       {
+    //         source: `/:path*`,
+    //         destination: `http://${process.env.NEXT_PUBLIC_FRONT_URL}/:path*`,
+    //       },
+    //     ];
+    // },
 }
 
 module.exports = nextConfig
