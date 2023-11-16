@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const onFinish = async (values: any) => {
+const onFinish = async (values: any, router: any) => {
   if (!values?.agree) {
     message.warning('개인정보 수집 및 이용에 동의하신 후 가입이 가능합니다.');
     return;
@@ -15,9 +15,10 @@ const onFinish = async (values: any) => {
 
   const result = await fetchData(values);
   if (result?.success) {
-    message.success('가입 성공!');
+    router.push('/auth/login');
+    message.success('성공적으로 회원가입 되었습니다.');
   } else {
-    message.warning(result?.message || '가입 실패');
+    message.warning(result?.message || '가입에 실패하였습니다.');
   }
 };
 
@@ -47,7 +48,7 @@ const Join = () => {
         name="basic"
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
-        onFinish={onFinish}
+        onFinish={(values) => onFinish(values, router)}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >

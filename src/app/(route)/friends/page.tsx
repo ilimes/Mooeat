@@ -1,13 +1,15 @@
 'use client'
 
-import { Button, Col, Row, Card, Divider, Avatar, Empty } from "antd";
+import { Button, Col, Row, Card, Divider, Avatar, Empty, Input, message } from "antd";
 import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useModal } from "@/hooks/useModal";
 
 const Friends = () => {
   const router = useRouter();
+  const { Modal, isOpen, openModal, closeModal } = useModal();
   
   return (
     <div>
@@ -15,7 +17,7 @@ const Friends = () => {
       <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
       <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
-          <Card title={[<div key={1} style={{ fontWeight: 'bold', float: 'left', fontSize: 18 }}>등록된 친구</div>, <Button key={2} size="middle" type="primary" style={{ float: 'right', fontSize: 12, fontWeight: 'bold', paddingRight: 22, height: 29 }}><PlusOutlined />추가</Button>]} bodyStyle={{ padding: '5px 17px', height: 'calc(100vh - 260px)', overflow: 'auto' }} style={{ background: '#F2F4F6' }}>
+          <Card title={[<div key={1} style={{ fontWeight: 'bold', float: 'left', fontSize: 18 }}>등록된 친구</div>, <Button key={2} size="middle" type="primary" onClick={openModal} style={{ float: 'right', fontSize: 12, fontWeight: 'bold', paddingRight: 22, height: 29 }}><PlusOutlined />추가</Button>]} bodyStyle={{ padding: '5px 17px', height: 'calc(100vh - 260px)', overflow: 'auto' }} style={{ background: '#F2F4F6' }}>
             <Row gutter={[10, 10]}>
               <Friend key={1} />
               <Friend key={2} />
@@ -31,6 +33,19 @@ const Friends = () => {
           </Card>
         </Col>
       </Row>
+      <Modal title={'친구 등록'} isOpen={isOpen} closeModal={closeModal}>
+        <Row gutter={[10, 10]}>
+          <Col span={24}>
+            이메일
+          </Col>
+          <Col span={24}>
+            <Input placeholder="등록할 친구의 이메일을 입력해주세요." style={{ height: 40 }} />
+          </Col>
+          <Col span={24}>
+            <Button type="primary" style={{ width: '100%', height: 40, fontWeight: 'bold', fontSize: 14 }} onClick={() => message.warning('존재하지 않는 이메일입니다. 이메일을 확인해주세요.')}>친구추가</Button>
+          </Col>
+        </Row>
+      </Modal>
     </div>
   );
 };
