@@ -61,8 +61,7 @@ export const StyledCard = styled(Card)`
     && {
         width: 100%;
         height: 110px;
-        border: 1px solid #B9CBD9;
-        box-shadow: 0 8px 24px 0 rgba(129, 137, 143, 0.12);
+        box-shadow: 0 8px 20px 0 rgba(129, 137, 143, 0.18);
         transition: all 0.1s linear;
         &:hover {
             transform: scale(1.01);

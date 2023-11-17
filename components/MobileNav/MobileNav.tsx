@@ -100,19 +100,31 @@ const MobileNav = () => {
         <Divider />
         {
           session &&
-          <StyledButton onClick={logout}>
-            로그아웃
-          </StyledButton>
+          <>
+            <div>
+              <StyledProfileDiv onClick={() => message.info('준비중 입니다.')}>
+                프로필 수정
+              </StyledProfileDiv>
+              <StyledProfileDiv onClick={() => onClickMenu("/myPage")}>
+                마이 페이지
+              </StyledProfileDiv>
+              <StyledProfileDiv onClick={() => logout()}>
+                로그아웃
+              </StyledProfileDiv>
+            </div>
+          </>
         }
         {
           !session &&
           <>
-            <StyledButton onClick={() => onClickMenu("/auth/login")}>
-              로그인
-            </StyledButton>
-            <StyledButton type="primary" onClick={() => onClickMenu("/auth/join")} style={{ marginLeft: 10 }}>
-              회원가입
-            </StyledButton>
+            <div>
+              <StyledProfileDiv onClick={() => onClickMenu("/auth/login")}>
+                로그인
+              </StyledProfileDiv>
+              <StyledProfileDiv onClick={() => onClickMenu("/auth/join")}>
+                회원가입
+              </StyledProfileDiv>
+            </div>
           </>
         }
       </div>
@@ -137,6 +149,18 @@ export const StyledButton = styled(Button)`
     transition: all 0.1s linear;
     &:hover {
         transform: scale(1.03);
+    }
+  }
+`
+
+const StyledProfileDiv = styled.div`
+  && {
+    border-radius: 10px;
+    padding: 15px 10px;
+    font-weight: 500;
+    &:hover {
+      background: #eee;
+      cursor: pointer;
     }
   }
 `
