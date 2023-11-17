@@ -81,7 +81,7 @@ const HeaderPage = () => {
                         </Badge>
                       </div>
                     </Popover>
-                    <Popover trigger={'click'} open={profileOpen} title='내 정보' content={() => profilePopOverContent(setProfileOpen)} onOpenChange={() => setProfileOpen(!profileOpen)} placement="bottom">
+                    <Popover trigger={'click'} open={profileOpen} title='내 정보' content={() => ProfilePopOverContent(setProfileOpen)} onOpenChange={() => setProfileOpen(!profileOpen)} placement="bottom">
                       <div style={{ alignItems: 'center', display: 'flex'  }}>
                         <Avatar size={'default'} icon={<UserOutlined />} onClick={() => setProfileOpen(!profileOpen)} style={{ cursor: 'pointer' }} />
                       </div>
@@ -160,7 +160,7 @@ const notiPopOverContent = () => {
   )
 }
 
-const profilePopOverContent = (setProfileOpen: any) => {
+const ProfilePopOverContent = (setProfileOpen: any) => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
