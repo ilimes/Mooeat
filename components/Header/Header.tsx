@@ -26,25 +26,10 @@ const HeaderPage = () => {
   const setNotiCollapsed = useSetRecoilState(notiCollapseState);
   const menuList = useRecoilValue(menuState);
   const isMobile = useRecoilValue(isMobileState);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const onClickLogo = () => {
     router.push('/');
-  }
-
-  /**
-   * 로그아웃
-   */
-  const logout = () => {
-    signOut();
-    // 토큰 비우기
-    // localStorage.removeItem("token");
-
-    // 유저 정보 비우기
-    // setUserInfo(null);
-
-
-    // 홈으로 이동
-    // router.push('/');
   }
 
   useEffect(() => {
@@ -79,7 +64,7 @@ const HeaderPage = () => {
             mode="horizontal"
             selectedKeys={selectedKeys}
             items={menuList}
-            style={{ width: "100%", fontWeight: 700, fontSize: 18 }}
+            style={{ width: "100%", fontWeight: 600, fontSize: 18 }}
             onSelect={(e) => setSelectedKeys([e?.key])}
           />
           {
@@ -89,18 +74,18 @@ const HeaderPage = () => {
                 {
                   session &&
                   <>
-                    <Popover trigger={'click'} title='알림' content={popOverContent} placement="bottom">
+                    <Popover trigger={'click'} title='알림' content={notiPopOverContent} placement="bottom">
                       <div style={{ marginRight: 20 }}>
                         <Badge dot={true}>
                           <BellOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
                         </Badge>
                       </div>
                     </Popover>
-                    <div style={{ width: 100, textAlign: 'center' }}>
-                      <StyledButton onClick={logout} >
-                        로그아웃
-                      </StyledButton>
-                    </div>
+                    <Popover trigger={'click'} open={profileOpen} title='내 정보' content={() => profilePopOverContent(setProfileOpen)} onOpenChange={() => setProfileOpen(!profileOpen)} placement="bottom">
+                      <div style={{ alignItems: 'center', display: 'flex'  }}>
+                        <Avatar size={'default'} icon={<UserOutlined />} onClick={() => setProfileOpen(!profileOpen)} style={{ cursor: 'pointer' }} />
+                      </div>
+                    </Popover>
                   </>
                 }
                 {
@@ -154,11 +139,12 @@ const HeaderPage = () => {
         </div>
       </div>
       <AlertDrawer />
+      <ProfileDrawer />
     </Header>
   );
 };
 
-const popOverContent = () => {
+const notiPopOverContent = () => {
   return (
     <StyledPopoverDiv style={{ width: 320, height: 450, overflowY: 'auto', overflowX: 'hidden' }}>
       <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10 }}>
@@ -173,6 +159,57 @@ const popOverContent = () => {
     </StyledPopoverDiv>
   )
 }
+
+const profilePopOverContent = (setProfileOpen: any) => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  const onClickMenu = (path: string) => {
+    router.push(path);
+    setProfileOpen(false);
+  }
+
+  return (
+    <StyledPopoverDiv style={{ width: 320, height: 450, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ paddingTop: 20, padding: 10, flex: 1 }}>
+        <div>
+          <Avatar size={70} icon={<UserOutlined />} />
+        </div>
+        <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 5 }}>
+          <div style={{ fontWeight: 600 }}>
+            {session?.user?.token?.userInfo?.user_nm}
+          </div>
+          <div>
+            자기소개를 입력해주세요.
+          </div>
+        </div>
+      </div>
+      <div>
+        <StyledProfileDiv onClick={() => message.info('준비중 입니다.')}>
+          프로필 수정
+        </StyledProfileDiv>
+        <StyledProfileDiv onClick={() => onClickMenu('myPage')}>
+          마이 페이지
+        </StyledProfileDiv>
+        <StyledProfileDiv onClick={() => signOut()}>
+          로그아웃
+        </StyledProfileDiv>
+      </div>
+    </StyledPopoverDiv>
+  )
+}
+
+const StyledProfileDiv = styled.div`
+  && {
+    border-radius: 10px;
+    padding: 15px 10px;
+    font-weight: 500;
+    &:hover {
+      background: #eee;
+      cursor: pointer;
+    }
+  }
+`
 
 const Alert = () => {
   return (
@@ -231,6 +268,51 @@ const Alert3 = () => {
 }
 
 const AlertDrawer = () => {
+  const [notiCollapsed, setNotiCollapsed] = useRecoilState(notiCollapseState);
+  return (
+    <Drawer
+      title={
+        <div style={{ display: "flex", height: 64, alignItems: 'baseline' }}>
+          <div style={{ fontWeight: 'bold', fontSize: 18 }}>알림</div>
+          <Button
+            type="text"
+            icon={<CloseOutlined />}
+            onClick={() => setNotiCollapsed(!notiCollapsed)}
+            style={{
+              fontSize: "22px",
+              width: 42,
+              height: 48,
+              marginTop: 5,
+              marginLeft: "auto",
+            }}
+          />
+        </div>
+      }
+      placement="top"
+      closable={false}
+      onClose={() => setNotiCollapsed(false)}
+      open={notiCollapsed}
+      styles={{ body: { padding: "0 20px" }, header: { padding: "0 20px" } }}
+      height={"100%"}
+    >
+      <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10, overflow: 'auto' }}>
+        <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description="알림이 존재하지 않습니다." />
+        {/* 더미 데이터 */}
+        {/* <Alert3 />
+        <Alert2 />
+        <Alert key={1} />
+        <Alert key={2} />
+        <Alert key={3} />
+        <Alert key={4} />
+        <Alert key={5} />
+        <Alert key={6} />
+        <Alert key={7} /> */}
+      </Row>
+    </Drawer>
+  )
+}
+
+const ProfileDrawer = () => {
   const [notiCollapsed, setNotiCollapsed] = useRecoilState(notiCollapseState);
   return (
     <Drawer

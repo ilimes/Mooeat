@@ -17,7 +17,7 @@ const Login = () => {
     <div style={{ marginTop: 30 }}>
       {
         required &&
-        <div style={{ marginBottom: 20 }}>
+        <div className="fade" style={{ marginBottom: 20 }}>
           <Alert message="로그인 후 이용 가능한 서비스입니다." type="warning" showIcon style={{ fontSize: 14 }} />
         </div>
       }
