@@ -1,48 +1,58 @@
 'use client'
 
 import React, { useState } from 'react';
-import { Button } from "antd";
+import { Button, Divider, Tabs } from "antd";
+import type { TabsProps } from 'antd';
 import styled, { css } from "styled-components";
 import { useRouter } from "next/navigation";
+import AccountManagement from '@/components/MyPage/AccountManagement'
+import MyActivities from '@/components/MyPage/MyActivities'
 
 const MyPage = () => {
   const router = useRouter();
-  const [selectedKey, setSelectedKey] = useState(1);
+  const [selectedKey, setSelectedKey] = useState('1');
 
-  const list = [
+  const list: TabsProps['items']  = [
     {
-      key: 1,
-      name: '계정 관리'
+      key: '1',
+      label: '계정 관리',
+      children: null,
     },
     {
-      key: 2,
-      name: '내 활동'
+      key: '2',
+      label: '내 활동',
+      children: null,
     },
   ]
+
+  const onChange = (key: string) => {
+    setSelectedKey(key);
+  };
 
   return (
     <div>
       <Title>마이페이지</Title>
       <Explain>마이페이지 입니다.</Explain>
-      <div style={{ display: 'flex', gap: 20 }}>
-        <StyledBoxDiv style={{ width: 300, height: 580 }}>
-          {
-            list?.map(e =>
-              <StyledMenuDiv key={e?.key} $menukey={e?.key} $selectedkey={selectedKey} onClick={() => setSelectedKey(e?.key)}>
-                {e?.name}
-              </StyledMenuDiv>)
-          }
-        </StyledBoxDiv>
+      <StyledTabs activeKey={selectedKey} items={list} onChange={onChange} />
+      <div style={{ display: 'flex', gap: 40 }}>
+        <StyledResponsiveDiv style={{ width: 300, height: 580 }}>
+          <StyledBoxDiv style={{ height: '100%' }}>
+            {
+              list?.map(e =>
+                <StyledMenuDiv key={e?.key} $menukey={e?.key} $selectedkey={selectedKey} onClick={() => setSelectedKey(e?.key)}>
+                  {e?.label}
+                </StyledMenuDiv>)
+            }
+          </StyledBoxDiv>
+        </StyledResponsiveDiv>
         <div style={{ flex: 1 }}>
-          <Title style={{ marginBottom: 20 }}>{list?.find(e => e.key === selectedKey)?.name}</Title>
-          <SubTitle>내 정보</SubTitle>
-          <StyledBoxDiv>
-            d
-          </StyledBoxDiv>
-          <SubTitle>항목2</SubTitle>
-          <StyledBoxDiv>
-            d
-          </StyledBoxDiv>
+          <Title style={{ marginBottom: 20 }}>{list?.find(e => e.key === selectedKey)?.label}</Title>
+          {
+            selectedKey === '1' && <AccountManagement />
+          }
+          {
+            selectedKey === '2' && <MyActivities />
+          }
         </div>
       </div>
     </div>
@@ -101,7 +111,23 @@ export const StyledBoxDiv = styled.div`
   border-radius: 10px;
 `
 
-const StyledMenuDiv = styled.div<{ $selectedkey: number, $menukey: number }>`
+export const StyledResponsiveDiv = styled.div`
+  display: none;
+  @media (min-width: 991px) {
+    display: block;
+  }
+`
+
+export const StyledTabs = styled(Tabs)`
+  && {
+    font-weight: 600;
+    @media (min-width: 991px) {
+      display: none;
+    }
+}
+`
+
+const StyledMenuDiv = styled.div<{ $selectedkey: string, $menukey: string }>`
   && {
     border-radius: 10px;
     padding: 15px 10px;
