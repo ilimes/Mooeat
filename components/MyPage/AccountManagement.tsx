@@ -1,9 +1,11 @@
 import { SubTitle, StyledBoxDiv } from "@/src/app/(route)/myPage/page";
-import { Avatar, Button, Divider } from "antd";
+import { Avatar, Button, Divider, Input } from "antd";
 import { UserOutlined } from '@ant-design/icons';
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
 import { useSession } from "next-auth/react";
+import { useState } from "react";
+import styled from "styled-components";
 
 const AccountManagement = () => {
   return (
@@ -18,22 +20,66 @@ const AccountManagement = () => {
 
 const MyInfo = () => {
   const { data: session, status } = useSession();
+  const [isEdit, setIsEdit] = useState(false);
   const userInfo = session?.user?.token?.userInfo;
 
-  return (
-    <>
-      <SubTitle>내 정보</SubTitle>
-      <StyledBoxDiv>
+  const Title = ({name, required} : {name: string, required: boolean}) => {
+    return (
+      <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 7 }}>
+        <span>{name}</span> {required && <span style={{ color: 'red' }}>(*)</span>}
+      </div>
+    )
+  }
+
+  const EditForm = () => {
+    return (
+      <>
         <div style={{ textAlign: 'center' }}>
-          <Avatar size={150} icon={<UserOutlined />} />
+          <Avatar size={130} icon={<UserOutlined />} />
+        </div>
+        <div>
+          <div style={{ margin: '20px 0' }}>
+            <Title name="이름" required={true} />
+            <StyledInput placeholder="이름을 입력해주세요." defaultValue={userInfo?.user_nm}/>
+            <Title name="이메일" required={true} />
+            <StyledInput placeholder="이메일을 입력해주세요." defaultValue={userInfo?.user_id}/>
+            <Title name="휴대폰 번호" required={true} />
+            <StyledInput placeholder="휴대폰 번호를 입력해주세요."/>
+            <Title name="자기소개" required={true} />
+            <StyledInput placeholder="자기소개를 입력해주세요."/>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <Button type="default" style={{ height: 45 }} onClick={() => setIsEdit(false)}>취소하기</Button>
+            <Button type="primary" style={{ height: 45, marginLeft: 10 }} onClick={() => setIsEdit(false)}>저장하기</Button>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  const ShowForm = () => {
+    return (
+      <>
+        <div style={{ textAlign: 'center' }}>
+          <Avatar size={130} icon={<UserOutlined />} />
           <div style={{ margin: '20px 0' }}>
             <div style={{ fontWeight: 600, fontSize: 20 }}>{userInfo?.user_nm}</div>
             <div>{userInfo?.user_id}</div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <Button type="primary" style={{ height: 45 }}>수정하기</Button>
+            <Button type="primary" style={{ height: 45 }} onClick={() => setIsEdit(!isEdit)}>수정하기</Button>
           </div>
         </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <SubTitle>내 정보</SubTitle>
+      <StyledBoxDiv>
+        {isEdit && <EditForm />}
+        {!isEdit && <ShowForm />}
       </StyledBoxDiv>
     </>
   )
@@ -94,7 +140,7 @@ const DeleteAccount = () => {
       <StyledBoxDiv>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ fontSize: 14 }}>
-            계정 삭제 시 기존 정보를 복구하지 못할 수 있으니 주의해주세요.
+            현재 접속된 계정을 삭제합니다.
           </div>
           <div>
             <Button style={{ height: 45 }}>계정 삭제하기</Button>
@@ -106,3 +152,10 @@ const DeleteAccount = () => {
 }
 
 export default AccountManagement;
+
+export const StyledInput = styled(Input)`
+  && {
+    height: 40px;
+    margin-bottom: 10px;
+  }
+`
