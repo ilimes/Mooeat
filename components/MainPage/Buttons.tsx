@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Card, Col, Row } from 'antd';
-import { LoginOutlined, UserAddOutlined, CameraOutlined } from '@ant-design/icons';
+import { LoginOutlined, UserAddOutlined, CameraOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Content from "../SharedComponents/Content";
 
@@ -11,6 +11,12 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
             icon: <CameraOutlined />,
             title: '공유하기',
             link: '/share'
+        },
+        {
+            topMessage: '매일 출석체크 하고 포인트 획득!',
+            icon: <CheckCircleOutlined />,
+            title: '출석체크',
+            link: '/attendance'
         },
         {
             topMessage: '지금 바로 가입해보세요!',
@@ -31,7 +37,7 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
             <Content>
                 <Row gutter={[16, 16]}>
                     {btnInfoList?.map((e, i) => (
-                        <Col key={i} xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
+                        <Col key={i} xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
                             <button style={{ width: '100%' }}>
                                 <StyledCard
                                     hoverable
