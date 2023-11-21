@@ -13,7 +13,7 @@ const FindId = () => {
       <Explain>아래 방법 중 한 가지를 선택하여 계정을 찾을 수 있습니다.</Explain>
       <RegisterButton icon={<Mail style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>이메일로 계정찾기</RegisterButton>
       <BtnGroup>
-        위 방법으로 계정을 찾을 수 없나요? <StyledSpan onClick={() => router.push('/help')}>문의하기</StyledSpan>
+        위 방법으로 계정을 찾을 수 없나요? <StyledSpan onClick={() => router.push('/service')}>문의하기</StyledSpan>
       </BtnGroup>
     </div>
   );

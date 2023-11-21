@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Col, Row, Card, Divider, Avatar, Empty, Input, message } from "antd";
+import { Button, Col, Row, Card, Divider, Avatar, Empty, Input, message, Badge } from "antd";
 import { PlusOutlined, UserOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
@@ -56,7 +56,18 @@ const Friend = () => {
       <StyledCard bodyStyle={{ padding: 15 }}>
         <div style={{ display: 'flex', gap: 10 }}>
           <div>
-            <Avatar size="large" icon={<UserOutlined />} />
+            <Badge
+              offset={["-5%", "85%"]}
+              style={{
+                width: "12px",
+                height: "12px",
+                boxShadow: "0 0 0 5px #fff",
+                backgroundColor: "#6384EB"
+              }}
+              dot={true}
+            >
+              <Avatar size="large" icon={<UserOutlined />} />
+            </Badge>
           </div>
           <StyledOutDiv>
             <StyledOutDiv style={{ fontSize: 14 }}>라임</StyledOutDiv>
