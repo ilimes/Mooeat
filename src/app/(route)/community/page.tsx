@@ -1,12 +1,13 @@
 'use client'
 
-import { Button, Col, Row, Tabs } from "antd";
+import { Button, Col, Divider, Row, Tabs } from "antd";
 import type { TabsProps } from "antd";
 import { FormOutlined, AppstoreOutlined, UnorderedListOutlined, AppstoreFilled } from "@ant-design/icons";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import PostCard from '@/components/Card/PostCard';
+import PostCard from '@/components/Community/PostCard';
 import { useState } from 'react';
+import PostList from "@/components/Community/PostList";
 
 const items: TabsProps['items'] = [
   {
@@ -87,6 +88,10 @@ const Community = () => {
     setActiveKey(key);
   };
 
+  const filteredArr = example?.filter(e => activeKey === 'all' ? e : e?.category?.includes(activeKey));
+
+  const colSpan = type === 'tile' ? [8, 6] : [24, 24]
+
   return (
     <div>
       <Title>커뮤니티</Title>
@@ -117,9 +122,24 @@ const Community = () => {
       </div>
       <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600, marginTop: 15 }} />
       <Row gutter={[15, 15]}>
-        {example?.filter(e => activeKey === 'all' ? e : e?.category?.includes(activeKey))?.map((e, i) => (
-          <Col key={i} xs={24} sm={24} md={24} lg={8} xl={6} xxl={6}>
-            <PostCard obj={e} />
+        {filteredArr?.map((e, i) => (
+          <Col key={i} xs={24} sm={24} md={24} lg={colSpan?.[0]} xl={colSpan?.[1]} xxl={colSpan?.[1]}>
+            <>
+              {
+                type === 'tile' &&
+                <PostCard key={'card' + i} obj={e} />
+              }
+              {
+                type === 'list' &&
+                <>
+                  <PostList key={'list' + i} obj={e} />
+                  {
+                    i != filteredArr?.length - 1 &&
+                    <Divider key={'divider' + i} style={{ margin: '15px 0 0 0', borderColor: '#D2D4D8' }} />
+                  }
+                </>
+              }
+            </>
           </Col>
         ))}
       </Row>
