@@ -17,7 +17,9 @@ const PostList = ({ obj }: { obj: any }) => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div>
         <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-          <Avatar size="small" icon={<UserOutlined />} />
+          <div>
+            <Avatar size="small" icon={<UserOutlined />} />
+          </div>
           <StyledOutDiv style={{ fontSize: 14 }}>라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임</StyledOutDiv>
           <div>·</div>
           <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>1일 전</StyledOutDiv>
@@ -72,8 +74,11 @@ export const StyledContentDiv = styled.span`
     -webkit-line-clamp: 1;
     overflow: hidden;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 5px;
+  }
+  .titleDiv:hover {
+    color: #4F4791;
   }
   .contentDiv {
     display: -webkit-box;

@@ -1,21 +1,27 @@
 'use client'
 
-import { Button } from "antd";
+import { Button, Divider } from "antd";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
+import Tabs from "@/components/Service/Tabs";
+import Message from "@/components/Service/Message";
+import CollapseComponent from "@/components/Service/CollapseComponent";
 
-const Help = () => {
+const Service = () => {
   const router = useRouter();
   return (
     <div>
       <Title>고객센터</Title>
       <Explain>도움이 필요하신가요?</Explain>
-      ㅇ
+      <Tabs />
+      <Message />
+      <Divider />
+      <CollapseComponent />
     </div>
   );
 };
 
-export default Help;
+export default Service;
 
 export const Title = styled.div`
   font-size: 26px;

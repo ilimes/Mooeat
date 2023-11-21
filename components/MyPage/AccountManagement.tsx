@@ -1,6 +1,6 @@
 import { SubTitle, StyledBoxDiv } from "@/src/app/(route)/myPage/page";
-import { Avatar, Button, Divider, Input } from "antd";
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Badge, Button, Divider, Input } from "antd";
+import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
 import { useSession } from "next-auth/react";
@@ -34,9 +34,6 @@ const MyInfo = () => {
   const EditForm = () => {
     return (
       <>
-        <div style={{ textAlign: 'center' }}>
-          <Avatar size={130} icon={<UserOutlined />} />
-        </div>
         <div>
           <div style={{ margin: '20px 0' }}>
             <Title name="이름" required={true} />
@@ -61,7 +58,6 @@ const MyInfo = () => {
     return (
       <>
         <div style={{ textAlign: 'center' }}>
-          <Avatar size={130} icon={<UserOutlined />} />
           <div style={{ margin: '20px 0' }}>
             <div style={{ fontWeight: 600, fontSize: 20 }}>{userInfo?.user_nm}</div>
             <div>{userInfo?.user_id}</div>
@@ -78,8 +74,30 @@ const MyInfo = () => {
     <>
       <SubTitle>내 정보</SubTitle>
       <StyledBoxDiv>
-        {isEdit && <EditForm />}
-        {!isEdit && <ShowForm />}
+        <>
+          <div style={{ textAlign: 'center' }}>
+            <span onClick={() => isEdit ? alert('프로필 수정 클릭') : ''}>
+              <Badge
+                offset={["-15%", "85%"]}
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  boxShadow: "0 0 0 2px black",
+                  backgroundColor: "#fff",
+                  borderRadius: 20,
+                  justifyContent: 'center',
+                  cursor: isEdit ? 'pointer' : 'default'
+                }}
+                count={isEdit ? <EditOutlined /> : ''}
+                dot={isEdit}
+              >
+                <Avatar size={130} icon={<UserOutlined />} style={{ cursor: isEdit ? 'pointer' : 'default' }} />
+              </Badge>
+            </span>
+          </div>
+          {isEdit && <EditForm />}
+          {!isEdit && <ShowForm />}
+        </>
       </StyledBoxDiv>
     </>
   )

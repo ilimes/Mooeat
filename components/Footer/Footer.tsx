@@ -16,7 +16,7 @@ const FooterPage = () => {
                     <div>본 사이트의 모든 콘텐츠나 정보, UI 등의 복제 행위를 금합니다.</div>
                 </div>
                 <StyledDiv>
-                    <span onClick={() => router.push('/privacy')} style={{ fontWeight: 700 }}>개인정보 처리방침</span> · <span onClick={() => router.push('/tos')}>이용약관</span> · <span onClick={() => router.push('/help')}>고객센터</span>
+                    <span onClick={() => router.push('/privacy')} style={{ fontWeight: 700 }}>개인정보 처리방침</span> · <span onClick={() => router.push('/tos')}>이용약관</span> · <span onClick={() => router.push('/service')}>고객센터</span>
                 </StyledDiv>
             </div>
         </Footer>
