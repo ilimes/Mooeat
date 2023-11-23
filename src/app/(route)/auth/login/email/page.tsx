@@ -85,20 +85,6 @@ const EmailLogin = () => {
         >
           <Input.Password placeholder="비밀번호" style={{ height: 40 }} />
         </Form.Item>
-
-        {/* <Form.Item<FieldType>
-          name="agree"
-          valuePropName="checked"
-        >
-          <div style={{}}>
-            <Checkbox>
-              <div style={{ fontSize: 14 }}>
-                개인정보 수집 및 이용에 동의합니다. <StyledDetailSpan onClick={(e) => { e.preventDefault(); setIsOpen(true); }}>(자세히보기)</StyledDetailSpan>
-              </div>
-            </Checkbox>
-          </div>
-        </Form.Item> */}
-
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '100%', height: 47, fontWeight: 'bold', fontSize: 14, marginTop: 10 }}>
             {

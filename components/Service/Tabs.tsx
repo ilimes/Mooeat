@@ -1,17 +1,25 @@
+'use client'
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import styled, { css } from 'styled-components';
 
-const Tabs = () => {
+const Tabs = ({selectedKey, setSelectedKey} : {selectedKey: string, setSelectedKey: React.Dispatch<React.SetStateAction<string>>}) => {
+    const router = useRouter();
+    const onClick = (key: string) => {
+        router.push(`/service?page=${key}`)
+        setSelectedKey(key);
+    }
     return (
         <>
             <StyledTabDiv>
-                <StyledDiv $key={1} style={{ borderRight: '1px solid #eee' }}>
+                <StyledDiv $key={'qna'} $selectedkey={selectedKey} onClick={() => onClick('qna')} style={{ borderRight: '1px solid #eee' }}>
                     <span>자주 묻는 질문</span>
                 </StyledDiv>
-                <StyledDiv $key={2}>
+                <StyledDiv $key={'personal'} $selectedkey={selectedKey} onClick={() => onClick('personal')}>
                     <span>1:1 문의</span>
                 </StyledDiv>
-                <StyledDiv $key={3} style={{ borderLeft: '1px solid #eee' }}>
+                <StyledDiv $key={'notice'} $selectedkey={selectedKey} onClick={() => onClick('notice')} style={{ borderLeft: '1px solid #eee' }}>
                     <span>공지사항</span>
                 </StyledDiv>
             </StyledTabDiv>
@@ -28,11 +36,11 @@ const StyledTabDiv = styled.div`
     text-align: center;
 `
 
-const StyledDiv = styled.div<{ $key: number }>`
+const StyledDiv = styled.div<{ $key: string, $selectedkey: string }>`
     flex: 1;
     font-size: 15px;
     font-weight: bold;
-    ${props => (props.$key == 1) && css`
+    ${props => (props.$key === props.$selectedkey) && css`
         background-color: #222222;
     `}
     & span {
@@ -40,7 +48,7 @@ const StyledDiv = styled.div<{ $key: number }>`
         display: flex;
         justify-content: center;
         align-items: center;
-        ${props => (props.$key == 1) && css`
+        ${props => (props.$key === props.$selectedkey) && css`
             color: #fff;
         `}
     }

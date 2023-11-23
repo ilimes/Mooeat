@@ -34,8 +34,13 @@ const PostList = ({ obj }: { obj: any }) => {
         </div>
       </StyledContentDiv>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 10, color: getListInfo()?.cateColor, background: getListInfo()?.backgrounColor }}>
-          {getListInfo()?.cateName}
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 5, color: getListInfo()?.cateColor, background: getListInfo()?.backgrounColor }}>
+            {getListInfo()?.cateName}
+          </div>
+          <div style={{ fontWeight: 800, fontSize: 14 }}>
+            TAG
+          </div>
         </div>
         <Row gutter={[15, 15]}>
           <Col style={{ fontSize: 14 }}>

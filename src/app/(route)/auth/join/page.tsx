@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import styled from "styled-components";
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
@@ -14,7 +14,9 @@ const Join = () => {
       <Title>Mooeat 회원가입</Title>
       <Explain>Mooeat에 회원가입 합니다.</Explain>
       <RegisterButton icon={<GoogleIcon style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>구글로 회원가입</RegisterButton>
-      <RegisterButton icon={<Kakao style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>카카오로 회원가입</RegisterButton>
+      <Tooltip title={'3초만에 시작할 수 있어요!'}>
+        <RegisterButton icon={<Kakao style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>카카오로 회원가입</RegisterButton>
+      </Tooltip>
       <RegisterButton icon={<Mail style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />} onClick={() => router.push('/auth/join/email')}>이메일로 회원가입</RegisterButton>
       <BtnGroup>
         <span>이미 계정이 있으신가요?</span>

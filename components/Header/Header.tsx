@@ -188,7 +188,7 @@ const ProfilePopOverContent = (setProfileOpen: any) => {
         <StyledProfileDiv onClick={() => message.info('준비중 입니다.')}>
           프로필 수정
         </StyledProfileDiv>
-        <StyledProfileDiv onClick={() => onClickMenu('myPage')}>
+        <StyledProfileDiv onClick={() => onClickMenu('/myPage')}>
           마이 페이지
         </StyledProfileDiv>
         <StyledProfileDiv onClick={() => signOut()}>
@@ -380,6 +380,7 @@ export const StyledDiv = styled.div`
 export const StyledButton = styled(Button)`
   && {
     font-size: 15px;
+    letter-spacing: -0.3px;
     transition: all 0.1s linear;
   }
 `

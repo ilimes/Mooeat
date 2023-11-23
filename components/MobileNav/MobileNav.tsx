@@ -6,6 +6,9 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  UserAddOutlined
 } from '@ant-design/icons';
 import Logo from "../../public/logo.png";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -109,7 +112,7 @@ const MobileNav = () => {
                 마이 페이지
               </StyledProfileDiv>
               <StyledProfileDiv onClick={() => logout()}>
-                로그아웃
+                <LogoutOutlined /> 로그아웃
               </StyledProfileDiv>
             </div>
           </>
@@ -119,10 +122,10 @@ const MobileNav = () => {
           <>
             <div>
               <StyledProfileDiv onClick={() => onClickMenu("/auth/login")}>
-                로그인
+                <LoginOutlined /> 로그인
               </StyledProfileDiv>
               <StyledProfileDiv onClick={() => onClickMenu("/auth/join")}>
-                회원가입
+                <UserAddOutlined /> 회원가입
               </StyledProfileDiv>
             </div>
           </>

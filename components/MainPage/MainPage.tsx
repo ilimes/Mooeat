@@ -22,7 +22,7 @@ const MainPage: React.FC = () => {
                     <Content>
                         <div style={{ margin: '0 auto', maxWidth: 1200, padding: '0 16px' }}>
                             <div style={{ fontSize: 20, fontWeight: 'bold', color: '#47408F' }}>식단공유</div>
-                            <h1>소중한 사람에게,<br />
+                            <h1>친구에게,<br />
                                 나의 식단을 공유해보세요.</h1>
                         </div>
                     </Content>

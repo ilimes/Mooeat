@@ -12,6 +12,7 @@ const Login = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const required = searchParams?.get('required');
+  const success = searchParams?.get('success');
 
   return (
     <div style={{ marginTop: 30 }}>
@@ -19,6 +20,12 @@ const Login = () => {
         required &&
         <div className="fade" style={{ marginBottom: 20 }}>
           <Alert message="로그인 후 이용 가능한 서비스입니다." type="warning" showIcon style={{ fontSize: 14 }} />
+        </div>
+      }
+      {
+        success &&
+        <div className="fade" style={{ marginBottom: 20 }}>
+          <Alert message="성공적으로 가입되었습니다." type="success" showIcon style={{ fontSize: 14 }} />
         </div>
       }
       <Title>Mooeat 로그인</Title>
