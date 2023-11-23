@@ -25,7 +25,7 @@ const MyInfo = () => {
 
   const Title = ({name, required} : {name: string, required: boolean}) => {
     return (
-      <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 7 }}>
+      <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 7 }}>
         <span>{name}</span> {required && <span style={{ color: 'red' }}>(*)</span>}
       </div>
     )

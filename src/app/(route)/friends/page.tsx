@@ -17,7 +17,7 @@ const Friends = () => {
       <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
       <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
-          <Card title={[<div key={1} style={{ fontWeight: 'bold', float: 'left', fontSize: 18 }}>등록된 친구</div>, <Button key={2} size="middle" type="primary" onClick={openModal} style={{ float: 'right', fontSize: 12, fontWeight: 'bold', paddingRight: 22, height: 29 }}><PlusOutlined />추가</Button>]} bodyStyle={{ padding: '5px 17px', height: 'calc(100vh - 260px)', overflow: 'auto' }} style={{ background: '#F2F4F6' }}>
+          <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={openModal} style={{ float: 'right', fontSize: 12, fontWeight: 'bold', paddingRight: 22, height: 32 }}><PlusOutlined />추가</Button>]} bodyStyle={{ padding: '5px 17px', height: 'calc(100vh - 260px)', overflow: 'auto' }}>
             <Row gutter={[10, 10]}>
               <Friend key={1} />
               <Friend key={2} />
@@ -25,7 +25,7 @@ const Friends = () => {
               <Friend key={4} />
               <Friend key={5} />
             </Row>
-          </Card>
+          </StyledLeftCard>
         </Col>
         <Col xs={0} sm={0} md={0} lg={18} xl={18} xxl={18}>
           <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
@@ -66,7 +66,7 @@ const Friend = () => {
               }}
               dot={true}
             >
-              <Avatar size="large" icon={<UserOutlined />} />
+              <Avatar size={40} icon={<UserOutlined />} />
             </Badge>
           </div>
           <StyledOutDiv>
@@ -132,6 +132,17 @@ export const StyledCard = styled(Card)`
     &:hover {
       border: 1px solid black;
       cursor: pointer;
+    }
+  }
+`
+
+export const StyledLeftCard = styled(Card)`
+  && {
+    background: #F2F4F6;
+    .ant-card-head-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: self-end;
     }
   }
 `

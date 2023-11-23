@@ -13,26 +13,26 @@ const items: CollapseProps['items'] = [
     key: '1',
     label: 'Mooeat은 어떤 서비스인가요?',
     children: <StyledChildrenDiv>
-      <span style={{ fontWeight: 500, fontSize: 20, marginRight: 10 }}>A.</span> 입니다.
+      <span style={{ fontWeight: 600, fontSize: 20, marginRight: 10 }}>A.</span> 입니다.
     </StyledChildrenDiv>,
   },
   {
     key: '2',
     label: '질문 2',
     children: <StyledChildrenDiv>
-      <span style={{ fontWeight: 500, fontSize: 20, marginRight: 10 }}>A.</span> 질문2입니다.
+      <span style={{ fontWeight: 600, fontSize: 20, marginRight: 10 }}>A.</span> 질문2입니다.
     </StyledChildrenDiv>,
   },
   {
     key: '3',
     label: '질문 3',
     children: <StyledChildrenDiv>
-      <span style={{ fontWeight: 500, fontSize: 20, marginRight: 10 }}>A.</span> 질문3입니다.
+      <span style={{ fontWeight: 600, fontSize: 20, marginRight: 10 }}>A.</span> 질문3입니다.
     </StyledChildrenDiv>,
   },
 ];
 
-const CollapseComponent: React.FC = () => <StyledCollapse /* defaultActiveKey={['1']} */ expandIcon={() => <span style={{ fontWeight: 500, fontSize: 20, marginLeft: 15 }}>Q.</span>} ghost items={items} />;
+const CollapseComponent: React.FC = () => <StyledCollapse /* defaultActiveKey={['1']} */ expandIcon={() => <span style={{ fontWeight: 600, fontSize: 20, marginLeft: 15 }}>Q.</span>} ghost items={items} />;
 
 export default CollapseComponent;
 
