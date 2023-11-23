@@ -37,6 +37,18 @@ const PostCard = ({obj}: {obj: any}) => {
             <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>1일 전</StyledOutDiv>
           </StyledOutDiv>
         </div>
+        {/* 태그 영역 */}
+        <div style={{ display: 'flex', gap: 10, fontSize: 13, margin: '15px 0' }}>
+          <div style={{ fontWeight: 800 }}>
+            TAG
+          </div>
+          <div style={{ fontWeight: 400 }}>
+            #태그1
+          </div>
+          <div style={{ fontWeight: 400 }}>
+            #태그2
+          </div>
+        </div>
         {/* 조회수, 댓글, 좋아요 영역 */}
         <div style={{ position: 'absolute', bottom: 20 }}>
           <Row gutter={[15, 15]}>
@@ -60,7 +72,7 @@ export default PostCard;
 export const StyledCard = styled(Card)<{ background: any, catecolor: any }>`
   && {
     width: 100%;
-    height: 250px;
+    height: 280px;
     background: ${props => props.background};
     &:hover {
       border: 0.5px solid ${props => props.catecolor};

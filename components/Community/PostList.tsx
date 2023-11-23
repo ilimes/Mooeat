@@ -1,9 +1,13 @@
+'use client'
+
 import React from 'react';
 import { Avatar, Row, Col } from 'antd';
 import { EyeOutlined, CommentOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
 
 const PostList = ({ obj }: { obj: any }) => {
+  const router = useRouter();
   const getListInfo = () => {
     if (obj?.category === 'free') {
       return { cateName: '자유', cateColor: '#5662F6', backgrounColor: '#E9EBFE' }
@@ -26,33 +30,43 @@ const PostList = ({ obj }: { obj: any }) => {
         </div>
       </div>
       <StyledContentDiv>
-        <div className='titleDiv'>
+        <div className='titleDiv' onClick={() => router.push('/articles')}>
           {obj?.title}
         </div>
         <div className='contentDiv'>
           {obj?.content}
         </div>
       </StyledContentDiv>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 5, color: getListInfo()?.cateColor, background: getListInfo()?.backgrounColor }}>
             {getListInfo()?.cateName}
           </div>
-          <div style={{ fontWeight: 800, fontSize: 14 }}>
+        </div>
+        <div style={{ display: 'flex', flex: 1, gap: 10, fontSize: 13, marginLeft: 10 }}>
+          <div style={{ fontWeight: 800 }}>
             TAG
           </div>
+          <div style={{ fontWeight: 400 }}>
+            #태그1
+          </div>
+          <div style={{ fontWeight: 400 }}>
+            #태그2
+          </div>
         </div>
-        <Row gutter={[15, 15]}>
-          <Col style={{ fontSize: 14 }}>
-            <EyeOutlined style={{ color: '#beb4b4' }} /> 1
-          </Col>
-          <Col style={{ fontSize: 14 }}>
-            <CommentOutlined style={{ color: '#beb4b4' }} /> 2
-          </Col>
-          <Col style={{ fontSize: 14 }}>
-            <LikeOutlined style={{ color: '#beb4b4' }} /> 3
-          </Col>
-        </Row>
+        <div>
+          <Row gutter={[15, 15]}>
+            <Col style={{ fontSize: 14 }}>
+              <EyeOutlined style={{ color: '#beb4b4' }} /> 1
+            </Col>
+            <Col style={{ fontSize: 14 }}>
+              <CommentOutlined style={{ color: '#beb4b4' }} /> 2
+            </Col>
+            <Col style={{ fontSize: 14 }}>
+              <LikeOutlined style={{ color: '#beb4b4' }} /> 3
+            </Col>
+          </Row>
+        </div>
       </div>
     </div>
   );
