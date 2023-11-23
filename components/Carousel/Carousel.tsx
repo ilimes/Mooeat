@@ -115,13 +115,14 @@ const CarouselComponent = () => {
                 >
                   {
                     contents?.map((e, i) =>
-                      <div key={i} onClick={() => router.push(e?.link)}>
+                      <div key={i}>
                         <Row
                           style={{
                             maxWidth: 1200,
                             margin: "0 auto",
                             cursor: "pointer",
                           }}
+                          onClick={() => router.push(e?.link)}
                         >
                           {isMobile && <>
                             <Col span={24} style={{ overflow: "hidden" }}>

@@ -30,7 +30,7 @@ const PostCard = ({obj}: {obj: any}) => {
         {/* 아바타 영역 */}
         <div style={{ marginTop: 15, display: 'flex', gap: 10 }}>
           <div>
-              <Avatar size="large" icon={<UserOutlined />} />
+              <Avatar size={40} icon={<UserOutlined />} />
           </div>
           <StyledOutDiv>
             <StyledOutDiv style={{ fontSize: 14 }}>라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임</StyledOutDiv>

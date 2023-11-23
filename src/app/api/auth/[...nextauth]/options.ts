@@ -37,29 +37,36 @@ export const options: NextAuthOptions = {
             },
 
             async authorize(credentials, req) {
-                const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
-                // const res = await fetch(`/api/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        user_id: credentials?.user_id,
-                        password: credentials?.password,
-                    }),
-                })
-                const user = await res.json()
-
-                if (user?.data?.success) {
-                    // Any object returned will be saved in `user` property of the JWT
-                    return user
-                } 
-                else {
-                    // If you return null then an error will be displayed advising the user to check their details.
-                    return null
-
-                    // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-                } 
+                let msg = null;
+                try {
+                    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
+                    // const res = await fetch(`/api/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            user_id: credentials?.user_id,
+                            password: credentials?.password,
+                        }),
+                    })
+                    const user = await res.json()
+    
+                    if (user?.data?.success) {
+                        // Any object returned will be saved in `user` property of the JWT
+                        return user
+                    } 
+                    else {
+                        // If you return null then an error will be displayed advising the user to check their details.
+                        msg = user?.data?.message || '에러';
+                        throw new Error(msg || '에러')
+                        // return null
+                        
+                        // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+                    } 
+                } catch (error) {
+                    throw new Error(msg || '에러')
+                }
             },
         }),
     ],
@@ -82,10 +89,9 @@ export const options: NextAuthOptions = {
                 if (result?.data?.success) {
                     user.userInfo = result?.data?.user_info;
                 }
-
+                
                 return true;
             } catch (error) {
-                console.log("로그인 도중 에러가 발생했습니다. " + error);
                 return false;
             }
         },

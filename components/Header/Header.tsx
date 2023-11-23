@@ -75,7 +75,7 @@ const HeaderPage = () => {
                   session &&
                   <>
                     <Popover trigger={'click'} title='알림' content={notiPopOverContent} placement="bottom">
-                      <div style={{ marginRight: 20 }}>
+                      <div style={{ marginRight: 20, display: 'flex', alignItems: 'center' }}>
                         <Badge dot={true}>
                           <BellOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
                         </Badge>
@@ -83,7 +83,7 @@ const HeaderPage = () => {
                     </Popover>
                     <Popover trigger={'click'} open={profileOpen} title='내 정보' content={() => ProfilePopOverContent(setProfileOpen)} onOpenChange={() => setProfileOpen(!profileOpen)} placement="bottom">
                       <div style={{ alignItems: 'center', display: 'flex'  }}>
-                        <Avatar size={'default'} icon={<UserOutlined />} onClick={() => setProfileOpen(!profileOpen)} style={{ cursor: 'pointer' }} />
+                        <Avatar size={34} icon={<UserOutlined />} onClick={() => setProfileOpen(!profileOpen)} style={{ cursor: 'pointer' }} />
                       </div>
                     </Popover>
                   </>

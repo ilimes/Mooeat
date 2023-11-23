@@ -65,7 +65,7 @@ const FileUpload = () => {
                     {!uploadedInfo && (
                         <>
                             <Logo />
-                            <StyledP1 className="preview_msg">클릭 혹은 파일을 이곳에 드롭하세요.</StyledP1>
+                            <StyledP1 className="preview_msg"><span style={{ fontWeight: 600 }}>클릭</span> 혹은 파일을 이곳에 <span style={{ fontWeight: 600 }}>드롭</span>하세요.</StyledP1>
                             <StyledP2 className="preview_desc">파일당 최대 3MB</StyledP2>
                         </>
                     )}

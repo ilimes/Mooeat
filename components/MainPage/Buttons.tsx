@@ -66,7 +66,7 @@ export default Buttons;
 export const StyledCard = styled(Card)`
     && {
         width: 100%;
-        height: 110px;
+        height: 105px;
         box-shadow: 0 8px 20px 0 rgba(129, 137, 143, 0.18);
         transition: all 0.1s linear;
         &:hover {

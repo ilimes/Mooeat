@@ -18,7 +18,7 @@ const PostList = ({ obj }: { obj: any }) => {
       <div>
         <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
           <div>
-            <Avatar size="small" icon={<UserOutlined />} />
+            <Avatar size={25} icon={<UserOutlined />} />
           </div>
           <StyledOutDiv style={{ fontSize: 14 }}>라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임</StyledOutDiv>
           <div>·</div>

@@ -109,7 +109,6 @@ const Join = () => {
       <BtnGroup>
         <StyledSpan style={{ marginLeft: 0 }} onClick={() => router.push('/auth/join')}><LeftOutlined style={{ marginRight: 5 }} />다른 방식으로 회원가입</StyledSpan>
       </BtnGroup>
-      <span onClick={() => signOut({ callbackUrl: '/' })}>로그아웃</span>
       <Drawer
         height={'80%'}
         title="개인정보 처리방침"

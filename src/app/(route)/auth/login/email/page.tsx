@@ -12,11 +12,9 @@ import { userInfoState } from "@/recoil/states";
 
 const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router: any) => {
   setIsLoading(true);
-  // const result = await fetchData(values);
   const res = await signIn('credentials', {
     user_id: values?.user_id,
     password: values?.password,
-    // callbackUrl: '/',
     redirect: false,
   })
 
@@ -29,16 +27,15 @@ const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router
 
   // 에러 핸들링
   if (res?.status === 401) {
-    message.warning('아이디 혹은 비밀번호가 일치하지 않습니다.');
+    message.warning(res?.error || '아이디 혹은 비밀번호가 일치하지 않습니다.');
     router.push('/auth/login/email');
   } else {
-    router.push('/')
+    router.refresh('/')
   }
 };
 
 const onFinishFailed = (errorInfo: any) => {
   message.error('필수 항목을 모두 입력해주세요.');
-  // console.log('Failed:', errorInfo);
 };
 
 type FieldType = {
@@ -58,8 +55,6 @@ const EmailLogin = () => {
       <Title>Mooeat 로그인</Title>
       <StyledForm
         name="basic"
-        // labelCol={{ span: 8 }}
-        // wrapperCol={{ span: 16 }}
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
         onFinish={(values) => onFinish(values, setIsLoading, setUserInfo, router)}
