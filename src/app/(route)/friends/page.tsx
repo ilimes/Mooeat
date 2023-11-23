@@ -1,7 +1,7 @@
 'use client'
 
 import { Button, Col, Row, Card, Divider, Avatar, Empty, Input, message, Badge } from "antd";
-import { PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ const Friends = () => {
       <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
       <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
-          <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={openModal} style={{ float: 'right', fontSize: 12, fontWeight: 'bold', paddingRight: 22, height: 32 }}><PlusOutlined />추가</Button>]} bodyStyle={{ padding: '5px 17px', height: 'calc(100vh - 260px)', overflow: 'auto' }}>
+          <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={openModal} style={{ float: 'right', fontSize: 12, fontWeight: 'bold', paddingRight: 22, height: 32 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: 'calc(100vh - 260px)', overflow: 'auto' }}>
             <Row gutter={[10, 10]}>
               <Friend key={1} />
               <Friend key={2} />
@@ -139,6 +139,9 @@ export const StyledCard = styled(Card)`
 export const StyledLeftCard = styled(Card)`
   && {
     background: #F2F4F6;
+    .ant-card-head {
+      padding: 0 15px;
+    }
     .ant-card-head-title {
       display: flex;
       justify-content: space-between;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Card, Col, Row } from 'antd';
-import { LoginOutlined, UserAddOutlined, CameraOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { CommentOutlined, CameraOutlined, CheckCircleOutlined, NotificationOutlined } from '@ant-design/icons';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Content from "../SharedComponents/Content";
 
@@ -19,16 +19,16 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
             link: '/attendance'
         },
         {
-            topMessage: '지금 바로 가입해보세요!',
-            icon: <UserAddOutlined />,
-            title: '회원 가입',
-            link: '/auth/join'
+            topMessage: 'Mooeat이 궁금하시다면?',
+            icon: <CommentOutlined />,
+            title: '자주 묻는 질문',
+            link: '/service'
         },
         {
-            topMessage: '지금 바로 로그인해보세요!',
-            icon: <LoginOutlined />,
-            title: '로그인',
-            link: '/auth/login'
+            topMessage: '공지사항을 확인해보세요 :)',
+            icon: <NotificationOutlined />,
+            title: '공지사항',
+            link: '/service?page=notice'
         },
     ]
 
@@ -48,7 +48,7 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
                                         {e?.topMessage}
                                     </div>
                                     <div style={{ fontSize: 26, fontWeight: 'bold' }}>
-                                        {e?.icon}{" "}
+                                        <span style={{ marginRight: 10 }}>{e?.icon}</span>
                                         {e?.title}
                                     </div>
                                 </StyledCard>

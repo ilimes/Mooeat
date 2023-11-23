@@ -12,28 +12,35 @@ const onFinish = async (values: any, router: any) => {
     message.warning('개인정보 수집 및 이용에 동의하신 후 가입이 가능합니다.');
     return;
   }
+  
+  if (values?.password != values?.passwordConfirm) {
+    message.warning('비밀번호가 일치하지 않습니다.');
+    return;
+  }
+
+  delete values.passwordConfirm;
 
   const result = await fetchData(values);
   if (result?.success) {
-    router.push('/auth/login');
-    message.success('성공적으로 회원가입 되었습니다.');
+    router.push('/auth/login?success=true');
   } else {
     message.warning(result?.message || '가입에 실패하였습니다.');
   }
 };
 
 const onFinishFailed = (errorInfo: any) => {
-  if (errorInfo?.errorFields?.find((e: any) => e.name?.[0] === 'user_id' && e.errors?.[0] != null)) {
-    message.error('형식에 맞게 이메일을 입력해주세요.');
-  } else {
-    message.error('필수 항목을 모두 입력해주세요.');
-  }
+  // if (errorInfo?.errorFields?.find((e: any) => e.name?.[0] === 'user_id' && e.errors?.[0] != null)) {
+  //   message.error('형식에 맞게 이메일을 입력해주세요.');
+  // } else {
+  //   message.error('필수 항목을 모두 입력해주세요.');
+  // }
 };
 
 type FieldType = {
   user_id?: string;
   user_nm?: string;
   password?: string;
+  passwordConfirm?: string;
   agree?: string;
 };
 
@@ -73,6 +80,17 @@ const Join = () => {
           validateTrigger="onBlur"
         >
           <Input.Password placeholder="비밀번호" style={{ height: 40 }} />
+        </Form.Item>
+        <StyledTitleDiv>
+          비밀번호 확인 <Req>(필수)</Req>
+        </StyledTitleDiv>
+        <Form.Item<FieldType>
+          name="passwordConfirm"
+          rules={[{ required: true, message: '비밀번호를 한번 더 입력해주세요.' }]}
+          hasFeedback
+          validateTrigger="onBlur"
+        >
+          <Input.Password placeholder="비밀번호 확인" style={{ height: 40 }} />
         </Form.Item>
         <StyledTitleDiv>
           닉네임 <Req>(필수)</Req>
@@ -168,6 +186,7 @@ export const BtnGroup = styled.div`
 
 export const StyledTitleDiv = styled.div`
   font-size: 13px;
+  font-weight: 600;
   color: #606060;
   padding-bottom: 5px;
 `

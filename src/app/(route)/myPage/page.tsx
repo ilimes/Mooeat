@@ -11,7 +11,7 @@ import MyActivities from '@/components/MyPage/MyActivities'
 const MyPage = () => {
   const router = useRouter();
   const [selectedKey, setSelectedKey] = useState('1');
-
+  
   const list: TabsProps['items']  = [
     {
       key: '1',
