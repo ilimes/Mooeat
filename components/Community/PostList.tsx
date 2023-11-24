@@ -30,7 +30,7 @@ const PostList = ({ obj }: { obj: any }) => {
         </div>
       </div>
       <StyledContentDiv>
-        <div className='titleDiv' onClick={() => router.push('/articles')}>
+        <div className='titleDiv' onClick={() => router.push(`/articles/${obj.title}`)}>
           {obj?.title}
         </div>
         <div className='contentDiv'>
@@ -43,7 +43,7 @@ const PostList = ({ obj }: { obj: any }) => {
             {getListInfo()?.cateName}
           </div>
         </div>
-        <div style={{ display: 'flex', flex: 1, gap: 10, fontSize: 13, marginLeft: 10 }}>
+        <div style={{ display: 'flex', flex: 1, gap: 10, fontSize: 12, marginLeft: 10 }}>
           <div style={{ fontWeight: 800 }}>
             TAG
           </div>

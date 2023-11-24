@@ -49,11 +49,12 @@ const MainPage: React.FC = () => {
                                 👀 둘러보기
                             </div>
                             <StyledDiv>
+                                둘러보기 공간
+                                {/* <CardComponent />
                                 <CardComponent />
                                 <CardComponent />
                                 <CardComponent />
-                                <CardComponent />
-                                <CardComponent />
+                                <CardComponent /> */}
                             </StyledDiv>
                         </div>
                     </Content>

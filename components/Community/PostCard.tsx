@@ -27,18 +27,8 @@ const PostCard = ({obj}: {obj: any}) => {
         </div>
         {/* 제목 및 내용 영역 */}
         <Meta title={obj?.title} description={obj?.content} />
-        {/* 아바타 영역 */}
-        <div style={{ marginTop: 15, display: 'flex', gap: 10 }}>
-          <div>
-              <Avatar size={40} icon={<UserOutlined />} />
-          </div>
-          <StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 14 }}>라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임</StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>1일 전</StyledOutDiv>
-          </StyledOutDiv>
-        </div>
         {/* 태그 영역 */}
-        <div style={{ display: 'flex', gap: 10, fontSize: 13, margin: '15px 0' }}>
+        <div style={{ display: 'flex', gap: 10, fontSize: 12, margin: '15px 0' }}>
           <div style={{ fontWeight: 800 }}>
             TAG
           </div>
@@ -48,6 +38,16 @@ const PostCard = ({obj}: {obj: any}) => {
           <div style={{ fontWeight: 400 }}>
             #태그2
           </div>
+        </div>
+        {/* 아바타 영역 */}
+        <div style={{ marginTop: 15, display: 'flex', gap: 10 }}>
+          <div>
+              <Avatar size={40} icon={<UserOutlined />} />
+          </div>
+          <StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 14 }}>라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>1일 전</StyledOutDiv>
+          </StyledOutDiv>
         </div>
         {/* 조회수, 댓글, 좋아요 영역 */}
         <div style={{ position: 'absolute', bottom: 20 }}>
