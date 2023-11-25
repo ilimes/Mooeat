@@ -5,7 +5,7 @@ import {
   CloseOutlined,
   UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
+  SettingOutlined,
   LoginOutlined,
   LogoutOutlined,
   UserAddOutlined
@@ -106,10 +106,10 @@ const MobileNav = () => {
           <>
             <div>
               <StyledProfileDiv onClick={() => message.info('준비중 입니다.')}>
-                프로필 수정
+                <SettingOutlined /> 프로필 수정
               </StyledProfileDiv>
               <StyledProfileDiv onClick={() => onClickMenu("/myPage")}>
-                마이 페이지
+                <UserOutlined /> 마이 페이지
               </StyledProfileDiv>
               <StyledProfileDiv onClick={() => logout()}>
                 <LogoutOutlined /> 로그아웃
