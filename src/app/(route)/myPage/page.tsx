@@ -35,7 +35,7 @@ const MyPage = () => {
       <Explain>마이페이지 입니다.</Explain>
       <StyledTabs activeKey={selectedKey} items={list} onChange={onChange} />
       <div style={{ display: 'flex', gap: 40 }}>
-        <StyledResponsiveDiv style={{ width: 300, height: 580 }}>
+        <StyledResponsiveDiv style={{ width: 300, height: 580, position: 'sticky', top: 90 }}>
           <StyledBoxDiv style={{ height: '100%' }}>
             {
               list?.map(e =>

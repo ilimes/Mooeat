@@ -35,7 +35,7 @@ const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router
 };
 
 const onFinishFailed = (errorInfo: any) => {
-  message.error('필수 항목을 모두 입력해주세요.');
+  // message.error('필수 항목을 모두 입력해주세요.');
 };
 
 type FieldType = {
@@ -136,6 +136,7 @@ export const BtnGroup = styled.div`
 export const StyledTitleDiv = styled.div`
   font-size: 13px;
   color: #606060;
+  font-weight: 600;
   padding-bottom: 5px;
 `
 
