@@ -28,7 +28,7 @@ const items: CollapseProps['items'] = [
     label: <TitleDiv $isOpen={openList?.includes('2') ? true : false}>회원 가입을 하면 어떤 점이 좋나요?</TitleDiv>,
     children: <ChildDiv content={<>
       <span>회원 가입을 해야 아래와 같은 Mooeat의 서비스를 이용하실 수 있습니다.</span>
-      <div style={{ margin: '20px 0 0 30px'}}>
+      <div style={{ margin: '20px 0 0 30px', lineHeight: 1.6 }}>
         <div>▶ 친구 추가</div>
         <div>친구를 추가하고 소통할 수 있습니다.</div>
         <div>&nbsp;</div>
