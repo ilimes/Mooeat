@@ -6,24 +6,21 @@ import styled from 'styled-components';
 const { Meta } = Card;
 
 const PostCard = ({obj}: {obj: any}) => {
-    const getCardInfo = () => {
-        if (obj?.category === 'free') {
-            // return { cateName: '자유', cateColor: '#03A9F4', backgrounColor: '#ECF9FF' }
-            return { cateName: '자유', cateColor: '#5662F6', backgrounColor: '#E9EBFE' }
-        }
-        if (obj?.category === 'food') {
-            return { cateName: '음식', cateColor: '#FF9E2D', backgrounColor: '#FFFBE3' }
-        }
-    }
+    // const item = obj?.items?.find((e: any) => e.key === obj?.cate_cd);
+    // const cardInfo = {
+    //   name: item?.label,
+    //   cateColor: item?.cateColor,
+    //   bgColor: item?.bgColor,
+    // }
 
     return (
       <StyledCard
-        catecolor={getCardInfo()?.cateColor}
-        background={getCardInfo()?.backgrounColor}
+      catecolor={obj?.cateColor || null}
+      background={obj?.bgColor || null}
       >
         {/* 카테고리 영역 */}
-        <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: getCardInfo()?.cateColor }}>
-          {getCardInfo()?.cateName}
+        <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cateColor }}>
+          {obj?.cateName}
         </div>
         {/* 제목 및 내용 영역 */}
         <Meta title={obj?.title} description={obj?.content} />
@@ -69,7 +66,7 @@ const PostCard = ({obj}: {obj: any}) => {
 
 export default PostCard;
 
-export const StyledCard = styled(Card)<{ background: any, catecolor: any }>`
+export const StyledCard = styled(Card)<{ background: string | null, catecolor: string | null }>`
   && {
     width: 100%;
     height: 280px;

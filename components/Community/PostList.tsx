@@ -8,15 +8,6 @@ import { useRouter } from 'next/navigation';
 
 const PostList = ({ obj }: { obj: any }) => {
   const router = useRouter();
-  const getListInfo = () => {
-    if (obj?.category === 'free') {
-      return { cateName: '자유', cateColor: '#5662F6', backgrounColor: '#E9EBFE' }
-    }
-    if (obj?.category === 'food') {
-      return { cateName: '음식', cateColor: '#FF9E2D', backgrounColor: '#FFFBE3' }
-    }
-  }
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div>
@@ -39,8 +30,8 @@ const PostList = ({ obj }: { obj: any }) => {
       </StyledContentDiv>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 5, color: getListInfo()?.cateColor, background: getListInfo()?.backgrounColor }}>
-            {getListInfo()?.cateName}
+          <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 5, color: obj?.cateColor, background: obj?.bgColor }}>
+            {obj.cateName}
           </div>
         </div>
         <div style={{ display: 'flex', flex: 1, gap: 10, fontSize: 12, marginLeft: 10 }}>
