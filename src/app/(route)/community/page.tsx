@@ -6,81 +6,75 @@ import { FormOutlined, AppstoreOutlined, UnorderedListOutlined, AppstoreFilled }
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import PostCard from '@/components/Community/PostCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostList from "@/components/Community/PostList";
-
-const items: TabsProps['items'] = [
-  {
-    key: 'all',
-    label: '전체',
-    // children: 'Content of Tab Pane 1',
-  },
-  {
-    key: 'free',
-    label: '자유',
-    // children: 'Content of Tab Pane 2',
-  },
-  {
-    key: 'food',
-    label: '음식',
-    // children: 'Content of Tab Pane 3',
-  },
-]
 
 const Community = () => {
   const router = useRouter();
   const [activeKey, setActiveKey] = useState('all');
   const [type, setType] = useState('tile');
+  const [items, setItems] = useState<TabsProps['items'] | any>([
+    {
+      key: 'all',
+      label: '전체',
+    }
+  ]);
+
   const example = [
     {
       title: '제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다',
       content: '내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다',
-      category: 'free'
+      cate_cd: '1'
     },
     {
       title: 2,
       content: 22,
-      category: 'food'
+      cate_cd: '2'
     },
     {
       title: 2,
       content: 22,
-      category: 'food'
+      cate_cd: '2'
     },
     {
       title: 2,
       content: 22,
-      category: 'food'
+      cate_cd: '2'
     },
     {
       title: 2,
       content: 22,
-      category: 'food'
+      cate_cd: '2'
     },
     {
       title: 2,
       content: 22,
-      category: 'food'
+      cate_cd: '2'
     },
     {
       title: 2,
       content: 22,
-      category: 'free'
+      cate_cd: '1'
     },
     {
       title: 2,
       content: 22,
-      category: 'food'
+      cate_cd: '2'
     },
     {
       title: 2,
       content: 22,
-      category: 'food'
+      cate_cd: '2'
     },
     {
       title: 2,
       content: 22,
-      category: 'food'
+      cate_cd: '2'
+    },
+    {
+      title: 3,
+      content: 33,
+      cate_cd: '3'
     },
   ];
 
@@ -88,9 +82,24 @@ const Community = () => {
     setActiveKey(key);
   };
 
-  const filteredArr = example?.filter(e => activeKey === 'all' ? e : e?.category?.includes(activeKey));
+  const filteredArr = example?.filter(e => activeKey === 'all' ? e : e?.cate_cd?.includes(activeKey));
 
   const colSpan = type === 'tile' ? [8, 6] : [24, 24]
+  
+  const getCateList = async () => {
+    const result = await fetchCateList();
+    setItems([...items, ...result?.list?.map((e: any) => ({
+      key: `${e.cate_seq}`,
+      label: `${e.cate_nm}`,
+      cateColor: `${e.cate_color}`,
+      bgColor: `${e.bg_color}`,
+      order: `${e.order}`
+    }))])
+  }
+
+  useEffect(() => {
+    getCateList();
+  }, [])
 
   return (
     <div>
@@ -122,17 +131,19 @@ const Community = () => {
       </div>
       <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600, marginTop: 15 }} />
       <Row gutter={[15, 15]}>
-        {filteredArr?.map((e, i) => (
+        {filteredArr?.map((e, i) => {
+          const item = items?.find((ele: any) => ele.key === e?.cate_cd);
+          return (
           <Col key={i} xs={24} sm={24} md={24} lg={colSpan?.[0]} xl={colSpan?.[1]} xxl={colSpan?.[1]}>
             <>
               {
                 type === 'tile' &&
-                <PostCard key={'card' + i} obj={e} />
+                <PostCard key={'card' + i} obj={{...e, cateName: item?.label, cateColor: item?.cateColor, bgColor: item?.bgColor}} />
               }
               {
                 type === 'list' &&
                 <>
-                  <PostList key={'list' + i} obj={e} />
+                  <PostList key={'list' + i} obj={{...e, cateName: item?.label, cateColor: item?.cateColor, bgColor: item?.bgColor}} />
                   {
                     i != filteredArr?.length - 1 &&
                     <Divider key={'divider' + i} style={{ margin: '15px 0 0 0', borderColor: '#D2D4D8' }} />
@@ -141,7 +152,8 @@ const Community = () => {
               }
             </>
           </Col>
-        ))}
+        )
+            })}
       </Row>
     </div>
   );
@@ -185,3 +197,12 @@ export const StyledSpan = styled.span`
     }
   }
 `
+
+export const fetchCateList = async () => {
+  const res = await fetch(`/api/board/cate/list`, {
+    method: 'POST',
+  });
+  const result = await res.json();
+
+  return result?.data;
+}

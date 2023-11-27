@@ -1,9 +1,8 @@
 'use client'
 
 import { Avatar, Button, Col, Divider, Row, Tabs } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, PlusOutlined, EyeOutlined, CommentOutlined, LikeOutlined, LikeFilled } from "@ant-design/icons";
 import type { TabsProps } from "antd";
-import { EyeOutlined, CommentOutlined, LikeOutlined, AppstoreFilled } from "@ant-design/icons";
 import styled from "styled-components";
 import { useRouter, useParams } from "next/navigation";
 import { useState } from 'react';
@@ -55,11 +54,30 @@ const Articles = () => {
         <StyledTagSpan>#태그1</StyledTagSpan>
         <StyledTagSpan>#태그2</StyledTagSpan>
       </div>
+      {/* 추천 영역 */}
+      <StyledLikeBtn>
+        <LikeOutlined style={{ color: '#beb4b4' }} /> 추천하기
+        {/* <LikeFilled style={{ color: '#5383EC' }} /> 추천취소 */}
+      </StyledLikeBtn>
+      {/* 작성자 정보 영역 */}
+      <div style={{ display: 'flex', flexDirection: 'column', background: '#F5F5F5', borderRadius: 5, padding: 20, gap: 30 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ fontSize: 18, fontWeight: 600 }}>계정명</div>
+          <div style={{ fontSize: 16, fontWeight: 400 }}>자기소개입니다.</div>
+        </div>
+        <StyledPlusBtn>
+          <PlusOutlined /> 구독하기
+        </StyledPlusBtn>
+      </div>
       <Divider />
       {/* 댓글 영역 */}
       <div>
         <div>댓글 0</div>
-        
+        <div style={{ border: '1px solid #D0D2D5', height: 100, margin: '10px 0', borderRadius: 5 }}>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button type='primary' style={{ height: 45, fontSize: 15 }}>댓글 쓰기</Button>
+        </div>
       </div>
     </div>
   );
@@ -128,5 +146,34 @@ export const StyledTagSpan = styled.span`
   &:hover {
     cursor: pointer;
     color: #7944F4;
+  }
+`
+
+export const StyledPlusBtn = styled.div`
+  border: 1px solid #ababab;
+  color: #0c0c0c;
+  border-radius: 20px;
+  padding: 10px 10px 10px 6px;
+  width: 120px;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+    border: 1px solid black;
+    color: black;
+  }
+`
+
+export const StyledLikeBtn = styled.div`
+  border: 1px solid #ababab;
+  color: #0c0c0c;
+  border-radius: 20px;
+  padding: 10px 10px 10px 6px;
+  margin: 0 auto 30px auto;
+  width: 170px;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+    border: 1px solid black;
+    color: black;
   }
 `
