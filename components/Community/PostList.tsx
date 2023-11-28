@@ -34,16 +34,19 @@ const PostList = ({ obj }: { obj: any }) => {
             {obj.cateName}
           </div>
         </div>
-        <div style={{ display: 'flex', flex: 1, gap: 10, fontSize: 12, marginLeft: 10 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', flex: 1, gap: 5, fontSize: 12, marginLeft: 10 }}>
           <div style={{ fontWeight: 800 }}>
             TAG
           </div>
-          <div style={{ fontWeight: 400 }}>
-            #태그1
-          </div>
-          <div style={{ fontWeight: 400 }}>
-            #태그2
-          </div>
+          {
+            obj?.tag_names?.split(':')?.map((e: any, i:number) => {
+              return (
+                <div key={i} style={{ fontWeight: 400 }}>
+                  #{e}
+                </div>
+              )
+            })
+          }
         </div>
         <div>
           <Row gutter={[15, 15]}>

@@ -19,75 +19,18 @@ const Community = () => {
       label: '전체',
     }
   ]);
-
-  const example = [
-    {
-      title: '제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다',
-      content: '내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다',
-      cate_cd: '1'
-    },
-    {
-      title: 2,
-      content: 22,
-      cate_cd: '2'
-    },
-    {
-      title: 2,
-      content: 22,
-      cate_cd: '2'
-    },
-    {
-      title: 2,
-      content: 22,
-      cate_cd: '2'
-    },
-    {
-      title: 2,
-      content: 22,
-      cate_cd: '2'
-    },
-    {
-      title: 2,
-      content: 22,
-      cate_cd: '2'
-    },
-    {
-      title: 2,
-      content: 22,
-      cate_cd: '1'
-    },
-    {
-      title: 2,
-      content: 22,
-      cate_cd: '2'
-    },
-    {
-      title: 2,
-      content: 22,
-      cate_cd: '2'
-    },
-    {
-      title: 2,
-      content: 22,
-      cate_cd: '2'
-    },
-    {
-      title: 3,
-      content: 33,
-      cate_cd: '3'
-    },
-  ];
+  const [boardList, setBoardList] = useState<any>([]);
 
   const onChange = (key: string) => {
     setActiveKey(key);
   };
 
-  const filteredArr = example?.filter(e => activeKey === 'all' ? e : e?.cate_cd?.includes(activeKey));
+  const filteredArr = boardList?.filter((e: any) => activeKey === 'all' ? e : String(e?.cate_seq) === activeKey);
 
   const colSpan = type === 'tile' ? [8, 6] : [24, 24]
   
-  const getCateList = async () => {
-    const result = await fetchCateList();
+  const getInfoList = async () => {
+    const result = await fetchInfoList();
     setItems([...items, ...result?.list?.map((e: any) => ({
       key: `${e.cate_seq}`,
       label: `${e.cate_nm}`,
@@ -97,8 +40,14 @@ const Community = () => {
     }))])
   }
 
+  const getBoardList = async () => {
+    const result = await fetchBoardList();
+    setBoardList(result?.list)
+  }
+
   useEffect(() => {
-    getCateList();
+    getInfoList();
+    getBoardList();
   }, [])
 
   return (
@@ -131,8 +80,8 @@ const Community = () => {
       </div>
       <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600, marginTop: 15 }} />
       <Row gutter={[15, 15]}>
-        {filteredArr?.map((e, i) => {
-          const item = items?.find((ele: any) => ele.key === e?.cate_cd);
+        {filteredArr?.map((e: any, i: number) => {
+          const item = items?.find((ele: any) => ele.key === String(e?.cate_seq));
           return (
           <Col key={i} xs={24} sm={24} md={24} lg={colSpan?.[0]} xl={colSpan?.[1]} xxl={colSpan?.[1]}>
             <>
@@ -198,8 +147,17 @@ export const StyledSpan = styled.span`
   }
 `
 
-export const fetchCateList = async () => {
-  const res = await fetch(`/api/board/cate/list`, {
+export const fetchInfoList = async () => {
+  const res = await fetch(`/api/board/info/list`, {
+    method: 'POST',
+  });
+  const result = await res.json();
+
+  return result?.data;
+}
+
+export const fetchBoardList = async () => {
+  const res = await fetch(`/api/board/list`, {
     method: 'POST',
   });
   const result = await res.json();
