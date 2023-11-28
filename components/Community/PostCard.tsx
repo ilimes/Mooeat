@@ -2,74 +2,71 @@ import React from 'react';
 import { Card, Avatar, Row, Col } from 'antd';
 import { EyeOutlined, CommentOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-
+// moment(text).isAfter(moment().subtract(1, 'd')) ? moment(text).fromNow() : text
 const { Meta } = Card;
 
-const PostCard = ({obj}: {obj: any}) => {
-    // const item = obj?.items?.find((e: any) => e.key === obj?.cate_cd);
-    // const cardInfo = {
-    //   name: item?.label,
-    //   cateColor: item?.cateColor,
-    //   bgColor: item?.bgColor,
-    // }
-
-    return (
-      <StyledCard
+const PostCard = ({ obj }: { obj: any }) => {
+  return (
+    <StyledCard
       catecolor={obj?.cateColor || null}
-      background={obj?.bgColor || null}
-      >
-        {/* 카테고리 영역 */}
-        <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cateColor }}>
-          {obj?.cateName}
+      background={obj?.bgColor || null}>
+      {/* 카테고리 영역 */}
+      <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cateColor }}>
+        {obj?.cateName}
+      </div>
+      {/* 제목 및 내용 영역 */}
+      <Meta title={obj?.title} description={obj?.content} />
+      {/* 태그 영역 */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, fontSize: 12, margin: '15px 0' }}>
+        <div style={{ fontWeight: 800 }}>
+          TAG
         </div>
-        {/* 제목 및 내용 영역 */}
-        <Meta title={obj?.title} description={obj?.content} />
-        {/* 태그 영역 */}
-        <div style={{ display: 'flex', gap: 10, fontSize: 12, margin: '15px 0' }}>
-          <div style={{ fontWeight: 800 }}>
-            TAG
-          </div>
-          <div style={{ fontWeight: 400 }}>
-            #태그1
-          </div>
-          <div style={{ fontWeight: 400 }}>
-            #태그2
-          </div>
-        </div>
+        {
+          obj?.tag_names?.split(':')?.map((e: any, i:number) => {
+            return (
+              <div key={i} style={{ fontWeight: 400 }}>
+                #{e}
+              </div>
+            )
+          })
+        }
+      </div>
+      <div style={{ position: 'absolute', bottom: 20 }}>
         {/* 아바타 영역 */}
-        <div style={{ marginTop: 15, display: 'flex', gap: 10 }}>
+        <div style={{ marginBottom: 15, display: 'flex', gap: 10 }}>
           <div>
-              <Avatar size={40} icon={<UserOutlined />} />
+            <Avatar size={40} icon={<UserOutlined />} />
           </div>
           <StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 14 }}>라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임</StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>1일 전</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 14 }}>{obj?.reg_user_nm}</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{obj?.reg_dt}</StyledOutDiv>
           </StyledOutDiv>
         </div>
         {/* 조회수, 댓글, 좋아요 영역 */}
-        <div style={{ position: 'absolute', bottom: 20 }}>
+        <div>
           <Row gutter={[15, 15]}>
             <Col style={{ fontSize: 14 }}>
-              <EyeOutlined style={{ color: '#beb4b4' }} /> 1 
+              <EyeOutlined style={{ color: '#beb4b4' }} /> {obj?.view_cnt}
             </Col>
             <Col style={{ fontSize: 14 }}>
-              <CommentOutlined style={{ color: '#beb4b4' }} /> 2 
+              <CommentOutlined style={{ color: '#beb4b4' }} /> {obj?.comment_cnt}
             </Col>
             <Col style={{ fontSize: 14 }}>
-              <LikeOutlined style={{ color: '#beb4b4' }} /> 3
+              <LikeOutlined style={{ color: '#beb4b4' }} /> {obj?.like_cnt}
             </Col>
           </Row>
         </div>
-      </StyledCard>
-    );
+      </div>
+    </StyledCard>
+  );
 }
 
 export default PostCard;
 
-export const StyledCard = styled(Card)<{ background: string | null, catecolor: string | null }>`
+export const StyledCard = styled(Card) <{ background: string | null, catecolor: string | null }>`
   && {
     width: 100%;
-    height: 280px;
+    height: 295px;
     background: ${props => props.background};
     &:hover {
       border: 0.5px solid ${props => props.catecolor};
