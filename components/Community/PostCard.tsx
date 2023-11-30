@@ -2,14 +2,18 @@ import React from 'react';
 import { Card, Avatar, Row, Col } from 'antd';
 import { EyeOutlined, CommentOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
 // moment(text).isAfter(moment().subtract(1, 'd')) ? moment(text).fromNow() : text
 const { Meta } = Card;
 
 const PostCard = ({ obj }: { obj: any }) => {
+  const router = useRouter();
+
   return (
     <StyledCard
       catecolor={obj?.cateColor || null}
-      background={obj?.bgColor || null}>
+      background={obj?.bgColor || null}
+      onClick={() => router.push(`/articles/${obj?.board_seq}`)}>
       {/* 카테고리 영역 */}
       <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cateColor }}>
         {obj?.cateName}
