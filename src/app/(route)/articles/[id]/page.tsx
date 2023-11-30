@@ -1,24 +1,36 @@
 'use client'
 
-import { Avatar, Button, Col, Divider, Row, Tabs } from "antd";
+import { Avatar, Button, Checkbox, Col, Divider, Input, Row, Tabs } from "antd";
 import { UserOutlined, PlusOutlined, EyeOutlined, CommentOutlined, LikeOutlined, LikeFilled } from "@ant-design/icons";
 import type { TabsProps } from "antd";
 import styled from "styled-components";
 import { useRouter, useParams } from "next/navigation";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 const Articles = () => {
   const router = useRouter();
   const params = useParams();
+  const [data, setData] = useState<any>(null);
+  const { data: session, status } = useSession();
   const id = params?.id;
 
-  const example = [
-    {
-      title: '제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다',
-      content: '내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다',
-      category: 'free'
-    },
-  ]
+  const loadArticleData = async () => {
+    const formData = {
+      board_num: id
+    }
+    const result = await fetchArticleData(formData);
+    console.log(result)
+    if (result?.success) {
+      setData(result?.data)
+    } else {
+      alert(result?.err || '에러발생')
+    }
+  }
+
+  useEffect(() => {
+    loadArticleData();
+  }, [])
 
   return (
     <div>
@@ -30,29 +42,30 @@ const Articles = () => {
             <Avatar size={40} icon={<UserOutlined />} />
         </div>
         <StyledOutDiv>
-          <StyledOutDiv style={{ fontSize: 15, marginBottom: 5 }}>라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임</StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 15, marginBottom: 5 }}>{data?.reg_user_nm}</StyledOutDiv>
           <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
-            1일 전
+            {data?.reg_dt}
             <span style={{ margin: '0 5px' }}>·</span>
             {/* 조회수, 댓글, 좋아요 */}
-            <EyeOutlined style={{ color: '#beb4b4' }} /> 1 
+            <EyeOutlined style={{ color: '#beb4b4' }} /> {data?.view_cnt}
             <span style={{ margin: '0 5px' }}>·</span>
-            <CommentOutlined style={{ color: '#beb4b4' }} /> 2 
+            <CommentOutlined style={{ color: '#beb4b4' }} /> {data?.comment_cnt}
             <span style={{ margin: '0 5px' }}>·</span>
-            <LikeOutlined style={{ color: '#beb4b4' }} /> 3
+            <LikeOutlined style={{ color: '#beb4b4' }} /> {data?.like_cnt}
           </StyledOutDiv>
         </StyledOutDiv>
       </div>
       {/* 제목 영역 */}
-      <Title>{id}</Title>
+      <Title>{data?.title}</Title>
       {/* 컨텐츠 영역 */}
       <div style={{ whiteSpace: 'normal' }}>
-        {id} 입니다.
+        {data?.content} 입니다.
       </div>
       {/* 태그 영역 */}
-      <div style={{ margin: '30px 0', display: 'flex', gap: 10 }}>
-        <StyledTagSpan>#태그1</StyledTagSpan>
-        <StyledTagSpan>#태그2</StyledTagSpan>
+      <div style={{ margin: '30px 0', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+        {
+          data?.tag_names?.split(':')?.map((e: string, i: number) => <StyledTagSpan key={i}>#{e}</StyledTagSpan>)
+        }
       </div>
       {/* 추천 영역 */}
       <StyledLikeBtn>
@@ -72,11 +85,27 @@ const Articles = () => {
       <Divider />
       {/* 댓글 영역 */}
       <div>
-        <div>댓글 0</div>
-        <div style={{ border: '1px solid #D0D2D5', height: 100, margin: '10px 0', borderRadius: 5 }}>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button type='primary' style={{ height: 45, fontSize: 15 }}>댓글 쓰기</Button>
+        <div style={{ marginBottom: 20, fontSize: 18 }}>댓글 0</div>
+        <div style={{ display: 'flex' }}>
+          <div style={{ marginRight: 10 }}>
+            <Avatar size={55} icon={<UserOutlined />} />
+          </div>
+          <div style={{ flex: 1 }}>
+            <StyledCommentDiv>
+              <div style={{ fontWeight: 600, marginBottom: 5 }}>
+                {!session && '로그인 후 이용해주세요.'}
+                {session && session?.user?.token?.userInfo?.user_nm}
+              </div>
+              <Input.TextArea className='commentArea' bordered={false} placeholder='내용을 입력해주세요.' style={{ padding: 0, resize: 'none' }} autoSize disabled={!session ? true : false} />
+            </StyledCommentDiv>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: 5 }}>
+                <Checkbox />
+                비밀글
+              </div>
+              <Button type='primary' style={{ height: 45, fontSize: 15, fontWeight: 800 }} disabled={!session ? true : false}>댓글 쓰기</Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -177,3 +206,25 @@ export const StyledLikeBtn = styled.div`
     color: black;
   }
 `
+
+export const StyledCommentDiv = styled.div`
+  border: 1px solid #D0D2D5;
+  min-height: 120px;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 5px;
+  &:hover, &:focus-within {
+    border: 1px solid black;
+    color: black;
+  }
+`
+
+export const fetchArticleData = async (formData: any) => {
+  const res = await fetch(`/api/board/view`, {
+    method: 'POST',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+  
+  return result?.data;
+}

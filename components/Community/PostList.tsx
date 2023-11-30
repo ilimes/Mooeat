@@ -9,19 +9,19 @@ import { useRouter } from 'next/navigation';
 const PostList = ({ obj }: { obj: any }) => {
   const router = useRouter();
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
       <div>
         <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
           <div>
             <Avatar size={25} icon={<UserOutlined />} />
           </div>
-          <StyledOutDiv style={{ fontSize: 14 }}>라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임라임</StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 14 }}>{obj?.reg_user_nm}</StyledOutDiv>
           <div>·</div>
-          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>1일 전</StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{obj?.reg_dt}</StyledOutDiv>
         </div>
       </div>
-      <StyledContentDiv>
-        <div className='titleDiv' onClick={() => router.push(`/articles/${obj.title}`)}>
+      <StyledContentDiv onClick={() => router.push(`/articles/${obj?.board_seq}`)}>
+        <div className='titleDiv'>
           {obj?.title}
         </div>
         <div className='contentDiv'>
@@ -51,13 +51,13 @@ const PostList = ({ obj }: { obj: any }) => {
         <div>
           <Row gutter={[15, 15]}>
             <Col style={{ fontSize: 14 }}>
-              <EyeOutlined style={{ color: '#beb4b4' }} /> 1
+              <EyeOutlined style={{ color: '#beb4b4' }} /> {obj?.view_cnt}
             </Col>
             <Col style={{ fontSize: 14 }}>
-              <CommentOutlined style={{ color: '#beb4b4' }} /> 2
+              <CommentOutlined style={{ color: '#beb4b4' }} /> {obj?.comment_cnt}
             </Col>
             <Col style={{ fontSize: 14 }}>
-              <LikeOutlined style={{ color: '#beb4b4' }} /> 3
+              <LikeOutlined style={{ color: '#beb4b4' }} /> {obj?.like_cnt}
             </Col>
           </Row>
         </div>
