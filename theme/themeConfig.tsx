@@ -36,7 +36,7 @@ const lineSeedKr = localFont({
 
 const theme: ThemeConfig = {
   token: {
-    fontSize: 16,
+    fontSize: 15,
     colorPrimary: '#4f4791',
     // fontFamily: `${notoSansKr.style.fontFamily}`
     // fontFamily: `${pretendard.style.fontFamily}`
