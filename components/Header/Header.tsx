@@ -180,7 +180,7 @@ const ProfilePopOverContent = (setProfileOpen: any) => {
             {session?.user?.token?.userInfo?.user_nm}
           </div>
           <div>
-            자기소개를 입력해주세요.
+            {session?.user?.token?.userInfo?.introduce || '자기소개를 입력해주세요.'}
           </div>
         </div>
       </div>
