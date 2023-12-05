@@ -14,7 +14,7 @@ export default Message;
 
 const StyledDiv = styled.div`
     margin: 60px 0;
-    font-size: 20px;
+    font-size: 18px;
     color: #666666;
     text-align: center;
 `

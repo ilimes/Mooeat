@@ -5,6 +5,8 @@ import { Avatar, Row, Col } from 'antd';
 import { EyeOutlined, CommentOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
+import moment from 'moment';
+import 'moment/locale/ko';
 
 const PostList = ({ obj }: { obj: any }) => {
   const router = useRouter();
@@ -17,7 +19,7 @@ const PostList = ({ obj }: { obj: any }) => {
           </div>
           <StyledOutDiv style={{ fontSize: 14 }}>{obj?.reg_user_nm}</StyledOutDiv>
           <div>·</div>
-          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{obj?.reg_dt}</StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{moment(obj?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(obj?.reg_dt).fromNow() : moment(obj?.reg_dt).format('LLL')}</StyledOutDiv>
         </div>
       </div>
       <StyledContentDiv onClick={() => router.push(`/articles/${obj?.board_seq}`)}>
@@ -27,14 +29,7 @@ const PostList = ({ obj }: { obj: any }) => {
         <div className='contentDiv'>
           {obj?.content}
         </div>
-      </StyledContentDiv>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 5, color: obj?.cateColor, background: obj?.bgColor }}>
-            {obj.cateName}
-          </div>
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', flex: 1, gap: 5, fontSize: 12, marginLeft: 10 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', flex: 1, gap: 5, fontSize: 12, marginTop: 20 }}>
           <div style={{ fontWeight: 800 }}>
             TAG
           </div>
@@ -47,6 +42,13 @@ const PostList = ({ obj }: { obj: any }) => {
               )
             })
           }
+        </div>
+      </StyledContentDiv>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 5, color: obj?.cateColor, background: obj?.bgColor }}>
+            {obj.cateName}
+          </div>
         </div>
         <div>
           <Row gutter={[15, 15]}>
@@ -88,7 +90,7 @@ export const StyledContentDiv = styled.span`
     overflow: hidden;
     font-size: 16px;
     font-weight: 700;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
   .titleDiv:hover {
     color: #4F4791;

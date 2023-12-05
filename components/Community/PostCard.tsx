@@ -3,7 +3,9 @@ import { Card, Avatar, Row, Col } from 'antd';
 import { EyeOutlined, CommentOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-// moment(text).isAfter(moment().subtract(1, 'd')) ? moment(text).fromNow() : text
+import moment from 'moment';
+import 'moment/locale/ko';
+
 const { Meta } = Card;
 
 const PostCard = ({ obj }: { obj: any }) => {
@@ -43,7 +45,7 @@ const PostCard = ({ obj }: { obj: any }) => {
           </div>
           <StyledOutDiv>
             <StyledOutDiv style={{ fontSize: 14 }}>{obj?.reg_user_nm}</StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{obj?.reg_dt}</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{moment(obj?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(obj?.reg_dt).fromNow() : moment(obj?.reg_dt).format('LLL')}</StyledOutDiv>
           </StyledOutDiv>
         </div>
         {/* 조회수, 댓글, 좋아요 영역 */}
@@ -70,7 +72,7 @@ export default PostCard;
 export const StyledCard = styled(Card) <{ background: string | null, catecolor: string | null }>`
   && {
     width: 100%;
-    height: 295px;
+    height: 300px;
     background: ${props => props.background};
     &:hover {
       border: 0.5px solid ${props => props.catecolor};
