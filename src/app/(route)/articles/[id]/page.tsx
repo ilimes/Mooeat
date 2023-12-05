@@ -20,7 +20,6 @@ const Articles = () => {
       board_num: id
     }
     const result = await fetchArticleData(formData);
-    console.log(result)
     if (result?.success) {
       setData(result?.data)
     } else {

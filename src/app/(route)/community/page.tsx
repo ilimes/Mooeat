@@ -25,7 +25,7 @@ const Community = () => {
     setActiveKey(key);
   };
 
-  const filteredArr = boardList?.filter((e: any) => activeKey === 'all' ? e : String(e?.cate_seq) === activeKey);
+  const filteredArr = boardList?.filter((e: any) => activeKey === 'all' ? String(e?.cate_seq) != '4' : String(e?.cate_seq) === activeKey);
 
   const colSpan = type === 'tile' ? [8, 6] : [24, 24]
   
