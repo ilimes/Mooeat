@@ -63,7 +63,7 @@ const Notice = () => {
             {
                 noticeList?.length ?
                     noticeList?.map((obj: any, i: number) => (
-                        <WrapperDiv>
+                        <WrapperDiv key={i}>
                             <ListItemDiv onClick={() => onClickNotice(obj?.board_seq)}>
                                 <div style={{ fontWeight: selectedNotice === obj.board_seq ? 'bold' : 'normal' }}>{obj?.title}</div>
                                 <div>
