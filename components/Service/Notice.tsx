@@ -67,7 +67,7 @@ const Notice = () => {
                             <ListItemDiv onClick={() => onClickNotice(obj?.board_seq)}>
                                 <div style={{ fontWeight: selectedNotice === obj.board_seq ? 'bold' : 'normal' }}>{obj?.title}</div>
                                 <div>
-                                    {moment(obj?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(obj?.reg_dt).fromNow() : moment(obj?.reg_dt).format('LLL')}
+                                    {moment(obj?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(obj?.reg_dt).fromNow() : moment(obj?.reg_dt).format('L')}
                                 </div>
                             </ListItemDiv>
                             {
