@@ -11,6 +11,7 @@ import animationData2 from '@/public/lottie/Animation - 1698595350015.json';
 import animationData3 from '@/public/lottie/Animation - 1698745819488.json'; 
 import useIsMobile from '@/hooks/useIsMobile';
 import NoSSr from '../NoSsr/NoSSr';
+import styled from 'styled-components';
 
 const contentStyle: React.CSSProperties = {
   height: '200px',
@@ -100,7 +101,7 @@ const CarouselComponent = () => {
               </div>
             } */}
             <NoSSr>
-                <Carousel
+                <StyledCarousel
                   autoplay
                   dotPosition={"bottom"}
                   speed={700}
@@ -143,7 +144,7 @@ const CarouselComponent = () => {
                         </Row>
                       </div>)
                   }
-                </Carousel>
+                </StyledCarousel>
               </NoSSr>
           </Col>
         </Row>
@@ -153,3 +154,11 @@ const CarouselComponent = () => {
 }
 
 export default CarouselComponent;
+
+export const StyledCarousel = styled(Carousel)`
+  && {
+    .slick-dots button{
+        border-radius: 30px;
+    }
+  }
+`
