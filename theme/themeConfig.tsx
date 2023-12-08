@@ -42,6 +42,13 @@ const theme: ThemeConfig = {
     // fontFamily: `${pretendard.style.fontFamily}`
     fontFamily: `${lineSeedKr.style.fontFamily}`
   },
+  components: {
+    Carousel: {
+      dotHeight: 13,
+      dotWidth: 26,
+      dotActiveWidth: 40
+    },
+  },
 };
 
 export default theme;

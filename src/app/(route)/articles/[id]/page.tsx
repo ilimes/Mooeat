@@ -1,7 +1,7 @@
 'use client'
 
 import { Avatar, Button, Checkbox, Col, Divider, Input, Row, Tabs } from "antd";
-import { UserOutlined, PlusOutlined, EyeOutlined, CommentOutlined, LikeOutlined, LikeFilled } from "@ant-design/icons";
+import { UserOutlined, PlusOutlined, EyeOutlined, CommentOutlined, LikeOutlined, LikeFilled, RollbackOutlined } from "@ant-design/icons";
 import type { TabsProps } from "antd";
 import styled from "styled-components";
 import { useRouter, useParams } from "next/navigation";
@@ -91,20 +91,23 @@ const Articles = () => {
           </div>
           <div style={{ flex: 1 }}>
             <StyledCommentDiv>
-              <div style={{ fontWeight: 600, marginBottom: 5 }}>
-                {!session && '로그인 후 이용해주세요.'}
+              <div style={{ fontWeight: 400, marginBottom: 5 }}>
+                {!session && <div><span style={{ fontWeight: 600, color: '#4F4791', cursor: 'pointer' }} onClick={() => router.push('/auth/login')}>로그인</span> 후 이용해주세요.</div>}
                 {session && session?.user?.token?.userInfo?.user_nm}
               </div>
               <Input.TextArea className='commentArea' bordered={false} placeholder='내용을 입력해주세요.' style={{ padding: 0, resize: 'none' }} autoSize disabled={!session ? true : false} />
-            </StyledCommentDiv>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 5 }}>
-                <Checkbox />
-                비밀글
+              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 15 }}>
+                <div style={{ display: 'flex', gap: 5 }}>
+                  <Checkbox />
+                  <div style={{ display: 'flex', alignItems: 'self-end' }}>비밀글</div>
+                </div>
+                <Button type='primary' style={{ height: 45, fontSize: 15, fontWeight: 800 }} disabled={!session ? true : false}>댓글 쓰기</Button>
               </div>
-              <Button type='primary' style={{ height: 45, fontSize: 15, fontWeight: 800 }} disabled={!session ? true : false}>댓글 쓰기</Button>
-            </div>
+            </StyledCommentDiv>
           </div>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <Button style={{ height: 35, fontSize: 14, fontWeight: 800 }} onClick={() => router.push('/community')}><RollbackOutlined />커뮤니티로 돌아가기</Button>
         </div>
       </div>
     </div>
