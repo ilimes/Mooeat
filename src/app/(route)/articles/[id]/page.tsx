@@ -1,12 +1,14 @@
 'use client'
 
-import { Avatar, Button, Checkbox, Col, Divider, Input, Row, Tabs } from "antd";
-import { UserOutlined, PlusOutlined, EyeOutlined, CommentOutlined, LikeOutlined, LikeFilled, RollbackOutlined } from "@ant-design/icons";
+import { Avatar, Button, Checkbox, Col, Divider, Input, Row, Tabs, Tooltip } from "antd";
+import { UserOutlined, PlusOutlined, EyeOutlined, CommentOutlined, LikeOutlined, LikeFilled, RollbackOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import type { TabsProps } from "antd";
 import styled from "styled-components";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import moment from 'moment';
+import 'moment/locale/ko';
 
 const Articles = () => {
   const router = useRouter();
@@ -34,16 +36,16 @@ const Articles = () => {
   return (
     <div>
       {/* 메뉴 설명 영역 */}
-      <Explain>커뮤니티 / 자유게시판</Explain>
+      <Explain>커뮤니티 / <span style={{ color: '#4F4791' }}>{data?.cate_nm}</span></Explain>
       {/* 아바타 영역 */}
       <div style={{ margin: '30px 0', display: 'flex', gap: 10 }}>
         <div>
-            <Avatar size={40} icon={<UserOutlined />} />
+          <Avatar size={40} icon={<UserOutlined />} />
         </div>
         <StyledOutDiv>
           <StyledOutDiv style={{ fontSize: 15, marginBottom: 5 }}>{data?.reg_user_nm}</StyledOutDiv>
           <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
-            {data?.reg_dt}
+            {moment(data?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(data?.reg_dt).fromNow() : moment(data?.reg_dt).format('LLL')}
             <span style={{ margin: '0 5px' }}>·</span>
             {/* 조회수, 댓글, 좋아요 */}
             <EyeOutlined style={{ color: '#beb4b4' }} /> {data?.view_cnt}
@@ -92,10 +94,14 @@ const Articles = () => {
           <div style={{ flex: 1 }}>
             <StyledCommentDiv>
               <div style={{ fontWeight: 400, marginBottom: 5 }}>
-                {!session && <div><span style={{ fontWeight: 600, color: '#4F4791', cursor: 'pointer' }} onClick={() => router.push('/auth/login')}>로그인</span> 후 이용해주세요.</div>}
+                {!session && <div><InfoCircleOutlined />
+                  <Tooltip title="클릭 시 로그인 페이지로 이동합니다.">
+                    <span style={{ fontWeight: 600, color: '#4F4791', cursor: 'pointer', marginLeft: 5 }} onClick={() => router.push('/auth/login')}>로그인</span>
+                  </Tooltip>
+                  {" "}후 이용해주세요.</div>}
                 {session && session?.user?.token?.userInfo?.user_nm}
               </div>
-              <Input.TextArea className='commentArea' bordered={false} placeholder='내용을 입력해주세요.' style={{ padding: 0, resize: 'none' }} autoSize disabled={!session ? true : false} />
+              <Input.TextArea className='commentArea' bordered={false} placeholder='내용을 입력해주세요.' style={{ padding: 0, resize: 'none', marginBottom: 10 }} autoSize disabled={!session ? true : false} />
               <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 15 }}>
                 <div style={{ display: 'flex', gap: 5 }}>
                   <Checkbox />
@@ -227,6 +233,6 @@ export const fetchArticleData = async (formData: any) => {
     body: JSON.stringify(formData)
   });
   const result = await res.json();
-  
+
   return result?.data;
 }

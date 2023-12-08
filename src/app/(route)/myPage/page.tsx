@@ -23,6 +23,11 @@ const MyPage = () => {
       label: '내 활동',
       children: null,
     },
+    {
+      key: '3',
+      label: '구독 관리',
+      children: null,
+    },
   ]
 
   const onChange = (key: string) => {
