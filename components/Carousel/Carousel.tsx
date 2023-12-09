@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { Carousel, Col, Row, Spin } from 'antd';
 import Image from 'next/image';
 import TestImg from '../../public/test.png';
@@ -13,12 +13,20 @@ import useIsMobile from '@/hooks/useIsMobile';
 import NoSSr from '../NoSsr/NoSSr';
 import styled from 'styled-components';
 
-const contentStyle: React.CSSProperties = {
-  height: '200px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-};
+interface IContentsTypes {
+  topText: string;
+  bottomText: string;
+  forwardText: string;
+  background: string;
+  textBackground: string;
+  link: string;
+  img: ReactNode;
+}
+
+interface ITextComponentTypes {
+  e: IContentsTypes;
+  i: number;
+}
 
 const CarouselComponent = () => {
   const router = useRouter();
@@ -57,7 +65,7 @@ const CarouselComponent = () => {
     }
   ];
 
-  const TextComponent = ({ e, i }: { e: any, i: number }) => {
+  const TextComponent = ({ e, i }: ITextComponentTypes) => {
     return (
       <>
         <span
@@ -95,11 +103,6 @@ const CarouselComponent = () => {
       <div>
         <Row>
           <Col span={24}>
-            {/* {!isRender &&
-              <div style={{ background: contents?.[nowIndex]?.background}}>
-                <Spin size='large' style={{ height: 370, display: 'flex', justifyContent: 'center', alignItems: 'center' }} />
-              </div>
-            } */}
             <NoSSr>
                 <StyledCarousel
                   autoplay

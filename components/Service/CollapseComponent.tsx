@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import styled, { css } from 'styled-components';
+import { IObjTypes } from '../Community/PostCard';
 
 const StyledChildrenDiv = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const ChildDiv = ({ content }: { content: string | React.JSX.Element }) =>
 
 const CollapseComponent: React.FC = () => {
   const [openList, setOpenList] = useState<string | string[]>([]);
-  const [qnaList, setQnaList] = useState<CollapseProps['items'] | any>([]);
+  const [qnaList, setQnaList] = useState<CollapseProps['items']>([]);
   
   /**
    * 자주 묻는 질문 리스트 불러오기
@@ -26,7 +27,7 @@ const CollapseComponent: React.FC = () => {
   const getQnaList = async () => {
     const result = await fetchQnaList();
     const list = result?.list;
-    setQnaList(list?.map((e: any, i:any) => ({
+    setQnaList(list?.map((e: IObjTypes, i:string) => ({
       key: i,
       label: <TitleDiv $isOpen={openList?.includes(i) ? true : false}>{e?.title}</TitleDiv>,
       children: <ChildDiv content={e?.content} />,

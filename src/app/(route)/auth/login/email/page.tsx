@@ -4,13 +4,19 @@ import { signIn } from 'next-auth/react'
 import { Button, Checkbox, Form, Input, Drawer, message, Spin } from "antd";
 import { LeftOutlined } from '@ant-design/icons'
 import styled from "styled-components";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchUserInfoData } from "@/components/CustomLayout/CustomLayout";
 import { useSetRecoilState } from "recoil";
 import { userInfoState } from "@/recoil/states";
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
-const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router: any) => {
+interface IValuesTypes {
+  user_id: string;
+  password: string;
+}
+
+const onFinish = async (values: IValuesTypes, setIsLoading: Dispatch<SetStateAction<boolean>>, router: AppRouterInstance | any) => {
   setIsLoading(true);
   const res = await signIn('credentials', {
     user_id: values?.user_id,
@@ -34,10 +40,6 @@ const onFinish = async (values: any, setIsLoading: any, setUserInfo: any, router
   }
 };
 
-const onFinishFailed = (errorInfo: any) => {
-  // message.error('필수 항목을 모두 입력해주세요.');
-};
-
 type FieldType = {
   user_id?: string;
   password?: string;
@@ -46,7 +48,6 @@ type FieldType = {
 
 const EmailLogin = () => {
   const router = useRouter();
-  const setUserInfo = useSetRecoilState(userInfoState);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -57,8 +58,8 @@ const EmailLogin = () => {
         name="basic"
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
-        onFinish={(values) => onFinish(values, setIsLoading, setUserInfo, router)}
-        onFinishFailed={onFinishFailed}
+        onFinish={(values: IValuesTypes) => onFinish(values, setIsLoading, router)}
+        // onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <StyledTitleDiv>

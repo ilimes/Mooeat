@@ -8,17 +8,39 @@ import 'moment/locale/ko';
 
 const { Meta } = Card;
 
-const PostCard = ({ obj }: { obj: any }) => {
+export interface IObjTypes {
+  board_seq: number;
+  bg_color: string | undefined;
+  cate_color: string | undefined;
+  cate_nm: string;
+  cate_seq: number;
+  comment_cnt: number;
+  content: string;
+  like_cnt: number;
+  mod_dt: string;
+  reg_dt: string;
+  parent_seq: number | null;
+  reg_user_id: string;
+  reg_user_nm: string;
+  reg_user_seq: number;
+  secret_yn: string;
+  tag_names: string;
+  title: string;
+  use_yn: string;
+  view_cnt: number;
+}
+
+const PostCard = ({ obj }: { obj: IObjTypes }) => {
   const router = useRouter();
 
   return (
     <StyledCard
-      catecolor={obj?.cateColor || null}
-      background={obj?.bgColor || null}
+      catecolor={obj?.cate_color || null}
+      background={obj?.bg_color || null}
       onClick={() => router.push(`/articles/${obj?.board_seq}`)}>
       {/* 카테고리 영역 */}
-      <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cateColor }}>
-        {obj?.cateName}
+      <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cate_color }}>
+        {obj?.cate_nm}
       </div>
       {/* 제목 및 내용 영역 */}
       <Meta title={obj?.title} description={obj?.content} />
@@ -28,7 +50,7 @@ const PostCard = ({ obj }: { obj: any }) => {
           TAG
         </div>
         {
-          obj?.tag_names?.split(':')?.map((e: any, i:number) => {
+          obj?.tag_names?.split(':')?.map((e: string, i:number) => {
             return (
               <div key={i} style={{ fontWeight: 400 }}>
                 #{e}

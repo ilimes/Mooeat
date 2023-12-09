@@ -9,12 +9,14 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import moment from 'moment';
 import 'moment/locale/ko';
+import { IObjTypes } from "@/components/Community/PostCard";
 
 const Articles = () => {
   const router = useRouter();
   const params = useParams();
-  const [data, setData] = useState<any>(null);
+
   const { data: session, status } = useSession();
+  const [data, setData] = useState<IObjTypes | null>(null);
   const id = params?.id;
 
   const loadArticleData = async () => {
@@ -227,7 +229,7 @@ export const StyledCommentDiv = styled.div`
   }
 `
 
-export const fetchArticleData = async (formData: any) => {
+export const fetchArticleData = async (formData: { board_num: string | string[] }) => {
   const res = await fetch(`/api/board/view`, {
     method: 'POST',
     body: JSON.stringify(formData)

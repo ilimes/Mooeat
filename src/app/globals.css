@@ -8,6 +8,15 @@ body {
     -moz-osx-font-smoothing: auto;
 }
 
+::-moz-selection {
+    background: #4F4791;
+    color: #fff;
+ }
+ ::selection {
+    background: #4F4791;
+    color: #fff;
+ }
+
 @keyframes fadeInUp {
     0% {
         opacity: 0;

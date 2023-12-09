@@ -4,12 +4,13 @@ import styled from 'styled-components';
 import { EmptyComponent } from './Help';
 import moment from 'moment';
 import 'moment/locale/ko';
+import { IObjTypes } from '../Community/PostCard';
 
 const Notice = () => {
     const [noticeList, setNoticeList] = useState([]);
-    const [selectedNotice, setSelectedNotice] = useState(null);
+    const [selectedNotice, setSelectedNotice] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<IObjTypes | null>(null);
 
     /**
      * 공지사항 리스트 불러오기
@@ -24,9 +25,9 @@ const Notice = () => {
      * 공지사항 선택
      * @param board_seq 선택한 번호
      */
-    const onClickNotice = (board_seq: any) => {
+    const onClickNotice = (board_seq: number) => {
         if (selectedNotice === board_seq) {
-            setSelectedNotice(null);
+            setSelectedNotice(undefined);
             setData(null);
         } else {
             setIsLoading(true);
@@ -35,7 +36,7 @@ const Notice = () => {
         }
     }
 
-    const loadNoticeData = async (board_seq: any) => {
+    const loadNoticeData = async (board_seq: number) => {
         const formData = {
             board_num: board_seq
         }
@@ -62,7 +63,7 @@ const Notice = () => {
             {!noticeList?.length ? <EmptyComponent title={'공지사항이 없습니다.'} /> : ''}
             {
                 noticeList?.length ?
-                    noticeList?.map((obj: any, i: number) => (
+                    noticeList?.map((obj: IObjTypes, i: number) => (
                         <WrapperDiv key={i}>
                             <ListItemDiv onClick={() => onClickNotice(obj?.board_seq)}>
                                 <div style={{ fontWeight: selectedNotice === obj.board_seq ? 'bold' : 'normal' }}>{obj?.title}</div>
@@ -147,7 +148,7 @@ export const fetchNoticeList = async () => {
     return result?.data;
 }
 
-export const fetchNoticeData = async (formData: any) => {
+export const fetchNoticeData = async (formData: { board_num: number }) => {
     const res = await fetch(`/api/board/view`, {
         method: 'POST',
         body: JSON.stringify(formData)

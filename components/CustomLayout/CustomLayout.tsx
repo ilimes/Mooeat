@@ -17,6 +17,20 @@ import Wrapper from './Wrapper'
 
 const { Content } = Layout;
 
+interface IMenuListTypes {
+    menu_cd: string,
+    menu_category: string,
+    menu_path: string,
+    menu_nm: string,
+    menu_level: number,
+    parent_menu_cd: string | null,
+    menu_order: string | null,
+    role_rank: number,
+    breadcrumb: string,
+    auth_yn: string,
+    use_yn: string
+}
+
 const CustomLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession()
   const [isMobile, setIsMobile] = useRecoilState(isMobileState);
@@ -39,7 +53,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
    */
   const getMenuList = async () => {
     const result = await fetchMenuData();
-    const list = result?.list?.map((e: any) => ({ key: e.menu_path, label: e.menu_nm, onClick: () => router.push(e.menu_path)}));
+    const list = result?.list?.map((e: IMenuListTypes) => ({ key: e.menu_path, label: e.menu_nm, onClick: () => router.push(e.menu_path)}));
     setMenuList(list);
   }
 

@@ -6,8 +6,17 @@ import { LeftOutlined } from '@ant-design/icons'
 import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
-const onFinish = async (values: any, router: any) => {
+interface IValuesType {
+  user_id: string;
+  user_nm: string;
+  password: string;
+  passwordConfirm: string | undefined;
+  agree: boolean;
+};
+
+const onFinish = async (values: IValuesType, router: AppRouterInstance) => {
   if (!values?.agree) {
     message.warning('개인정보 수집 및 이용에 동의하신 후 가입이 가능합니다.');
     return;
@@ -26,14 +35,6 @@ const onFinish = async (values: any, router: any) => {
   } else {
     message.warning(result?.message || '가입에 실패하였습니다.');
   }
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  // if (errorInfo?.errorFields?.find((e: any) => e.name?.[0] === 'user_id' && e.errors?.[0] != null)) {
-  //   message.error('형식에 맞게 이메일을 입력해주세요.');
-  // } else {
-  //   message.error('필수 항목을 모두 입력해주세요.');
-  // }
 };
 
 type FieldType = {
@@ -55,8 +56,8 @@ const Join = () => {
         name="basic"
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
-        onFinish={(values) => onFinish(values, router)}
-        onFinishFailed={onFinishFailed}
+        onFinish={(values: IValuesType) => onFinish(values, router)}
+        // onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <StyledTitleDiv>
@@ -103,7 +104,6 @@ const Join = () => {
         >
           <Input placeholder="닉네임" style={{ height: 40 }} />
         </Form.Item>
-
         <Form.Item<FieldType>
           name="agree"
           valuePropName="checked"
@@ -116,9 +116,7 @@ const Join = () => {
             </Checkbox>
           </div>
         </Form.Item>
-
         <Form.Item>
-          
           <Button type="primary" htmlType="submit" style={{ width: '100%', height: 47, fontWeight: 'bold', fontSize: 14 }}>
             회원가입
           </Button>

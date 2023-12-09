@@ -7,8 +7,9 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import moment from 'moment';
 import 'moment/locale/ko';
+import { IObjTypes } from './PostCard';
 
-const PostList = ({ obj }: { obj: any }) => {
+const PostList = ({ obj }: { obj: IObjTypes }) => {
   const router = useRouter();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
@@ -34,7 +35,7 @@ const PostList = ({ obj }: { obj: any }) => {
             TAG
           </div>
           {
-            obj?.tag_names?.split(':')?.map((e: any, i:number) => {
+            obj?.tag_names?.split(':')?.map((e: string, i:number) => {
               return (
                 <div key={i} style={{ fontWeight: 400 }}>
                   #{e}
@@ -46,8 +47,8 @@ const PostList = ({ obj }: { obj: any }) => {
       </StyledContentDiv>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 5, color: obj?.cateColor, background: obj?.bgColor }}>
-            {obj.cateName}
+          <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 5, color: obj?.cate_color, background: obj?.bg_color }}>
+            {obj.cate_nm}
           </div>
         </div>
         <div>
