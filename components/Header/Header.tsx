@@ -160,7 +160,7 @@ const notiPopOverContent = () => {
   )
 }
 
-const ProfilePopOverContent = (setProfileOpen: any) => {
+const ProfilePopOverContent = (setProfileOpen: Dispatch<SetStateAction<boolean>>) => {
   const { data: session, status } = useSession();
   const router = useRouter();
 

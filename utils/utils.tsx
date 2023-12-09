@@ -4,7 +4,7 @@ class Utils {
    * @param {Object} screens - Grid.useBreakpoint() from antd
    * @return {Array} array of breakpoint size
    */
-  static getBreakPoint(screens: any) {
+  static getBreakPoint(screens: string[]) {
     let breakpoints = [];
     for (const key in screens) {
       if (screens.hasOwnProperty(key)) {

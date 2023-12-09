@@ -1,25 +1,35 @@
 'use client'
 
 import { Button, Col, Divider, Row, Tabs } from "antd";
-import type { TabsProps } from "antd";
 import { FormOutlined, AppstoreOutlined, UnorderedListOutlined, AppstoreFilled } from "@ant-design/icons";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import PostCard from '@/components/Community/PostCard';
+import PostCard, { IObjTypes } from '@/components/Community/PostCard';
 import { useEffect, useState } from 'react';
 import PostList from "@/components/Community/PostList";
+
+interface IInfoTypes {
+  key: string;
+  label: string;
+  cateColor: string | undefined;
+  bgColor: string | undefined;
+  order: number | undefined;
+}
 
 const Community = () => {
   const router = useRouter();
   const [activeKey, setActiveKey] = useState('all');
   const [type, setType] = useState('tile');
-  const [items, setItems] = useState<TabsProps['items'] | any>([
+  const [items, setItems] = useState<IInfoTypes[]>([
     {
       key: 'all',
       label: '전체',
+      cateColor: undefined,
+      bgColor: undefined,
+      order: undefined,
     }
   ]);
-  const [boardList, setBoardList] = useState<any>([]);
+  const [boardList, setBoardList] = useState<IObjTypes[]>([]);
 
   const onChange = (key: string) => {
     setActiveKey(key);
@@ -88,12 +98,12 @@ const Community = () => {
             <>
               {
                 type === 'tile' &&
-                <PostCard key={'card' + i} obj={{...e, cateName: item?.label, cateColor: item?.cateColor, bgColor: item?.bgColor}} />
+                <PostCard key={'card' + i} obj={{...e, cate_color: item?.cateColor, bg_color: item?.bgColor}} />
               }
               {
                 type === 'list' &&
                 <>
-                  <PostList key={'list' + i} obj={{...e, cateName: item?.label, cateColor: item?.cateColor, bgColor: item?.bgColor}} />
+                  <PostList key={'list' + i} obj={{...e, cate_color: item?.cateColor, bg_color: item?.bgColor}} />
                   {
                     i != filteredArr?.length - 1 &&
                     <Divider key={'divider' + i} style={{ margin: '15px 0 0 0', borderColor: '#D2D4D8' }} />
