@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const FileInfo = ({ uploadedInfo }) => (
+interface IUploadInfoTypes {
+  name: string | null;
+  size: string | null;
+  type: string | null;
+}
+
+const FileInfo = ({ uploadedInfo }: { uploadedInfo: IUploadInfoTypes }) => (
     <ul className="preview_info">
       {Object.entries(uploadedInfo).map(([key, value]) => (
         <li key={key}>
@@ -21,15 +27,15 @@ const Logo = () => (
 
 const FileUpload = () => {
     const [isActive, setActive] = useState(false);
-    const [uploadedInfo, setUploadedInfo] = useState(null);
+    const [uploadedInfo, setUploadedInfo] = useState<IUploadInfoTypes | null>(null);
   
     const handleDragStart = () => setActive(true);
     const handleDragEnd = () => setActive(false);
-    const handleDragOver = (event) => {
+    const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
       event.preventDefault();
     };
   
-    const setFileInfo = (file) => {
+    const setFileInfo = (file: File) => {
       if (file) {
         const { name, size: byteSize, type } = file;
         const size = (byteSize / (1024 * 1024)).toFixed(2) + 'mb';
@@ -37,7 +43,7 @@ const FileUpload = () => {
       }
     };
   
-    const handleDrop = (event) => {
+    const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
       event.preventDefault();
       setActive(false);
   
@@ -45,7 +51,10 @@ const FileUpload = () => {
       setFileInfo(file);
     };
   
-    const handleUpload = ({ target }) => {
+    const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const target = event.target;
+      if (!target.files) return;
+
       const file = target.files[0];
       setFileInfo(file);
     };

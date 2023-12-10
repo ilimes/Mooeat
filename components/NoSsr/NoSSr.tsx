@@ -10,13 +10,17 @@ export default dynamic(() => Promise.resolve(NOSSR), {
     ssr: false,
     loading: () => (
         <div style={{ background: '#47408f' }}>
-            <StyledSpin size='large' style={{ height: 370, display: 'flex', justifyContent: 'center', alignItems: 'center' }} />
+            <StyledSpin size='large' />
         </div>
     )
 })
 
 export const StyledSpin = styled(Spin)`
     && {
+        height: 370px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         & .ant-spin-dot-item {
             background-color: white;
         }

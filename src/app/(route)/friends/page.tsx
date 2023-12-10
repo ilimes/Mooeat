@@ -1,15 +1,39 @@
 'use client'
 
-import { Button, Col, Row, Card, Divider, Avatar, Empty, Input, message, Badge } from "antd";
+import { Button, Col, Row, Card, Divider, Avatar, Empty, Input, message, Badge, Tabs } from "antd";
 import { UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
+
+interface IInfoTypes {
+  key: string;
+  label: string;
+}
 
 const Friends = () => {
   const router = useRouter();
   const { Modal, isOpen, openModal, closeModal } = useModal();
+  const [activeKey, setActiveKey] = useState('all');
+  const [items, setItems] = useState<IInfoTypes[]>([
+    {
+      key: 'all',
+      label: '전체',
+    },
+    {
+      key: 'wait',
+      label: '수락 대기 중',
+    },
+    {
+      key: 'done',
+      label: '수락 완료',
+    },
+  ]);
+
+  const onChange = (key: string) => {
+    setActiveKey(key);
+  };
   
   return (
     <div>
@@ -18,6 +42,7 @@ const Friends = () => {
       <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
           <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={openModal} style={{ float: 'right', fontSize: 14, fontWeight: 'bold', paddingRight: 22, height: 31 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: 'calc(100vh - 260px)', overflow: 'auto' }}>
+          <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600 }} />
             <Row gutter={[10, 10]}>
               <Friend key={1} />
               <Friend key={2} />
@@ -59,9 +84,9 @@ const Friend = () => {
             <Badge
               offset={["-5%", "85%"]}
               style={{
-                width: "12px",
-                height: "12px",
-                boxShadow: "0 0 0 5px #fff",
+                width: "13px",
+                height: "13px",
+                boxShadow: "0 0 0 3px #fff",
                 backgroundColor: "#6384EB"
               }}
               dot={true}

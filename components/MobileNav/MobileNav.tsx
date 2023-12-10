@@ -45,14 +45,6 @@ const MobileNav = () => {
    */
   const logout = () => {
     signOut();
-    // 토큰 비우기
-    // localStorage.removeItem("token");
-
-    // 유저 정보 비우기
-    // setUserInfo(null);
-
-    // 홈으로 이동
-    // router.push('/');
   }
 
   useEffect(() => {
