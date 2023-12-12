@@ -11,12 +11,29 @@ import moment from 'moment';
 import 'moment/locale/ko';
 import { IObjTypes } from "@/components/Community/PostCard";
 
+interface ICommentTypes {
+  comment_seq: number;
+  comment_cd: string;
+  target_seq: number;
+  parents_cd: number;
+  content: string;
+  comment_level: number;
+  comment_order: number;
+  reg_user_seq: number;
+  reg_user_nm: string;
+  reg_dt: string;
+  mod_user_seq: number;
+  mod_dt: string;
+  use_yn: string;
+}
+
 const Articles = () => {
   const router = useRouter();
   const params = useParams();
 
   const { data: session, status } = useSession();
   const [data, setData] = useState<IObjTypes | null>(null);
+  const [commentList, setCommentList] = useState<ICommentTypes[] | null>(null);
   const id = params?.id;
 
   const loadArticleData = async () => {
@@ -31,8 +48,21 @@ const Articles = () => {
     }
   }
 
+  const loadCommentList = async () => {
+    const formData = {
+      board_num: id
+    }
+    const result = await fetchCommentList(formData);
+    if (result?.success) {
+      setCommentList(result?.list)
+    } else {
+      alert(result?.err || '에러발생')
+    }
+  }
+
   useEffect(() => {
     loadArticleData();
+    loadCommentList();
   }, [])
 
   return (
@@ -88,7 +118,27 @@ const Articles = () => {
       <Divider />
       {/* 댓글 영역 */}
       <div>
-        <div style={{ marginBottom: 20, fontSize: 18 }}>댓글 0</div>
+        <div style={{ marginBottom: 20, fontSize: 18 }}>댓글 {commentList?.length}</div>
+        {
+          commentList?.map((e: ICommentTypes, i: number) =>
+            <div key={i} style={{ display: 'flex', marginBottom: 40 }}>
+              <div style={{ marginRight: 10 }}>
+                <Avatar size={55} icon={<UserOutlined />} />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                <div style={{ fontWeight: 600 }}>
+                  {e?.reg_user_nm}
+                </div>
+                <div>
+                  {e?.content}
+                </div>
+                <div style={{ fontSize: 13, marginTop: 10 }}>
+                  {moment(e?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(e?.reg_dt).fromNow() : moment(e?.reg_dt).format('LLL')}
+                </div>
+              </div>
+            </div>
+          )
+        }
         <div style={{ display: 'flex' }}>
           <div style={{ marginRight: 10 }}>
             <Avatar size={55} icon={<UserOutlined />} />
@@ -231,6 +281,16 @@ export const StyledCommentDiv = styled.div`
 
 export const fetchArticleData = async (formData: { board_num: string | string[] }) => {
   const res = await fetch(`/api/board/view`, {
+    method: 'POST',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+
+  return result?.data;
+}
+
+export const fetchCommentList = async (formData: { board_num: string | string[] }) => {
+  const res = await fetch(`/api/board/comment/list`, {
     method: 'POST',
     body: JSON.stringify(formData)
   });
