@@ -36,8 +36,8 @@ const MyInfo = () => {
       <>
         <div>
           <div style={{ margin: '20px 0' }}>
-            <Title name="이름" required={true} />
-            <StyledInput placeholder="이름을 입력해주세요." defaultValue={userInfo?.user_nm}/>
+            <Title name="닉네임" required={true} />
+            <StyledInput placeholder="닉네임을 입력해주세요." defaultValue={userInfo?.user_nm}/>
             <Title name="이메일" required={true} />
             <StyledInput placeholder="이메일을 입력해주세요." defaultValue={userInfo?.user_id}/>
             <Title name="휴대폰 번호" required={true} />

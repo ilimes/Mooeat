@@ -63,6 +63,8 @@ const Articles = () => {
   useEffect(() => {
     loadArticleData();
     loadCommentList();
+    // 최상단으로 스크롤
+    window.scrollTo(0, 0);
   }, [])
 
   return (
