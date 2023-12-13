@@ -40,7 +40,6 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
                         <Col key={i} xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
                             <button style={{ width: '100%' }}>
                                 <StyledCard
-                                    hoverable
                                     bodyStyle={{ padding: 16 }}
                                     onClick={() => router.push(e?.link)}
                                 >
@@ -71,6 +70,7 @@ export const StyledCard = styled(Card)`
         transition: all 0.1s linear;
         &:hover {
             transform: scale(1.01);
+            box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.20);
         }
     }
 `

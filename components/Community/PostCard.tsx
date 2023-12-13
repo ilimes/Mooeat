@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import moment from 'moment';
 import 'moment/locale/ko';
+import CntComponent from './CntComponent';
 
 const { Meta } = Card;
 
@@ -58,6 +59,7 @@ const PostCard = ({ obj }: { obj: IObjTypes }) => {
             )
           })
         }
+        {!obj?.tag_names && <div style={{ color: '#B1B1B1' }}>태그 없음</div>}
       </div>
       <div style={{ position: 'absolute', bottom: 20 }}>
         {/* 아바타 영역 */}
@@ -71,19 +73,7 @@ const PostCard = ({ obj }: { obj: IObjTypes }) => {
           </StyledOutDiv>
         </div>
         {/* 조회수, 댓글, 좋아요 영역 */}
-        <div>
-          <Row gutter={[15, 15]}>
-            <Col style={{ fontSize: 14 }}>
-              <EyeOutlined style={{ color: '#beb4b4' }} /> {obj?.view_cnt}
-            </Col>
-            <Col style={{ fontSize: 14 }}>
-              <CommentOutlined style={{ color: '#beb4b4' }} /> {obj?.comment_cnt}
-            </Col>
-            <Col style={{ fontSize: 14 }}>
-              <LikeOutlined style={{ color: '#beb4b4' }} /> {obj?.like_cnt}
-            </Col>
-          </Row>
-        </div>
+        <CntComponent obj={obj}/>
       </div>
     </StyledCard>
   );

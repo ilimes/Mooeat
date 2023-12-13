@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import moment from 'moment';
 import 'moment/locale/ko';
 import { IObjTypes } from './PostCard';
+import CntComponent from './CntComponent';
 
 const PostList = ({ obj }: { obj: IObjTypes }) => {
   const router = useRouter();
@@ -43,6 +44,7 @@ const PostList = ({ obj }: { obj: IObjTypes }) => {
               )
             })
           }
+          {!obj?.tag_names && <div style={{ color: '#B1B1B1' }}>태그 없음</div>}
         </div>
       </StyledContentDiv>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -51,19 +53,7 @@ const PostList = ({ obj }: { obj: IObjTypes }) => {
             {obj.cate_nm}
           </div>
         </div>
-        <div>
-          <Row gutter={[15, 15]}>
-            <Col style={{ fontSize: 14 }}>
-              <EyeOutlined style={{ color: '#beb4b4' }} /> {obj?.view_cnt}
-            </Col>
-            <Col style={{ fontSize: 14 }}>
-              <CommentOutlined style={{ color: '#beb4b4' }} /> {obj?.comment_cnt}
-            </Col>
-            <Col style={{ fontSize: 14 }}>
-              <LikeOutlined style={{ color: '#beb4b4' }} /> {obj?.like_cnt}
-            </Col>
-          </Row>
-        </div>
+        <CntComponent obj={obj}/>
       </div>
     </div>
   );

@@ -13,13 +13,13 @@ const Tabs = ({selectedKey, setSelectedKey} : {selectedKey: string, setSelectedK
     return (
         <>
             <StyledTabDiv>
-                <StyledDiv $key={'qna'} $selectedkey={selectedKey} onClick={() => onClick('qna')} style={{ borderRight: '1px solid #eee' }}>
+                <StyledDiv $key={'qna'} $selectedkey={selectedKey} onClick={() => onClick('qna')}>
                     <span>자주 묻는 질문</span>
                 </StyledDiv>
                 <StyledDiv $key={'personal'} $selectedkey={selectedKey} onClick={() => onClick('personal')}>
                     <span>1:1 문의</span>
                 </StyledDiv>
-                <StyledDiv $key={'notice'} $selectedkey={selectedKey} onClick={() => onClick('notice')} style={{ borderLeft: '1px solid #eee' }}>
+                <StyledDiv $key={'notice'} $selectedkey={selectedKey} onClick={() => onClick('notice')}>
                     <span>공지사항</span>
                 </StyledDiv>
             </StyledTabDiv>
@@ -34,6 +34,7 @@ const StyledTabDiv = styled.div`
     height: 60px;
     border: 1px solid #eee;
     text-align: center;
+    border-radius: 8px;
 `
 
 const StyledDiv = styled.div<{ $key: string, $selectedkey: string }>`
@@ -42,6 +43,14 @@ const StyledDiv = styled.div<{ $key: string, $selectedkey: string }>`
     font-weight: bold;
     ${props => (props.$key === props.$selectedkey) && css`
         background-color: #222222;
+    `}
+    ${props => (props.$key === 'qna') && css`
+        border-right: 1px solid #eee;
+        border-radius: 8px 0 0 8px;
+    `}
+    ${props => (props.$key === 'notice') && css`
+        border-left: 1px solid #eee;
+        border-radius: 0 8px 8px 0;
     `}
     & span {
         height: 100%;
