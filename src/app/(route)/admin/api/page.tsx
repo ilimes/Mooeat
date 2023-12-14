@@ -41,13 +41,13 @@ const SubTitle = styled.div`
   color: #5D559A;
 `
 
-const Explain = styled.div`
+export const Explain = styled.div`
   font-size: 14px;
   color: #606060;
   margin: 15px 0;
 `
 
-const RegisterButton = styled(Button)`
+export const RegisterButton = styled(Button)`
   && {
     width: 100%;
     height: 48px;
@@ -57,13 +57,13 @@ const RegisterButton = styled(Button)`
   }
 `
 
-const BtnGroup = styled.div`
+export const BtnGroup = styled.div`
   margin: 20px 0;
   font-size: 14px;
   color: #606060;
 `
 
-const StyledSpan = styled.span`
+export const StyledSpan = styled.span`
   && {
     margin: 0 5px;
     &:hover {
