@@ -99,7 +99,7 @@ const MobileNav = () => {
             <div>
               {
                 session?.user?.token?.userInfo?.role_rank > 2 &&
-                <StyledProfileDiv onClick={() => router.push('/admin')}>
+                <StyledProfileDiv onClick={() => onClickMenu("/admin")}>
                   관리자 페이지
                 </StyledProfileDiv>
               }
