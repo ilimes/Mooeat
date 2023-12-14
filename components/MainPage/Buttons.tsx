@@ -66,11 +66,11 @@ export const StyledCard = styled(Card)`
     && {
         width: 100%;
         height: 105px;
-        box-shadow: 0 8px 20px 0 rgba(129, 137, 143, 0.18);
+        box-shadow: 0 8px 15px 0 rgba(129, 137, 143, 0.18);
         transition: all 0.1s linear;
         &:hover {
             transform: scale(1.01);
-            box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.20);
+            box-shadow: 0 8px 15px 0 rgba(129, 137, 143, 0.38);
         }
     }
 `

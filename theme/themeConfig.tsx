@@ -38,6 +38,7 @@ const theme: ThemeConfig = {
   token: {
     fontSize: 15,
     colorPrimary: '#4f4791',
+    colorBgLayout: '#fff',
     // fontFamily: `${notoSansKr.style.fontFamily}`
     // fontFamily: `${pretendard.style.fontFamily}`
     fontFamily: `${lineSeedKr.style.fontFamily}`

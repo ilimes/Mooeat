@@ -1,6 +1,7 @@
 /* middleware.ts */
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from "next-auth/jwt"
+import { message } from 'antd';
 
 const secret = process.env.NEXTAUTH_SECRET
 
@@ -8,7 +9,7 @@ const withAuthList = ["/friends", "/share", "/myPage", "/service"]
 const withOutAuthList = ["/auth/login", "/auth/login/email", "/auth/join", "/auth/join/email"]
 
 export async function middleware(req: NextRequest) {
-  const session = await getToken({ req, secret, raw: true })
+  const session: any = await getToken({ req, secret, /* raw: true */ })
   const pathname = req.nextUrl.pathname;
 
   const isWithAuth = withAuthList.includes(pathname);
@@ -18,6 +19,10 @@ export async function middleware(req: NextRequest) {
 
   const goLogin = NextResponse.redirect(new URL('/auth/login/?required=true', req.url));
   const goHome = NextResponse.redirect(new URL('/', req.url));
+  const goHome2 = NextResponse.redirect(new URL('/notAccepted', req.url));
+
+  const isAdminPage = pathname?.split('/')?.[1] === 'admin' ? true : false;
+  const userInfo = session?.user?.userInfo;
 
   if (isWithAuth) {
     if (pathname === '/service') {
@@ -34,6 +39,12 @@ export async function middleware(req: NextRequest) {
   if (isWithOutAuth) {
     if (session) {
       return goHome;
+    }
+  }
+  
+  if (isAdminPage) {
+    if (userInfo?.role_rank < 3 || userInfo === undefined) {
+      return goHome2;
     }
   }
 }
