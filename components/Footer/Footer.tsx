@@ -9,7 +9,7 @@ const { Footer } = Layout;
 const FooterPage = () => {
     const router = useRouter();
     return (
-        <Footer style={{ padding: 0, fontSize: 13, color: '#44576c' }}>
+        <Footer style={{ padding: 0, fontSize: 13, color: '#44576c', background: '#F5F5F5' }}>
             <div className='container'>
                 <div style={{ marginBottom: 10 }}>
                     <div style={{ fontWeight: 700, color: '#98a8b9', marginBottom: 10 }}>2023 Mooeat</div>

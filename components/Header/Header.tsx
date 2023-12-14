@@ -185,6 +185,12 @@ const ProfilePopOverContent = (setProfileOpen: Dispatch<SetStateAction<boolean>>
         </div>
       </div>
       <div>
+        {
+          session?.user?.token?.userInfo?.role_rank > 2 &&
+          <StyledProfileDiv onClick={() => router.push('/admin')}>
+            관리자 페이지
+          </StyledProfileDiv>
+        }
         <StyledProfileDiv onClick={() => message.info('준비중 입니다.')}>
           프로필 수정
         </StyledProfileDiv>
