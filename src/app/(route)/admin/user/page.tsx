@@ -5,12 +5,21 @@ import { Button, Table } from "antd";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { ColumnProps } from 'antd/es/table';
+import moment from 'moment';
+import 'moment/locale/ko';
 
-interface IColumnsType {
-  key: string;
-  dataIndex: string;
-  title: string;
-  align: string;
+interface IUserType {
+  user_seq: number;
+  user_id: string;
+  user_nm: string;
+  introduce?: string;
+  point?: number;
+  use_yn?: boolean;
+  role_rank?: number;
+  reg_id: string;
+  mod_id: string;
+  reg_dt: string;
+  mod_dt: string;
 }
 
 const User = () => {
@@ -26,7 +35,7 @@ const User = () => {
     getUserList();
   }, [])
 
-  const columns: ColumnProps<IColumnsType>[] = [
+  const columns: ColumnProps<IUserType>[] = [
     {
       key: '0',
       dataIndex: 'user_seq',
@@ -61,13 +70,15 @@ const User = () => {
       key: '5',
       dataIndex: 'reg_dt',
       title: '가입일',
-      align: 'center'
+      align: 'center',
+      render: (text) => text ? moment(text).format('L') : '-'
     },
     {
       key: '6',
       dataIndex: 'mod_dt',
       title: '수정일',
-      align: 'center'
+      align: 'center',
+      render: (text) => text ? moment(text).format('L') : '-'
     },
   ]
   
@@ -78,7 +89,7 @@ const User = () => {
         <span style={{ fontWeight: 400, fontSize: 13, color: 'grey' }}>{userList?.length}</span>
       </Title>
       <Explain>회원 관리 화면</Explain>
-      <Table dataSource={userList} columns={columns} />
+      <Table rowKey={(e) => e?.user_seq} dataSource={userList} columns={columns} />
     </div>
   );
 };

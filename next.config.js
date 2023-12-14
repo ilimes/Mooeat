@@ -5,7 +5,7 @@ const nextConfig = {
         styledComponents: true,
     },
     typescript: {
-        ignoreBuildErrors: true,
+        ignoreBuildErrors: false,
     },
     /* useEffect 2번 실행되는 문제 해결 */
     reactStrictMode: false,

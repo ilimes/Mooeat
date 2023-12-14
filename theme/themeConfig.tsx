@@ -1,18 +1,7 @@
 
 import type { ThemeConfig } from 'antd';
-import { Noto_Sans_KR, Montserrat, Roboto } from 'next/font/google'
 import localFont from 'next/font/local'
 
-const notoSansKr = Noto_Sans_KR({ subsets: ["latin"] });
-// const pretendard = localFont({
-//   variable: '--pretendard',
-//   src: [
-//     {
-//       path: '../public/fonts/PretendardVariable.woff2',
-//       // style: 'normal'
-//     }
-//   ]
-// })
 const lineSeedKr = localFont({
   variable: '--line-seed-kr',
   src: [
@@ -39,8 +28,6 @@ const theme: ThemeConfig = {
     fontSize: 15,
     colorPrimary: '#4f4791',
     colorBgLayout: '#fff',
-    // fontFamily: `${notoSansKr.style.fontFamily}`
-    // fontFamily: `${pretendard.style.fontFamily}`
     fontFamily: `${lineSeedKr.style.fontFamily}`
   },
   components: {

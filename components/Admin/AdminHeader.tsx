@@ -1,35 +1,116 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  LeftOutlined
+  LaptopOutlined,
+  UserOutlined,
+  BarChartOutlined,
+  HomeOutlined,
+  DatabaseOutlined,
+  LeftOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Button, Layout, Menu, theme } from "antd";
-import { useRouter } from 'next/navigation';
+import { Button, Layout, Menu, Tooltip, theme } from "antd";
+import { usePathname, useRouter } from 'next/navigation';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { adminCollapsedState } from '@/recoil/states';
+import useIsMobile from '@/hooks/useIsMobile';
+import { IMenuTypes } from './AdminSider';
 
 const { Header, Content, Sider } = Layout;
 
-const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
-
 const AdminHeader = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const isMobile = useIsMobile();
+  const [collapsed, setCollapsed] = useRecoilState(adminCollapsedState);
+  const [selectedKeys, setSelectedKeys] = useState([pathname]);
   
+  const menuItems: IMenuTypes[] = [
+    {
+      key: '/admin',
+      icon: React.createElement(HomeOutlined),
+      label: '관리자 페이지 홈',
+      onClick: () => router.push('/admin'),
+    },
+    {
+      key: 'user',
+      icon: React.createElement(UserOutlined),
+      label: '회원',
+      children: [
+        {
+          key: '/admin/user',
+          label: '회원 관리',
+          onClick: () => router.push('/admin/user'),
+        },
+        {
+          key: '/admin/auth',
+          label: '권한 관리',
+          onClick: () => router.push('/admin/auth'),
+        },
+      ]
+    },
+    {
+      key: 'content',
+      icon: React.createElement(DatabaseOutlined),
+      label: '콘텐츠',
+      children: [
+        {
+          key: '/admin/content',
+          label: '글 관리',
+          onClick: () => router.push('/admin/content'),
+        },
+        {
+          key: '/admin/reply',
+          label: '댓글 관리',
+          onClick: () => router.push('/admin/reply'),
+        },
+      ]
+    },
+    {
+      key: 'statistics',
+      icon: React.createElement(BarChartOutlined),
+      label: '통계',
+      children: [
+        {
+          key: '/admin/api',
+          label: 'API 통계',
+          onClick: () => router.push('/admin/api')
+        },
+      ]
+    },
+    {
+      key: 'home',
+      icon: React.createElement(LeftOutlined),
+      label: '사이트로 돌아가기',
+      onClick: () => router.push('/'),
+    }
+  ]
+
+  useEffect(() => {
+    setSelectedKeys([pathname]);
+  }, [pathname])
+
   return (
     <Header style={{ display: "flex", alignItems: "center", background: '#fff', borderBottom: '2px solid rgba(5, 5, 5, 0.06)' }}>
       {/* <div className="demo-logo" /> */}
+      <div onClick={() => setCollapsed(!collapsed)} style={{ cursor: 'pointer', fontSize: 20, marginRight: 10 }}>
+        <Tooltip title={collapsed ? '메뉴 펼치기' : '메뉴 접기'}>
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </Tooltip>
+      </div>
       <div style={{ marginRight: 20, fontWeight: 600 }}>
         Mooeat 관리자 페이지
       </div>
-      {/* <Menu
-        theme="light"
-        mode="horizontal"
-        defaultSelectedKeys={["1"]}
-        items={items1}
-        style={{ flex: 1, minWidth: 0 }}
-      /> */}
-      <Button type='primary' onClick={() => router.push('/')} style={{ fontWeight: 600 }}><LeftOutlined /> 사이트로 돌아가기</Button>
+      {
+        isMobile &&
+        <Menu
+          theme="light"
+          mode="horizontal"
+          items={menuItems}
+          style={{ flex: 1, minWidth: 0 }}
+        />
+      }
     </Header>
   );
 };

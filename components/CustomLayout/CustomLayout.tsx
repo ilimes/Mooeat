@@ -110,7 +110,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
                   <div style={{ padding: 24 }}>
                     <Layout
                       style={{
-                        maxWidth: 1150,
+                        // maxWidth: 1150,
                         width: "100%",
                         margin: "0 auto",
                         padding: 24,

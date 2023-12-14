@@ -7,6 +7,8 @@ import { ColumnProps } from 'antd/es/table';
 import { fetchBoardList } from '../../community/page';
 import { useEffect, useState } from 'react';
 import { IObjTypes } from '@/components/Community/PostCard';
+import moment from 'moment';
+import 'moment/locale/ko';
 
 const Content = () => {
   const router = useRouter();
@@ -47,13 +49,15 @@ const Content = () => {
       key: '5',
       dataIndex: 'reg_dt',
       title: '등록일',
-      align: 'center'
+      align: 'center',
+      render: (text) => text ? moment(text).format('L') : '-'
     },
     {
       key: '6',
       dataIndex: 'mod_dt',
       title: '수정일',
-      align: 'center'
+      align: 'center',
+      render: (text) => text ? moment(text).format('L') : '-'
     },
   ]
 
@@ -73,7 +77,7 @@ const Content = () => {
         <span style={{ fontWeight: 400, fontSize: 13, color: 'grey' }}>{boardList?.length}</span>
       </Title>
       <Explain>글 관리 화면</Explain>
-      <Table dataSource={boardList} columns={columns} />
+      <Table rowKey={(e) => e?.board_seq} dataSource={boardList} columns={columns} />
     </div>
   );
 };
