@@ -59,3 +59,11 @@ export const userInfoLoadingState = atom({
   key: 'userInfoLoading',
   default: false,
 });
+
+/**
+ * 관리자 페이지 접기 여부
+ */
+export const adminCollapsedState = atom({
+  key: 'collapsed',
+  default: false,
+});

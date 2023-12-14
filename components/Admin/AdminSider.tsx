@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import {
-  LaptopOutlined,
+  LeftOutlined,
   UserOutlined,
   BarChartOutlined,
   HomeOutlined,
@@ -9,10 +9,13 @@ import {
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { usePathname, useRouter } from 'next/navigation';
+import { useRecoilValue } from 'recoil';
+import { adminCollapsedState } from '@/recoil/states';
+import useIsMobile from '@/hooks/useIsMobile';
 
 const { Sider } = Layout;
 
-interface IMenuTypes {
+export interface IMenuTypes {
   key: string;
   icon?: ReactElement,
   label: string,
@@ -24,6 +27,8 @@ const AdminSider = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
+  const collasped = useRecoilValue(adminCollapsedState);
+  const isMobile = useIsMobile();
 
   const menuItems: IMenuTypes[] = [
     {
@@ -78,14 +83,20 @@ const AdminSider = () => {
         },
       ]
     },
+    {
+      key: 'home',
+      icon: React.createElement(LeftOutlined),
+      label: '사이트로 돌아가기',
+      onClick: () => router.push('/'),
+    }
   ]
 
   useEffect(() => {
     setSelectedKeys([pathname]);
   }, [pathname])
 
-  return (
-    <Sider width={230} style={{ background: '#fff' }}>
+  return !isMobile ? (
+    <Sider width={230} collapsed={collasped} style={{ background: '#fff', marginRight: 24 }}>
       <Menu
         mode="inline"
         selectedKeys={selectedKeys}
@@ -94,7 +105,7 @@ const AdminSider = () => {
         items={menuItems}
       />
     </Sider>
-  );
+  ) : <></>;
 };
 
 export default AdminSider;
