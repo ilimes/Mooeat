@@ -87,7 +87,7 @@ const EmailLogin = () => {
           <Input.Password placeholder="비밀번호" style={{ height: 40 }} />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: '100%', height: 47, fontWeight: 'bold', fontSize: 14, marginTop: 10 }}>
+          <Button type="primary" htmlType="submit" style={{ width: '100%', height: 47, fontWeight: 'bold', fontSize: 15, marginTop: 10 }}>
             {
               isLoading && <StyledSpin />
             }

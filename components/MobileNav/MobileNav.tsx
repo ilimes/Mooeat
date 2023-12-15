@@ -57,7 +57,7 @@ const MobileNav = () => {
       closable={false}
       onClose={() => setCollapsed(false)}
       open={collapsed}
-      styles={{ body: { padding: "0 20px" } }}
+      styles={{ body: { padding: "0 20px", fontSize: 15 } }}
       width={"100%"}
     >
       <div style={{ display: "flex", height: 64 }}>
@@ -76,7 +76,6 @@ const MobileNav = () => {
         />
       </div>
       <div className="mobile-nav-menu">
-        <div className="demo-logo-vertical" />
         {
           session &&
           <h3>{session?.user?.token?.userInfo?.user_nm} 님 반가워요 :)</h3>
@@ -91,6 +90,7 @@ const MobileNav = () => {
           selectedKeys={selectedKeys}
           onClick={() => setCollapsed(false)}
           items={menuList}
+          style={{ fontSize: 15 }}
         />
         <Divider />
         {
