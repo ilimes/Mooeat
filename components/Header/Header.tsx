@@ -139,7 +139,7 @@ const HeaderPage = () => {
         </div>
       </div>
       <AlertDrawer />
-      <ProfileDrawer />
+      {/* <ProfileDrawer /> */}
     </Header>
   );
 };
@@ -170,7 +170,7 @@ const ProfilePopOverContent = (setProfileOpen: Dispatch<SetStateAction<boolean>>
   }
 
   return (
-    <StyledPopoverDiv style={{ width: 320, height: 450, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column' }}>
+    <StyledPopoverDiv style={{ width: 320, height: 450, fontSize: 15, overflowY: 'auto', overflowX: 'hidden', display: 'flex', flexDirection: 'column' }}>
       <div style={{ paddingTop: 20, padding: 10, flex: 1 }}>
         <div>
           <Avatar size={70} icon={<UserOutlined />} />

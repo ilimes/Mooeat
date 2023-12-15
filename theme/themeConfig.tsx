@@ -25,7 +25,7 @@ const lineSeedKr = localFont({
 
 const theme: ThemeConfig = {
   token: {
-    fontSize: 15,
+    fontSize: 14,
     colorPrimary: '#4f4791',
     colorBgLayout: '#fff',
     fontFamily: `${lineSeedKr.style.fontFamily}`

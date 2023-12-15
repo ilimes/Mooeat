@@ -58,6 +58,7 @@ export const RegisterButton = styled(Button)`
     width: 100%;
     height: 48px;
     text-align: left;
+    font-size: 15px;
     font-weight: bold;
     margin-bottom: 10px;
   }

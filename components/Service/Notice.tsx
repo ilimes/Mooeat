@@ -90,7 +90,7 @@ export default Notice;
 
 const StyledDiv = styled.div`
     margin-top: 20px;
-    font-size: 15px;
+    font-size: 14px;
     color: #666666;
     text-align: center;
     border-top: 1px solid #333333;
