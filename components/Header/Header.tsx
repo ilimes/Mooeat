@@ -177,6 +177,7 @@ const ProfilePopOverContent = (setProfileOpen: Dispatch<SetStateAction<boolean>>
         </div>
         <div style={{ marginTop: 20, display: 'flex', flexDirection: 'column', gap: 5 }}>
           <div style={{ fontWeight: 600 }}>
+            {console.log(session)}
             {session?.user?.token?.userInfo?.user_nm}
           </div>
           <div>
@@ -197,7 +198,7 @@ const ProfilePopOverContent = (setProfileOpen: Dispatch<SetStateAction<boolean>>
         <StyledProfileDiv onClick={() => onClickMenu('/myPage')}>
           마이 페이지
         </StyledProfileDiv>
-        <StyledProfileDiv onClick={() => signOut()}>
+        <StyledProfileDiv onClick={() => signOut({ callbackUrl: "/" })}>
           로그아웃
         </StyledProfileDiv>
       </div>

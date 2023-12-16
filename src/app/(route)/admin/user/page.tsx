@@ -16,6 +16,7 @@ interface IUserType {
   point?: number;
   use_yn?: boolean;
   role_rank?: number;
+  type: string;
   reg_id: string;
   mod_id: string;
   reg_dt: string;
@@ -58,7 +59,8 @@ const User = () => {
       key: '3',
       dataIndex: 'introduce',
       title: '자기소개',
-      align: 'center'
+      align: 'center',
+      render: (text) => text ?? <span style={{ color: '#ababab' }}>없음</span>
     },
     {
       key: '4',
@@ -68,13 +70,20 @@ const User = () => {
     },
     {
       key: '5',
+      dataIndex: 'type',
+      title: '가입 수단',
+      align: 'center',
+      render: (text) => text ?? '일반' 
+    },
+    {
+      key: '6',
       dataIndex: 'reg_dt',
       title: '가입일',
       align: 'center',
       render: (text) => text ? moment(text).format('L') : '-'
     },
     {
-      key: '6',
+      key: '7',
       dataIndex: 'mod_dt',
       title: '수정일',
       align: 'center',
