@@ -1,12 +1,13 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials'
+import KakaoProvider from 'next-auth/providers/kakao'
 
 import {
     type DefaultSession,
     type DefaultUser,
-  } from "next-auth";   
-  
-  declare module "next-auth" {
+} from "next-auth";
+
+declare module "next-auth" {
     interface Session extends DefaultSession {
         user: {
             token: string | any;
@@ -14,13 +15,18 @@ import {
         };
     }
     interface User extends DefaultUser {
-      data: any;
-      userInfo: any;
+        data: any;
+        userInfo: any;
     }
-  }
+}
 
+// NextAuth 옵션 지정 객체
 export const options: NextAuthOptions = {
     providers: [
+        KakaoProvider({
+            clientId: process.env.KAKAO_CLIENT_ID!,
+            clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+        }),
         CredentialsProvider({
             // The name to display on the sign in form (e.g. "Sign in with...")
             name: 'Credentials',
@@ -78,11 +84,19 @@ export const options: NextAuthOptions = {
             try {
                 // // 데이터베이스에 유저가 있는지 확인
                 const token = user?.data?.token;
+                const type = user?.id ? 'oAuth' : undefined;
+                let formData: any = {
+                    token,
+                    type
+                }
+                if (type) {
+                    formData.user = user;
+                }
                 const res = await fetch(
                     `${process.env.NEXTAUTH_URL}/api/userInfo`,
                     {
                         method: 'POST',
-                        body: JSON.stringify(token)
+                        body: JSON.stringify(formData)
                     }
                 );
                 const result = await res.json();
@@ -98,12 +112,24 @@ export const options: NextAuthOptions = {
         async redirect({ url, baseUrl }) {
             return Promise.resolve(url);
         },
+        /**
+         * JWT Callback
+         * 웹 토큰이 실행 혹은 업데이트될때마다 콜백이 실행
+         * 반환된 값은 암호화되어 쿠키에 저장됨
+         */
         async jwt({ token, user, account, profile, isNewUser }) {
+            // 초기 로그인 시 user 정보 가공하여 변환함
             if (user) {
                 token.user = user;
             }
             return token;
         },
+        /**
+         * Session Callback
+         * ClientSide에서 NextAuth에 세션을 체크할때마다 실행
+         * 반환된 값은 useSession을 통해 ClientSide에서 사용할 수 있음
+         * JWT 토큰의 정보를 Session에 유지 시킨다.
+         */
         async session({ session, user, token }) {
             session.user.token = token?.user;
             session.user.userInfo = token?.userInfo;

@@ -42,7 +42,7 @@ const ApiCountChart = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" fontSize={13} />
               <YAxis />
-              <Tooltip formatter={(data) => data + '회'}/>
+              <Tooltip formatter={(data: number) => data + '회'}/>
               <Legend />
               <Bar
                 type="monotone"
@@ -57,8 +57,8 @@ const ApiCountChart = () => {
                   fontSize: '13px',
                   fill: '#fff',
                   position: 'center',
-                  formatter: (value: any) => {
-                    if(value > 1){
+                  formatter: (value: number) => {
+                    if(value > 0){
                       return value + '회';
                     }
                   },

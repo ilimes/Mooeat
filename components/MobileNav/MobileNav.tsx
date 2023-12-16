@@ -44,7 +44,7 @@ const MobileNav = () => {
    * 로그아웃
    */
   const logout = () => {
-    signOut();
+    signOut({ callbackUrl: "/" });
   }
 
   useEffect(() => {

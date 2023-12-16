@@ -164,9 +164,13 @@ export const fetchMenuData = async () => {
 };
 
 export const fetchUserInfoData = async (token: string | null) => {
+  const formData = {
+    token,
+    type: undefined
+  }
   const res = await fetch(`/api/userInfo`, {
     method: "POST",
-    body: JSON.stringify(token),
+    body: JSON.stringify(formData),
   });
   const result = await res.json();
 
