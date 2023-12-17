@@ -7,14 +7,21 @@ import Kakao from '@/public/svg/kakao.svg';
 import Mail from '@/public/svg/mail.svg';
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useEffect, useState } from 'react';
 
 const Join = () => {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(true)
+  }, [])
+
   return (
     <div style={{ marginTop: 30 }}>
       <Title>Mooeat 회원가입</Title>
       <Explain>Mooeat에 회원가입 합니다.</Explain>
-      <Tooltip placement="topRight" title={'3초만에 시작할 수 있어요!'} open={true} >
+      <Tooltip placement="topRight" title={'3초만에 시작할 수 있어요!'} open={open} zIndex={1} overlayStyle={{ fontWeight: 'bold' }}>
         <RegisterButton icon={<Kakao style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom', fill: '#3C1E1E' }} />} onClick={() => signIn('kakao')} style={{ background: '#FAE100', color: '#3C1E1E' }}>카카오로 회원가입</RegisterButton>
       </Tooltip>
       <RegisterButton icon={<GoogleIcon style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />} onClick={() => message.info('준비중 입니다.')}>구글로 회원가입</RegisterButton>
