@@ -1,7 +1,6 @@
 /* middleware.ts */
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from "next-auth/jwt"
-import { message } from 'antd';
 
 const secret = process.env.NEXTAUTH_SECRET
 
@@ -24,6 +23,9 @@ export async function middleware(req: NextRequest) {
   const isAdminPage = pathname?.split('/')?.[1] === 'admin' ? true : false;
   const userInfo = session?.user?.userInfo;
 
+  /**
+   * 로그인이 필요한 경우
+   */
   if (isWithAuth) {
     if (pathname === '/service') {
       if (!session && isPersonal) {
@@ -36,12 +38,18 @@ export async function middleware(req: NextRequest) {
     }
   }
 
+  /**
+   * 로그인 시 접근 불가능
+   */
   if (isWithOutAuth) {
     if (session) {
       return goHome;
     }
   }
   
+  /**
+   * 관리자 페이지
+   */
   if (isAdminPage) {
     if (userInfo?.role_rank < 3 || userInfo === undefined) {
       return goHome2;

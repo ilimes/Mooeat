@@ -156,7 +156,7 @@ export const StyledButton = styled(Button)`
 
 const StyledProfileDiv = styled.div`
   && {
-    border-radius: 10px;
+    border-radius: 16px;
     padding: 15px 10px;
     font-weight: 500;
     &:hover {

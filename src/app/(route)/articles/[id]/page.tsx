@@ -108,7 +108,7 @@ const Articles = () => {
         {/* <LikeFilled style={{ color: '#5383EC' }} /> 추천취소 */}
       </StyledLikeBtn>
       {/* 작성자 정보 영역 */}
-      <div style={{ display: 'flex', flexDirection: 'column', background: '#F5F5F5', borderRadius: 5, padding: 40, gap: 30 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', background: '#F5F5F5', borderRadius: 16, padding: 40, gap: 30 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <div style={{ fontSize: 18, fontWeight: 600 }}>계정명</div>
           <div style={{ fontSize: 16, fontWeight: 400 }}>자기소개입니다.</div>
