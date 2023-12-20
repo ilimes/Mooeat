@@ -93,12 +93,14 @@ const AdminHeader = () => {
 
   return (
     <Header style={{ display: "flex", alignItems: "center", background: '#fff', borderBottom: '2px solid rgba(5, 5, 5, 0.06)' }}>
-      {/* <div className="demo-logo" /> */}
-      <div onClick={() => setCollapsed(!collapsed)} style={{ cursor: 'pointer', fontSize: 20, marginRight: 10 }}>
-        <Tooltip title={collapsed ? '메뉴 펼치기' : '메뉴 접기'}>
-          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        </Tooltip>
-      </div>
+      {
+        !isMobile &&
+        <div onClick={() => setCollapsed(!collapsed)} style={{ cursor: 'pointer', fontSize: 20, marginRight: 10 }}>
+          <Tooltip title={collapsed ? '메뉴 펼치기' : '메뉴 접기'}>
+            {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          </Tooltip>
+        </div>
+      }
       <div style={{ marginRight: 20, fontWeight: 600 }}>
         Mooeat 관리자 페이지
       </div>

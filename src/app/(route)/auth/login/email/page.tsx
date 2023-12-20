@@ -2,7 +2,7 @@
 
 import { signIn } from 'next-auth/react'
 import { Button, Checkbox, Form, Input, Drawer, message, Spin } from "antd";
-import { LeftOutlined } from '@ant-design/icons'
+import { LeftOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import styled from "styled-components";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";

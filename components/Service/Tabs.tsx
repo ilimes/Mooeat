@@ -34,7 +34,7 @@ const StyledTabDiv = styled.div`
     height: 60px;
     border: 1px solid #eee;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 12px;
 `
 
 const StyledDiv = styled.div<{ $key: string, $selectedkey: string }>`
@@ -46,11 +46,11 @@ const StyledDiv = styled.div<{ $key: string, $selectedkey: string }>`
     `}
     ${props => (props.$key === 'qna') && css`
         border-right: 1px solid #eee;
-        border-radius: 8px 0 0 8px;
+        border-radius: 12px 0 0 12px;
     `}
     ${props => (props.$key === 'notice') && css`
         border-left: 1px solid #eee;
-        border-radius: 0 8px 8px 0;
+        border-radius: 0 12px 12px 0;
     `}
     & span {
         height: 100%;

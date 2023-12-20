@@ -9,7 +9,7 @@ import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { useRef } from 'react';
 import Content from "../SharedComponents/Content";
 
-const MainPage: React.FC = () => {
+const Main: React.FC = () => {
     const router = useRouter();
     const targetRef = useRef<HTMLDivElement | null>(null);
     const { ref, visible } = useIntersectionObserver(targetRef);
@@ -64,7 +64,7 @@ const MainPage: React.FC = () => {
     )
 }
 
-export default MainPage;
+export default Main;
 
 export const StyledDiv = styled.div`
     && {
