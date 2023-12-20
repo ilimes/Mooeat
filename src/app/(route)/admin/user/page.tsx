@@ -98,7 +98,9 @@ const User = () => {
         <span style={{ fontWeight: 400, fontSize: 13, color: 'grey' }}>{userList?.length}</span>
       </Title>
       <Explain>회원 관리 화면</Explain>
-      <Table rowKey={(e) => e?.user_seq} dataSource={userList} columns={columns} />
+      <div style={{ overflow: 'auto' }}>
+        <Table rowKey={(e) => e?.user_seq} dataSource={userList} columns={columns} />
+      </div>
     </div>
   );
 };

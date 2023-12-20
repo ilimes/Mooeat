@@ -77,7 +77,9 @@ const Content = () => {
         <span style={{ fontWeight: 400, fontSize: 13, color: 'grey' }}>{boardList?.length}</span>
       </Title>
       <Explain>글 관리 화면</Explain>
-      <Table rowKey={(e) => e?.board_seq} dataSource={boardList} columns={columns} />
+      <div style={{ overflow: 'auto' }}>
+        <Table rowKey={(e) => e?.board_seq} dataSource={boardList} columns={columns} />
+      </div>
     </div>
   );
 };

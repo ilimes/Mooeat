@@ -29,7 +29,7 @@ const theme: ThemeConfig = {
     colorPrimary: '#4f4791',
     colorBgLayout: '#fff',
     fontFamily: `${lineSeedKr.style.fontFamily}`,
-    borderRadiusLG: 16,
+    borderRadiusLG: 12,
   },
   components: {
     Carousel: {

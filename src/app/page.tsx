@@ -1,14 +1,14 @@
 'use client';
 
 import CarouselComponent from '@/components/Carousel/Carousel';
-import MainPage from '@/components/MainPage/MainPage';
+import Main from '@/components/Main/Main';
 
 const Home: React.FC = () => {
   return (
     <>
       <CarouselComponent />
       <div>
-        <MainPage />
+        <Main />
       </div>
     </>
   )
