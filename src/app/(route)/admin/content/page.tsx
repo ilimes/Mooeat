@@ -4,7 +4,6 @@ import { Button, Table } from "antd";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { ColumnProps } from 'antd/es/table';
-import { fetchBoardList } from '../../community/page';
 import { useEffect, useState } from 'react';
 import { IObjTypes } from '@/components/Community/PostCard';
 import moment from 'moment';
@@ -86,7 +85,7 @@ const Content = () => {
 
 export default Content;
 
-export const Title = styled.div`
+const Title = styled.div`
   font-size: 26px;
   font-weight: 600;
   display: flex;
@@ -94,34 +93,17 @@ export const Title = styled.div`
   gap: 10px;
 `
 
-export const Explain = styled.div`
+const Explain = styled.div`
   font-size: 14px;
   color: #606060;
   margin: 15px 0;
 `
 
-export const RegisterButton = styled(Button)`
-  && {
-    width: 100%;
-    height: 48px;
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-`
+const fetchBoardList = async () => {
+  const res = await fetch(`/api/board/list`, {
+    method: 'POST',
+  });
+  const result = await res.json();
 
-export const BtnGroup = styled.div`
-  margin: 20px 0;
-  font-size: 14px;
-  color: #606060;
-`
-
-export const StyledSpan = styled.span`
-  && {
-    margin: 0 5px;
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
-`
+  return result?.data;
+}

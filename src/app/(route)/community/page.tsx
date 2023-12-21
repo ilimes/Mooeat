@@ -121,44 +121,18 @@ const Community = () => {
 
 export default Community;
 
-export const Title = styled.div`
+const Title = styled.div`
   font-size: 26px;
   font-weight: 600;
 `
 
-export const Explain = styled.div`
+const Explain = styled.div`
   font-size: 14px;
   color: #606060;
   margin: 15px 0;
 `
 
-export const RegisterButton = styled(Button)`
-  && {
-    width: 100%;
-    height: 48px;
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-`
-
-export const BtnGroup = styled.div`
-  margin: 20px 0;
-  font-size: 14px;
-  color: #606060;
-`
-
-export const StyledSpan = styled.span`
-  && {
-    margin: 0 5px;
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
-`
-
-export const fetchInfoList = async () => {
+const fetchInfoList = async () => {
   const res = await fetch(`/api/board/info/list`, {
     method: 'POST',
   });
@@ -167,7 +141,7 @@ export const fetchInfoList = async () => {
   return result?.data;
 }
 
-export const fetchBoardList = async () => {
+const fetchBoardList = async () => {
   const res = await fetch(`/api/board/list`, {
     method: 'POST',
   });

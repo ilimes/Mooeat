@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Spin } from 'antd';
+import { Empty, Spin } from 'antd';
 import styled from 'styled-components';
-import { EmptyComponent } from './Help';
 import moment from 'moment';
 import 'moment/locale/ko';
 import { IObjTypes } from '../Community/PostCard';
@@ -88,6 +87,47 @@ const Notice = () => {
 
 export default Notice;
 
+const EmptyComponent = ({title} : {title: string}) => {
+    return (
+        <ContentDiv>
+            <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description={title} />
+        </ContentDiv>
+    )
+}
+
+const ContentDiv = styled.div`
+    padding: 20px 0;
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    align-items: center;
+    div:nth-child(1) {
+        flex: 1;
+    }
+    div:nth-child(2) {
+        width: 130px;
+    }
+    cursor: pointer;
+    &:hover {
+        color: black;
+    }
+`
+
+const StyledEmpty = styled(Empty)`
+  && {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+
+    > .ant-empty-description {
+      color: grey;
+      font-size: 14px;
+    }
+  }
+`
+
 const StyledDiv = styled.div`
     margin-top: 20px;
     font-size: 14px;
@@ -138,7 +178,7 @@ const ListContentDiv = styled.div`
     white-space: pre-line;
 `
 
-export const fetchNoticeList = async () => {
+const fetchNoticeList = async () => {
     const res = await fetch(`/api/board/list`, {
         method: 'POST',
         body: JSON.stringify({ cate_seq: 4 })
@@ -148,7 +188,7 @@ export const fetchNoticeList = async () => {
     return result?.data;
 }
 
-export const fetchNoticeData = async (formData: { board_num: number }) => {
+const fetchNoticeData = async (formData: { board_num: number }) => {
     const res = await fetch(`/api/board/view`, {
         method: 'POST',
         body: JSON.stringify(formData)

@@ -66,7 +66,7 @@ const Main: React.FC = () => {
 
 export default Main;
 
-export const StyledDiv = styled.div`
+const StyledDiv = styled.div`
     && {
         display: flex;
         gap: 10px;
@@ -77,10 +77,3 @@ export const StyledDiv = styled.div`
         }
     }
 `
-
-// export const StyledContentDiv = styled.div`
-//     && {
-//         background: #F2F6F8;
-//         padding: 100px 0px;
-//     }
-// `

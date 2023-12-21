@@ -135,7 +135,10 @@ const Articles = () => {
                   {e?.content}
                 </div>
                 <div style={{ fontSize: 13, marginTop: 10 }}>
-                  {moment(e?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(e?.reg_dt).fromNow() : moment(e?.reg_dt).format('LLL')}
+                  <span style={{ color: 'grey' }}>{moment(e?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(e?.reg_dt).fromNow() : moment(e?.reg_dt).format('LLL')}</span>
+                  {" "} · {" "}
+                  <span style={{ color: '#000', fontSize: 14, cursor: 'pointer' }}>답글 달기</span>
+                  
                 </div>
               </div>
             </div>
@@ -176,7 +179,7 @@ const Articles = () => {
 
 export default Articles;
 
-export const Title = styled.div`
+const Title = styled.div`
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 20px;
@@ -188,13 +191,13 @@ export const Title = styled.div`
   }
 `
 
-export const Explain = styled.div`
+const Explain = styled.div`
   font-size: 14px;
   color: #606060;
   margin: 15px 0;
 `
 
-export const RegisterButton = styled(Button)`
+const RegisterButton = styled(Button)`
   && {
     width: 100%;
     height: 48px;
@@ -204,13 +207,13 @@ export const RegisterButton = styled(Button)`
   }
 `
 
-export const BtnGroup = styled.div`
+const BtnGroup = styled.div`
   margin: 20px 0;
   font-size: 14px;
   color: #606060;
 `
 
-export const StyledSpan = styled.span`
+const StyledSpan = styled.span`
   && {
     margin: 0 5px;
     &:hover {
@@ -220,7 +223,7 @@ export const StyledSpan = styled.span`
   }
 `
 
-export const StyledOutDiv = styled.div`
+const StyledOutDiv = styled.div`
   && {
     overflow: hidden;
     white-space: nowrap;
@@ -229,7 +232,7 @@ export const StyledOutDiv = styled.div`
   }
 `
 
-export const StyledTagSpan = styled.span`
+const StyledTagSpan = styled.span`
   background: #F9F9FF;
   padding: 8px 12px;
   border-radius: 20px;
@@ -240,7 +243,7 @@ export const StyledTagSpan = styled.span`
   }
 `
 
-export const StyledPlusBtn = styled.div`
+const StyledPlusBtn = styled.div`
   border: 1px solid #ababab;
   color: #0c0c0c;
   border-radius: 20px;
@@ -254,7 +257,7 @@ export const StyledPlusBtn = styled.div`
   }
 `
 
-export const StyledLikeBtn = styled.div`
+const StyledLikeBtn = styled.div`
   border: 1px solid #ababab;
   color: #0c0c0c;
   border-radius: 20px;
@@ -269,7 +272,7 @@ export const StyledLikeBtn = styled.div`
   }
 `
 
-export const StyledCommentDiv = styled.div`
+const StyledCommentDiv = styled.div`
   border: 1px solid #D0D2D5;
   min-height: 120px;
   margin-bottom: 15px;
@@ -281,7 +284,7 @@ export const StyledCommentDiv = styled.div`
   }
 `
 
-export const fetchArticleData = async (formData: { board_num: string | string[] }) => {
+const fetchArticleData = async (formData: { board_num: string | string[] }) => {
   const res = await fetch(`/api/board/view`, {
     method: 'POST',
     body: JSON.stringify(formData)
@@ -291,7 +294,7 @@ export const fetchArticleData = async (formData: { board_num: string | string[] 
   return result?.data;
 }
 
-export const fetchCommentList = async (formData: { board_num: string | string[] }) => {
+const fetchCommentList = async (formData: { board_num: string | string[] }) => {
   const res = await fetch(`/api/board/comment/list`, {
     method: 'POST',
     body: JSON.stringify(formData)

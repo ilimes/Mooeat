@@ -25,7 +25,7 @@ const FooterPage = () => {
 
 export default FooterPage;
 
-export const StyledDiv = styled.div`
+const StyledDiv = styled.div`
     span:hover {
         text-decoration: underline;
         cursor: pointer;

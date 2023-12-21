@@ -103,9 +103,6 @@ const MobileNav = () => {
                   관리자 페이지
                 </StyledProfileDiv>
               }
-              <StyledProfileDiv onClick={() => message.info('준비중 입니다.')}>
-                <SettingOutlined /> 프로필 수정
-              </StyledProfileDiv>
               <StyledProfileDiv onClick={() => onClickMenu("/myPage")}>
                 <UserOutlined /> 마이 페이지
               </StyledProfileDiv>
@@ -135,7 +132,7 @@ const MobileNav = () => {
 
 export default MobileNav;
 
-export const StyledLogo = styled(Image)`
+const StyledLogo = styled(Image)`
     && {
     align-self: center;
     font-weight: bold;
@@ -144,7 +141,7 @@ export const StyledLogo = styled(Image)`
     cursor: pointer;
     }
 `
-export const StyledButton = styled(Button)`
+const StyledButton = styled(Button)`
   && {
     font-size: 15px;
     transition: all 0.1s linear;

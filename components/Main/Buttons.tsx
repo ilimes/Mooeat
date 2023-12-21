@@ -62,7 +62,7 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
 
 export default Buttons;
 
-export const StyledCard = styled(Card)`
+const StyledCard = styled(Card)`
     && {
         width: 100%;
         height: 105px;

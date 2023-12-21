@@ -66,64 +66,32 @@ const MyPage = () => {
 
 export default MyPage;
 
-export const Title = styled.div`
+const Title = styled.div`
   font-size: 26px;
   font-weight: 600;
 `
 
-export const SubTitle = styled.div`
-  font-size: 22px;
-  font-weight: 500;
-  margin-bottom: 20px;
-`
-
-export const Explain = styled.div`
+const Explain = styled.div`
   font-size: 14px;
   color: #606060;
   margin: 15px 0;
 `
 
-export const RegisterButton = styled(Button)`
-  && {
-    width: 100%;
-    height: 48px;
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-`
-
-export const BtnGroup = styled.div`
-  margin: 20px 0;
-  font-size: 14px;
-  color: #606060;
-`
-
-export const StyledSpan = styled.span`
-  && {
-    margin: 0 5px;
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
-`
-
-export const StyledBoxDiv = styled.div`
+const StyledBoxDiv = styled.div`
   padding: 15px;
   margin-bottom: 20px;
   border: 1px solid #BBCEDD;
   border-radius: 10px;
 `
 
-export const StyledResponsiveDiv = styled.div`
+const StyledResponsiveDiv = styled.div`
   display: none;
   @media (min-width: 991px) {
     display: block;
   }
 `
 
-export const StyledTabs = styled(Tabs)`
+const StyledTabs = styled(Tabs)`
   && {
     font-weight: 600;
     @media (min-width: 991px) {

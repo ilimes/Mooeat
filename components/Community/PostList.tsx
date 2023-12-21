@@ -61,7 +61,7 @@ const PostList = ({ obj }: { obj: IObjTypes }) => {
 
 export default PostList;
 
-export const StyledTitleDiv = styled.span`
+const StyledTitleDiv = styled.span`
   &:hover {
     cursor: pointer;
   }
@@ -72,7 +72,7 @@ export const StyledTitleDiv = styled.span`
   -webkit-box-orient: vertical;
 `
 
-export const StyledContentDiv = styled.span`
+const StyledContentDiv = styled.span`
   .titleDiv {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -99,7 +99,7 @@ export const StyledContentDiv = styled.span`
   }
 `
 
-export const StyledOutDiv = styled.div`
+const StyledOutDiv = styled.div`
   && {
     overflow: hidden;
     white-space: nowrap;

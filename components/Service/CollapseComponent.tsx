@@ -67,7 +67,7 @@ const TitleDiv = styled.div<{$isOpen: boolean}>`
   `}
 `
 
-export const fetchQnaList = async () => {
+const fetchQnaList = async () => {
   const res = await fetch(`/api/board/list`, {
       method: 'POST',
       body: JSON.stringify({ cate_seq: 5 })

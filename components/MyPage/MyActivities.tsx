@@ -1,4 +1,4 @@
-import { SubTitle, StyledBoxDiv } from "@/src/app/(route)/myPage/page";
+import styled from "styled-components";
 
 const MyActivities = () => {
   return (
@@ -16,3 +16,16 @@ const MyActivities = () => {
 }
 
 export default MyActivities;
+
+const StyledBoxDiv = styled.div`
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #BBCEDD;
+  border-radius: 10px;
+`
+
+const SubTitle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  color: #5D559A;
+`

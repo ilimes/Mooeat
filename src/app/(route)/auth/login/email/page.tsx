@@ -6,7 +6,6 @@ import { LeftOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import styled from "styled-components";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchUserInfoData } from "@/components/CustomLayout/CustomLayout";
 import { useSetRecoilState } from "recoil";
 import { userInfoState } from "@/recoil/states";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
@@ -106,42 +105,26 @@ const EmailLogin = () => {
 
 export default EmailLogin;
 
-export const Title = styled.div`
+const Title = styled.div`
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 15px;
 `
 
-export const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`
-
-export const RegisterButton = styled(Button)`
-  && {
-    width: 100%;
-    height: 48px;
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-`
-
-export const BtnGroup = styled.div`
+const BtnGroup = styled.div`
   margin: 20px 0;
   font-size: 14px;
   color: #606060;
 `
 
-export const StyledTitleDiv = styled.div`
+const StyledTitleDiv = styled.div`
   font-size: 13px;
   color: #606060;
   font-weight: 600;
   padding-bottom: 5px;
 `
 
-export const StyledForm = styled(Form)`
+const StyledForm = styled(Form)`
   && {
     .ant-form-item-explain-error {
       font-size: 13px;
@@ -149,18 +132,7 @@ export const StyledForm = styled(Form)`
   }
 `
 
-export const Req = styled.span`
-  color: red;
-  font-size: 12px;
-`
-
-export const StyledDetailSpan = styled.span`
-  &:hover {
-    text-decoration: underline;
-  }
-`
-
-export const StyledSpan = styled.span`
+const StyledSpan = styled.span`
   && {
     margin: 0 5px;
     &:hover {
@@ -170,7 +142,7 @@ export const StyledSpan = styled.span`
   }
 `
 
-export const fetchData = async (formData: object) => {
+const fetchData = async (formData: object) => {
   const res = await fetch(`/api/login`, {
     method: 'POST',
     body: JSON.stringify(formData)
@@ -180,10 +152,24 @@ export const fetchData = async (formData: object) => {
   return result?.data;
 }
 
-export const StyledSpin = styled(Spin)`
+const StyledSpin = styled(Spin)`
     && {
         & .ant-spin-dot-item {
             background-color: white;
         }
     }
 `
+
+const fetchUserInfoData = async (token: string | null) => {
+  const formData = {
+    token,
+    type: undefined
+  }
+  const res = await fetch(`/api/userInfo`, {
+    method: "POST",
+    body: JSON.stringify(formData),
+  });
+  const result = await res.json();
+
+  return result?.data;
+};

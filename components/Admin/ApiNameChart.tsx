@@ -73,7 +73,7 @@ const ApiCountChart = () => {
 
 export default ApiCountChart;
 
-export const fetchApiData = async (formData: { type: string }) => {
+const fetchApiData = async (formData: { type: string }) => {
   const res = await fetch(`/api/api`, {
       method: 'POST',
       body: JSON.stringify(formData)

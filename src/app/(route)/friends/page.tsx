@@ -106,18 +106,18 @@ const Friend = () => {
 
 export default Friends;
 
-export const Title = styled.div`
+const Title = styled.div`
   font-size: 26px;
   font-weight: 600;
 `
 
-export const Explain = styled.div`
+const Explain = styled.div`
   font-size: 14px;
   color: #606060;
   margin: 15px 0;
 `
 
-export const RegisterButton = styled(Button)`
+const RegisterButton = styled(Button)`
   && {
     width: 100%;
     height: 48px;
@@ -127,23 +127,7 @@ export const RegisterButton = styled(Button)`
   }
 `
 
-export const BtnGroup = styled.div`
-  margin: 20px 0;
-  font-size: 14px;
-  color: #606060;
-`
-
-export const StyledSpan = styled.span`
-  && {
-    margin: 0 5px;
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
-`
-
-export const StyledOutDiv = styled.div`
+const StyledOutDiv = styled.div`
   && {
     overflow: hidden;
     white-space: nowrap;
@@ -152,7 +136,7 @@ export const StyledOutDiv = styled.div`
   }
 `
 
-export const StyledCard = styled(Card)`
+const StyledCard = styled(Card)`
   && {
     &:hover {
       border: 1px solid black;
@@ -161,7 +145,7 @@ export const StyledCard = styled(Card)`
   }
 `
 
-export const StyledLeftCard = styled(Card)`
+const StyledLeftCard = styled(Card)`
   && {
     background: #F2F4F6;
     .ant-card-head {

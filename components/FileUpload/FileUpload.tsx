@@ -86,7 +86,7 @@ const FileUpload = () => {
 
 export default FileUpload;
 
-export const StyledDiv = styled.div`
+const StyledDiv = styled.div`
     align-items: center;
     display: flex;
     .preview_info {
@@ -110,13 +110,13 @@ export const StyledDiv = styled.div`
       }
 `
 
-export const StyledSvg = styled.svg`
+const StyledSvg = styled.svg`
     width: 100px;
     height: 100px;
     pointer-events: none;
 `
 
-export const StyledLabel = styled.label`
+const StyledLabel = styled.label`
     width: 100%;
     height: 300px;
     margin: auto;
@@ -138,7 +138,7 @@ export const StyledLabel = styled.label`
     }
 `
 
-export const StyledInput = styled.input`
+const StyledInput = styled.input`
     display: none;
     &::file-selector-button {
         font-size: 14px;
@@ -150,13 +150,13 @@ export const StyledInput = styled.input`
     }
 `
 
-export const StyledP1 = styled.p`
+const StyledP1 = styled.p`
     font-weight: 500;
     font-size: 18px;
     margin: 20px 0 10px;
 `
 
-export const StyledP2 = styled.p`
+const StyledP2 = styled.p`
     margin: 0;
     font-size: 14px;
 `
