@@ -81,7 +81,7 @@ const PostCard = ({ obj }: { obj: IObjTypes }) => {
 
 export default PostCard;
 
-export const StyledCard = styled(Card) <{ background: string | null, catecolor: string | null }>`
+const StyledCard = styled(Card) <{ background: string | null, catecolor: string | null }>`
   && {
     width: 100%;
     height: 300px;
@@ -100,7 +100,7 @@ export const StyledCard = styled(Card) <{ background: string | null, catecolor: 
   }
 `
 
-export const StyledOutDiv = styled.div`
+const StyledOutDiv = styled.div`
   && {
     overflow: hidden;
     white-space: nowrap;

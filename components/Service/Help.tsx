@@ -21,7 +21,7 @@ const Help = () => {
     )
 }
 
-export const EmptyComponent = ({title} : {title: string}) => {
+const EmptyComponent = ({title} : {title: string}) => {
     return (
         <ContentDiv>
             <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description={title} />
@@ -68,7 +68,7 @@ const ContentDiv = styled.div`
     }
 `
 
-export const StyledEmpty = styled(Empty)`
+const StyledEmpty = styled(Empty)`
   && {
     display: flex;
     flex: 1;

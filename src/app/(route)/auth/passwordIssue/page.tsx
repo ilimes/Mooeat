@@ -61,25 +61,25 @@ const PasswordIssue = () => {
 
 export default PasswordIssue;
 
-export const StyledTitleDiv = styled.div`
+const StyledTitleDiv = styled.div`
   font-size: 13px;
   color: #606060;
   font-weight: 600;
   padding-bottom: 5px;
 `
 
-export const Title = styled.div`
+const Title = styled.div`
   font-size: 26px;
   font-weight: 600;
 `
 
-export const Explain = styled.div`
+const Explain = styled.div`
   font-size: 14px;
   color: #606060;
   margin: 15px 0;
 `
 
-export const RegisterButton = styled(Button)`
+const RegisterButton = styled(Button)`
   && {
     width: 100%;
     height: 48px;
@@ -89,13 +89,13 @@ export const RegisterButton = styled(Button)`
   }
 `
 
-export const BtnGroup = styled.div`
+const BtnGroup = styled.div`
   margin: 20px 0;
   font-size: 14px;
   color: #606060;
 `
 
-export const StyledSpan = styled.span`
+const StyledSpan = styled.span`
   && {
     margin: 0 5px;
     &:hover {
@@ -105,7 +105,7 @@ export const StyledSpan = styled.span`
   }
 `
 
-export const fetchTempPw = async (email: string | null) => {
+const fetchTempPw = async (email: string | null) => {
   const res = await fetch(`/api/user/reset/email`, {
     method: "POST",
     body: JSON.stringify(email),

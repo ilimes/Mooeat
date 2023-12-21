@@ -1,4 +1,3 @@
-import { SubTitle, StyledBoxDiv } from "@/src/app/(route)/myPage/page";
 import { Avatar, Badge, Button, Divider, Input } from "antd";
 import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import GoogleIcon from '@/public/svg/google.svg';
@@ -183,9 +182,22 @@ const DeleteAccount = () => {
 
 export default AccountManagement;
 
-export const StyledInput = styled(Input)`
+const StyledInput = styled(Input)`
   && {
     height: 40px;
     margin-bottom: 10px;
   }
+`
+
+const StyledBoxDiv = styled.div`
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #BBCEDD;
+  border-radius: 10px;
+`
+
+const SubTitle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  color: #5D559A;
 `

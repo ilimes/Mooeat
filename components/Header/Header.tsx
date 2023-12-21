@@ -192,9 +192,6 @@ const ProfilePopOverContent = (setProfileOpen: Dispatch<SetStateAction<boolean>>
             관리자 페이지
           </StyledProfileDiv>
         }
-        <StyledProfileDiv onClick={() => message.info('준비중 입니다.')}>
-          프로필 수정
-        </StyledProfileDiv>
         <StyledProfileDiv onClick={() => onClickMenu('/myPage')}>
           마이 페이지
         </StyledProfileDiv>
@@ -366,7 +363,7 @@ const ProfileDrawer = () => {
 
 export default HeaderPage;
 
-export const StyledLogo = styled(Image)`
+const StyledLogo = styled(Image)`
   && {
     align-self: center;
     font-weight: bold;
@@ -376,7 +373,7 @@ export const StyledLogo = styled(Image)`
   }
 `
 
-export const StyledDiv = styled.div`
+const StyledDiv = styled.div`
   justify-content: center;
   display: flex;
   background: #fff;
@@ -384,7 +381,7 @@ export const StyledDiv = styled.div`
   width: 1200px;
 `
 
-export const StyledButton = styled(Button)`
+const StyledButton = styled(Button)`
   && {
     font-size: 15px;
     letter-spacing: -0.3px;
@@ -392,7 +389,7 @@ export const StyledButton = styled(Button)`
   }
 `
 
-export const StyledOutDiv = styled.div`
+const StyledOutDiv = styled.div`
   && {
     width: 100%;
     font-size: 40px;
@@ -404,12 +401,12 @@ export const StyledOutDiv = styled.div`
   }
 `
 
-export const Point = styled.span`
+const Point = styled.span`
   font-weight: bold; 
   color: #47408F;
 `
 
-export const StyledAlertCol = styled(Col)`
+const StyledAlertCol = styled(Col)`
   && {
     &:hover {
       background: #eee;
@@ -419,7 +416,7 @@ export const StyledAlertCol = styled(Col)`
   }
 `
 
-export const StyledPopoverDiv = styled.div`
+const StyledPopoverDiv = styled.div`
   &::-webkit-scrollbar {
     width: 8px;
   }

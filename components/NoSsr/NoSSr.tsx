@@ -15,7 +15,7 @@ export default dynamic(() => Promise.resolve(NOSSR), {
     )
 })
 
-export const StyledSpin = styled(Spin)`
+const StyledSpin = styled(Spin)`
     && {
         height: 370px;
         display: flex;

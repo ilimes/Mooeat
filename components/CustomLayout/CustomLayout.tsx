@@ -154,7 +154,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
 
 export default CustomLayout;
 
-export const fetchMenuData = async () => {
+const fetchMenuData = async () => {
   const res = await fetch(`/api/menu`, {
     method: "POST",
   });
@@ -163,7 +163,7 @@ export const fetchMenuData = async () => {
   return result?.data;
 };
 
-export const fetchUserInfoData = async (token: string | null) => {
+const fetchUserInfoData = async (token: string | null) => {
   const formData = {
     token,
     type: undefined
