@@ -1,14 +1,8 @@
 import React from 'react';
 import { Modal } from 'antd';
+import { ModalPropsTypes } from '@/interfaces/Common/Common.interface';
 
-interface ModalProps {
-  children: React.ReactNode;
-  title: string,
-  isOpen: boolean;
-  closeModal: () => void;
-}
-
-const ModalComponent = ({ children, title, isOpen, closeModal }: ModalProps) => {
+const ModalComponent = ({ children, title, isOpen, closeModal }: ModalPropsTypes) => {
   return (
     <>
       <Modal title={title} open={isOpen} onCancel={closeModal} footer={false}>

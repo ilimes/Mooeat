@@ -6,32 +6,11 @@ import { useRouter } from 'next/navigation';
 import moment from 'moment';
 import 'moment/locale/ko';
 import CntComponent from './CntComponent';
+import { BoardTypes } from '@/interfaces/Board/Board.interface';
 
 const { Meta } = Card;
 
-export interface IObjTypes {
-  board_seq: number;
-  bg_color: string | undefined;
-  cate_color: string | undefined;
-  cate_nm: string;
-  cate_seq: number;
-  comment_cnt: number;
-  content: string;
-  like_cnt: number;
-  mod_dt: string;
-  reg_dt: string;
-  parent_seq: number | null;
-  reg_user_id: string;
-  reg_user_nm: string;
-  reg_user_seq: number;
-  secret_yn: string;
-  tag_names: string;
-  title: string;
-  use_yn: string;
-  view_cnt: number;
-}
-
-const PostCard = ({ obj }: { obj: IObjTypes }) => {
+const PostCard = ({ obj }: { obj: BoardTypes }) => {
   const router = useRouter();
 
   return (

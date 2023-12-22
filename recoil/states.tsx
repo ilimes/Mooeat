@@ -1,16 +1,6 @@
 
+import { UserInfoTypes } from '@/interfaces/User/User.interface';
 import { atom } from 'recoil';
-
-export interface IUserInfoTypes {
-  user_seq: number;
-  user_nm: string;
-  user_id: string;
-  use_yn: string;
-  role_rank: number;
-  reg_dt: string;
-  point: number;
-  mod_dt: string | null;
-}
 
 /**
  * 메뉴
@@ -47,7 +37,7 @@ export const notiCollapseState = atom({
 /**
  * 로그인한 유저 정보
  */
-export const userInfoState = atom<IUserInfoTypes | null>({
+export const userInfoState = atom<UserInfoTypes | null>({
   key: 'userInfo',
   default: null,
 });

@@ -9,31 +9,15 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { IObjTypes } from "@/components/Community/PostCard";
-
-interface ICommentTypes {
-  comment_seq: number;
-  comment_cd: string;
-  target_seq: number;
-  parents_cd: number;
-  content: string;
-  comment_level: number;
-  comment_order: number;
-  reg_user_seq: number;
-  reg_user_nm: string;
-  reg_dt: string;
-  mod_user_seq: number;
-  mod_dt: string;
-  use_yn: string;
-}
+import { BoardTypes, CommentTypes } from '@/interfaces/Board/Board.interface';
 
 const Articles = () => {
   const router = useRouter();
   const params = useParams();
 
   const { data: session, status } = useSession();
-  const [data, setData] = useState<IObjTypes | null>(null);
-  const [commentList, setCommentList] = useState<ICommentTypes[] | null>(null);
+  const [data, setData] = useState<BoardTypes | null>(null);
+  const [commentList, setCommentList] = useState<CommentTypes[] | null>(null);
   const id = params?.id;
 
   const loadArticleData = async () => {
@@ -122,7 +106,7 @@ const Articles = () => {
       <div>
         <div style={{ marginBottom: 20, fontSize: 18 }}>댓글 {commentList?.length}</div>
         {
-          commentList?.map((e: ICommentTypes, i: number) =>
+          commentList?.map((e: CommentTypes, i: number) =>
             <div key={i} style={{ display: 'flex', marginBottom: 40 }}>
               <div style={{ marginRight: 10 }}>
                 <Avatar size={55} icon={<UserOutlined />} />

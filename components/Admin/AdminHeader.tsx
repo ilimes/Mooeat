@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  LaptopOutlined,
   UserOutlined,
   BarChartOutlined,
   HomeOutlined,
@@ -10,14 +9,14 @@ import {
   MenuFoldOutlined
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, Layout, Menu, Tooltip, theme } from "antd";
+import { Layout, Menu, Tooltip, theme } from "antd";
 import { usePathname, useRouter } from 'next/navigation';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { adminCollapsedState } from '@/recoil/states';
 import useIsMobile from '@/hooks/useIsMobile';
-import { IMenuTypes } from './AdminSider';
+import { MenuTypes } from '@/interfaces/Admin/Admin.interface';
 
-const { Header, Content, Sider } = Layout;
+const { Header } = Layout;
 
 const AdminHeader = () => {
   const router = useRouter();
@@ -26,7 +25,7 @@ const AdminHeader = () => {
   const [collapsed, setCollapsed] = useRecoilState(adminCollapsedState);
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   
-  const menuItems: IMenuTypes[] = [
+  const menuItems: MenuTypes[] = [
     {
       key: '/admin',
       icon: React.createElement(HomeOutlined),

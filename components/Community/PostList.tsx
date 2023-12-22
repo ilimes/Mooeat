@@ -7,10 +7,10 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { IObjTypes } from './PostCard';
 import CntComponent from './CntComponent';
+import { BoardTypes } from '@/interfaces/Board/Board.interface';
 
-const PostList = ({ obj }: { obj: IObjTypes }) => {
+const PostList = ({ obj }: { obj: BoardTypes }) => {
   const router = useRouter();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>

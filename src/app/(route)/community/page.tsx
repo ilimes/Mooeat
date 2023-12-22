@@ -4,9 +4,10 @@ import { Button, Col, Divider, Row, Tabs } from "antd";
 import { FormOutlined, AppstoreOutlined, UnorderedListOutlined, AppstoreFilled } from "@ant-design/icons";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import PostCard, { IObjTypes } from '@/components/Community/PostCard';
+import PostCard from '@/components/Community/PostCard';
 import { useEffect, useState } from 'react';
 import PostList from "@/components/Community/PostList";
+import { BoardTypes } from '@/interfaces/Board/Board.interface';
 
 interface IInfoTypes {
   key: string;
@@ -29,7 +30,7 @@ const Community = () => {
       order: undefined,
     }
   ]);
-  const [boardList, setBoardList] = useState<IObjTypes[]>([]);
+  const [boardList, setBoardList] = useState<BoardTypes[]>([]);
 
   const onChange = (key: string) => {
     setActiveKey(key);

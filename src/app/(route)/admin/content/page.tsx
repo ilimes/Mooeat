@@ -2,18 +2,16 @@
 
 import { Button, Table } from "antd";
 import styled from "styled-components";
-import { useRouter } from "next/navigation";
 import { ColumnProps } from 'antd/es/table';
 import { useEffect, useState } from 'react';
-import { IObjTypes } from '@/components/Community/PostCard';
 import moment from 'moment';
 import 'moment/locale/ko';
+import { BoardTypes } from '@/interfaces/Board/Board.interface';
 
 const Content = () => {
-  const router = useRouter();
   const [boardList, setBoardList] = useState([]);
 
-  const columns: ColumnProps<IObjTypes>[] = [
+  const columns: ColumnProps<BoardTypes>[] = [
     {
       key: '0',
       dataIndex: 'board_seq',

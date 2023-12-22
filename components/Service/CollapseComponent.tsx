@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import styled, { css } from 'styled-components';
-import { IObjTypes } from '../Community/PostCard';
+import { BoardTypes } from '@/interfaces/Board/Board.interface';
 
 const StyledChildrenDiv = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const CollapseComponent: React.FC = () => {
   const getQnaList = async () => {
     const result = await fetchQnaList();
     const list = result?.list;
-    setQnaList(list?.map((e: IObjTypes, i:string) => ({
+    setQnaList(list?.map((e: BoardTypes, i:string) => ({
       key: i,
       label: <TitleDiv $isOpen={openList?.includes(i) ? true : false}>{e?.title}</TitleDiv>,
       children: <ChildDiv content={e?.content} />,

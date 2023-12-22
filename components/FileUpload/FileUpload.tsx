@@ -1,13 +1,8 @@
+import { UploadInfoTypes } from '@/interfaces/Common/Common.interface';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-interface IUploadInfoTypes {
-  name: string | null;
-  size: string | null;
-  type: string | null;
-}
-
-const FileInfo = ({ uploadedInfo }: { uploadedInfo: IUploadInfoTypes }) => (
+const FileInfo = ({ uploadedInfo }: { uploadedInfo: UploadInfoTypes }) => (
     <ul className="preview_info">
       {Object.entries(uploadedInfo).map(([key, value]) => (
         <li key={key}>
@@ -27,7 +22,7 @@ const Logo = () => (
 
 const FileUpload = () => {
     const [isActive, setActive] = useState(false);
-    const [uploadedInfo, setUploadedInfo] = useState<IUploadInfoTypes | null>(null);
+    const [uploadedInfo, setUploadedInfo] = useState<UploadInfoTypes | null>(null);
   
     const handleDragStart = () => setActive(true);
     const handleDragEnd = () => setActive(false);

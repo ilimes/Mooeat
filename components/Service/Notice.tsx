@@ -3,13 +3,13 @@ import { Empty, Spin } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { IObjTypes } from '../Community/PostCard';
+import { BoardTypes } from '@/interfaces/Board/Board.interface';
 
 const Notice = () => {
     const [noticeList, setNoticeList] = useState([]);
     const [selectedNotice, setSelectedNotice] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState<IObjTypes | null>(null);
+    const [data, setData] = useState<BoardTypes | null>(null);
 
     /**
      * 공지사항 리스트 불러오기
@@ -62,7 +62,7 @@ const Notice = () => {
             {!noticeList?.length ? <EmptyComponent title={'공지사항이 없습니다.'} /> : ''}
             {
                 noticeList?.length ?
-                    noticeList?.map((obj: IObjTypes, i: number) => (
+                    noticeList?.map((obj: BoardTypes, i: number) => (
                         <WrapperDiv key={i}>
                             <ListItemDiv onClick={() => onClickNotice(obj?.board_seq)}>
                                 <div style={{ fontWeight: selectedNotice === obj.board_seq ? 'bold' : 'normal' }}>{obj?.title}</div>
