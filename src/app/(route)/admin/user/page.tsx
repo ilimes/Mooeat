@@ -7,25 +7,11 @@ import { useRouter } from "next/navigation";
 import { ColumnProps } from 'antd/es/table';
 import moment from 'moment';
 import 'moment/locale/ko';
-
-interface IUserType {
-  user_seq: number;
-  user_id: string;
-  user_nm: string;
-  introduce?: string;
-  point?: number;
-  use_yn?: boolean;
-  role_rank?: number;
-  type: string;
-  reg_id: string;
-  mod_id: string;
-  reg_dt: string;
-  mod_dt: string;
-}
+import { UserInfoTypes } from '@/interfaces/User/User.interface';
 
 const User = () => {
   const router = useRouter();
-  const [userList, setUserList] = useState<IUserType[]>([]);
+  const [userList, setUserList] = useState<UserInfoTypes[]>([]);
   
   const getUserList = async () => {
     const result = await fetchUserList();
@@ -36,7 +22,7 @@ const User = () => {
     getUserList();
   }, [])
 
-  const columns: ColumnProps<IUserType>[] = [
+  const columns: ColumnProps<UserInfoTypes>[] = [
     {
       key: '0',
       dataIndex: 'user_seq',

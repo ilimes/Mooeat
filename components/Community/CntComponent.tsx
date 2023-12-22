@@ -1,9 +1,9 @@
 import React from "react";
 import { EyeOutlined, CommentOutlined, LikeOutlined } from '@ant-design/icons';
-import { IObjTypes } from './PostCard';
 import { Col, Row } from "antd";
+import { BoardTypes } from '@/interfaces/Board/Board.interface';
 
-const CntComponent = ({ obj }: { obj: IObjTypes }) => {
+const CntComponent = ({ obj }: { obj: BoardTypes }) => {
     return (
         <div>
           <Row gutter={[15, 15]}>

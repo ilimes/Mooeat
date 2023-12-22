@@ -6,17 +6,13 @@ import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
-
-interface IInfoTypes {
-  key: string;
-  label: string;
-}
+import { InfoTypes } from '@/interfaces/Common/Common.interface';
 
 const Friends = () => {
   const router = useRouter();
   const { Modal, isOpen, openModal, closeModal } = useModal();
   const [activeKey, setActiveKey] = useState('all');
-  const [items, setItems] = useState<IInfoTypes[]>([
+  const [items, setItems] = useState<InfoTypes[]>([
     {
       key: 'all',
       label: '전체',
@@ -44,17 +40,21 @@ const Friends = () => {
           <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={openModal} style={{ float: 'right', fontSize: 14, fontWeight: 'bold', paddingRight: 22, height: 31 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: 'calc(100vh - 260px)', overflow: 'auto' }}>
           <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600 }} />
             <Row gutter={[10, 10]}>
-              <Friend key={1} />
+              {/* <Friend key={1} />
               <Friend key={2} />
               <Friend key={3} />
               <Friend key={4} />
-              <Friend key={5} />
+              <Friend key={5} /> */}
+              <StyledEmpty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description="등록된 친구가 없습니다."
+              />
             </Row>
           </StyledLeftCard>
         </Col>
         <Col xs={0} sm={0} md={0} lg={18} xl={18} xxl={18}>
           <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
-            <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>항목이 존재하지 않습니다.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }}/>
+            <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>자세한 정보를 보려면 친구를 클릭해주세요.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }}/>
           </Card>
         </Col>
       </Row>
@@ -158,3 +158,19 @@ const StyledLeftCard = styled(Card)`
     }
   }
 `
+
+const StyledEmpty = styled(Empty)`
+  && {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 360px;
+    justify-content: center;
+    align-items: center;
+
+    > .ant-empty-description {
+      color: grey;
+      font-size: 14px;
+    }
+  }
+`;

@@ -198,6 +198,7 @@ const StyledBoxDiv = styled.div`
 
 const SubTitle = styled.div`
   font-size: 20px;
+  margin-bottom: 15px;
   font-weight: 600;
   color: #5D559A;
 `

@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LeftOutlined,
   UserOutlined,
@@ -6,22 +6,15 @@ import {
   HomeOutlined,
   DatabaseOutlined
 } from "@ant-design/icons";
-import type { MenuProps } from "antd";
+// import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
 import { adminCollapsedState } from '@/recoil/states';
 import useIsMobile from '@/hooks/useIsMobile';
+import { MenuTypes } from '@/interfaces/Admin/Admin.interface';
 
 const { Sider } = Layout;
-
-export interface IMenuTypes {
-  key: string;
-  icon?: ReactElement,
-  label: string,
-  onClick?: () => void,
-  children?: IMenuTypes[],
-}
 
 const AdminSider = () => {
   const router = useRouter();
@@ -30,7 +23,7 @@ const AdminSider = () => {
   const collasped = useRecoilValue(adminCollapsedState);
   const isMobile = useIsMobile();
 
-  const menuItems: IMenuTypes[] = [
+  const menuItems: MenuTypes[] = [
     {
       key: '/admin',
       icon: React.createElement(HomeOutlined),

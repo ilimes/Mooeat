@@ -6,16 +6,10 @@ import { LeftOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import styled from "styled-components";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSetRecoilState } from "recoil";
-import { userInfoState } from "@/recoil/states";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { ValuesTypes } from '@/interfaces/User/User.interface';
 
-interface IValuesTypes {
-  user_id: string;
-  password: string;
-}
-
-const onFinish = async (values: IValuesTypes, setIsLoading: Dispatch<SetStateAction<boolean>>, router: AppRouterInstance | any) => {
+const onFinish = async (values: ValuesTypes, setIsLoading: Dispatch<SetStateAction<boolean>>, router: AppRouterInstance | any) => {
   setIsLoading(true);
   const res = await signIn('credentials', {
     user_id: values?.user_id,
@@ -57,7 +51,7 @@ const EmailLogin = () => {
         name="basic"
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
-        onFinish={(values: IValuesTypes) => onFinish(values, setIsLoading, router)}
+        onFinish={(values: ValuesTypes) => onFinish(values, setIsLoading, router)}
         // onFinishFailed={onFinishFailed}
         autoComplete="off"
       >

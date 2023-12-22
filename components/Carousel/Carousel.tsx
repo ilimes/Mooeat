@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect } from 'react';
 import { Carousel, Col, Row, Spin } from 'antd';
 import Image from 'next/image';
 import TestImg from '../../public/test.png';
@@ -12,21 +12,7 @@ import animationData3 from '@/public/lottie/Animation - 1698745819488.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import NoSSr from '../NoSsr/NoSSr';
 import styled from 'styled-components';
-
-interface IContentsTypes {
-  topText: string;
-  bottomText: string;
-  forwardText: string;
-  background: string;
-  textBackground: string;
-  link: string;
-  img: ReactNode;
-}
-
-interface ITextComponentTypes {
-  e: IContentsTypes;
-  i: number;
-}
+import { TextComponentTypes } from '@/interfaces/Carousel/Carousel.interface';
 
 const CarouselComponent = () => {
   const router = useRouter();
@@ -65,7 +51,7 @@ const CarouselComponent = () => {
     }
   ];
 
-  const TextComponent = ({ e, i }: ITextComponentTypes) => {
+  const TextComponent = ({ e, i }: TextComponentTypes) => {
     return (
       <>
         <span

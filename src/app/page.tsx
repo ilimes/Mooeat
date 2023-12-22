@@ -1,17 +1,13 @@
-'use client';
-
 import CarouselComponent from '@/components/Carousel/Carousel';
 import Main from '@/components/Main/Main';
 
-const Home: React.FC = () => {
+const App: React.FC = () => {
   return (
     <>
       <CarouselComponent />
-      <div>
-        <Main />
-      </div>
+      <Main />
     </>
   )
 }
 
-export default Home;
+export default App;
