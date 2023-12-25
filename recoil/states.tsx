@@ -1,5 +1,5 @@
 
-import { UserInfoTypes } from '@/interfaces/User/User.interface';
+import { UserInfoTypes } from '@/types/User/User.interface';
 import { atom } from 'recoil';
 
 /**

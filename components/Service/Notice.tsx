@@ -3,7 +3,7 @@ import { Empty, Spin } from 'antd';
 import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { BoardTypes } from '@/interfaces/Board/Board.interface';
+import { BoardTypes } from '@/types/Board/Board.interface';
 
 const Notice = () => {
     const [noticeList, setNoticeList] = useState([]);

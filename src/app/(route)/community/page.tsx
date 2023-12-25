@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import PostCard from '@/components/Community/PostCard';
 import { useEffect, useState } from 'react';
 import PostList from "@/components/Community/PostList";
-import { BoardTypes } from '@/interfaces/Board/Board.interface';
+import { BoardTypes } from '@/types/Board/Board.interface';
 
 interface IInfoTypes {
   key: string;
@@ -76,18 +76,26 @@ const Community = () => {
       <div style={{ fontSize: 24, float: 'right' }}>
         {
           <button style={{ fontSize: 24, marginRight: 10 }} onClick={() => setType('tile')}>
-            {
-              type === 'tile' &&
-              <AppstoreFilled style={{ color: '#4F4791' }} />
-            }
-            {
-              type != 'tile' &&
-              <AppstoreOutlined style={{ color: '#bcbcbc' }} />
-            }
+            <div>
+              {
+                type === 'tile' &&
+                <AppstoreFilled style={{ color: '#4F4791' }} />
+              }
+              {
+                type != 'tile' &&
+                <AppstoreOutlined style={{ color: '#bcbcbc' }} />
+              }
+            </div>
+            <div style={{ fontSize: 12, textAlign: 'center', color: 'grey' }}>
+              Tile
+            </div>
           </button>
         }
         <button style={{ fontSize: 24 }} onClick={() => setType('list')}>
           <UnorderedListOutlined style={{ color: type === 'list' ? '#4F4791' : '#bcbcbc' }} />
+          <div style={{ fontSize: 12, textAlign: 'center', color: 'grey' }}>
+            List
+          </div>
         </button>
       </div>
       <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600, marginTop: 15 }} />

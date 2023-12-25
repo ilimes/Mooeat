@@ -1,7 +1,7 @@
 import React from "react";
 import { EyeOutlined, CommentOutlined, LikeOutlined } from '@ant-design/icons';
 import { Col, Row } from "antd";
-import { BoardTypes } from '@/interfaces/Board/Board.interface';
+import { BoardTypes } from '@/types/Board/Board.interface';
 
 const CntComponent = ({ obj }: { obj: BoardTypes }) => {
     return (

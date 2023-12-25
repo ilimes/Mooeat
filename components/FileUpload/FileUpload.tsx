@@ -1,4 +1,4 @@
-import { UploadInfoTypes } from '@/interfaces/Common/Common.interface';
+import { UploadInfoTypes } from '@/types/Common/Common.interface';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 

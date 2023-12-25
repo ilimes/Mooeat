@@ -14,7 +14,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { adminCollapsedState } from '@/recoil/states';
 import useIsMobile from '@/hooks/useIsMobile';
-import { MenuTypes } from '@/interfaces/Admin/Admin.interface';
+import { MenuTypes } from '@/types/Admin/Admin.interface';
 
 const { Header } = Layout;
 

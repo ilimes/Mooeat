@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { BoardTypes, CommentTypes } from '@/interfaces/Board/Board.interface';
+import { BoardTypes, CommentTypes } from '@/types/Board/Board.interface';
 
 const Articles = () => {
   const router = useRouter();
