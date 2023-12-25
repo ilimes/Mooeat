@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
-import { InfoTypes } from '@/interfaces/Common/Common.interface';
+import { InfoTypes } from '@/types/Common/Common.interface';
 
 const Friends = () => {
   const router = useRouter();

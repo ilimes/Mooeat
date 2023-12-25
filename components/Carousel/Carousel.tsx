@@ -12,7 +12,7 @@ import animationData3 from '@/public/lottie/Animation - 1698745819488.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import NoSSr from '../NoSsr/NoSSr';
 import styled from 'styled-components';
-import { TextComponentTypes } from '@/interfaces/Carousel/Carousel.interface';
+import { TextComponentTypes } from '@/types/Carousel/Carousel.interface';
 
 const CarouselComponent = () => {
   const router = useRouter();

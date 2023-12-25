@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { ValuesTypes } from '@/interfaces/User/User.interface';
+import { ValuesTypes } from '@/types/User/User.interface';
 
 const onFinish = async (values: ValuesTypes, setIsLoading: Dispatch<SetStateAction<boolean>>, router: AppRouterInstance | any) => {
   setIsLoading(true);

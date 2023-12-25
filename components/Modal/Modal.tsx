@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
-import { ModalPropsTypes } from '@/interfaces/Common/Common.interface';
+import { ModalPropsTypes } from '@/types/Common/Common.interface';
 
 const ModalComponent = ({ children, title, isOpen, closeModal }: ModalPropsTypes) => {
   return (

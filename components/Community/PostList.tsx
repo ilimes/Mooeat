@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import moment from 'moment';
 import 'moment/locale/ko';
 import CntComponent from './CntComponent';
-import { BoardTypes } from '@/interfaces/Board/Board.interface';
+import { BoardTypes } from '@/types/Board/Board.interface';
 
 const PostList = ({ obj }: { obj: BoardTypes }) => {
   const router = useRouter();

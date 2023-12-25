@@ -6,7 +6,7 @@ import { ColumnProps } from 'antd/es/table';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { BoardTypes } from '@/interfaces/Board/Board.interface';
+import { BoardTypes } from '@/types/Board/Board.interface';
 
 const Content = () => {
   const [boardList, setBoardList] = useState([]);

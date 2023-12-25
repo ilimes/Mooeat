@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import styled, { css } from 'styled-components';
-import { BoardTypes } from '@/interfaces/Board/Board.interface';
+import { BoardTypes } from '@/types/Board/Board.interface';
 
 const StyledChildrenDiv = styled.div`
   display: flex;
