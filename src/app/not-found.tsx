@@ -3,7 +3,6 @@ import { Button, Col, Row } from 'antd';
 import Image from 'next/image';
 import NotFoundImage from '../../public/not-found.png';
 import Link from 'next/link';
-import { headers } from 'next/headers'
 
 export const metadata: Metadata = {
   title: "Mooeat - 404 Not Found",
@@ -11,9 +10,6 @@ export const metadata: Metadata = {
 };
 
 const NotFound = () => {
-  const header = headers()
-  const ip = (header.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0]
-  console.log(ip)
   return (
     <Row justify={'center'} style={{ marginBottom: 20 }}>
       <Col xs={24} sm={24} md={24} lg={24} xl={10} xxl={10} style={{ textAlign: 'center' }}>
