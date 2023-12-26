@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse, userAgent } from 'next/server';
-import { headers } from 'next/headers';
+import { headers } from 'next/headers'
 
 export async function POST(req: NextRequest) {
-  const ip = (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0];
-  console.log(ip)
+  const header = headers();
+  console.log(header)
   const res = await fetch(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/menu/list`, {
     cache: 'no-store',
     method: 'POST',
