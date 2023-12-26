@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Avatar, Row, Col } from 'antd';
+import { Card, Avatar, Row, Col, Skeleton } from 'antd';
 import { EyeOutlined, CommentOutlined, LikeOutlined, UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
@@ -12,34 +12,37 @@ const { Meta } = Card;
 
 const PostCard = ({ obj }: { obj: BoardTypes }) => {
   const router = useRouter();
+  const isLoading = Object?.keys(obj)?.length === 2;
 
   return (
     <StyledCard
       catecolor={obj?.cate_color || null}
       background={obj?.bg_color || null}
       onClick={() => router.push(`/articles/${obj?.board_seq}`)}>
-      {/* 카테고리 영역 */}
-      <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cate_color }}>
-        {obj?.cate_nm}
-      </div>
-      {/* 제목 및 내용 영역 */}
-      <Meta title={obj?.title} description={obj?.content} />
-      {/* 태그 영역 */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, fontSize: 12, margin: '15px 0' }}>
-        <div style={{ fontWeight: 800 }}>
-          TAG
+      <Skeleton paragraph={{ rows: 3 }} loading={isLoading ? true : false} active>
+        {/* 카테고리 영역 */}
+        <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cate_color }}>
+          {obj?.cate_nm}
         </div>
-        {
-          obj?.tag_names?.split(':')?.map((e: string, i:number) => {
-            return (
-              <div key={i} style={{ fontWeight: 400 }}>
-                #{e}
-              </div>
-            )
-          })
-        }
-        {!obj?.tag_names && <div style={{ color: '#B1B1B1' }}>태그 없음</div>}
-      </div>
+        {/* 제목 및 내용 영역 */}
+        <Meta title={obj?.title} description={obj?.content} />
+        {/* 태그 영역 */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, fontSize: 12, margin: '15px 0' }}>
+          <div style={{ fontWeight: 800 }}>
+            TAG
+          </div>
+          {
+            obj?.tag_names?.split(':')?.map((e: string, i:number) => {
+              return (
+                <div key={i} style={{ fontWeight: 400 }}>
+                  #{e}
+                </div>
+              )
+            })
+          }
+          {!obj?.tag_names && <div style={{ color: '#B1B1B1' }}>태그 없음</div>}
+        </div>
+      </Skeleton>
       <div style={{ position: 'absolute', bottom: 20 }}>
         {/* 아바타 영역 */}
         <div style={{ marginBottom: 15, display: 'flex', gap: 10 }}>

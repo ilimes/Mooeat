@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, Button, Checkbox, Col, Divider, Input, Row, Tabs, Tooltip } from "antd";
+import { Avatar, Button, Checkbox, Col, Divider, Input, Row, Skeleton, Tabs, Tooltip } from "antd";
 import { UserOutlined, PlusOutlined, EyeOutlined, CommentOutlined, LikeOutlined, LikeFilled, RollbackOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import type { TabsProps } from "antd";
 import styled from "styled-components";
@@ -75,11 +75,15 @@ const Articles = () => {
         </StyledOutDiv>
       </div>
       {/* 제목 영역 */}
-      <Title>{data?.title}</Title>
+      <Skeleton paragraph={{ rows: 0 }} loading={!data ? true : false} active>
+        <Title>{data?.title}</Title>
+      </Skeleton>
       {/* 컨텐츠 영역 */}
-      <div style={{ whiteSpace: 'normal' }}>
-        {data?.content} 입니다.
-      </div>
+      <Skeleton paragraph={{ rows: 3 }} loading={!data ? true : false} active>
+        <div style={{ whiteSpace: 'normal' }}>
+          {data?.content} 입니다.
+        </div>
+      </Skeleton>
       {/* 태그 영역 */}
       <div style={{ margin: '30px 0', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
         {
