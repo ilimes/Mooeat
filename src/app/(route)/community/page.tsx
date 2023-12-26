@@ -37,8 +37,7 @@ const Community = () => {
   };
 
   const defaultFilterCateList = ['4', '5'];
-  const filteredArr = boardList?.filter((e: any) => activeKey === 'all' ? !defaultFilterCateList?.includes(String(e?.cate_seq)) : String(e?.cate_seq) === activeKey);
-
+  const filteredArr = boardList?.length ? boardList?.filter((e: any) => activeKey === 'all' ? !defaultFilterCateList?.includes(String(e?.cate_seq)) : String(e?.cate_seq) === activeKey) : new Array(8).fill(null);
   const colSpan = type === 'tile' ? [8, 6] : [24, 24]
   
   const getInfoList = async () => {

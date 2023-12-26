@@ -1,13 +1,15 @@
-'use client'
-
-import { useRouter } from 'next/navigation';
+import type { Metadata } from 'next';
 import { Button, Col, Row } from 'antd';
 import Image from 'next/image';
 import NotFoundImage from '../../public/not-found.png';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: "Mooeat - 404 Not Found",
+  description: "Mooeat - 404 Not Found",
+};
 
 const NotFound = () => {
-  const router = useRouter();
-
   return (
     <Row justify={'center'} style={{ marginBottom: 20 }}>
       <Col xs={24} sm={24} md={24} lg={24} xl={10} xxl={10} style={{ textAlign: 'center' }}>
@@ -19,7 +21,9 @@ const NotFound = () => {
           <div>페이지 주소가 변경 또는 삭제되어</div>
           <div>현재 사용할 수 없는 상태입니다.</div>
         </div>
-        <Button onClick={() => router.push('/')} style={{ marginBottom: 20, width: 230, height: 50 }}>홈으로 이동</Button>
+        <Link href={"/"}>
+          <Button style={{ marginBottom: 20, width: 230, height: 50 }}>홈으로 이동</Button>
+        </Link>
       </Col>
     </Row>
   )

@@ -1,15 +1,13 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Mooeat - 고객센터",
-  description: "Mooeat - 고객센터",
+  title: "Mooeat - 비밀번호 재설정",
+  description: "Mooeat - 비밀번호 재설정",
 };
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="container">
-      <div>{children}</div>
-    </div>
+    <div>{children}</div>
   )
 };
 

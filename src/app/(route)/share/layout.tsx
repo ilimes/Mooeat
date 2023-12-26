@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Mooeat - 공유하기",
+  description: "Mooeat - 공유하기",
+};
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="container">

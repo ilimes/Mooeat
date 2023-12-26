@@ -4,7 +4,8 @@ import React from "react";
 import { Layout } from "antd";
 import AdminHeader from "../../Admin/AdminHeader";
 import AdminSider from "../../Admin/AdminSider";
-import { StyledFooterDiv, StyledLayout } from "./style";
+// import { StyledFooterDiv, StyledLayout } from "./style";
+import * as S from "./style";
 
 const { Content } = Layout;
 
@@ -14,14 +15,14 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       <Layout style={{ background: "#F5F5F5" }}>
         <AdminHeader />
         <div style={{ padding: 24 }}>
-          <StyledLayout>
+          <S.StyledLayout>
             <AdminSider />
             <Content>{children}</Content>
-          </StyledLayout>
+          </S.StyledLayout>
         </div>
-        <StyledFooterDiv>
+        <S.StyledFooterDiv>
           Mooeat ©2023 Created by ilimes
-        </StyledFooterDiv>
+        </S.StyledFooterDiv>
       </Layout>
     </>
   );
