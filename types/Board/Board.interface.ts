@@ -35,4 +35,21 @@ export interface CommentTypes {
     mod_user_seq: number;
     mod_dt: string;
     use_yn: string;
-  }
+}
+
+export interface RegUserInfoTypes {
+    user_info: {
+        user_seq: number,
+        user_id: string,
+        user_nm: string,
+        introduce?: string | null,
+        reg_board_total_count: number,
+    },
+    recent_board_list: [
+        {
+            board_seq: number,
+            title: string,
+            reg_dt: string
+        }
+    ]
+}
