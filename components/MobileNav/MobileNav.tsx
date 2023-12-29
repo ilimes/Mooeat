@@ -100,11 +100,11 @@ const MobileNav = () => {
               {
                 session?.user?.token?.userInfo?.role_rank > 2 &&
                 <StyledProfileDiv onClick={() => onClickMenu("/admin")}>
-                  관리자 페이지
+                  관리자페이지
                 </StyledProfileDiv>
               }
               <StyledProfileDiv onClick={() => onClickMenu("/myPage")}>
-                <UserOutlined /> 마이 페이지
+                <UserOutlined /> 마이페이지
               </StyledProfileDiv>
               <StyledProfileDiv onClick={() => logout()}>
                 <LogoutOutlined /> 로그아웃

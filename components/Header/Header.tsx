@@ -274,11 +274,11 @@ const ProfilePopOverContent = (
       <div>
         {session?.user?.token?.userInfo?.role_rank > 2 && (
           <StyledProfileDiv onClick={() => router.push("/admin")}>
-            관리자 페이지
+            관리자페이지
           </StyledProfileDiv>
         )}
         <StyledProfileDiv onClick={() => onClickMenu("/myPage")}>
-          마이 페이지
+          마이페이지
         </StyledProfileDiv>
         <StyledProfileDiv onClick={() => signOut({ callbackUrl: "/" })}>
           로그아웃
