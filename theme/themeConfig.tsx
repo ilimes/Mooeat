@@ -30,6 +30,9 @@ const theme: ThemeConfig = {
     colorBgLayout: '#fff',
     fontFamily: `${lineSeedKr.style.fontFamily}`,
     borderRadiusLG: 12,
+    motionDurationFast: '180ms',
+    motionDurationMid: '180ms',
+    motionDurationSlow: '180ms'
   },
   components: {
     Carousel: {

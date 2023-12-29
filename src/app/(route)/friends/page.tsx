@@ -61,7 +61,7 @@ const Friends = () => {
       <Modal title={'친구 등록'} isOpen={isOpen} closeModal={closeModal}>
         <Row gutter={[10, 10]}>
           <Col span={24}>
-            이메일
+            <span style={{ fontWeight: 600 }}>이메일</span>
           </Col>
           <Col span={24}>
             <Input placeholder="등록할 친구의 이메일을 입력해주세요." style={{ height: 40 }} />
