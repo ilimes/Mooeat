@@ -4,7 +4,6 @@ import React from "react";
 import { Layout } from "antd";
 import AdminHeader from "../../Admin/AdminHeader";
 import AdminSider from "../../Admin/AdminSider";
-// import { StyledFooterDiv, StyledLayout } from "./style";
 import * as S from "./style";
 
 const { Content } = Layout;

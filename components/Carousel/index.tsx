@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { Carousel, Col, Row, Spin } from 'antd';
+import { Col, Row, Spin } from 'antd';
 import Image from 'next/image';
 import TestImg from '../../public/test.png';
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 import NoSSr from '../NoSsr/NoSSr';
 import styled from 'styled-components';
 import { TextComponentTypes } from '@/types/Carousel/Carousel.interface';
+import * as S from "./style";
 
 const CarouselComponent = () => {
   const router = useRouter();
@@ -90,7 +91,7 @@ const CarouselComponent = () => {
         <Row>
           <Col span={24}>
             <NoSSr>
-                <StyledCarousel
+                <S.StyledCarousel
                   autoplay
                   dotPosition={"bottom"}
                   speed={700}
@@ -133,7 +134,7 @@ const CarouselComponent = () => {
                         </Row>
                       </div>)
                   }
-                </StyledCarousel>
+                </S.StyledCarousel>
               </NoSSr>
           </Col>
         </Row>
@@ -143,11 +144,3 @@ const CarouselComponent = () => {
 }
 
 export default CarouselComponent;
-
-const StyledCarousel = styled(Carousel)`
-  && {
-    .slick-dots button{
-        border-radius: 30px;
-    }
-  }
-`
