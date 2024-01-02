@@ -8,6 +8,7 @@ const Point = () => {
   const [point, setPoint] = useState<number | null>(null);
 
   const loadUserInfoData = async () => {
+    // TODO: 카카오 로그인으 경우 token 처리, info 어떻게 불러올 것인지 설정
     const result = await fetchUserInfoData({ token: session?.user?.token?.data?.token });
     if (result?.success) {
       setPoint(result?.user_info?.point)

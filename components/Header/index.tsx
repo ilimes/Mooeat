@@ -262,7 +262,6 @@ const ProfilePopOverContent = (
           }}
         >
           <div style={{ fontWeight: 600 }}>
-            {console.log(session)}
             {session?.user?.token?.userInfo?.user_nm}
           </div>
           <div>
