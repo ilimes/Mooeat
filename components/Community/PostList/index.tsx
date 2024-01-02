@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import moment from 'moment';
 import 'moment/locale/ko';
-import CntComponent from './CntComponent';
+import CntComponent from '../CntComponent';
 import { BoardTypes } from '@/types/Board/Board.interface';
 
 const PostList = ({ obj }: { obj: BoardTypes }) => {

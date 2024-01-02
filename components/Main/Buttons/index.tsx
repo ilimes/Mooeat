@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Card, Col, Row } from 'antd';
 import { CommentOutlined, CameraOutlined, CheckCircleOutlined, NotificationOutlined } from '@ant-design/icons';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import Content from "../SharedComponents/Content";
+import Content from "../../SharedComponents/Content";
 
 const Buttons = ({ router }: { router: AppRouterInstance }) => {
     const btnInfoList = [

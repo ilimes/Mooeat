@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import Modal from '@/components/Modal/Modal';
+import Modal from '@/components/Modal';
 
 export const useModal = () => {
   const [isOpen, setIsOpen] = useState(false);
