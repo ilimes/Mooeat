@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect } from "react";
-import Header from "../../Header/Header";
-import Footer from "../../Footer/Footer";
+import Header from "../../Header";
+import Footer from "../../Footer";
 import Wrapper from "../Wrapper";
-import MobileNav from "../../MobileNav/MobileNav";
+import MobileNav from "../../MobileNav";
 import { useRouter } from "next/navigation";
 import { Layout } from "antd";
 import useIsMobile from "@/hooks/useIsMobile";

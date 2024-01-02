@@ -10,7 +10,7 @@ import animationData from '@/public/lottie/Animation - 1698745940539.json';
 import animationData2 from '@/public/lottie/Animation - 1698595350015.json';
 import animationData3 from '@/public/lottie/Animation - 1698745819488.json'; 
 import useIsMobile from '@/hooks/useIsMobile';
-import NoSSr from '../NoSsr/NoSSr';
+import NoSSr from '../NoSsr';
 import styled from 'styled-components';
 import { TextComponentTypes } from '@/types/Carousel/Carousel.interface';
 import * as S from "./style";

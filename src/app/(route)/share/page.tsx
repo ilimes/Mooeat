@@ -3,7 +3,7 @@
 import { Button } from "antd";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import FileUpload from "@/components/FileUpload/FileUpload";
+import FileUpload from "@/components/FileUpload";
 
 const Share = () => {
   const router = useRouter();
