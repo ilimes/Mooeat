@@ -5,8 +5,8 @@ import NotFoundImage from '../../public/not-found.png';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: "Mooeat - 404 Not Found",
-  description: "Mooeat - 404 Not Found",
+  title: "Mooeat - 페이지를 찾을 수 없습니다",
+  description: "Mooeat - 페이지를 찾을 수 없습니다",
 };
 
 const NotFound = () => {

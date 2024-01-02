@@ -23,15 +23,15 @@ const Point = () => {
   return (
     <>
       <SubTitle>내 포인트</SubTitle>
-      <StyledBoxDiv style={{ height: 50 }}>
+      <StyledBoxDiv style={{ height: 55 }}>
         {
-          point &&
+          point != null &&
           <>
             <span style={{ fontWeight: 600, fontSize: 18 }}>{Number(point)?.toLocaleString()}</span> 포인트
           </>
         }
         {
-          !point &&
+          point === null &&
           <>
             <Spin />
           </>
