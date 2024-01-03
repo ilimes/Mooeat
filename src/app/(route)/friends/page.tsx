@@ -7,9 +7,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
 import { InfoTypes } from '@/types/Common/Common.interface';
+import { useSession } from "next-auth/react";
+import { FriendTypes } from "@/types/Friend/Friend.interface";
 
 const Friends = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const { Modal, isOpen, openModal, closeModal } = useModal();
   const [activeKey, setActiveKey] = useState('all');
   const [items, setItems] = useState<InfoTypes[]>([
@@ -18,19 +21,48 @@ const Friends = () => {
       label: '전체',
     },
     {
-      key: 'wait',
-      label: '수락 대기 중',
+      key: 'get',
+      label: '받은 요청'
+    },
+    {
+      key: 'send',
+      label: '보낸 요청',
     },
     {
       key: 'done',
-      label: '수락 완료',
+      label: '서로 친구',
     },
   ]);
+  const [friendList, setFriendList] = useState<FriendTypes[]>([]);
+  const user_seq = session?.user?.token?.userInfo?.user_seq;
+  // TODO: 친구 목록 조건 수정: 둘다 N일 경우 표시하지 않게
+  const fromFriendList = friendList?.filter(e => e?.from_user_seq === user_seq && e?.agree === 'N');
+  const toFriendList = friendList?.filter(e => e?.to_user_seq === user_seq && e?.agree === 'N');
+
+  const friendList1 = friendList?.filter(e => e?.from_user_seq === user_seq && e?.agree === 'Y');
+  const friendList2 = friendList?.filter(e => e?.to_user_seq === user_seq && e?.agree === 'Y');
+  const pureFriendList = friendList1?.filter(e => friendList2?.find(ele => ele?.from_user_seq === e?.to_user_seq))
+
+  const sendCondition = fromFriendList?.length != 0 && (activeKey === 'all' || activeKey === 'send');
+  const getCondition = toFriendList?.length != 0 && (activeKey === 'all' || activeKey === 'get');
+  const pureCondition = pureFriendList?.length != 0 && (activeKey === 'all' || activeKey === 'done');
 
   const onChange = (key: string) => {
     setActiveKey(key);
   };
-  
+
+  const loadFriendList = async () => {
+    const result = await fetchFriendList(user_seq);
+    setFriendList(result?.list)
+    console.log(result?.list)
+  }
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      loadFriendList();
+    }
+  }, [status])
+
   return (
     <div>
       <Title>친구</Title>
@@ -38,23 +70,45 @@ const Friends = () => {
       <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
           <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={openModal} style={{ float: 'right', fontSize: 14, fontWeight: 'bold', paddingRight: 22, height: 31 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: 'calc(100vh - 260px)', overflow: 'auto' }}>
-          <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600 }} />
+            <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600 }} tabBarGutter={20} />
             <Row gutter={[10, 10]}>
-              {/* <Friend key={1} />
-              <Friend key={2} />
-              <Friend key={3} />
-              <Friend key={4} />
-              <Friend key={5} /> */}
-              <StyledEmpty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description="등록된 친구가 없습니다."
-              />
+              {
+                sendCondition &&
+                (
+                  <Col span={24}>
+                    <Row gutter={[0, 10]}>
+                      <div style={{ fontWeight: 600 }}>보낸 요청</div>
+                      {toFriendList?.length != 0 && toFriendList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.from_user_nm} user_id={e?.from_user_id} />)}
+                      <Divider style={{ margin: 0, borderColor: '#AEB8C2' }} />
+                    </Row>
+                  </Col>
+                )
+              }
+              {
+                getCondition &&
+                (
+                  <Col span={24}>
+                    <Row gutter={[0, 10]}>
+                      <div style={{ fontWeight: 600 }}>받은 요청</div>
+                      {fromFriendList?.length != 0 && fromFriendList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
+                      <Divider style={{ margin: 0, borderColor: '#AEB8C2' }} />
+                    </Row>
+                  </Col>
+                )
+              }
+              {pureCondition && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
+              {!friendList?.length &&
+                (<StyledEmpty
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  description="등록된 친구가 없습니다."
+                />)
+              }
             </Row>
           </StyledLeftCard>
         </Col>
         <Col xs={0} sm={0} md={0} lg={18} xl={18} xxl={18}>
           <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
-            <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>자세한 정보를 보려면 친구를 클릭해주세요.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }}/>
+            <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>자세한 정보를 보려면 친구를 클릭해주세요.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }} />
           </Card>
         </Col>
       </Row>
@@ -75,7 +129,7 @@ const Friends = () => {
   );
 };
 
-const Friend = () => {
+const Friend = ({ user_nm, user_id }: { user_nm: string, user_id: string }) => {
   return (
     <Col span={24}>
       <StyledCard bodyStyle={{ padding: 15 }}>
@@ -95,8 +149,8 @@ const Friend = () => {
             </Badge>
           </div>
           <StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 14 }}>라임</StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>ilimes@github.com</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 14 }}>{user_nm}</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{user_id}</StyledOutDiv>
           </StyledOutDiv>
         </div>
       </StyledCard>
@@ -174,3 +228,13 @@ const StyledEmpty = styled(Empty)`
     }
   }
 `;
+
+const fetchFriendList = async (user_seq: number) => {
+  const res = await fetch(`/api/friend/list`, {
+    method: "POST",
+    body: JSON.stringify({ user_seq }),
+  });
+  const result = await res.json();
+
+  return result?.data;
+};
