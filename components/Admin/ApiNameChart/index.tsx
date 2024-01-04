@@ -1,29 +1,52 @@
-import { Radio } from 'antd';
+import { Radio, Select } from 'antd';
+import moment from 'moment';
 import { useSession } from 'next-auth/react';
 import React, { PureComponent, useEffect, useState } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+const options = [
+  {
+    label: 2024,
+    value: 2024
+  },
+  {
+    label: 2023,
+    value: 2023
+  },
+]
+
 const ApiCountChart = () => {
+    const nowYear = Number(moment().format('YYYY'));
+
     const [data, setData] = useState([]);
+    const [year, setYear] = useState<number>(2024);
     const [type, setType] = useState<string>('month');
 
     const getData = async () => {
-      const formData = { type, group: true }
+      const formData = { type, group: true, year }
       const result = await fetchApiData(formData);
       setData(result?.list);
     }
 
+    const onChangeSelect = (e: number) => {
+      if (nowYear != e) {
+        setType('year');
+      }
+      setYear(e);
+    }
+
     useEffect(() =>{
       getData();
-    }, [type])
+    }, [type, year])
 
     return (
       <>
-        <div style={{ marginBottom: 20 }}>
-          <Radio.Group defaultValue="month" size="large" onChange={(e) => setType(e.target.value)}>
-            <Radio.Button value="year">올해</Radio.Button>
-            <Radio.Button value="month">이번 달</Radio.Button>
-            <Radio.Button value="day">오늘</Radio.Button>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 20 }}>
+        <Select options={options} value={year} onChange={(e) => onChangeSelect(e)} style={{ width: 85 }} size="large" />
+          <Radio.Group value={type} size="large" onChange={(e) => setType(e.target.value)}>
+            <Radio.Button value="year">당해</Radio.Button>
+            <Radio.Button value="month" disabled={nowYear != year ? true : false}>이번 달</Radio.Button>
+            <Radio.Button value="day" disabled={nowYear != year ? true : false}>오늘</Radio.Button>
           </Radio.Group>
         </div>
         <div style={{ width: '100%', height: 500 }}>
