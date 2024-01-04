@@ -4,7 +4,7 @@ import { Button, Col, Row, Card, Divider, Avatar, Empty, Input, message, Badge, 
 import { UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
 import { InfoTypes } from '@/types/Common/Common.interface';
 import { useSession } from "next-auth/react";
@@ -15,6 +15,7 @@ const Friends = () => {
   const { data: session, status } = useSession();
   const { Modal, isOpen, openModal, closeModal } = useModal();
   const [activeKey, setActiveKey] = useState('all');
+  const [userId, setUserId] = useState<any>(null);
   const [items, setItems] = useState<InfoTypes[]>([
     {
       key: 'all',
@@ -51,6 +52,37 @@ const Friends = () => {
     setActiveKey(key);
   };
 
+  const onOpen = () => {
+    setUserId(null);
+    openModal();
+  }
+
+  const handleOnKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onClickReg(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
+
+  const onClickReg = async () => {
+    if (!userId) {
+      message.warning('등록할 이메일을 입력해주세요.');
+      return;
+    }
+
+    const formData = {
+      user_id: userId,
+      from_user_seq: user_seq
+    };
+
+    const result = await fetchFriendData(formData);
+    if (result?.success) {
+      message.success("등록되었습니다.");
+      closeModal();
+    } else {
+      message.warning(result?.message);
+    }
+  }
+
   const loadFriendList = async () => {
     const result = await fetchFriendList(user_seq);
     setFriendList(result?.list)
@@ -69,7 +101,7 @@ const Friends = () => {
       <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
       <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
-          <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={openModal} style={{ float: 'right', fontSize: 14, fontWeight: 'bold', paddingRight: 22, height: 31 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: 'calc(100vh - 260px)', overflow: 'auto' }}>
+          <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={onOpen} style={{ float: 'right', fontSize: 14, fontWeight: 'bold', paddingRight: 22, height: 31 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: 'calc(100vh - 260px)', overflow: 'auto' }}>
             <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600 }} tabBarGutter={20} />
             <Row gutter={[10, 10]}>
               {
@@ -118,10 +150,10 @@ const Friends = () => {
             <span style={{ fontWeight: 600 }}>이메일</span>
           </Col>
           <Col span={24}>
-            <Input placeholder="등록할 친구의 이메일을 입력해주세요." style={{ height: 40 }} />
+            <Input value={userId} placeholder="등록할 친구의 이메일을 입력해주세요." onChange={(e) => setUserId(e.target.value)} onKeyDown={(e) => handleOnKeyPress(e)} style={{ height: 40 }} />
           </Col>
           <Col span={24}>
-            <Button type="primary" style={{ width: '100%', height: 40, fontWeight: 'bold', fontSize: 14 }} onClick={() => message.warning('존재하지 않는 이메일입니다. 이메일을 확인해주세요.')}>친구추가</Button>
+            <Button type="primary" style={{ width: '100%', height: 40, fontWeight: 'bold', fontSize: 14 }} onClick={onClickReg}>친구추가</Button>
           </Col>
         </Row>
       </Modal>
@@ -238,3 +270,13 @@ const fetchFriendList = async (user_seq: number) => {
 
   return result?.data;
 };
+
+const fetchFriendData = async (formData: object) => {
+  const res = await fetch(`/api/friend/add`, {
+    method: 'PUT',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+
+  return result?.data;
+}
