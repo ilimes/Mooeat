@@ -1,15 +1,28 @@
-import { Radio } from 'antd';
+import { Radio, Select } from 'antd';
+import moment from 'moment';
 import { useSession } from 'next-auth/react';
 import React, { PureComponent, useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+const options = [
+  {
+    label: 2024,
+    value: 2024
+  },
+  {
+    label: 2023,
+    value: 2023
+  },
+]
+
 const ApiCountChart = () => {
     const [data, setData] = useState([]);
+    const [year, setYear] = useState<number>(2024);
     const [type, setType] = useState<string>('month');
     const [sumCount, setSumCount] = useState(0);
 
     const getData = async () => {
-      const formData = { type }
+      const formData = { type, year }
       const result = await fetchApiData(formData);
       setData(result?.list);
       setSumCount(result?.sum_count);
@@ -17,17 +30,18 @@ const ApiCountChart = () => {
 
     useEffect(() =>{
       getData();
-    }, [type])
+    }, [type, year])
 
     return (
       <>
-        <div style={{ marginBottom: 20 }}>
-          <Radio.Group defaultValue="month" size="large" onChange={(e) => setType(e.target.value)}>
+        <div style={{ marginBottom: 10, fontWeight: 400, fontSize: 13, color: 'grey' }}>총 {sumCount}회</div>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 20 }}>
+          <Select options={options} value={year} onChange={(e) => setYear(e)} style={{ width: 85 }} size="large" />
+          <Radio.Group value={type} size="large" onChange={(e) => setType(e.target.value)}>
             <Radio.Button value="year">년간</Radio.Button>
             <Radio.Button value="month">월간</Radio.Button>
             <Radio.Button value="day">일간</Radio.Button>
           </Radio.Group>
-          <span style={{ marginLeft: 10, fontWeight: 400, fontSize: 13, color: 'grey'  }}>총 {sumCount}회</span>
         </div>
         <div style={{ width: '100%', height: 500 }}>
           <ResponsiveContainer width="100%" height="100%">

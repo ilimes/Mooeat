@@ -20,7 +20,7 @@ const Api = () => {
       <Row>
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
           <SubTitle>API 호출 순위 Top5</SubTitle>
-          <Explain><InfoCircleOutlined /> API 호출 순위 Top5를 올해, 이번 달, 당일로 조회할 수 있습니다. 기본값은 `이번 달` 입니다.</Explain>
+          <Explain><InfoCircleOutlined /> API 호출 순위 Top5를 당해, 이번 달, 당일로 조회할 수 있습니다. 기본값은 `이번 달` 입니다.</Explain>
           <ApiNameChart />
         </Col>
       </Row>
