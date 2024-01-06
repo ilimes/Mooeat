@@ -36,16 +36,19 @@ const Friends = () => {
   ]);
   const [friendList, setFriendList] = useState<FriendTypes[]>([]);
   const user_seq = session?.user?.token?.userInfo?.user_seq;
-  // TODO: 친구 목록 조건 수정: 둘다 N일 경우 표시하지 않게
-  const fromFriendList = friendList?.filter(e => e?.from_user_seq === user_seq && e?.agree === 'N');
-  const toFriendList = friendList?.filter(e => e?.to_user_seq === user_seq && e?.agree === 'N');
+
+  // 받은 요청 리스트
+  const receivedList = friendList?.filter(e => e.from_user_seq === user_seq && e?.agree === 'N' && e?.other_agree === 'Y');
+
+  // 보낸 요청 리스트
+  const sentList = friendList?.filter(e => e.from_user_seq === user_seq && e?.agree === 'Y' && e?.other_agree === 'N');
 
   const friendList1 = friendList?.filter(e => e?.from_user_seq === user_seq && e?.agree === 'Y');
   const friendList2 = friendList?.filter(e => e?.to_user_seq === user_seq && e?.agree === 'Y');
   const pureFriendList = friendList1?.filter(e => friendList2?.find(ele => ele?.from_user_seq === e?.to_user_seq))
 
-  const sendCondition = fromFriendList?.length != 0 && (activeKey === 'all' || activeKey === 'send');
-  const getCondition = toFriendList?.length != 0 && (activeKey === 'all' || activeKey === 'get');
+  const sendCondition = sentList?.length != 0 && (activeKey === 'all' || activeKey === 'send');
+  const getCondition = receivedList?.length != 0 && (activeKey === 'all' || activeKey === 'get');
   const pureCondition = pureFriendList?.length != 0 && (activeKey === 'all' || activeKey === 'done');
 
   const onChange = (key: string) => {
@@ -110,8 +113,8 @@ const Friends = () => {
                   <Col span={24}>
                     <Row gutter={[0, 10]}>
                       <div style={{ fontWeight: 600 }}>보낸 요청</div>
-                      {toFriendList?.length != 0 && toFriendList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.from_user_nm} user_id={e?.from_user_id} />)}
-                      <Divider style={{ margin: 0, borderColor: '#AEB8C2' }} />
+                      {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
+                      <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
                     </Row>
                   </Col>
                 )
@@ -122,13 +125,24 @@ const Friends = () => {
                   <Col span={24}>
                     <Row gutter={[0, 10]}>
                       <div style={{ fontWeight: 600 }}>받은 요청</div>
-                      {fromFriendList?.length != 0 && fromFriendList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
-                      <Divider style={{ margin: 0, borderColor: '#AEB8C2' }} />
+                      {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
+                      <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
                     </Row>
                   </Col>
                 )
               }
-              {pureCondition && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
+              {
+                pureCondition && 
+                (
+                  <Col span={24}>
+                  <Row gutter={[0, 10]}>
+                    <div style={{ fontWeight: 600 }}>서로 친구</div>
+                    {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
+                    <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
+                  </Row>
+                </Col>
+                )
+              }
               {!friendList?.length &&
                 (<StyledEmpty
                   image={Empty.PRESENTED_IMAGE_SIMPLE}

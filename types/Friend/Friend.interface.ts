@@ -6,4 +6,5 @@ export interface FriendTypes {
     from_user_id: string;
     from_user_nm: string;
     agree: string;
+    other_agree: string;
 }

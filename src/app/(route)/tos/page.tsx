@@ -1,11 +1,8 @@
 'use client'
 
-import { Button } from "antd";
 import styled from "styled-components";
-import { useRouter } from "next/navigation";
 
 const Tos = () => {
-  const router = useRouter();
   return (
     <div>
       <Title>이용약관</Title>
