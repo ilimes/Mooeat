@@ -1,41 +1,13 @@
 "use client";
 
-import {
-  Layout,
-  Menu,
-  Button,
-  Popover,
-  Col,
-  Row,
-  Card,
-  Avatar,
-  Badge,
-  Drawer,
-  message,
-  Empty,
-} from "antd";
-import type { MenuProps } from "antd";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  BellOutlined,
-  UserOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { Layout, Menu, Button, Popover, Col, Row, Card, Avatar, Badge, Drawer, Empty } from "antd";
+import { MenuFoldOutlined, MenuUnfoldOutlined, BellOutlined, UserOutlined, CloseOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { use, useState, useEffect, Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import Logo from "../../public/logo.png";
-import { ServerStyleSheet } from "styled-components";
-import {
-  collapseState,
-  isMobileState,
-  menuState,
-  notiCollapseState,
-  userInfoLoadingState,
-  userInfoState,
-} from "@/recoil/states";
+import { collapseState, isMobileState, menuState, notiCollapseState, userInfoLoadingState, userInfoState } from "@/recoil/states";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useSession, signOut } from "next-auth/react";
 
@@ -195,7 +167,6 @@ const HeaderPage = () => {
         </div>
       </div>
       <AlertDrawer />
-      {/* <ProfileDrawer /> */}
     </Header>
   );
 };
