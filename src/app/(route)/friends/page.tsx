@@ -4,18 +4,21 @@ import { Button, Col, Row, Card, Divider, Avatar, Empty, Input, message, Badge, 
 import { UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import { KeyboardEvent, useEffect, useState } from "react";
+import { Dispatch, KeyboardEvent, SetStateAction, useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
 import { InfoTypes } from '@/types/Common/Common.interface';
 import { useSession } from "next-auth/react";
 import { FriendTypes } from "@/types/Friend/Friend.interface";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const Friends = () => {
   const router = useRouter();
+  const isMobile = useIsMobile();
   const { data: session, status } = useSession();
   const { Modal, isOpen, openModal, closeModal } = useModal();
   const [activeKey, setActiveKey] = useState('all');
   const [userId, setUserId] = useState<any>(null);
+  const [clickSeq, setClickSeq] = useState<number | null>(null);
   const [items, setItems] = useState<InfoTypes[]>([
     {
       key: 'all',
@@ -89,7 +92,6 @@ const Friends = () => {
   const loadFriendList = async () => {
     const result = await fetchFriendList(user_seq);
     setFriendList(result?.list)
-    console.log(result?.list)
   }
 
   useEffect(() => {
@@ -103,29 +105,29 @@ const Friends = () => {
       <Title>친구</Title>
       <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
       <Row gutter={[15, 15]}>
-        <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
+        <Col xs={isMobile && clickSeq ? 0 : 24} sm={isMobile && clickSeq ? 0 : 24} md={isMobile && clickSeq ? 0 : 24} lg={7} xl={7} xxl={7}>
           <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={onOpen} style={{ float: 'right', fontSize: 14, fontWeight: 'bold', paddingRight: 22, height: 31 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: 'calc(100vh - 260px)', overflow: 'auto' }}>
             <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600 }} tabBarGutter={20} />
             <Row gutter={[10, 10]}>
-              {
-                sendCondition &&
-                (
-                  <Col span={24}>
-                    <Row gutter={[0, 10]}>
-                      <div style={{ fontWeight: 600 }}>보낸 요청</div>
-                      {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
-                      <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
-                    </Row>
-                  </Col>
-                )
-              }
               {
                 getCondition &&
                 (
                   <Col span={24}>
                     <Row gutter={[0, 10]}>
                       <div style={{ fontWeight: 600 }}>받은 요청</div>
-                      {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
+                      {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} user_seq={e?.to_user_seq} user_nm={e?.to_user_nm} user_id={e?.to_user_id} isReceived={true} />)}
+                      <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
+                    </Row>
+                  </Col>
+                )
+              }
+              {
+                sendCondition &&
+                (
+                  <Col span={24}>
+                    <Row gutter={[0, 10]}>
+                      <div style={{ fontWeight: 600 }}>보낸 요청</div>
+                      {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} user_seq={e?.to_user_seq} user_nm={e?.to_user_nm} user_id={e?.to_user_id} isSent={true} />)}
                       <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
                     </Row>
                   </Col>
@@ -137,7 +139,7 @@ const Friends = () => {
                   <Col span={24}>
                   <Row gutter={[0, 10]}>
                     <div style={{ fontWeight: 600 }}>서로 친구</div>
-                    {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
+                    {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} user_seq={e?.to_user_seq} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
                     <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
                   </Row>
                 </Col>
@@ -152,11 +154,27 @@ const Friends = () => {
             </Row>
           </StyledLeftCard>
         </Col>
-        <Col xs={0} sm={0} md={0} lg={18} xl={18} xxl={18}>
-          <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
-            <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>자세한 정보를 보려면 친구를 클릭해주세요.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }} />
-          </Card>
-        </Col>
+        {
+          !clickSeq &&
+          <Col xs={isMobile && clickSeq ? 24 : 0} sm={isMobile && clickSeq ? 24 : 0} md={isMobile && clickSeq ? 24 : 0} lg={17} xl={17} xxl={17}>
+            <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
+              <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>자세한 정보를 보려면 친구를 클릭해주세요.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }} />
+            </Card>
+          </Col>
+        }
+        {
+          clickSeq &&
+          <Col xs={isMobile && clickSeq ? 24 : 0} sm={isMobile && clickSeq ? 24 : 0} md={isMobile && clickSeq ? 24 : 0} lg={17} xl={17} xxl={17}>
+            <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
+              {isMobile && (
+                <div>
+                  <Button onClick={() => setClickSeq(null)}>돌아가기</Button>
+                </div>
+              )}
+              {clickSeq}
+            </Card>
+          </Col>
+        }
       </Row>
       <Modal title={'친구 등록'} isOpen={isOpen} closeModal={closeModal}>
         <Row gutter={[10, 10]}>
@@ -175,10 +193,10 @@ const Friends = () => {
   );
 };
 
-const Friend = ({ user_nm, user_id }: { user_nm: string, user_id: string }) => {
+const Friend = ({ setClickSeq, user_seq, user_nm, user_id, isReceived, isSent }: { setClickSeq: Dispatch<SetStateAction<number | null>>, user_seq: number, user_nm: string, user_id: string, isReceived?: boolean, isSent?: boolean }) => {
   return (
     <Col span={24}>
-      <StyledCard bodyStyle={{ padding: 15 }}>
+      <StyledCard className="fade" bodyStyle={{ padding: 15 }} onClick={() => setClickSeq(user_seq)}>
         <div style={{ display: 'flex', gap: 10 }}>
           <div>
             <Badge
@@ -199,6 +217,8 @@ const Friend = ({ user_nm, user_id }: { user_nm: string, user_id: string }) => {
             <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{user_id}</StyledOutDiv>
           </StyledOutDiv>
         </div>
+        {isReceived && <Button type="primary" onClick={() => alert('수락')} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 수락</Button>}
+        {isSent && <Button type="primary" ghost onClick={() => alert('취소')} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 취소</Button>}
       </StyledCard>
     </Col>
   )
@@ -239,7 +259,7 @@ const StyledOutDiv = styled.div`
 const StyledCard = styled(Card)`
   && {
     &:hover {
-      border: 1px solid black;
+      border: 1px solid grey;
       cursor: pointer;
     }
   }
@@ -255,6 +275,18 @@ const StyledLeftCard = styled(Card)`
       display: flex;
       justify-content: space-between;
       align-items: self-end;
+    }
+    .ant-card-body {
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background: #45556066;
+        border-radius: 20px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+      }
     }
   }
 `
