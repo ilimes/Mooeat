@@ -1,4 +1,5 @@
 export interface FriendTypes {
+    seq: number;
     from_user_seq: number;
     to_user_seq: number;
     to_user_id: string;
