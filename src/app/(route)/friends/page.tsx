@@ -83,6 +83,7 @@ const Friends = () => {
     const result = await fetchFriendData(formData);
     if (result?.success) {
       message.success("등록되었습니다.");
+      loadFriendList();
       closeModal();
     } else {
       message.warning(result?.message);
@@ -92,6 +93,32 @@ const Friends = () => {
   const loadFriendList = async () => {
     const result = await fetchFriendList(user_seq);
     setFriendList(result?.list)
+  }
+
+  const updateFriend = async (seq?: number, type?: string) => {
+    if (!seq) {
+      message.warning("seq가 존재하지 않습니다.");
+      return;
+    }
+    
+    if (!type) {
+      message.warning("type이 존재하지 않습니다.");
+      return;
+    }
+
+    const formData = { seq, type };
+    const result = await updateFriendData(formData);
+    if (result?.success) {
+      if (type === 'accept') {
+        message.success("요청이 수락되었습니다.");
+      }
+      if (type === 'cancel') {
+        message.info("요청을 취소하였습니다.");
+      }
+      loadFriendList();
+    } else {
+      message.warning(result?.message);
+    }
   }
 
   useEffect(() => {
@@ -115,7 +142,7 @@ const Friends = () => {
                   <Col span={24}>
                     <Row gutter={[0, 10]}>
                       <div style={{ fontWeight: 600 }}>받은 요청</div>
-                      {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} user_seq={e?.to_user_seq} user_nm={e?.to_user_nm} user_id={e?.to_user_id} isReceived={true} />)}
+                      {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} updateFriend={updateFriend} element={e} isReceived={true} />)}
                       <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
                     </Row>
                   </Col>
@@ -127,7 +154,7 @@ const Friends = () => {
                   <Col span={24}>
                     <Row gutter={[0, 10]}>
                       <div style={{ fontWeight: 600 }}>보낸 요청</div>
-                      {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} user_seq={e?.to_user_seq} user_nm={e?.to_user_nm} user_id={e?.to_user_id} isSent={true} />)}
+                      {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} updateFriend={updateFriend} element={e} isSent={true} />)}
                       <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
                     </Row>
                   </Col>
@@ -139,7 +166,7 @@ const Friends = () => {
                   <Col span={24}>
                   <Row gutter={[0, 10]}>
                     <div style={{ fontWeight: 600 }}>서로 친구</div>
-                    {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} user_seq={e?.to_user_seq} user_nm={e?.to_user_nm} user_id={e?.to_user_id} />)}
+                    {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} element={e} />)}
                     <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
                   </Row>
                 </Col>
@@ -193,10 +220,10 @@ const Friends = () => {
   );
 };
 
-const Friend = ({ setClickSeq, user_seq, user_nm, user_id, isReceived, isSent }: { setClickSeq: Dispatch<SetStateAction<number | null>>, user_seq: number, user_nm: string, user_id: string, isReceived?: boolean, isSent?: boolean }) => {
+const Friend = ({ setClickSeq, updateFriend, element, isReceived, isSent }: { setClickSeq: Dispatch<SetStateAction<number | null>>, updateFriend?: any, element: FriendTypes, isReceived?: boolean, isSent?: boolean }) => {
   return (
     <Col span={24}>
-      <StyledCard className="fade" bodyStyle={{ padding: 15 }} onClick={() => setClickSeq(user_seq)}>
+      <StyledCard className="fade" bodyStyle={{ padding: 15 }} onClick={() => setClickSeq(element?.to_user_seq)}>
         <div style={{ display: 'flex', gap: 10 }}>
           <div>
             <Badge
@@ -213,12 +240,12 @@ const Friend = ({ setClickSeq, user_seq, user_nm, user_id, isReceived, isSent }:
             </Badge>
           </div>
           <StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 14 }}>{user_nm}</StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{user_id}</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 14 }}>{element?.to_user_nm}</StyledOutDiv>
+            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{element?.to_user_id}</StyledOutDiv>
           </StyledOutDiv>
         </div>
-        {isReceived && <Button type="primary" onClick={() => alert('수락')} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 수락</Button>}
-        {isSent && <Button type="primary" ghost onClick={() => alert('취소')} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 취소</Button>}
+        {isReceived && <Button type="primary" onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'accept'); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 수락</Button>}
+        {isSent && <Button type="primary" ghost onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'cancel'); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 취소</Button>}
       </StyledCard>
     </Col>
   )
@@ -320,6 +347,16 @@ const fetchFriendList = async (user_seq: number) => {
 const fetchFriendData = async (formData: object) => {
   const res = await fetch(`/api/friend/add`, {
     method: 'PUT',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+
+  return result?.data;
+}
+
+const updateFriendData = async (formData: object) => {
+  const res = await fetch(`/api/friend/updateFriend`, {
+    method: 'PATCH',
     body: JSON.stringify(formData)
   });
   const result = await res.json();
