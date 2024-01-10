@@ -19,6 +19,7 @@
     "next": "13.5.4",
     "next-auth": "^4.24.5",
     "react": "^18",
+    "react-calendar": "^4.7.0",
     "react-dom": "^18",
     "react-responsive": "^9.0.2",
     "recharts": "^2.10.3",

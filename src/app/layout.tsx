@@ -11,6 +11,11 @@ import theme from "../../theme/themeConfig";
 export const metadata: Metadata = {
   title: "Mooeat",
   description: "Mooeat",
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1
+  }
 };
 
 export default function RootLayout({

@@ -40,7 +40,7 @@ const Point = () => {
       </StyledBoxDiv>
       <SubTitle>적립 및 사용내역</SubTitle>
       <StyledBoxDiv>
-        d
+        준비중 입니다.
       </StyledBoxDiv>
     </>
   )

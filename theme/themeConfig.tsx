@@ -27,6 +27,7 @@ const theme: ThemeConfig = {
   token: {
     fontSize: 14,
     colorPrimary: '#4f4791',
+    colorError: '#F22020',
     colorBgLayout: '#fff',
     fontFamily: `${lineSeedKr.style.fontFamily}`,
     borderRadiusLG: 12,

@@ -1,8 +1,8 @@
 'use client'
 
-import { Button, Col, Row, Card, Divider, Avatar, Empty, Input, message, Badge, Tabs } from "antd";
+import { Button, Col, Row, Card, Popconfirm, Avatar, Empty, Input, message, Badge, Tabs } from "antd";
 import { UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useRouter } from "next/navigation";
 import { Dispatch, KeyboardEvent, SetStateAction, useEffect, useState } from "react";
 import { useModal } from "@/hooks/useModal";
@@ -53,6 +53,11 @@ const Friends = () => {
   const sendCondition = sentList?.length != 0 && (activeKey === 'all' || activeKey === 'send');
   const getCondition = receivedList?.length != 0 && (activeKey === 'all' || activeKey === 'get');
   const pureCondition = pureFriendList?.length != 0 && (activeKey === 'all' || activeKey === 'done');
+
+  const allCondition = (friendList?.length && activeKey === 'all' && !receivedList?.length && !sentList?.length && !pureFriendList?.length)
+    || (friendList?.length && activeKey === 'get' && !receivedList?.length)
+    || (friendList?.length && activeKey === 'send' && !sentList?.length)
+    || (friendList?.length && activeKey === 'done' && !pureFriendList?.length);
 
   const onChange = (key: string) => {
     setActiveKey(key);
@@ -116,6 +121,34 @@ const Friends = () => {
         message.info("요청을 취소하였습니다.");
       }
       loadFriendList();
+      setClickSeq(null);
+    } else {
+      message.warning(result?.message);
+    }
+  }
+
+  const deleteFriend = async (to_user_seq?: number, isBlock?: string) => {
+    if (!to_user_seq) {
+      message.warning("to_user_seq가 존재하지 않습니다.");
+      return;
+    }
+    
+    if (!isBlock) {
+      message.warning("isBlock이 존재하지 않습니다.");
+      return;
+    }
+
+    const formData = { 
+      to_user_seq, 
+      from_user_seq: user_seq,
+      isBlock
+    };
+
+    const result = await deleteFriendData(formData);
+    if (result?.success) {
+      message.success("정상적으로 처리되었습니다.");
+      loadFriendList();
+      setClickSeq(null);
     } else {
       message.warning(result?.message);
     }
@@ -140,10 +173,9 @@ const Friends = () => {
                 getCondition &&
                 (
                   <Col span={24}>
-                    <Row gutter={[0, 10]}>
-                      <div style={{ fontWeight: 600 }}>받은 요청</div>
-                      {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} updateFriend={updateFriend} element={e} isReceived={true} />)}
-                      <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
+                    <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
+                      <div style={{ fontWeight: 600, margin: '0 auto' }}>받은 요청</div>
+                      {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} clickSeq={clickSeq} setClickSeq={setClickSeq} updateFriend={updateFriend} element={e} state={'received'} />)}
                     </Row>
                   </Col>
                 )
@@ -152,10 +184,9 @@ const Friends = () => {
                 sendCondition &&
                 (
                   <Col span={24}>
-                    <Row gutter={[0, 10]}>
-                      <div style={{ fontWeight: 600 }}>보낸 요청</div>
-                      {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} updateFriend={updateFriend} element={e} isSent={true} />)}
-                      <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
+                    <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
+                      <div style={{ fontWeight: 600, margin: '0 auto' }}>보낸 요청</div>
+                      {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} clickSeq={clickSeq} setClickSeq={setClickSeq} updateFriend={updateFriend} element={e} state={'sent'} />)}
                     </Row>
                   </Col>
                 )
@@ -164,19 +195,19 @@ const Friends = () => {
                 pureCondition && 
                 (
                   <Col span={24}>
-                  <Row gutter={[0, 10]}>
-                    <div style={{ fontWeight: 600 }}>서로 친구</div>
-                    {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} setClickSeq={setClickSeq} element={e} />)}
-                    <Divider style={{ margin: 0, borderColor: '#AEB8C2', borderWidth: 5 }} />
-                  </Row>
+                    <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
+                      <div style={{ fontWeight: 600, margin: '0 auto' }}>서로 친구</div>
+                      {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} clickSeq={clickSeq} setClickSeq={setClickSeq} deleteFriend={deleteFriend} element={e} state={'pure'} />)}
+                    </Row>
                 </Col>
                 )
               }
-              {!friendList?.length &&
+              {(!friendList?.length || allCondition) ?
                 (<StyledEmpty
                   image={Empty.PRESENTED_IMAGE_SIMPLE}
-                  description="등록된 친구가 없습니다."
+                  description="목록이 존재하지 않습니다."
                 />)
+                : ""
               }
             </Row>
           </StyledLeftCard>
@@ -193,7 +224,7 @@ const Friends = () => {
           clickSeq &&
           <Col xs={isMobile && clickSeq ? 24 : 0} sm={isMobile && clickSeq ? 24 : 0} md={isMobile && clickSeq ? 24 : 0} lg={17} xl={17} xxl={17}>
             <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
-              {isMobile && (
+              {1 == 1 && (
                 <div>
                   <Button onClick={() => setClickSeq(null)}>돌아가기</Button>
                 </div>
@@ -220,34 +251,51 @@ const Friends = () => {
   );
 };
 
-const Friend = ({ setClickSeq, updateFriend, element, isReceived, isSent }: { setClickSeq: Dispatch<SetStateAction<number | null>>, updateFriend?: any, element: FriendTypes, isReceived?: boolean, isSent?: boolean }) => {
+const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, state }: { clickSeq: number | null,setClickSeq: Dispatch<SetStateAction<number | null>>, updateFriend?: any, deleteFriend?: any, element: FriendTypes, state?: string }) => {
+  const { Modal, isOpen, openModal, closeModal } = useModal();
   return (
-    <Col span={24}>
-      <StyledCard className="fade" bodyStyle={{ padding: 15 }} onClick={() => setClickSeq(element?.to_user_seq)}>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <div>
-            <Badge
-              offset={["-5%", "85%"]}
-              style={{
-                width: "13px",
-                height: "13px",
-                boxShadow: "0 0 0 3px #fff",
-                backgroundColor: "#6384EB"
-              }}
-              dot={true}
-            >
-              <Avatar size={40} icon={<UserOutlined />} />
-            </Badge>
+    <>
+      <Col span={24}>
+        <StyledCard className="fade" bodyStyle={{ padding: 15 }} onClick={() => setClickSeq(element?.to_user_seq)} $isClicked={clickSeq === element?.to_user_seq ? true : false}>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <div>
+              <Badge
+                offset={["-5%", "85%"]}
+                style={{
+                  width: "13px",
+                  height: "13px",
+                  boxShadow: "0 0 0 3px #fff",
+                  backgroundColor: "#6384EB"
+                }}
+                dot={true}
+              >
+                <Avatar size={40} icon={<UserOutlined />} />
+              </Badge>
+            </div>
+            <StyledOutDiv>
+              <StyledOutDiv style={{ fontSize: 14 }}>{element?.to_user_nm}</StyledOutDiv>
+              <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{element?.to_user_id}</StyledOutDiv>
+            </StyledOutDiv>
           </div>
-          <StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 14 }}>{element?.to_user_nm}</StyledOutDiv>
-            <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{element?.to_user_id}</StyledOutDiv>
-          </StyledOutDiv>
-        </div>
-        {isReceived && <Button type="primary" onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'accept'); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 수락</Button>}
-        {isSent && <Button type="primary" ghost onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'cancel'); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 취소</Button>}
-      </StyledCard>
-    </Col>
+          {state === 'received' && <Button type="primary" onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'accept'); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 수락</Button>}
+          {state === 'sent' && <Button type="primary" ghost onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'cancel'); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 취소</Button>}
+          {state === 'pure' && <Button danger onClick={(e) => { e.stopPropagation(); openModal(); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>친구 삭제</Button>}
+        </StyledCard>
+      </Col>
+      {state === 'pure' && (
+        <Modal title={'삭제'} isOpen={isOpen} closeModal={closeModal}>
+          <div style={{ margin: '30px 0' }}>
+            <div style={{ fontWeight: 600, fontSize: 16 }}>정말 삭제하시겠습니까?</div>
+            <div style={{ color: 'grey' }}>차단 관리는 '마이페이지 {'>'} 친구 관리' 를 이용해주세요.</div>
+          </div>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+            <Button onClick={closeModal}>취소</Button>
+            <Button danger onClick={() => deleteFriend(element?.to_user_seq, 'F')}>친구 삭제</Button>
+            <Button type="primary" danger onClick={() => deleteFriend(element?.to_user_seq, 'T')}>삭제 후 차단</Button>
+          </div>
+        </Modal>
+      )}
+    </>
   )
 }
 
@@ -283,8 +331,11 @@ const StyledOutDiv = styled.div`
   }
 `
 
-const StyledCard = styled(Card)`
+const StyledCard = styled(Card)<{$isClicked: boolean}>`
   && {
+    ${props => (props.$isClicked) && css`
+      border: 1px solid black;
+    `}
     &:hover {
       border: 1px solid grey;
       cursor: pointer;
@@ -357,6 +408,16 @@ const fetchFriendData = async (formData: object) => {
 const updateFriendData = async (formData: object) => {
   const res = await fetch(`/api/friend/updateFriend`, {
     method: 'PATCH',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+
+  return result?.data;
+}
+
+const deleteFriendData = async (formData: object) => {
+  const res = await fetch(`/api/friend/deleteFriend`, {
+    method: 'DELETE',
     body: JSON.stringify(formData)
   });
   const result = await res.json();

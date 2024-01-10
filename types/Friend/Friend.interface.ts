@@ -8,4 +8,6 @@ export interface FriendTypes {
     from_user_nm: string;
     agree: string;
     other_agree: string;
+    reg_dt: string;
+    mod_dt: string;
 }

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import TestImg from '../../public/test.png';
 import { useRouter } from 'next/navigation';
 import Lottie from 'lottie-react';
+import carouselImg1 from '@/public/carousel/carousel1.png'; 
 import animationData from '@/public/lottie/Animation - 1698745940539.json'; 
 import animationData2 from '@/public/lottie/Animation - 1698595350015.json';
 import animationData3 from '@/public/lottie/Animation - 1698745819488.json'; 
@@ -30,6 +31,7 @@ const CarouselComponent = () => {
       background: '#47408f',
       textBackground: '#323232',
       link: '/test',
+      // img: <Image src={carouselImg1} alt="carousel1" style={{ width: 300, height: imgHeight, margin: '0 auto' }} />
       img: <Lottie animationData={animationData} loop={true} style={{ width: 340, height: imgHeight, margin: '0 auto' }} />
     },
     {
