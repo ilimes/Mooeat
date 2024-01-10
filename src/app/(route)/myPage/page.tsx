@@ -9,6 +9,7 @@ import AccountManagement from '@/components/MyPage/AccountManagement'
 import MyActivities from '@/components/MyPage/MyActivities'
 import Point from '@/components/MyPage/Point';
 import Subscribe from '@/components/MyPage/Subscribe';
+import Friend from '@/components/MyPage/Friend';
 
 const MyPage = () => {
   const router = useRouter();
@@ -33,6 +34,11 @@ const MyPage = () => {
     {
       key: '4',
       label: '포인트',
+      children: null,
+    },
+    {
+      key: '5',
+      label: '친구 관리',
       children: null,
     },
   ]
@@ -70,6 +76,9 @@ const MyPage = () => {
           }
           {
             selectedKey === '4' && <Point />
+          }
+          {
+            selectedKey === '5' && <Friend />
           }
         </div>
       </div>

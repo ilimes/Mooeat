@@ -1,13 +1,9 @@
 import styled from "styled-components";
 
-const MyActivities = () => {
+const Friend = () => {
   return (
     <>
-      <SubTitle>내 활동</SubTitle>
-      <StyledBoxDiv>
-        준비중 입니다.
-      </StyledBoxDiv>
-      <SubTitle>항목2 입니다.</SubTitle>
+      <SubTitle>친구 차단 관리</SubTitle>
       <StyledBoxDiv>
         준비중 입니다.
       </StyledBoxDiv>
@@ -15,7 +11,7 @@ const MyActivities = () => {
   )
 }
 
-export default MyActivities;
+export default Friend;
 
 const StyledBoxDiv = styled.div`
   padding: 15px;

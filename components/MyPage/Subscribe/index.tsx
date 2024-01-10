@@ -5,7 +5,7 @@ const Subscribe = () => {
     <>
       <SubTitle>구독 내역</SubTitle>
       <StyledBoxDiv>
-        d
+        준비중 입니다.
       </StyledBoxDiv>
     </>
   )

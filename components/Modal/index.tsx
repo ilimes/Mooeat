@@ -5,7 +5,7 @@ import { ModalPropsTypes } from '@/types/Common/Common.interface';
 const ModalComponent = ({ children, title, isOpen, closeModal }: ModalPropsTypes) => {
   return (
     <>
-      <Modal title={title} open={isOpen} onCancel={closeModal} footer={false} destroyOnClose>
+      <Modal title={title} open={isOpen} onCancel={closeModal} footer={false} centered destroyOnClose>
         <div style={{ marginTop: 20 }}>
           {children}
         </div>
