@@ -286,7 +286,7 @@ const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, st
         <Modal title={'삭제'} isOpen={isOpen} closeModal={closeModal}>
           <div style={{ margin: '30px 0' }}>
             <div style={{ fontWeight: 600, fontSize: 16 }}>정말 삭제하시겠습니까?</div>
-            <div style={{ color: 'grey' }}>차단 관리는 '마이페이지 {'>'} 친구 관리' 를 이용해주세요.</div>
+            <div style={{ color: 'grey' }}>차단 관리는 `마이페이지 {'>'} 친구 관리` 를 이용해주세요.</div>
           </div>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
             <Button onClick={closeModal}>취소</Button>
