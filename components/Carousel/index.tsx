@@ -104,7 +104,8 @@ const CarouselComponent = () => {
                     transition: "0.35s",
                     height: 370,
                   }}
-                  afterChange={(number) => setNowIndex(number)}
+                  beforeChange={(_, nextNumber) => setNowIndex(nextNumber)}
+                  fade
                 >
                   {
                     contents?.map((e, i) =>
