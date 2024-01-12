@@ -33,7 +33,7 @@ const theme: ThemeConfig = {
     borderRadiusLG: 12,
     motionDurationFast: '180ms',
     motionDurationMid: '180ms',
-    motionDurationSlow: '180ms'
+    motionDurationSlow: '180ms',
   },
   components: {
     Carousel: {

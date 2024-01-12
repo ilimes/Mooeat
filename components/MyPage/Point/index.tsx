@@ -1,15 +1,22 @@
-import { Spin } from "antd";
+import { PointLogTypes } from "@/types/Point/Point.interface";
+import { Empty, Spin } from "antd";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import moment from "moment";
 
 const Point = () => {
   const { data: session, status } = useSession();
   const [point, setPoint] = useState<number | null>(null);
+  const [pointLog, setPointLog] = useState<PointLogTypes[]>([]);
+
+  const token = session?.user?.token?.data?.token;
+  const user_seq = session?.user?.token?.userInfo?.user_seq;
 
   const loadUserInfoData = async () => {
     // TODO: 카카오 로그인으 경우 token 처리, info 어떻게 불러올 것인지 설정
-    const result = await fetchUserInfoData({ token: session?.user?.token?.data?.token });
+    const result = await fetchUserInfoData({ token });
     if (result?.success) {
       setPoint(result?.user_info?.point)
     } else {
@@ -17,9 +24,21 @@ const Point = () => {
     }
   }
 
+  const loadPointLogData = async () => {
+    const result = await fetchPointLogData({ user_seq });
+    if (result?.success) {
+      setPointLog(result?.list)
+    } else {
+      setPointLog([]);
+    }
+  }
+
   useEffect(() => {
-    loadUserInfoData();
-  }, [])
+    if (status === 'authenticated') {
+      loadUserInfoData();
+      loadPointLogData();
+    }
+  }, [status])
 
   return (
     <>
@@ -33,14 +52,44 @@ const Point = () => {
         }
         {
           point === null &&
-          <>
+          <div style={{ textAlign: 'center' }}>
             <Spin />
-          </>
+          </div>
         }
       </StyledBoxDiv>
-      <SubTitle>적립 및 사용내역</SubTitle>
+      <SubTitle>획득 및 차감내역</SubTitle>
       <StyledBoxDiv>
-        준비중 입니다.
+        {
+          pointLog?.length === 0 ?
+            <div>
+              <Empty
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                description={false}
+              />
+            </div> :
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
+              {
+                pointLog?.map((e: PointLogTypes, i: number) => (
+                  <div key={i} style={{ display: 'flex', gap: 0, padding: '0 10px' }}>
+                    <div style={{ display: 'flex', width: 40, alignItems: 'center' }}>
+                      {e?.type === "G" && <PlusOutlined />}
+                      {e?.type === "D" && <MinusOutlined />}
+                    </div>
+                    <div style={{ display:'flex', flex: 1, flexDirection: 'column', gap: 3 }}>
+                      <div style={{ fontWeight: 600, fontSize: 16 }}>{e?.message}</div>
+                      <div style={{ color: 'grey', fontSize: 13 }}>{moment(e?.reg_dt).format("YYYY-MM-DD")}</div>
+                      {e?.type === "G" && <div style={{ color: 'grey', fontSize: 13 }}>{moment(e?.reg_dt).format("YYYY-MM-DD")} ~ {e?.expire_dt ? moment(e?.expire_dt).format("YYYY-MM-DD") : '유효기간 없음'}</div>}
+                    </div>
+                    <div style={{ display: 'flex', width: 100, justifyContent: 'flex-end', alignItems: 'center', fontWeight: 600, fontSize: 18, color: e?.type === "G" ? '#47408F' : "grey" }}>
+                      {e?.point}P
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+
+        }
+
       </StyledBoxDiv>
     </>
   )
@@ -64,6 +113,16 @@ const SubTitle = styled.div`
 
 const fetchUserInfoData = async (formData: { token: string }) => {
   const res = await fetch(`/api/userInfo`, {
+    method: 'POST',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+
+  return result?.data;
+}
+
+const fetchPointLogData = async (formData: { user_seq: number }) => {
+  const res = await fetch(`/api/point/log`, {
     method: 'POST',
     body: JSON.stringify(formData)
   });
