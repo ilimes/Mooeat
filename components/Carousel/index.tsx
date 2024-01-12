@@ -30,7 +30,7 @@ const CarouselComponent = () => {
       forwardText: '자세히보기',
       background: '#47408f',
       textBackground: '#323232',
-      link: '/test',
+      link: '/welcome',
       // img: <Image src={carouselImg1} alt="carousel1" style={{ width: 300, height: imgHeight, margin: '0 auto' }} />
       img: <Lottie animationData={animationData} loop={true} style={{ width: 340, height: imgHeight, margin: '0 auto' }} />
     },
@@ -44,12 +44,12 @@ const CarouselComponent = () => {
       img: <Lottie animationData={animationData2} loop={true} style={{ width: 340, height: imgHeight, margin: '0 auto' }} />
     },
     {
-      topText: '3번쨰 캐러샐 입니다',
-      bottomText: '안녕하세요 😊',
-      forwardText: '자세히보기',
+      topText: '매일 출석체크 이벤트 진행중!',
+      bottomText: '출석체크 시 100포인트 획득 가능합니다 😊',
+      forwardText: '출석 하러가기',
       background: '#004AD5',
       textBackground: '#2972FF',
-      link: '/test2',
+      link: '/attendance',
       img: <Lottie animationData={animationData3} loop={true} style={{ width: 340, height: imgHeight, margin: '0 auto' }} />
     }
   ];
