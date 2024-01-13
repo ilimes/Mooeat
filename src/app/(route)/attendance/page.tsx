@@ -1,14 +1,57 @@
 'use client'
 
-import { Button, Tooltip, message } from "antd";
+import { Button, Spin, Tooltip, message } from "antd";
 import { InfoCircleFilled } from "@ant-design/icons";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import Calendar from "@/components/Calendar";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { AttendanceLogTypes } from "@/types/Attendance/Attendance.interface";
+import moment from "moment";
 
 const Attendance = () => {
-  const router = useRouter();
+  const { data: session, status } = useSession();
+  const [attendanceLog, setAttendanceLog] = useState<AttendanceLogTypes[]>([]);
+  const [open, setOpen] = useState(false);
+  const attendDay = attendanceLog?.map(e => e?.reg_dt);
+  const isTodayAttend = attendDay?.find(e => e === moment(new Date()).format('YYYY-MM-DD')) ? true : false;
+  const titleMessage = isTodayAttend ? '오늘 출석하셨네요! 내일도 화이팅 😊' : '버튼을 눌러서 출석체크 할 수 있습니다 :)';
+  
+  const user_seq = session?.user?.token?.userInfo?.user_seq;
+
+  const loadAttendanceLogData = async () => {
+    const result = await fetchAttendanceLogData({ user_seq });
+    if (result?.success) {
+      setAttendanceLog(result?.list);
+    } else {
+      setAttendanceLog([]);
+    }
+  }
+
+  const onClickReg = async () => {
+    const formData = { user_seq };
+
+    const result = await fetchAttendanceData(formData);
+    if (result?.success) {
+      message.success("출석체크 되었습니다.");
+      loadAttendanceLogData();
+    } else {
+      message.warning(result?.message);
+    }
+  }
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      loadAttendanceLogData();
+    }
+  }, [status])
+
+  useEffect(() => {
+    setOpen(true)
+  }, [])
+
   return (
     <div>
       <Title>출석체크</Title>
@@ -22,9 +65,11 @@ const Attendance = () => {
         <Image src={"/img/attendance/attendance.png"} alt='Attendance' width={328} height={279} />
       </div>
       <div style={{ textAlign: 'center' }}>
-        <StyledButton type="primary" onClick={() => message.info("준비중 입니다.")}>오늘 출석 하기</StyledButton>
+        <Tooltip placement="topRight" title={titleMessage} open={open} zIndex={1} overlayStyle={{ fontWeight: 600, fontSize: 13 }}>
+          <StyledButton type="primary" onClick={onClickReg} disabled={(status === "loading" || isTodayAttend) ? true : false}>{status === "loading" ? <Spin /> : isTodayAttend ? '오늘 출석 완료' : '오늘 출석 하기'}</StyledButton>
+        </Tooltip>
       </div>
-      <Calendar />
+      <Calendar attendDay={attendDay}/>
       <div style={{ margin: '10px 0', fontSize: 13.5, color: 'grey' }}>
         출석 완료 날짜는 점으로 표시됩니다.
       </div>
@@ -57,3 +102,23 @@ const StyledButton = styled(Button)`
     margin-bottom: 20px;
   }
 `
+
+const fetchAttendanceLogData = async (formData: { user_seq: number }) => {
+  const res = await fetch(`/api/attendance/log`, {
+    method: 'POST',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+
+  return result?.data;
+}
+
+const fetchAttendanceData = async (formData: object) => {
+  const res = await fetch(`/api/attendance/update`, {
+    method: 'PUT',
+    body: JSON.stringify(formData)
+  });
+  const result = await res.json();
+
+  return result?.data;
+}

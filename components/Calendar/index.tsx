@@ -9,17 +9,17 @@ import {
     StyledDot,
   } from "./style";
   import moment from "moment";
+import { AttendanceLogTypes } from "@/types/Attendance/Attendance.interface";
   
   type ValuePiece = Date | null;
   type Value = ValuePiece | [ValuePiece, ValuePiece];
   
-  const Calendar = () => {
+  const Calendar = ({ attendDay }: { attendDay: string[] }) => {
     const today = new Date();
     const [date, setDate] = useState<Value>(today);
     const [activeStartDate, setActiveStartDate] = useState<Date | null>(
       new Date()
     );
-    const attendDay = ["2023-12-03", "2023-12-13", "2024-01-07"]; // 출석한 날짜 예시
   
     const handleDateChange = (newDate: Value) => {
       setDate(newDate);

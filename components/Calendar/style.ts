@@ -161,8 +161,8 @@ export const StyledDot = styled.div`
     && {
         background-color: #47408F;
         border-radius: 50%;
-        width: 0.3rem;
-        height: 0.3rem;
+        width: 0.45rem;
+        height: 0.45rem;
         position: absolute;
         top: 60%;
         left: 50%;
