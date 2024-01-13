@@ -57,19 +57,21 @@ const CarouselComponent = () => {
   const TextComponent = ({ e, i }: TextComponentTypes) => {
     return (
       <>
-        <span
-          style={{
-            fontWeight: 700,
-            color: "#fff",
-            fontSize: 24,
-            background:
+        <div style={{ animation: 'slideUp 1s 1' }}>
+          <span
+            style={{
+              fontWeight: 700,
+              color: "#fff",
+              fontSize: 24,
+              background:
               `linear-gradient(to top, ${e?.textBackground} 45%, transparent 50%)`,
-          }}
-        >
-          {e?.topText}
-        </span>
+            }}
+          >
+            {e?.topText}
+          </span>
+        </div>
         <div
-          style={{ fontWeight: 100, color: "#fff", fontSize: 18 }}
+          style={{ fontWeight: 100, color: "#fff", fontSize: 18, animation: 'slideUp 1.8s 1' }}
         >
           {e?.bottomText}
         </div>
@@ -79,6 +81,7 @@ const CarouselComponent = () => {
             color: "#fff",
             fontSize: 14,
             marginTop: 30,
+            animation: 'slideUp 2s 1'
           }}
         >
           {e?.forwardText} {">"}

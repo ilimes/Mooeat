@@ -28,6 +28,19 @@ body {
     }
 }
 
+@keyframes slideUp {
+    0% {
+        /* 하위 20px 에서 시작합니다. */
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        /* 원 위치로 이동합니다. */
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .container {
     max-width: 1200px !important;
     margin: 0 auto;
