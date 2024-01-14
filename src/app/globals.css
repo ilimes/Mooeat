@@ -105,3 +105,32 @@ button:active {
     transition: 0.15s;
     transform: scale(0.97);
 }
+
+.title1 {
+    animation-delay: 50ms;
+    animation-duration: 270ms;
+    animation-fill-mode: forwards;
+    animation-name: slideUp;
+    animation-timing-function: ease-out;
+    opacity: 0;
+}
+.title2 {
+    animation-delay: 350ms;
+    animation-duration: 370ms;
+    animation-fill-mode: forwards;
+    animation-name: slideUp;
+    animation-timing-function: ease-out;
+    opacity: 0;
+}
+.title3 {
+    animation-delay: 600ms;
+    animation-duration: 420ms;
+    animation-fill-mode: forwards;
+    animation-name: slideUp;
+    animation-timing-function: ease-out;
+    opacity: 0;
+}
+
+.no-show {
+    opacity: 0;
+}
