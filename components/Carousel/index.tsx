@@ -19,6 +19,7 @@ import * as S from "./style";
 const CarouselComponent = () => {
   const router = useRouter();
   const isMobile = useIsMobile();
+  const [titles, setTitles] = useState<boolean>(false);
   const [nowIndex, setNowIndex] = useState(0);
   const textMargin = isMobile ? 0 : 120;
   const imgHeight = isMobile ? 200 : 350;
@@ -57,7 +58,7 @@ const CarouselComponent = () => {
   const TextComponent = ({ e, i }: TextComponentTypes) => {
     return (
       <>
-        <div style={{ animation: 'slideUp 1s 1' }}>
+        <div className={!titles ? 'title1' : 'no-show'}>
           <span
             style={{
               fontWeight: 700,
@@ -71,17 +72,18 @@ const CarouselComponent = () => {
           </span>
         </div>
         <div
-          style={{ fontWeight: 100, color: "#fff", fontSize: 18, animation: 'slideUp 1.8s 1' }}
+          className={!titles ? 'title2' : 'no-show'}
+          style={{ fontWeight: 100, color: "#fff", fontSize: 18 }}
         >
           {e?.bottomText}
         </div>
         <div
+          className={!titles ? 'title3' : 'no-show'}
           style={{
             fontWeight: 100,
             color: "#fff",
             fontSize: 14,
             marginTop: 30,
-            animation: 'slideUp 2s 1'
           }}
         >
           {e?.forwardText} {">"}
@@ -107,7 +109,8 @@ const CarouselComponent = () => {
                     transition: "0.35s",
                     height: 370,
                   }}
-                  beforeChange={(_, nextNumber) => setNowIndex(nextNumber)}
+                  beforeChange={(_, nextNumber) => { setNowIndex(nextNumber); setTitles(true); }}
+                  afterChange={() => setTitles(false)}
                   // fade
                 >
                   {

@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Col, Row, Card, Popconfirm, Avatar, Empty, Input, message, Badge, Tabs } from "antd";
+import { Button, Col, Row, Card, Popconfirm, Avatar, Empty, Input, message, Badge, Tabs, Spin } from "antd";
 import { UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
 import styled, { css } from "styled-components";
 import { useRouter } from "next/navigation";
@@ -202,13 +202,17 @@ const Friends = () => {
                 </Col>
                 )
               }
-              {(!friendList?.length || allCondition) ?
+              {(status === 'authenticated' && (!friendList?.length || allCondition)) ?
                 (<StyledEmpty
                   image={Empty.PRESENTED_IMAGE_SIMPLE}
                   description="목록이 존재하지 않습니다."
                 />)
                 : ""
               }
+              {status === 'loading' && (
+                
+                <Spin style={{ display: 'flex', flex: 1, height: 150, justifyContent: 'center', alignItems: 'center' }} />
+              )}
             </Row>
           </StyledLeftCard>
         </Col>
