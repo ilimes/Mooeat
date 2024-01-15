@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { putJoinData } from '@/api/Api';
 
 interface IValuesType {
   user_id: string;
@@ -29,7 +30,8 @@ const onFinish = async (values: IValuesType, router: AppRouterInstance) => {
 
   delete values.passwordConfirm;
 
-  const result = await fetchData(values);
+  // const result = await fetchData(values);
+  const result = await putJoinData(values);
   if (result?.success) {
     router.push('/auth/login?success=true');
   } else {

@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/ko';
 import { BoardTypes } from '@/types/Board/Board.interface';
+import { loadBoardList } from '@/api/Api';
 
 const Content = () => {
   const [boardList, setBoardList] = useState([]);
@@ -59,7 +60,8 @@ const Content = () => {
   ]
 
   const getBoardList = async () => {
-    const result = await fetchBoardList();
+    // const result = await fetchBoardList();
+    const result = await loadBoardList();
     setBoardList(result?.list)
   }
 

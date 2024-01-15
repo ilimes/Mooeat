@@ -8,6 +8,7 @@ import PostCard from '@/components/Community/PostCard';
 import { useEffect, useState } from 'react';
 import PostList from "@/components/Community/PostList";
 import { BoardTypes } from '@/types/Board/Board.interface';
+import { loadBoardList, loadInfoList } from '@/api/Api';
 
 interface IInfoTypes {
   key: string;
@@ -41,7 +42,8 @@ const Community = () => {
   const colSpan = type === 'tile' ? [8, 6] : [24, 24]
   
   const getInfoList = async () => {
-    const result = await fetchInfoList();
+    // const result = await fetchInfoList();
+    const result = await loadInfoList();
     setItems([...items, ...result?.list?.map((e: any) => ({
       key: `${e.cate_seq}`,
       label: `${e.cate_nm}`,
@@ -52,7 +54,8 @@ const Community = () => {
   }
 
   const getBoardList = async () => {
-    const result = await fetchBoardList();
+    // const result = await fetchBoardList();
+    const result = await loadBoardList();
     setBoardList(result?.list)
   }
 

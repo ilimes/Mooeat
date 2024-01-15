@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/ko';
 import { BoardTypes } from '@/types/Board/Board.interface';
+import { loadArticleData, loadBoardList } from '@/api/Api';
 
 const Notice = () => {
     const [noticeList, setNoticeList] = useState([]);
@@ -15,7 +16,9 @@ const Notice = () => {
      * 공지사항 리스트 불러오기
      */
     const getNoticeList = async () => {
-        const result = await fetchNoticeList();
+        const formData = { cate_seq: 4 };
+        // const result = await fetchNoticeList();
+        const result = await loadBoardList(formData);
         const list = result?.list;
         setNoticeList(list);
     }
@@ -24,22 +27,21 @@ const Notice = () => {
      * 공지사항 선택
      * @param board_seq 선택한 번호
      */
-    const onClickNotice = (board_seq: number) => {
-        if (selectedNotice === board_seq) {
+    const onClickNotice = (board_num: number) => {
+        if (selectedNotice === board_num) {
             setSelectedNotice(undefined);
             setData(null);
         } else {
             setIsLoading(true);
-            setSelectedNotice(board_seq);
-            loadNoticeData(board_seq);
+            setSelectedNotice(board_num);
+            getNoticeData(board_num);
         }
     }
 
-    const loadNoticeData = async (board_seq: number) => {
-        const formData = {
-            board_num: board_seq
-        }
-        const result = await fetchNoticeData(formData);
+    const getNoticeData = async (board_num: number) => {
+        const formData = { board_num };
+        // const result = await fetchNoticeData(formData);
+        const result = await loadArticleData(formData);
         if (result?.success) {
             setData(result?.data)
             setIsLoading(false)

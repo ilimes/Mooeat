@@ -5,6 +5,7 @@ import { LeftOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { postTempPw } from '@/api/Api';
 
 const PasswordIssue = () => {
   const [email, setEmail] = useState<string>('');
@@ -19,7 +20,8 @@ const PasswordIssue = () => {
       return false;
     }
 
-    const result = await fetchTempPw(email);
+    // const result = await fetchTempPw(email);
+    const result = await postTempPw({ email });
     if (result?.success) {
       message.info("메일이 성공적으로 발송되었습니다. 메일함을 확인해주세요!")
     } else {
@@ -105,6 +107,14 @@ const StyledSpan = styled.span`
   }
 `
 
+const StyledSpin = styled(Spin)`
+    && {
+        & .ant-spin-dot-item {
+            background-color: white;
+        }
+    }
+`
+
 const fetchTempPw = async (email: string | null) => {
   const res = await fetch(`/api/user/reset/email`, {
     method: "POST",
@@ -114,11 +124,3 @@ const fetchTempPw = async (email: string | null) => {
 
   return result?.data;
 };
-
-const StyledSpin = styled(Spin)`
-    && {
-        & .ant-spin-dot-item {
-            background-color: white;
-        }
-    }
-`

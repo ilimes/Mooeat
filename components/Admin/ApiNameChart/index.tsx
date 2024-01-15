@@ -1,3 +1,4 @@
+import { loadApiData } from '@/api/Api';
 import { Radio, Select } from 'antd';
 import moment from 'moment';
 import { useSession } from 'next-auth/react';
@@ -16,6 +17,9 @@ const options = [
 ]
 
 const ApiCountChart = () => {
+    const { data: session, status } = useSession();
+    const token = session?.user?.token?.data?.token;
+
     const nowYear = Number(moment().format('YYYY'));
 
     const [data, setData] = useState([]);
@@ -24,7 +28,8 @@ const ApiCountChart = () => {
 
     const getData = async () => {
       const formData = { type, group: true, year }
-      const result = await fetchApiData(formData);
+      // const result = await fetchApiData(formData);
+      const result = await loadApiData(formData, token);
       setData(result?.list);
     }
 

@@ -18,7 +18,8 @@ const options = [
 ]
 
 const ApiCountChart = () => {
-   const { data: session, status } = useSession();
+    const { data: session, status } = useSession();
+    const token = session?.user?.token?.data?.token;
 
     const [data, setData] = useState([]);
     const [year, setYear] = useState<number>(2024);
@@ -32,7 +33,6 @@ const ApiCountChart = () => {
     //   setSumCount(result?.sum_count);
     // }
     const getData = async () => {
-      const token = session?.user?.token?.data?.token;
       const formData: { type: string, year: number } = { type, year }
       const result = await loadApiData(formData, token);
       setData(result?.list);

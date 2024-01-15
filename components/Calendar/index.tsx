@@ -67,7 +67,7 @@ import { AttendanceLogTypes } from "@/types/Attendance/Attendance.interface";
               if (
                 attendDay.find((x) => x === moment(date).format("YYYY-MM-DD"))
               ) {
-                html.push(<StyledDot key={moment(date).format("YYYY-MM-DD")} />);
+                html.push(<StyledDot className='dot' key={moment(date).format("YYYY-MM-DD")} />);
               }
               return <>{html}</>;
             }}

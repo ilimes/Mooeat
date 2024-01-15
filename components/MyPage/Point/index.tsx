@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
+import { loadPointLogData, loadUserInfoData } from '@/api/Api';
 
 const Point = () => {
   const { data: session, status } = useSession();
@@ -14,9 +15,10 @@ const Point = () => {
   const token = session?.user?.token?.data?.token;
   const user_seq = session?.user?.token?.userInfo?.user_seq;
 
-  const loadUserInfoData = async () => {
+  const getUserInfoData = async () => {
     // TODO: 카카오 로그인으 경우 token 처리, info 어떻게 불러올 것인지 설정
-    const result = await fetchUserInfoData({ token });
+    // const result = await fetchUserInfoData({ token });
+    const result = await loadUserInfoData({}, token);
     if (result?.success) {
       setPoint(result?.user_info?.point)
     } else {
@@ -24,8 +26,10 @@ const Point = () => {
     }
   }
 
-  const loadPointLogData = async () => {
-    const result = await fetchPointLogData({ user_seq });
+  const getPointLogData = async () => {
+    const formData = { user_seq };
+    // const result = await fetchPointLogData({ user_seq });
+    const result = await loadPointLogData(formData);
     if (result?.success) {
       setPointLog(result?.list)
     } else {
@@ -35,8 +39,8 @@ const Point = () => {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      loadUserInfoData();
-      loadPointLogData();
+      getUserInfoData();
+      getPointLogData();
     }
   }, [status])
 

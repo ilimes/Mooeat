@@ -10,6 +10,7 @@ import { InfoTypes } from '@/types/Common/Common.interface';
 import { useSession } from "next-auth/react";
 import { FriendTypes } from "@/types/Friend/Friend.interface";
 import useIsMobile from "@/hooks/useIsMobile";
+import { deleteFriendData, loadFriendList, putFriendData, updateFriendData } from '@/api/Api';
 
 const Friends = () => {
   const router = useRouter();
@@ -85,18 +86,21 @@ const Friends = () => {
       from_user_seq: user_seq
     };
 
-    const result = await fetchFriendData(formData);
+    // const result = await fetchFriendData(formData);
+    const result = await putFriendData(formData);
     if (result?.success) {
       message.success("등록되었습니다.");
-      loadFriendList();
+      getFriendList();
       closeModal();
     } else {
       message.warning(result?.message);
     }
   }
 
-  const loadFriendList = async () => {
-    const result = await fetchFriendList(user_seq);
+  const getFriendList = async () => {
+    // const result = await fetchFriendList(user_seq);
+    const formData = { user_seq };
+    const result = await loadFriendList(formData);
     setFriendList(result?.list)
   }
 
@@ -120,7 +124,7 @@ const Friends = () => {
       if (type === 'cancel') {
         message.info("요청을 취소하였습니다.");
       }
-      loadFriendList();
+      getFriendList();
       setClickSeq(null);
     } else {
       message.warning(result?.message);
@@ -147,7 +151,7 @@ const Friends = () => {
     const result = await deleteFriendData(formData);
     if (result?.success) {
       message.success("정상적으로 처리되었습니다.");
-      loadFriendList();
+      getFriendList();
       setClickSeq(null);
     } else {
       message.warning(result?.message);
@@ -156,7 +160,7 @@ const Friends = () => {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      loadFriendList();
+      getFriendList();
     }
   }, [status])
 
@@ -409,7 +413,7 @@ const fetchFriendData = async (formData: object) => {
   return result?.data;
 }
 
-const updateFriendData = async (formData: object) => {
+const updateFriendDatafetch = async (formData: object) => {
   const res = await fetch(`/api/friend/updateFriend`, {
     method: 'PATCH',
     body: JSON.stringify(formData)
@@ -419,7 +423,7 @@ const updateFriendData = async (formData: object) => {
   return result?.data;
 }
 
-const deleteFriendData = async (formData: object) => {
+const deleteFriendDatafetch = async (formData: object) => {
   const res = await fetch(`/api/friend/deleteFriend`, {
     method: 'DELETE',
     body: JSON.stringify(formData)

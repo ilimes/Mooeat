@@ -8,13 +8,15 @@ import { ColumnProps } from 'antd/es/table';
 import moment from 'moment';
 import 'moment/locale/ko';
 import { UserInfoTypes } from '@/types/User/User.interface';
+import { loadUserList } from '@/api/Api';
 
 const User = () => {
   const router = useRouter();
   const [userList, setUserList] = useState<UserInfoTypes[]>([]);
   
   const getUserList = async () => {
-    const result = await fetchUserList();
+    // const result = await fetchUserList();
+    const result = await loadUserList();
     setUserList(result?.list)
   }
 

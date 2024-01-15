@@ -3,6 +3,7 @@ import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import styled, { css } from 'styled-components';
 import { BoardTypes } from '@/types/Board/Board.interface';
+import { loadBoardList } from '@/api/Api';
 
 const StyledChildrenDiv = styled.div`
   display: flex;
@@ -25,7 +26,9 @@ const CollapseComponent: React.FC = () => {
    * 자주 묻는 질문 리스트 불러오기
    */
   const getQnaList = async () => {
-    const result = await fetchQnaList();
+    const formData = { cate_seq: 5 };
+    // const result = await fetchQnaList();
+    const result = await loadBoardList(formData);
     const list = result?.list;
     setQnaList(list?.map((e: BoardTypes, i:string) => ({
       key: i,

@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { AttendanceLogTypes } from "@/types/Attendance/Attendance.interface";
 import moment from "moment";
+import { loadAttendanceLogData, updateAttendanceData } from '@/api/Api';
 
 const Attendance = () => {
   const { data: session, status } = useSession();
@@ -21,8 +22,10 @@ const Attendance = () => {
   
   const user_seq = session?.user?.token?.userInfo?.user_seq;
 
-  const loadAttendanceLogData = async () => {
-    const result = await fetchAttendanceLogData({ user_seq });
+  const getAttendanceLogData = async () => {
+    const formData = { user_seq };
+    // const result = await fetchAttendanceLogData({ user_seq });
+    const result = await loadAttendanceLogData(formData);
     if (result?.success) {
       setAttendanceLog(result?.list);
     } else {
@@ -33,10 +36,11 @@ const Attendance = () => {
   const onClickReg = async () => {
     const formData = { user_seq };
 
-    const result = await fetchAttendanceData(formData);
+    // const result = await fetchAttendanceData(formData);
+    const result = await updateAttendanceData(formData);
     if (result?.success) {
       message.success("출석체크 되었습니다.");
-      loadAttendanceLogData();
+      getAttendanceLogData();
     } else {
       message.warning(result?.message);
     }
@@ -44,7 +48,7 @@ const Attendance = () => {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      loadAttendanceLogData();
+      getAttendanceLogData();
     }
   }, [status])
 

@@ -92,6 +92,7 @@ export const options: NextAuthOptions = {
                 if (type) {
                     formData.user = user;
                 }
+                // TODO: axios
                 const res = await fetch(
                     `${process.env.NEXTAUTH_URL}/api/userInfo`,
                     {

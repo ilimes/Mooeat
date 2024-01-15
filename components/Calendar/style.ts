@@ -116,6 +116,9 @@ export const StyledCalendarWrapper = styled.div`
           abbr, div {
             color: white;
           }
+          .dot {
+            background-color: white;
+          }
         }
     }
 `;
