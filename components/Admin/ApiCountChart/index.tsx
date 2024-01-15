@@ -1,4 +1,6 @@
+import { loadApiData } from '@/api/Api';
 import { Radio, Select } from 'antd';
+import axios from 'axios';
 import moment from 'moment';
 import { useSession } from 'next-auth/react';
 import React, { PureComponent, useEffect, useState } from 'react';
@@ -16,21 +18,32 @@ const options = [
 ]
 
 const ApiCountChart = () => {
+   const { data: session, status } = useSession();
+
     const [data, setData] = useState([]);
     const [year, setYear] = useState<number>(2024);
     const [type, setType] = useState<string>('month');
     const [sumCount, setSumCount] = useState(0);
 
+    // const getData = async () => {
+    //   const formData = { type, year }
+    //   const result = await fetchApiData(formData);
+    //   setData(result?.list);
+    //   setSumCount(result?.sum_count);
+    // }
     const getData = async () => {
-      const formData = { type, year }
-      const result = await fetchApiData(formData);
+      const token = session?.user?.token?.data?.token;
+      const formData: { type: string, year: number } = { type, year }
+      const result = await loadApiData(formData, token);
       setData(result?.list);
       setSumCount(result?.sum_count);
     }
 
     useEffect(() =>{
-      getData();
-    }, [type, year])
+      if (status === 'authenticated') {
+        getData();
+      }
+    }, [type, year, status])
 
     return (
       <>

@@ -22,7 +22,6 @@ import {
   RollbackOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
-import type { TabsProps } from "antd";
 import styled from "styled-components";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -36,6 +35,7 @@ import {
 } from "@/types/Board/Board.interface";
 import type { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { loadArticleData, loadCommentList, loadRegUserInfo } from '@/api/Api';
 
 const Articles = () => {
   const router = useRouter();
@@ -48,11 +48,10 @@ const Articles = () => {
   const [selectedCommentSeq, setSelectedCommentSeq] = useState<number | null>(null)
   const id = params?.id;
 
-  const loadArticleData = async () => {
-    const formData = {
-      board_num: id,
-    };
-    const result = await fetchArticleData(formData);
+  const getArticleData = async () => {
+    const formData = { board_num: id };
+    // const result = await fetchArticleData(formData);
+    const result = await loadArticleData(formData);
     if (result?.success) {
       setData(result?.data);
     } else {
@@ -61,11 +60,10 @@ const Articles = () => {
     }
   };
 
-  const loadCommentList = async () => {
-    const formData = {
-      board_num: id,
-    };
-    const result = await fetchCommentList(formData);
+  const getCommentList = async () => {
+    const formData = { board_num: id };
+    // const result = await fetchCommentList(formData);
+    const result = await loadCommentList(formData);
     if (result?.success) {
       setCommentList(result?.list);
     } else {
@@ -73,10 +71,11 @@ const Articles = () => {
     }
   };
 
-  const loadRegUserInfo = async (user_seq: number) => {
+  const getRegUserInfo = async (user_seq: number) => {
     const formData = { user_seq };
     // 작성자 정보 조회
-    const result = await fetchRegUserInfo(formData);
+    // const result = await fetchRegUserInfo(formData);
+    const result = await loadRegUserInfo(formData);
     if (result?.success) {
       setRegUserInfo(result?.data);
     } else {
@@ -85,15 +84,17 @@ const Articles = () => {
   };
 
   useEffect(() => {
-    loadArticleData();
-    loadCommentList();
-    // 최상단으로 스크롤
-    window.scrollTo(0, 0);
-  }, []);
+    if (status === 'authenticated') {
+      getArticleData();
+      getCommentList();
+      // 최상단으로 스크롤
+      window.scrollTo(0, 0);
+    }
+  }, [status]);
 
   useEffect(() => {
     if (data) {
-      loadRegUserInfo(data?.reg_user_seq);
+      getRegUserInfo(data?.reg_user_seq);
     }
   }, [data]);
 
