@@ -11,6 +11,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { collapseState, isMobileState, menuState } from "@/recoil/states";
 import { MenuListTypes } from "@/types/Common/Common.interface";
+import axios from 'axios';
 
 const { Content } = Layout;
 
@@ -24,8 +25,18 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   /**
    * 메뉴 리스트 불러오기
    */
+  // const getMenuList = async () => {
+  //   const result = await fetchMenuData();
+  //   const list = result?.list?.map((e: MenuListTypes) => ({
+  //     key: e.menu_path,
+  //     label: e.menu_nm,
+  //     onClick: () => router.push(e.menu_path),
+  //   }));
+  //   setMenuList(list);
+  // };
   const getMenuList = async () => {
-    const result = await fetchMenuData();
+    // const result = await fetchMenuData();
+    const result = await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/menu/list`).then((res) => res.data);
     const list = result?.list?.map((e: MenuListTypes) => ({
       key: e.menu_path,
       label: e.menu_nm,

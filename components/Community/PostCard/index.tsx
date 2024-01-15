@@ -18,7 +18,7 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
     <StyledCard
       catecolor={obj?.cate_color || null}
       background={obj?.bg_color || null}
-      onClick={() => router.push(`/articles/${obj?.board_seq}`)}>
+      onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}>
       <Skeleton paragraph={{ rows: 3 }} loading={isLoading ? true : false} active>
         {/* 카테고리 영역 */}
         <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cate_color }}>

@@ -24,7 +24,7 @@ const PostList = ({ obj }: { obj: BoardTypes }) => {
           <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{moment(obj?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(obj?.reg_dt).fromNow() : moment(obj?.reg_dt).format('LLL')}</StyledOutDiv>
         </div>
       </div>
-      <StyledContentDiv onClick={() => router.push(`/articles/${obj?.board_seq}`)}>
+      <StyledContentDiv onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}>
         <div className='titleDiv'>
           {obj?.title}
         </div>

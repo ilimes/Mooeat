@@ -101,7 +101,7 @@ const CarouselComponent = () => {
                 <S.StyledCarousel
                   autoplay
                   dotPosition={"bottom"}
-                  speed={700}
+                  speed={600}
                   style={{
                     background: contents?.[nowIndex]?.background,
                     display: "flex",
