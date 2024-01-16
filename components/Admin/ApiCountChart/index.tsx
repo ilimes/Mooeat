@@ -23,7 +23,7 @@ const ApiCountChart = () => {
 
     const [data, setData] = useState([]);
     const [year, setYear] = useState<number>(2024);
-    const [type, setType] = useState<string>('month');
+    const [type, setType] = useState<string>('day');
     const [sumCount, setSumCount] = useState(0);
 
     // const getData = async () => {

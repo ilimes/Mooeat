@@ -84,7 +84,7 @@ const Articles = () => {
   };
 
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (status != 'loading') {
       getArticleData();
       getCommentList();
       // 최상단으로 스크롤

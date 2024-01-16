@@ -24,7 +24,7 @@ const ApiCountChart = () => {
 
     const [data, setData] = useState([]);
     const [year, setYear] = useState<number>(2024);
-    const [type, setType] = useState<string>('month');
+    const [type, setType] = useState<string>('day');
 
     const getData = async () => {
       const formData = { type, group: true, year }
@@ -41,8 +41,10 @@ const ApiCountChart = () => {
     }
 
     useEffect(() =>{
-      getData();
-    }, [type, year])
+      if (status === 'authenticated') {
+        getData();
+      }
+    }, [type, year, status])
 
     return (
       <>

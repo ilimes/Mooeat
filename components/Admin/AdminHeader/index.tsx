@@ -76,6 +76,11 @@ const AdminHeader = () => {
           label: 'API 통계',
           onClick: () => router.push('/admin/api')
         },
+        {
+          key: '/admin/ip',
+          label: 'IP 주소 통계',
+          onClick: () => router.push('/admin/ip')
+        },
       ]
     },
     {
