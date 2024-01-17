@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import PostList from "@/components/Community/PostList";
 import { BoardTypes } from '@/types/Board/Board.interface';
 import { loadBoardList, loadInfoList } from '@/api/Api';
+import { useSession } from 'next-auth/react';
 
 interface IInfoTypes {
   key: string;
@@ -20,6 +21,7 @@ interface IInfoTypes {
 
 const Community = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [activeKey, setActiveKey] = useState('all');
   const [type, setType] = useState('tile');
   const [items, setItems] = useState<IInfoTypes[]>([
@@ -71,6 +73,7 @@ const Community = () => {
       <Button
         type="primary"
         htmlType="submit"
+        disabled={status != 'authenticated' ? true : false}
         style={{ width: 125, height: 47, fontWeight: "bold", fontSize: 16 }}
       >
         <FormOutlined /> 작성하기

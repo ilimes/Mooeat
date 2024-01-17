@@ -5,12 +5,13 @@ export interface UserInfoTypes {
     introduce?: string;
     point?: number;
     use_yn?: boolean;
-    role_rank?: number;
+    role_rank: number;
     type: string;
     reg_id: string;
     mod_id: string;
     reg_dt: string;
     mod_dt: string;
+    pw_mod_dt: string;
   }
 
 export interface ValuesTypes {
