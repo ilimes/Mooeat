@@ -1,34 +1,46 @@
-import { Avatar, Badge, Button, Divider, Input } from "antd";
+import { Avatar, Badge, Button, Divider, Input, message } from "antd";
 import { UserOutlined, EditOutlined } from '@ant-design/icons';
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
+import { loadUserInfoData } from '@/api/Api';
+import { UserInfoTypes } from '@/types/User/User.interface';
 
 const AccountManagement = () => {
+  const { data: session, status } = useSession();
+  const token = session?.user?.token?.data?.token;
+  const [userInfo, setUserInfo] = useState<UserInfoTypes | null>(null);
+
+  const getUserInfoData = async () => {
+    const result = await loadUserInfoData({}, token);
+    if (result?.success) {
+      setUserInfo(result?.user_info)
+      console.log(result?.user_info)
+    } else {
+      setUserInfo(null);
+    }
+  }
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      getUserInfoData();
+    }
+  }, [status])
+
   return (
     <>
-      <MyInfo />
-      <Password />
+      <MyInfo userInfo={userInfo}/>
+      <Password userInfo={userInfo}/>
       <AccountLinking />
       <DeleteAccount />
     </>
   )
 }
 
-const MyInfo = () => {
-  const { data: session, status } = useSession();
+const MyInfo = ({ userInfo }: { userInfo: UserInfoTypes | null }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const userInfo = session?.user?.token?.userInfo;
-
-  const Title = ({name, required} : {name: string, required: boolean}) => {
-    return (
-      <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 7 }}>
-        <span>{name}</span> {required && <span style={{ color: 'red' }}>(*)</span>}
-      </div>
-    )
-  }
 
   const EditForm = () => {
     return (
@@ -45,8 +57,8 @@ const MyInfo = () => {
             <StyledInput placeholder="자기소개를 입력해주세요."/>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <Button type="default" style={{ height: 45 }} onClick={() => setIsEdit(false)}>취소하기</Button>
-            <Button type="primary" style={{ height: 45, marginLeft: 10 }} onClick={() => setIsEdit(false)}>저장하기</Button>
+            <Button type="default" style={{ height: 45, fontWeight: 600 }} onClick={() => setIsEdit(false)}>취소하기</Button>
+            <Button type="primary" style={{ height: 45, marginLeft: 10, fontWeight: 600 }} onClick={() => setIsEdit(false)}>저장하기</Button>
           </div>
         </div>
       </>
@@ -66,7 +78,7 @@ const MyInfo = () => {
                 <Kakao style={{ width: 14, height: 14, verticalAlign: 'middle', fill: '#3C1E1E' }} /> <span style={{ fontSize: 13, fontWeight: 600, color: '#3C1E1E' }}>카카오 계정</span>
               </div>
             </>}
-            {userInfo?.role_rank > 2 && <>
+            {userInfo && userInfo.role_rank > 2 && <>
               <div style={{ background: '#292D3E', width: 85, height: 27, lineHeight: '27px', margin: '5px auto', borderRadius: 16, verticalAlign: 'middle' }}>
                 <span style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>관리자 계정</span>
               </div>
@@ -74,7 +86,7 @@ const MyInfo = () => {
             <div>{userInfo?.user_id}</div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <Button type="primary" style={{ height: 45 }} onClick={() => setIsEdit(!isEdit)}>수정하기</Button>
+            <Button type="primary" style={{ height: 45, fontWeight: 600 }} onClick={() => setIsEdit(!isEdit)}>수정하기</Button>
           </div>
         </div>
       </>
@@ -114,20 +126,97 @@ const MyInfo = () => {
   )
 }
 
-const Password = () => {
+const Password = ({ userInfo }: { userInfo: UserInfoTypes | null }) => {
+  const [isPwEdit, setIsPwEdit] = useState(false);
+
   return (
     <>
       <SubTitle>비밀번호</SubTitle>
       <StyledBoxDiv>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontSize: 14 }}>
-            최근 업데이트: 없음
-          </div>
-          <div>
-            <Button style={{ height: 45 }}>비밀번호 변경</Button>
-          </div>
-        </div>
+        {isPwEdit && <PwEditForm isPwEdit={isPwEdit} setIsPwEdit={setIsPwEdit} />}
+        {!isPwEdit && <PwShowForm userInfo={userInfo} isPwEdit={isPwEdit} setIsPwEdit={setIsPwEdit} />}
       </StyledBoxDiv>
+    </>
+  )
+}
+
+const PwEditForm = ({ isPwEdit, setIsPwEdit }: { isPwEdit: boolean, setIsPwEdit: Dispatch<SetStateAction<boolean>> }) => {
+  interface ContentTypes {
+    oldPw?: string;
+    newPw?: string;
+  }
+  const [content, setContent] = useState<ContentTypes>({});
+  const onClickChangePw = () => {
+    if (!content?.oldPw) {
+      message.warning('현재 비밀번호를 입력해주세요.')
+      return;
+    }
+    
+    if (!content?.newPw) {
+      message.warning('새로운 비밀번호를 입력해주세요.')
+      return;
+    }
+    
+    if (content?.oldPw != content?.newPw) {
+      message.error('현재 비밀번호와 새로운 비밀번호가 일치하지 않습니다.')
+      return;
+    }
+
+    setIsPwEdit(false);
+  }
+
+  return (
+    <>
+      <div>
+        <div style={{ margin: "20px 0" }}>
+          <Title name="현재 비밀번호" required={true} />
+          <StyledInput
+            type="Password"
+            placeholder="현재 비밀번호를 입력해주세요."
+            value={content?.oldPw}
+            onChange={(e) => setContent({ ...content, oldPw: e.target.value })}
+          />
+          <Title name="새로운 비밀번호" required={true} />
+          <StyledInput
+            type="Password"
+            placeholder="새로운 비밀번호를 입력해주세요."
+            value={content?.newPw}
+            onChange={(e) => setContent({ ...content, newPw: e.target.value })}
+          />
+        </div>
+        <div style={{ textAlign: "right" }}>
+          <Button
+            type="default"
+            style={{ height: 45, fontWeight: 600 }}
+            onClick={() => setIsPwEdit(false)}
+          >
+            취소하기
+          </Button>
+          <Button
+            type="primary"
+            style={{ height: 45, marginLeft: 10, fontWeight: 600 }}
+            onClick={onClickChangePw}
+          >
+            저장하기
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+const PwShowForm = ({ userInfo, isPwEdit, setIsPwEdit }: { userInfo: UserInfoTypes | null, isPwEdit: boolean, setIsPwEdit: Dispatch<SetStateAction<boolean>> }) => {
+  return (
+    <>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ fontSize: 14 }}>
+          {}
+          최근 업데이트: <span style={{ fontWeight: 600 }}>{userInfo?.pw_mod_dt ?? '없음'}</span>
+        </div>  
+        <div>
+          <Button style={{ height: 45, fontWeight: 600 }} onClick={() => setIsPwEdit(!isPwEdit)}>비밀번호 변경</Button>
+        </div>
+      </div>
     </>
   )
 }
@@ -144,7 +233,7 @@ const AccountLinking = () => {
               <GoogleIcon style={{ width: 38, height: 38, margin: '0 10px', verticalAlign: 'middle' }} /> Google
             </div>
             <div>
-              <Button type='primary' style={{ height: 45 }} disabled>연결하기</Button>
+              <Button type='primary' style={{ height: 45, fontWeight: 600 }} disabled>연결하기</Button>
             </div>
           </div>
           <Divider style={{ margin: '5px 0' }} />
@@ -153,7 +242,7 @@ const AccountLinking = () => {
               <Kakao style={{ width: 38, height: 38, margin: '0 10px', verticalAlign: 'middle' }} /> Kakao
             </div>
             <div>
-              <Button type='primary' style={{ height: 45 }} disabled>연결하기</Button>
+              <Button type='primary' style={{ height: 45, fontWeight: 600 }} disabled>연결하기</Button>
             </div>
           </div>
         </div>
@@ -172,11 +261,19 @@ const DeleteAccount = () => {
             현재 접속된 계정을 삭제합니다.
           </div>
           <div>
-            <Button style={{ height: 45 }}>계정 삭제하기</Button>
+            <Button style={{ height: 45, fontWeight: 600 }}>계정 삭제하기</Button>
           </div>
         </div>
       </StyledBoxDiv>
     </>
+  )
+}
+
+const Title = ({name, required} : {name: string, required: boolean}) => {
+  return (
+    <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 7 }}>
+      <span>{name}</span> {required && <span style={{ color: 'red' }}>(*)</span>}
+    </div>
   )
 }
 
