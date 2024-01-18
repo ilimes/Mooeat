@@ -245,7 +245,7 @@ const Friends = () => {
       <Modal title={'친구 등록'} isOpen={isOpen} closeModal={closeModal}>
         <Row gutter={[10, 10]}>
           <Col span={24}>
-            <span style={{ fontWeight: 600 }}>이메일</span>
+            <span style={{ fontWeight: 600 }}>이메일 (계정)</span>
           </Col>
           <Col span={24}>
             <Input value={userId} placeholder="등록할 친구의 이메일을 입력해주세요." onChange={(e) => setUserId(e.target.value)} onKeyDown={(e) => handleOnKeyPress(e)} style={{ height: 40 }} />

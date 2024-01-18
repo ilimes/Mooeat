@@ -62,7 +62,7 @@ export const loadBoardList = async (formData?: { cate_seq: number }) => {
                       .catch(err => console.error(err));
 }
 
-export const loadUserInfoData = async (formData?: object, token?: string ) => {
+export const loadUserInfoData = async (formData?: object, token?: string) => {
     const header = {
         headers: {
             Accept: 'application/json',
@@ -115,6 +115,19 @@ export const postTempPw = async (formData: { email: string | null }) => {
         },
     }
     return await axios.put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/reset/email`, formData, header)
+                      .then(res => res?.data)
+                      .catch(err => console.error(err));
+}
+
+export const changePw = async (formData?: object, token?: string) => {
+    const header = {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            token
+        },
+    }
+    return await axios.put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/change/pw`, formData, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
 }

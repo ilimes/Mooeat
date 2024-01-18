@@ -5,7 +5,7 @@ import Kakao from '@/public/svg/kakao.svg';
 import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
-import { loadUserInfoData } from '@/api/Api';
+import { changePw, loadUserInfoData } from '@/api/Api';
 import { UserInfoTypes } from '@/types/User/User.interface';
 
 const AccountManagement = () => {
@@ -17,7 +17,6 @@ const AccountManagement = () => {
     const result = await loadUserInfoData({}, token);
     if (result?.success) {
       setUserInfo(result?.user_info)
-      console.log(result?.user_info)
     } else {
       setUserInfo(null);
     }
@@ -32,7 +31,7 @@ const AccountManagement = () => {
   return (
     <>
       <MyInfo userInfo={userInfo}/>
-      <Password userInfo={userInfo}/>
+      <Password userInfo={userInfo} getUserInfoData={getUserInfoData}/>
       <AccountLinking />
       <DeleteAccount />
     </>
@@ -126,21 +125,24 @@ const MyInfo = ({ userInfo }: { userInfo: UserInfoTypes | null }) => {
   )
 }
 
-const Password = ({ userInfo }: { userInfo: UserInfoTypes | null }) => {
+const Password = ({ userInfo, getUserInfoData }: { userInfo: UserInfoTypes | null, getUserInfoData: () => Promise<void> }) => {
   const [isPwEdit, setIsPwEdit] = useState(false);
 
   return (
     <>
       <SubTitle>비밀번호</SubTitle>
       <StyledBoxDiv>
-        {isPwEdit && <PwEditForm isPwEdit={isPwEdit} setIsPwEdit={setIsPwEdit} />}
+        {isPwEdit && <PwEditForm isPwEdit={isPwEdit} setIsPwEdit={setIsPwEdit} getUserInfoData={getUserInfoData} />}
         {!isPwEdit && <PwShowForm userInfo={userInfo} isPwEdit={isPwEdit} setIsPwEdit={setIsPwEdit} />}
       </StyledBoxDiv>
     </>
   )
 }
 
-const PwEditForm = ({ isPwEdit, setIsPwEdit }: { isPwEdit: boolean, setIsPwEdit: Dispatch<SetStateAction<boolean>> }) => {
+const PwEditForm = ({ isPwEdit, setIsPwEdit, getUserInfoData }: { isPwEdit: boolean, setIsPwEdit: Dispatch<SetStateAction<boolean>>, getUserInfoData: () => Promise<void> }) => {
+  const { data: session, status } = useSession();
+  const token = session?.user?.token?.data?.token;
+
   interface ContentTypes {
     oldPw?: string;
     newPw?: string;
@@ -156,13 +158,21 @@ const PwEditForm = ({ isPwEdit, setIsPwEdit }: { isPwEdit: boolean, setIsPwEdit:
       message.warning('새로운 비밀번호를 입력해주세요.')
       return;
     }
-    
-    if (content?.oldPw != content?.newPw) {
-      message.error('현재 비밀번호와 새로운 비밀번호가 일치하지 않습니다.')
-      return;
+
+    const formData = content;
+
+    const changePassword = async () => {
+      const result = await changePw(formData, token);
+      if (result?.success) {
+        await getUserInfoData();
+        message.success('성공적으로 변경되었습니다.')
+        setIsPwEdit(false);
+      } else {
+        message.warning(result?.message || '문제 발생')
+      }
     }
 
-    setIsPwEdit(false);
+    changePassword();
   }
 
   return (
