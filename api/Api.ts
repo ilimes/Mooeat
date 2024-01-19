@@ -62,6 +62,33 @@ export const loadBoardList = async (formData?: { cate_seq: number }) => {
                       .catch(err => console.error(err));
 }
 
+export const loadMyBoardList = async (token: string) => {
+    const header = {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            token
+        },
+    }
+    return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/my/list`, {}, header)
+                      .then(res => res?.data)
+                      .catch(err => console.error(err));
+}
+
+export const loadMyCommentList = async (token: string) => {
+    const header = {
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            token
+        },
+    }
+    return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/my/comment/list`, {}, header)
+                      .then(res => res?.data)
+                      .catch(err => console.error(err));
+}
+
+
 export const loadUserInfoData = async (formData?: object, token?: string) => {
     const header = {
         headers: {
