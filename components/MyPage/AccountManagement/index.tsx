@@ -1,5 +1,5 @@
 import { Avatar, Badge, Button, Divider, Input, Popconfirm, message } from "antd";
-import { UserOutlined, EditOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { ReloadOutlined, EditOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
 import { useSession } from "next-auth/react";
@@ -133,6 +133,7 @@ const MyInfo = ({ userInfo, getUserInfoData }: { userInfo: UserInfoTypes | null,
             </>}
             <div>{userInfo?.user_id}</div>
           </div>
+          <div>{userInfo?.introduce}</div>
           <div style={{ textAlign: 'right' }}>
             <Button type="primary" style={{ height: 45, fontWeight: 600 }} onClick={() => setIsEdit(!isEdit)}>수정하기</Button>
           </div>
@@ -168,7 +169,12 @@ const MyInfo = ({ userInfo, getUserInfoData }: { userInfo: UserInfoTypes | null,
               </span>
             </label>
             <StyledFileInput type="file" id="file" accept=".png, .jpeg, .jpg" onChange={saveImgFile} ref={imgRef} />
-            {isEdit && <div style={{ marginTop: 20 }}><Button onClick={onClickDefault}>기본 이미지로 변경</Button></div>}
+            {isEdit && 
+            <div>
+              <div style={{ margin: '15px 0', fontSize: 13, color: 'grey' }}><InfoCircleOutlined /> PNG 또는 JPG 파일 10MB 이내</div>
+            </div>
+            }
+            {isEdit && <div><Button onClick={onClickDefault}><ReloadOutlined /> 기본 이미지로 변경</Button></div>}
           </div>
           {isEdit && <EditForm userInfo={userInfo} changeData={changeData} setChangeData={setChangeData} setIsEdit={setIsEdit} setImgFile={setImgFile} onClickMyInfoSave={onClickMyInfoSave} />}
           {!isEdit && <ShowForm />}
