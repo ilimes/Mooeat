@@ -29,3 +29,8 @@ export interface InfoTypes {
     key: string;
     label: string;
 }
+
+export interface FileTypes {
+    file?: File;
+    url: string | null;
+}

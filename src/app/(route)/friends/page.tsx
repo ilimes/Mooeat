@@ -39,7 +39,7 @@ const Friends = () => {
     },
   ]);
   const [friendList, setFriendList] = useState<FriendTypes[]>([]);
-  const user_seq = session?.user?.token?.userInfo?.user_seq;
+  const user_seq = session?.user?.info?.userInfo?.user_seq;
 
   // 받은 요청 리스트
   const receivedList = friendList?.filter(e => e.from_user_seq === user_seq && e?.agree === 'N' && e?.other_agree === 'Y');

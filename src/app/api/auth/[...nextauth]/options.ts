@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials'
 import KakaoProvider from 'next-auth/providers/kakao'
+import { UserInfoTypes } from '@/types/User/User.interface';
 
 import {
     type DefaultSession,
@@ -10,8 +11,7 @@ import {
 declare module "next-auth" {
     interface Session extends DefaultSession {
         user: {
-            token: string | any;
-            userInfo: any;
+            info: any
         };
     }
     interface User extends DefaultUser {
@@ -45,26 +45,14 @@ export const options: NextAuthOptions = {
             async authorize(credentials, req) {
                 let msg = null;
                 try {
-                    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
-                    // const res = await fetch(`/api/login`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            user_id: credentials?.user_id,
-                            password: credentials?.password,
-                        }),
-                    })
-                    const user = await res.json()
-    
-                    if (user?.data?.success) {
+                    const result = await login(credentials);
+                    if (result?.data?.success) {
                         // Any object returned will be saved in `user` property of the JWT
-                        return user
+                        return result
                     } 
                     else {
                         // If you return null then an error will be displayed advising the user to check their details.
-                        msg = user?.data?.message || '에러';
+                        msg = result?.data?.message || '에러';
                         throw new Error(msg || '에러')
                         // return null
                         
@@ -93,14 +81,7 @@ export const options: NextAuthOptions = {
                     formData.user = user;
                 }
                 // TODO: axios
-                const res = await fetch(
-                    `${process.env.NEXTAUTH_URL}/api/userInfo`,
-                    {
-                        method: 'POST',
-                        body: JSON.stringify(formData)
-                    }
-                );
-                const result = await res.json();
+                const result = await getUser(formData);
                 if (result?.data?.success) {
                     user.userInfo = result?.data?.user_info;
                 }
@@ -118,11 +99,14 @@ export const options: NextAuthOptions = {
          * 웹 토큰이 실행 혹은 업데이트될때마다 콜백이 실행
          * 반환된 값은 암호화되어 쿠키에 저장됨
          */
-        async jwt({ token, user, account, profile, isNewUser }) {
+        async jwt({ token, user, trigger, account, profile, isNewUser }) {
             // 초기 로그인 시 user 정보 가공하여 변환함
             if (user) {
                 token.user = user;
             }
+            // if (trigger === 'update') {
+            //     console.log('업데이트됨')
+            // }
             return token;
         },
         /**
@@ -131,10 +115,37 @@ export const options: NextAuthOptions = {
          * 반환된 값은 useSession을 통해 ClientSide에서 사용할 수 있음
          * JWT 토큰의 정보를 Session에 유지 시킨다.
          */
-        async session({ session, user, token }) {
-            session.user.token = token?.user;
-            session.user.userInfo = token?.userInfo;
+        async session({ session, trigger, user, token }) {
+            session.user.info = token?.user;
             return session;
         },
     },
+}
+
+const getUser = async (formData: any) => {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/userInfo`,
+        {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        }
+    );
+    const result = await res.json();
+    return result;
+}
+
+const login = async (credentials: Record<"user_id" | "password", string> | undefined) => {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, 
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: credentials?.user_id,
+                password: credentials?.password,
+            }),
+        }
+    );
+    const result = await res.json();
+    return result;
 }

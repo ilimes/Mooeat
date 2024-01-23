@@ -18,7 +18,7 @@ const options = [
 
 const ApiCountChart = () => {
     const { data: session, status } = useSession();
-    const token = session?.user?.token?.data?.token;
+    const token = session?.user?.info?.data?.token;
 
     const nowYear = Number(moment().format('YYYY'));
 

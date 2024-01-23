@@ -73,7 +73,7 @@ const columns2: TableColumnsType<DataType2> = [
 
 const MyActivities = () => {
   const { data: session, status } = useSession();
-  const token = session?.user?.token?.data?.token;
+  const token = session?.user?.info?.data?.token;
 
   const [myBoardList, setMyBoardList] = useState<DataType1[] | []>([]);
   const [myCommentList, setMyCommentList] = useState<DataType2[] | []>([]);

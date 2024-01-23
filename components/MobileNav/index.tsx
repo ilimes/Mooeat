@@ -78,7 +78,7 @@ const MobileNav = () => {
       <div className="mobile-nav-menu">
         {
           session &&
-          <h3>{session?.user?.token?.userInfo?.user_nm} 님 반가워요 :)</h3>
+          <h3>{session?.user?.info?.userInfo?.user_nm} 님 반가워요 :)</h3>
         }
         {
           !session &&
@@ -98,7 +98,7 @@ const MobileNav = () => {
           <>
             <div>
               {
-                session?.user?.token?.userInfo?.role_rank > 2 &&
+                session?.user?.info?.userInfo?.role_rank > 2 &&
                 <StyledProfileDiv onClick={() => onClickMenu("/admin")}>
                   관리자페이지
                 </StyledProfileDiv>
