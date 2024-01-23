@@ -159,7 +159,7 @@ const Articles = () => {
               borderRadius: 12,
               padding: 40,
               gap: 30,
-              height: 200,
+              height: 140,
             }}
           >
             <Skeleton
@@ -180,7 +180,7 @@ const Articles = () => {
               </div>
               {/* 자기 자신에게는 구독하기 버튼 나타타지 않음 */}
               {regUserInfo?.user_info?.user_seq !=
-                session?.user?.token?.userInfo?.user_seq && (
+                session?.user?.info?.userInfo?.user_seq && (
                 <StyledPlusBtn>
                   <PlusOutlined /> 구독하기
                 </StyledPlusBtn>
@@ -408,7 +408,7 @@ const ReplyDiv = ({session, router, isPadding}: {session: Session | null, router
                     후 이용해주세요.
                   </div>
                 )}
-                {session && session?.user?.token?.userInfo?.user_nm}
+                {session && session?.user?.info?.userInfo?.user_nm}
               </div>
               <Input.TextArea
                 className="commentArea"

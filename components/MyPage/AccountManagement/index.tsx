@@ -1,17 +1,22 @@
-import { Avatar, Badge, Button, Divider, Input, message } from "antd";
-import { UserOutlined, EditOutlined } from '@ant-design/icons';
+import { Avatar, Badge, Button, Divider, Input, Popconfirm, message } from "antd";
+import { UserOutlined, EditOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
 import { useSession } from "next-auth/react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { changePw, loadUserInfoData, updateUser, uploadFile } from '@/api/Api';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { changePw, loadUserInfoData } from '@/api/Api';
-import { UserInfoTypes } from '@/types/User/User.interface';
+import { ChangeDataTypes, UserInfoTypes } from '@/types/User/User.interface';
+import { FileTypes } from "@/types/Common/Common.interface";
+import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import Image from "next/image";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "@/recoil/states";
 
 const AccountManagement = () => {
-  const { data: session, status } = useSession();
-  const token = session?.user?.token?.data?.token;
-  const [userInfo, setUserInfo] = useState<UserInfoTypes | null>(null);
+  const { data: session, status, update } = useSession();
+  const token = session?.user?.info?.data?.token;
+  const [userInfo, setUserInfo] = useRecoilState<UserInfoTypes | null>(userInfoState);
 
   const getUserInfoData = async () => {
     const result = await loadUserInfoData({}, token);
@@ -30,39 +35,83 @@ const AccountManagement = () => {
 
   return (
     <>
-      <MyInfo userInfo={userInfo}/>
-      <Password userInfo={userInfo} getUserInfoData={getUserInfoData}/>
+      <MyInfo userInfo={userInfo} getUserInfoData={getUserInfoData} />
+      <Password userInfo={userInfo} getUserInfoData={getUserInfoData} />
       <AccountLinking />
       <DeleteAccount />
     </>
   )
 }
 
-const MyInfo = ({ userInfo }: { userInfo: UserInfoTypes | null }) => {
+const MyInfo = ({ userInfo, getUserInfoData }: { userInfo: UserInfoTypes | null, getUserInfoData: () => Promise<void> }) => {
+  const { data: session, status, update } = useSession();
+  const token = session?.user?.info?.data?.token;
+  const [changeData, setChangeData] = useState<ChangeDataTypes>({});
   const [isEdit, setIsEdit] = useState(false);
+  const [imgFile, setImgFile] = useState<FileTypes>({ url: null });
+  const profileImg = userInfo?.user_set?.file_path_thumb;
+  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+  const isDefault = changeData?.del_file_yn === 'Y';
+  const imgRef = useRef<HTMLInputElement>(null);
 
-  const EditForm = () => {
-    return (
-      <>
-        <div>
-          <div style={{ margin: '20px 0' }}>
-            <Title name="이메일 (계정)" required={true} />
-            <StyledInput placeholder="이메일을 입력해주세요." defaultValue={userInfo?.user_id} disabled/>
-            <Title name="닉네임" required={true} />
-            <StyledInput placeholder="닉네임을 입력해주세요." defaultValue={userInfo?.user_nm}/>
-            <Title name="휴대폰 번호" required={true} />
-            <StyledInput placeholder="휴대폰 번호를 입력해주세요."/>
-            <Title name="자기소개" required={true} />
-            <StyledInput placeholder="자기소개를 입력해주세요."/>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <Button type="default" style={{ height: 45, fontWeight: 600 }} onClick={() => setIsEdit(false)}>취소하기</Button>
-            <Button type="primary" style={{ height: 45, marginLeft: 10, fontWeight: 600 }} onClick={() => setIsEdit(false)}>저장하기</Button>
-          </div>
-        </div>
-      </>
-    )
+  // 이미지 업로드 input의 onChange
+  const saveImgFile = () => {
+    if (imgRef.current) {
+      if (!imgRef.current.files?.length) return;
+      
+      if (imgRef.current.files) {
+        const file = imgRef.current.files?.[0];
+        const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onloadend = () => {
+            if (typeof reader.result === 'string') {
+              setImgFile({ file, url: reader.result });
+            }
+          };
+      }
+    }
+  };
+
+  const onClickMyInfoSave = async () => {
+    let file_cd = null;
+    // 이미지 업로드
+    if (imgFile?.file) {
+      const uploadResult = await uploadFile(imgFile?.file, token);
+      if (uploadResult?.success) {
+        file_cd = uploadResult?.files?.[0]?.file_cd;
+        setChangeData({...changeData, del_file_yn: 'N'});
+      } else {
+        console.log(uploadResult?.message || '에러')
+        return;
+      }
+    }
+
+    let formData = {...changeData};
+    if (file_cd) {
+      formData.file_cd = file_cd;
+    } 
+    const updateResult = await updateUser(formData, token);
+    if (updateResult?.success) {
+      getUserInfoData();
+      setIsEdit(false);
+      message.success('성공적으로 수정되었습니다.');
+    } else {
+      message.warning(updateResult?.message || '에러')
+      return;
+    }
   }
+
+  const onClickDefault = () => {
+    setChangeData({...changeData, del_file_yn: 'Y'});
+  }
+
+  useEffect(() => {
+    setChangeData({
+      user_nm: userInfo?.user_nm,
+      introduce: userInfo?.introduce,
+      del_file_yn: 'N',
+    })
+  }, [isEdit])
 
   const ShowForm = () => {
     return (
@@ -98,29 +147,56 @@ const MyInfo = ({ userInfo }: { userInfo: UserInfoTypes | null }) => {
       <StyledBoxDiv>
         <>
           <div style={{ textAlign: 'center' }}>
-            <span onClick={() => isEdit ? alert('프로필 수정 클릭') : ''}>
-              <Badge
-                offset={["-15%", "85%"]}
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  boxShadow: "0 0 0 2px black",
-                  backgroundColor: "#fff",
-                  borderRadius: 20,
-                  justifyContent: 'center',
-                  cursor: isEdit ? 'pointer' : 'default'
-                }}
-                count={isEdit ? <EditOutlined /> : ''}
-                dot={isEdit}
-              >
-                <Avatar size={130} icon={<UserOutlined />} style={{ cursor: isEdit ? 'pointer' : 'default' }} />
-              </Badge>
-            </span>
+            <label htmlFor={isEdit ? "file" : undefined}>
+              <span>
+                <Badge
+                  offset={["-15%", "85%"]}
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    boxShadow: "0 0 0 2px black",
+                    backgroundColor: "#fff",
+                    borderRadius: 20,
+                    justifyContent: 'center',
+                    cursor: isEdit ? 'pointer' : 'default'
+                  }}
+                  count={isEdit ? <EditOutlined /> : ''}
+                  dot={isEdit}
+                >
+                  <Avatar size={130} icon={isDefault ? <Image src={unknownAvatar} alt="unknown" /> : imgFile?.url ? <img src={imgFile?.url} /> : profile} style={{ cursor: isEdit ? 'pointer' : 'default' }} />
+                </Badge>
+              </span>
+            </label>
+            <StyledFileInput type="file" id="file" accept=".png, .jpeg, .jpg" onChange={saveImgFile} ref={imgRef} />
+            {isEdit && <div style={{ marginTop: 20 }}><Button onClick={onClickDefault}>기본 이미지로 변경</Button></div>}
           </div>
-          {isEdit && <EditForm />}
+          {isEdit && <EditForm userInfo={userInfo} changeData={changeData} setChangeData={setChangeData} setIsEdit={setIsEdit} setImgFile={setImgFile} onClickMyInfoSave={onClickMyInfoSave} />}
           {!isEdit && <ShowForm />}
         </>
       </StyledBoxDiv>
+    </>
+  )
+}
+
+const EditForm = ({ userInfo, changeData, setChangeData, setIsEdit, setImgFile, onClickMyInfoSave }: { userInfo: UserInfoTypes | null, changeData: ChangeDataTypes, setChangeData: Dispatch<SetStateAction<ChangeDataTypes>>, setIsEdit: Dispatch<SetStateAction<boolean>>, setImgFile: Dispatch<SetStateAction<FileTypes>>, onClickMyInfoSave: () => Promise<void>  }) => {
+  return (
+    <>
+      <div>
+        <div style={{ margin: '20px 0' }}>
+          <Title name="이메일 (계정)" required={true} />
+          <StyledInput placeholder="이메일을 입력해주세요." defaultValue={userInfo?.user_id} disabled />
+          <Title name="닉네임" required={true} />
+          <StyledInput placeholder="닉네임을 입력해주세요." value={changeData?.user_nm ?? userInfo?.user_nm} onChange={(e) => setChangeData({...changeData, user_nm: e.target.value})} />
+          {/* <Title name="휴대폰 번호" required={true} />
+          <StyledInput placeholder="휴대폰 번호를 입력해주세요." /> */}
+          <Title name="자기소개" />
+          <StyledInput placeholder="자기소개를 입력해주세요." value={changeData?.introduce ?? userInfo?.introduce} onChange={(e) => setChangeData({...changeData, introduce: e.target.value})} />
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <Button type="default" style={{ height: 45, fontWeight: 600 }} onClick={() => { setIsEdit(false); setImgFile({ url: null }); }}>취소하기</Button>
+          <Button type="primary" style={{ height: 45, marginLeft: 10, fontWeight: 600 }} onClick={() => onClickMyInfoSave()}>저장하기</Button>
+        </div>
+      </div>
     </>
   )
 }
@@ -141,7 +217,7 @@ const Password = ({ userInfo, getUserInfoData }: { userInfo: UserInfoTypes | nul
 
 const PwEditForm = ({ isPwEdit, setIsPwEdit, getUserInfoData }: { isPwEdit: boolean, setIsPwEdit: Dispatch<SetStateAction<boolean>>, getUserInfoData: () => Promise<void> }) => {
   const { data: session, status } = useSession();
-  const token = session?.user?.token?.data?.token;
+  const token = session?.user?.info?.data?.token;
 
   interface ContentTypes {
     oldPw?: string;
@@ -153,7 +229,7 @@ const PwEditForm = ({ isPwEdit, setIsPwEdit, getUserInfoData }: { isPwEdit: bool
       message.warning('현재 비밀번호를 입력해주세요.')
       return;
     }
-    
+
     if (!content?.newPw) {
       message.warning('새로운 비밀번호를 입력해주세요.')
       return;
@@ -220,9 +296,9 @@ const PwShowForm = ({ userInfo, isPwEdit, setIsPwEdit }: { userInfo: UserInfoTyp
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ fontSize: 14 }}>
-          {}
+          { }
           최근 업데이트: <span style={{ fontWeight: 600 }}>{userInfo?.pw_mod_dt ?? '없음'}</span>
-        </div>  
+        </div>
         <div>
           <Button style={{ height: 45, fontWeight: 600 }} onClick={() => setIsPwEdit(!isPwEdit)}>비밀번호 변경</Button>
         </div>
@@ -279,7 +355,7 @@ const DeleteAccount = () => {
   )
 }
 
-const Title = ({name, required} : {name: string, required: boolean}) => {
+const Title = ({ name, required }: { name: string, required?: boolean }) => {
   return (
     <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 7 }}>
       <span>{name}</span> {required && <span style={{ color: 'red' }}>(*)</span>}
@@ -308,4 +384,13 @@ const SubTitle = styled.div`
   margin-bottom: 15px;
   font-weight: 600;
   color: #5D559A;
+`
+
+const StyledFileInput = styled.input`
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
 `

@@ -10,6 +10,8 @@ import Logo from "../../public/logo.png";
 import { collapseState, isMobileState, menuState, notiCollapseState, userInfoLoadingState, userInfoState } from "@/recoil/states";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useSession, signOut } from "next-auth/react";
+import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import { UserInfoTypes } from "@/types/User/User.interface";
 
 const { Header } = Layout;
 
@@ -19,12 +21,14 @@ const HeaderPage = () => {
   const { data: session, status } = useSession();
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [userInfo, setUserInfo] = useRecoilState<UserInfoTypes | null>(userInfoState);
   const isLoading = useRecoilValue(userInfoLoadingState);
   const setNotiCollapsed = useSetRecoilState(notiCollapseState);
   const menuList = useRecoilValue(menuState);
   const isMobile = useRecoilValue(isMobileState);
   const [profileOpen, setProfileOpen] = useState(false);
+  const profileImg = userInfo?.user_set?.file_path_thumb;
+  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
 
   const onClickLogo = () => {
     router.push("/");
@@ -102,7 +106,7 @@ const HeaderPage = () => {
                     <div style={{ alignItems: "center", display: "flex" }}>
                       <Avatar
                         size={34}
-                        icon={<UserOutlined />}
+                        icon={profile}
                         onClick={() => setProfileOpen(!profileOpen)}
                         style={{ cursor: "pointer" }}
                       />
@@ -202,6 +206,9 @@ const ProfilePopOverContent = (
 ) => {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const userInfo = useRecoilValue(userInfoState);
+  const profileImg = userInfo?.user_set?.file_path_thumb;
+  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
 
   const onClickMenu = (path: string) => {
     router.push(path);
@@ -222,7 +229,7 @@ const ProfilePopOverContent = (
     >
       <div style={{ paddingTop: 20, padding: 10, flex: 1 }}>
         <div>
-          <Avatar size={70} icon={<UserOutlined />} />
+          <Avatar size={70} icon={profile} />
         </div>
         <div
           style={{
@@ -233,16 +240,16 @@ const ProfilePopOverContent = (
           }}
         >
           <div style={{ fontWeight: 600 }}>
-            {session?.user?.token?.userInfo?.user_nm}
+            {session?.user?.info?.userInfo?.user_nm}
           </div>
           <div>
-            {session?.user?.token?.userInfo?.introduce ||
+            {session?.user?.info?.userInfo?.introduce ||
               "자기소개를 입력해주세요."}
           </div>
         </div>
       </div>
       <div>
-        {session?.user?.token?.userInfo?.role_rank > 2 && (
+        {session?.user?.info?.userInfo?.role_rank > 2 && (
           <StyledProfileDiv onClick={() => router.push("/admin")}>
             관리자페이지
           </StyledProfileDiv>

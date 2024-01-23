@@ -12,8 +12,8 @@ const Point = () => {
   const [point, setPoint] = useState<number | null>(null);
   const [pointLog, setPointLog] = useState<PointLogTypes[]>([]);
 
-  const token = session?.user?.token?.data?.token;
-  const user_seq = session?.user?.token?.userInfo?.user_seq;
+  const token = session?.user?.info?.data?.token;
+  const user_seq = session?.user?.info?.userInfo?.user_seq;
 
   const getUserInfoData = async () => {
     // TODO: 카카오 로그인으 경우 token 처리, info 어떻게 불러올 것인지 설정
@@ -47,7 +47,7 @@ const Point = () => {
   return (
     <>
       <SubTitle>내 포인트</SubTitle>
-      <StyledBoxDiv style={{ height: 55 }}>
+      <StyledBoxDiv style={{ height: 22 }}>
         {
           point != null &&
           <>

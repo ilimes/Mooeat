@@ -1,5 +1,20 @@
 import axios from 'axios';
 
+const uploadConfig = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      token: '',
+    },
+};
+
+const defaultHeader = {
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        token: '',
+    }
+}
+
 export const loadMenuList = async () => {
     return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/menu/list`)
                       .then(res => res?.data)
@@ -7,26 +22,18 @@ export const loadMenuList = async () => {
 }
 
 export const loadApiData = async (formData: { type: string, group?: boolean, year: number }, token: string) => {
-    const header = {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            token
-        },
-    }
+    let header = {...defaultHeader};
+    header.headers.token = token;
+
     return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/api/statistics`, formData, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
 }
 
 export const loadIpData = async (token: string) => {
-    const header = {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            token
-        },
-    }
+    let header = {...defaultHeader};
+    header.headers.token = token;
+    
     return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/ip/statistics`, {}, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
@@ -63,26 +70,18 @@ export const loadBoardList = async (formData?: { cate_seq: number }) => {
 }
 
 export const loadMyBoardList = async (token: string) => {
-    const header = {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            token
-        },
-    }
+    let header = {...defaultHeader};
+    header.headers.token = token;
+
     return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/my/list`, {}, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
 }
 
 export const loadMyCommentList = async (token: string) => {
-    const header = {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            token
-        },
-    }
+    let header = {...defaultHeader};
+    header.headers.token = token;
+
     return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/my/comment/list`, {}, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
@@ -134,26 +133,20 @@ export const updateAttendanceData = async (formData: object) => {
 
 export const postTempPw = async (formData: { email: string | null }) => {
     const token = "eyJhbGciOiJIUzI1NiJ9.YWRtaW5AYWRtaW4uY29t.PNfKo6O33BzNllo7lUaKTz2sgm8GOpcuKxcZddllbDg";
-    const header = {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            token
-        },
-    }
+    let header = {...defaultHeader};
+    header.headers.token = token;
+
     return await axios.put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/reset/email`, formData, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
 }
 
 export const changePw = async (formData?: object, token?: string) => {
-    const header = {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            token
-        },
+    let header = {...defaultHeader};
+    if (typeof token === 'string') {
+        header.headers.token = token;
     }
+
     return await axios.put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/change/pw`, formData, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
@@ -179,6 +172,30 @@ export const updateFriendData = async (formData: object) => {
 
 export const deleteFriendData = async (formData: object) => {
     return await axios.delete(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/friend/deleteFriend`, { data: formData })
+                      .then(res => res?.data)
+                      .catch(err => console.error(err));
+}
+
+/**
+ * @description 서버에 이미지를 저장하는 함수
+ * @param {File} files 이미지 등록에 필요한 해당 File 형식 data
+ */
+export const uploadFile = async (files: File, token: string) => {
+    let header = {...uploadConfig};
+    header.headers.token = token;
+
+    const formData = new FormData();
+    formData.append('file', files);
+    return await axios.put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/file/put`, formData, header)
+                      .then(res => res?.data)
+                      .catch(err => console.error(err));
+}
+
+export const updateUser = async (formData: object, token: string) => {
+    let header = {...defaultHeader};
+    header.headers.token = token;
+
+    return await axios.put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/update`, formData, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
 }

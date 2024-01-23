@@ -20,7 +20,7 @@ const Attendance = () => {
   const isTodayAttend = attendDay?.find(e => e === moment(new Date()).format('YYYY-MM-DD')) ? true : false;
   const titleMessage = isTodayAttend ? '오늘 출석하셨네요! 내일도 화이팅 😊' : '버튼을 눌러서 출석체크 할 수 있습니다 :)';
   
-  const user_seq = session?.user?.token?.userInfo?.user_seq;
+  const user_seq = session?.user?.info?.userInfo?.user_seq;
 
   const getAttendanceLogData = async () => {
     const formData = { user_seq };
