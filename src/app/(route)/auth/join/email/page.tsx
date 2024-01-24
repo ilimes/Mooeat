@@ -58,7 +58,7 @@ const Join = () => {
         name="basic"
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
-        onFinish={(values: IValuesType) => onFinish(values, router)}
+        onFinish={(values: any) => onFinish(values, router)}
         // onFinishFailed={onFinishFailed}
         autoComplete="off"
       >

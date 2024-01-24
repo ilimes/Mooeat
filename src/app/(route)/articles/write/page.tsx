@@ -2,9 +2,12 @@
 
 import { Button, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
+import QuillNoSSRWrapper from '@/components/QuillNoSSRWrappper';
+import { useRef } from 'react';
+import ReactQuill from 'react-quill';
 
 const modules = {
   toolbar: [
@@ -47,6 +50,8 @@ const formats = [
 ];
 
 const Write = () => {
+  const quillInstance = useRef<ReactQuill>(null);
+
   return (
     <>
       <Title>글쓰기</Title>
@@ -55,11 +60,13 @@ const Write = () => {
       <Input size="large" />
       <div style={{ fontWeight: 600, fontSize: 15, margin: '10px 0' }}>내용</div>
       <div>
-        <StyledReactQuill
-          theme="snow"
+        <QuillNoSSRWrapper
+          forwardedRef={quillInstance}
+          // value={contents}
+          // onChange={setContents}
           modules={modules}
-          formats={formats}
-          // onChange={setValues}
+          theme="snow"
+          placeholder="내용을 입력해주세요."
         />
       </div>
       <div style={{ marginTop: 20, textAlign: 'right' }}>
@@ -88,8 +95,8 @@ const Explain = styled.div`
   margin: 15px 0;
 `;
 
-const StyledReactQuill = styled(ReactQuill)`
-  .ql-container {
-    height: 300px;
-  }
-`;
+// const StyledReactQuill = styled(ReactQuill)`
+//   .ql-container {
+//     height: 300px;
+//   }
+// `;

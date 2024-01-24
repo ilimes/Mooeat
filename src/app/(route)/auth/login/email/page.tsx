@@ -51,7 +51,7 @@ const EmailLogin = () => {
         name="basic"
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
-        onFinish={(values: ValuesTypes) => onFinish(values, setIsLoading, router)}
+        onFinish={(values: any) => onFinish(values, setIsLoading, router)}
         // onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
