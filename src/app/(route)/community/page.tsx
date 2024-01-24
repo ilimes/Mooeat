@@ -72,8 +72,9 @@ const Community = () => {
       <Explain>커뮤니티에서 자유롭게 이야기를 나눠보세요 :)</Explain>
       <Button
         type="primary"
-        htmlType="submit"
+        // htmlType="submit"
         disabled={status != 'authenticated' ? true : false}
+        onClick={() => router.push('/articles/write')}
         style={{ width: 125, height: 47, fontWeight: "bold", fontSize: 16 }}
       >
         <FormOutlined /> 작성하기
