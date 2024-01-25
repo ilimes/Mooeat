@@ -104,6 +104,7 @@ const Community = () => {
           </div>
         </button>
       </div>
+      <div style={{ marginTop: 15 }}>인기 있는 태그 Top5</div>
       <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600, marginTop: 15 }} />
       <Row gutter={[15, 15]}>
         {filteredArr?.map((e: any, i: number) => {

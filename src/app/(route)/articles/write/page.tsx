@@ -60,7 +60,7 @@ const Write = () => {
       <Input size="large" />
       <div style={{ fontWeight: 600, fontSize: 15, margin: '10px 0' }}>내용</div>
       <div>
-        <QuillNoSSRWrapper
+        <StyledReactQuill
           forwardedRef={quillInstance}
           // value={contents}
           // onChange={setContents}
@@ -69,6 +69,8 @@ const Write = () => {
           placeholder="내용을 입력해주세요."
         />
       </div>
+      <div style={{ fontWeight: 600, fontSize: 15, margin: '10px 0' }}>태그</div>
+      <div>태그를 등록하세요. (최대 4개)</div>
       <div style={{ marginTop: 20, textAlign: 'right' }}>
         <Button
             type="primary"
@@ -95,8 +97,10 @@ const Explain = styled.div`
   margin: 15px 0;
 `;
 
-// const StyledReactQuill = styled(ReactQuill)`
-//   .ql-container {
-//     height: 300px;
-//   }
-// `;
+const StyledReactQuill = styled(QuillNoSSRWrapper)`
+  .ql-container {
+    min-height: 300px;
+    max-height: 600px;
+    overflow: auto;
+  }
+`;
