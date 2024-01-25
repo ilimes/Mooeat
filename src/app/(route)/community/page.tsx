@@ -8,7 +8,7 @@ import PostCard from '@/components/Community/PostCard';
 import { useEffect, useState } from 'react';
 import PostList from "@/components/Community/PostList";
 import { BoardTypes } from '@/types/Board/Board.interface';
-import { loadBoardList, loadInfoList } from '@/api/Api';
+import { loadBoardList, loadInfoList, loadTagsTop5 } from '@/api/Api';
 import { useSession } from 'next-auth/react';
 
 interface IInfoTypes {
@@ -34,6 +34,7 @@ const Community = () => {
     }
   ]);
   const [boardList, setBoardList] = useState<BoardTypes[]>([]);
+  const [top5TagList, setTop5TagList] = useState<any>([]);
 
   const onChange = (key: string) => {
     setActiveKey(key);
@@ -61,9 +62,16 @@ const Community = () => {
     setBoardList(result?.list)
   }
 
+  const getTagsTop5 = async () => {
+    // const result = await fetchBoardList();
+    const result = await loadTagsTop5();
+    setTop5TagList(result?.list)
+  }
+
   useEffect(() => {
     getInfoList();
     getBoardList();
+    getTagsTop5();
   }, [])
 
   return (
@@ -104,7 +112,17 @@ const Community = () => {
           </div>
         </button>
       </div>
-      <div style={{ marginTop: 15 }}>인기 있는 태그 Top5</div>
+      <div style={{ marginTop: 15, display: 'flex' }}>
+        <div style={{ fontWeight: 600, width: 120, verticalAlign: 'middle', lineHeight: 2.55 }}>인기 태그 Top5</div>
+        {/* 태그 영역 */}
+        <div
+          style={{ margin: "0", display: "flex", flexWrap: "wrap", gap: 10 }}
+        >
+          {top5TagList?.map((e: any, i: number) => (
+            <StyledTagSpan key={i}>#{e?.tag_nm} ({e?.tag_count})</StyledTagSpan>
+          ))}
+        </div>
+      </div>
       <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600, marginTop: 15 }} />
       <Row gutter={[15, 15]}>
         {filteredArr?.map((e: any, i: number) => {
@@ -165,3 +183,14 @@ const fetchBoardList = async () => {
 
   return result?.data;
 }
+
+const StyledTagSpan = styled.span`
+  background: #f9f9ff;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  &:hover {
+    cursor: pointer;
+    color: #7944f4;
+  }
+`;
