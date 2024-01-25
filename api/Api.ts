@@ -199,3 +199,9 @@ export const updateUser = async (formData: object, token: string) => {
                       .then(res => res?.data)
                       .catch(err => console.error(err));
 }
+
+export const loadTagsTop5 = async () => {
+    return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/tags/top5`)
+                      .then(res => res?.data)
+                      .catch(err => console.error(err));
+}
