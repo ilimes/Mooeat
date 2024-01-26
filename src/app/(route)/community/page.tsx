@@ -113,13 +113,13 @@ const Community = () => {
         </button>
       </div>
       <div style={{ marginTop: 15, display: 'flex' }}>
-        <div style={{ fontWeight: 600, width: 120, verticalAlign: 'middle', lineHeight: 2.55 }}>인기 태그 Top5</div>
+        <div style={{ fontWeight: 600, width: 105, verticalAlign: 'middle', lineHeight: 2.55 }}>인기 태그 Top5</div>
         {/* 태그 영역 */}
         <div
-          style={{ margin: "0", display: "flex", flexWrap: "wrap", gap: 10 }}
+          style={{ margin: "0", display: "flex", flexWrap: "wrap", gap: 7, flex: 1 }}
         >
           {top5TagList?.map((e: any, i: number) => (
-            <StyledTagSpan key={i}>#{e?.tag_nm} ({e?.tag_count})</StyledTagSpan>
+            <StyledTagSpan key={i}>#{e?.tag_nm} ({e?.tag_count}회)</StyledTagSpan>
           ))}
         </div>
       </div>

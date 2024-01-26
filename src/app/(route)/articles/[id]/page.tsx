@@ -133,7 +133,7 @@ const Articles = () => {
       </Skeleton>
       {/* 컨텐츠 영역 */}
       <Skeleton paragraph={{ rows: 3 }} loading={!data ? true : false} active>
-        <div style={{ whiteSpace: "normal" }}>{data?.content}</div>
+        <div dangerouslySetInnerHTML={{__html: data?.content ?? ''}} style={{ whiteSpace: "normal" }}></div>
       </Skeleton>
       {/* 태그 영역 */}
       <div

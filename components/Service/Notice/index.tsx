@@ -11,6 +11,7 @@ const Notice = () => {
     const [selectedNotice, setSelectedNotice] = useState<number | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState<BoardTypes | null>(null);
+    const content = data?.content;
 
     /**
      * 공지사항 리스트 불러오기
@@ -76,7 +77,7 @@ const Notice = () => {
                                 selectedNotice === obj.board_seq &&
                                 <ListContentDiv>
                                     {isLoading && <Spin style={{ display: 'flex', justifyContent: 'flex-start' }} />}
-                                    {!isLoading && <div>{data?.content}</div>}
+                                    {!isLoading && <div dangerouslySetInnerHTML={{__html: data?.content ?? ''}}></div>}
                                 </ListContentDiv>
                             }
                         </WrapperDiv>
