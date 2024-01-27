@@ -1,5 +1,27 @@
 # Mooeat
 
+<div align="center" style="background: #fff; border-radius: 16px; padding: 10px 0;">
+    <img src="https://github.com/ilimes/ilimes/assets/95404736/9a867a0b-28ee-426d-8da1-e4a88e6585e2"/>
+</div>
+
+<h2>🔗 배포주소 : <a href="http://146.56.148.72:3000/" rel="nofollow">Mooeat</a></h2></h2>
+
+<table width="100">
+    <thead>
+        <tr>
+            <th align="center"><a target="_blank" rel="noopener noreferrer" href="/codestates-seb/seb43_main_017/blob/main/img/4.png"><img src="https://github.com/WorldMarketProject/frontend/assets/95404736/7839f7de-adbc-4368-ba99-e6933847fae4" alt="이대규" style="width: 100px;"></a></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="center"><a href="https://github.com/ilimes">이대규</a></td>
+        </tr>
+        <tr>
+            <td align="center">FE & BE</td>
+        </tr>
+    </tbody>
+</table>
+
 ### 개발 환경 설정
 - [ ] [NodeJS](https://nodejs.org/ko/) : v18.16.1
   - 노드 버전 매니저([nvm](https://github.com/nvm-sh/nvm))를 사용하는 것을 추천합니다.
