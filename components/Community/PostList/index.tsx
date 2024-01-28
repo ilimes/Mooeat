@@ -29,7 +29,7 @@ const PostList = ({ obj }: { obj: BoardTypes }) => {
           {obj?.title}
         </div>
         <div className='contentDiv'>
-          {obj?.content}
+          {obj?.content?.replace(/(<([^>]+)>)/gi, '')}
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', flex: 1, gap: 5, fontSize: 12, marginTop: 20 }}>
           <div style={{ fontWeight: 800 }}>

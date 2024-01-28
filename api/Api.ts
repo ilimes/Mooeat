@@ -1,12 +1,5 @@
 import axios from 'axios';
 
-const uploadConfig = {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      token: '',
-    },
-};
-
 const defaultHeader = {
     headers: {
         Accept: 'application/json',
@@ -14,6 +7,13 @@ const defaultHeader = {
         token: '',
     }
 }
+
+const uploadConfig = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      token: '',
+    },
+};
 
 export const loadMenuList = async () => {
     return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/menu/list`)
@@ -202,6 +202,17 @@ export const updateUser = async (formData: object, token: string) => {
 
 export const loadTagsTop5 = async () => {
     return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/tags/top5`)
+                      .then(res => res?.data)
+                      .catch(err => console.error(err));
+}
+
+export const writeBoard = async (formData?: object, token?: string) => {
+    let header = {...defaultHeader};
+    if (typeof token === 'string') {
+        header.headers.token = token;
+    }
+
+    return await axios.put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/write`, formData, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
 }

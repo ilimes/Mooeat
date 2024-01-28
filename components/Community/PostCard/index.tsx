@@ -25,7 +25,7 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
           {obj?.cate_nm}
         </div>
         {/* 제목 및 내용 영역 */}
-        <Meta title={obj?.title} description={obj?.content} />
+        <Meta title={obj?.title} description={obj?.content?.replace(/(<([^>]+)>)/gi, '')} />
         {/* 태그 영역 */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, fontSize: 12, margin: '15px 0' }}>
           <div style={{ fontWeight: 800 }}>

@@ -23,7 +23,6 @@ const CarouselComponent = () => {
   const [nowIndex, setNowIndex] = useState(0);
   const textMargin = isMobile ? 0 : 120;
   const imgHeight = isMobile ? 200 : 350;
-  const isRender = typeof window !== 'undefined';
   const contents = [
     {
       topText: 'Mooeat에 오신것을 환영합니다!',
