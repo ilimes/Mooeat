@@ -36,6 +36,10 @@ import {
 import type { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { loadArticleData, loadCommentList, loadRegUserInfo } from '@/api/Api';
+import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import Image from 'next/image';
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "@/recoil/states";
 
 const Articles = () => {
   const router = useRouter();
@@ -46,6 +50,10 @@ const Articles = () => {
   const [regUserInfo, setRegUserInfo] = useState<RegUserInfoTypes | null>(null);
   const [commentList, setCommentList] = useState<CommentTypes[] | null>(null);
   const [selectedCommentSeq, setSelectedCommentSeq] = useState<number | null>(null)
+
+  const profileImg = data?.profile_path + '?thumb=1';
+  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+
   const id = params?.id;
 
   const getArticleData = async () => {
@@ -107,7 +115,7 @@ const Articles = () => {
       {/* 아바타 영역 */}
       <div style={{ margin: "30px 0", display: "flex", gap: 10 }}>
         <div>
-          <Avatar size={40} icon={<UserOutlined />} />
+          <Avatar size={40} icon={profile} />
         </div>
         <StyledOutDiv>
           <StyledOutDiv style={{ fontSize: 15, marginBottom: 5 }}>
@@ -350,41 +358,15 @@ const StyledCommentDiv = styled.div`
   }
 `;
 
-const fetchArticleData = async (formData: { board_num: string | string[] }) => {
-  const res = await fetch(`/api/board/view`, {
-    method: "POST",
-    body: JSON.stringify(formData),
-  });
-  const result = await res.json();
-
-  return result?.data;
-};
-
-const fetchCommentList = async (formData: { board_num: string | string[] }) => {
-  const res = await fetch(`/api/board/comment/list`, {
-    method: "POST",
-    body: JSON.stringify(formData),
-  });
-  const result = await res.json();
-
-  return result?.data;
-};
-
-const fetchRegUserInfo = async (formData: { user_seq: number }) => {
-  const res = await fetch(`/api/board/user/info`, {
-    method: "POST",
-    body: JSON.stringify(formData),
-  });
-  const result = await res.json();
-
-  return result?.data;
-};
-
 const ReplyDiv = ({session, router, isPadding}: {session: Session | null, router: AppRouterInstance, isPadding: boolean}) => {
+  const userInfo = useRecoilValue(userInfoState);
+  const profileImg = userInfo?.user_set?.file_path_thumb;
+  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+
   return (
     <div style={{ display: "flex", paddingLeft: isPadding ? 50 : 0 }}>
           <div style={{ marginRight: 10 }}>
-            <Avatar size={55} icon={<UserOutlined />} />
+            <Avatar size={55} icon={profile} />
           </div>
           <div style={{ flex: 1 }}>
             <StyledCommentDiv>

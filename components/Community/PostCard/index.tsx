@@ -7,12 +7,16 @@ import moment from 'moment';
 import 'moment/locale/ko';
 import CntComponent from '../CntComponent';
 import { BoardTypes } from '@/types/Board/Board.interface';
+import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import Image from 'next/image';
 
 const { Meta } = Card;
 
 const PostCard = ({ obj }: { obj: BoardTypes }) => {
   const router = useRouter();
   const isLoading = Object?.keys(obj)?.length === 2;
+  const profileImg = obj?.profile_path + '?thumb=1';
+  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
 
   return (
     <StyledCard
@@ -47,7 +51,7 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
         {/* 아바타 영역 */}
         <div style={{ marginBottom: 15, display: 'flex', gap: 10 }}>
           <div>
-            <Avatar size={40} icon={<UserOutlined />} />
+            <Avatar size={40} icon={profile} />
           </div>
           <StyledOutDiv>
             <StyledOutDiv style={{ fontSize: 14 }}>{obj?.reg_user_nm}</StyledOutDiv>
