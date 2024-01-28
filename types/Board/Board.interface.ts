@@ -19,6 +19,7 @@ export interface BoardTypes {
     title: string;
     use_yn: string;
     view_cnt: number;
+    profile_path?: string;
 }
 
 export interface CommentTypes {

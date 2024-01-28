@@ -9,15 +9,20 @@ import moment from 'moment';
 import 'moment/locale/ko';
 import CntComponent from '../CntComponent';
 import { BoardTypes } from '@/types/Board/Board.interface';
+import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import Image from 'next/image';
 
 const PostList = ({ obj }: { obj: BoardTypes }) => {
   const router = useRouter();
+  const profileImg = obj?.profile_path + '?thumb=1';
+  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
       <div>
         <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
           <div>
-            <Avatar size={25} icon={<UserOutlined />} />
+            <Avatar size={25} icon={profile} />
           </div>
           <StyledOutDiv style={{ fontSize: 14 }}>{obj?.reg_user_nm}</StyledOutDiv>
           <div>·</div>

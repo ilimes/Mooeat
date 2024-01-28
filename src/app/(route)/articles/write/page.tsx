@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Input, Select, Tooltip, message } from "antd";
-import { PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined, CloseCircleOutlined, RollbackOutlined } from "@ant-design/icons";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 import QuillNoSSRWrapper from '@/components/QuillNoSSRWrappper';
@@ -138,7 +138,6 @@ const Write = () => {
       return;
     }
     
-    console.log(formData)
     const result = await writeBoard(formData, token);
     if (result?.success) {
       message.success("성공적으로 등록되었습니다.")
@@ -198,6 +197,12 @@ const Write = () => {
         </Tooltip>
       </div>
       <div style={{ marginTop: 20, textAlign: 'right' }}>
+        <Button
+            onClick={() => router.push('/community')}
+            style={{ width: 125, height: 47, fontWeight: "bold", fontSize: 16, marginRight: 10 }}
+        >
+            <RollbackOutlined /> 목록으로
+        </Button>
         <Button
             type="primary"
             onClick={putBoardData}
