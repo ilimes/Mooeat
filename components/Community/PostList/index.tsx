@@ -14,7 +14,7 @@ import Image from 'next/image';
 
 const PostList = ({ obj }: { obj: BoardTypes }) => {
   const router = useRouter();
-  const profileImg = obj?.profile_path + '?thumb=1';
+  const profileImg = obj?.profile_path ? obj?.profile_path + '?thumb=1' : null;
   const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
 
   return (

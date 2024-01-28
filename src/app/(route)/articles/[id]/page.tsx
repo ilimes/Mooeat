@@ -51,7 +51,7 @@ const Articles = () => {
   const [commentList, setCommentList] = useState<CommentTypes[] | null>(null);
   const [selectedCommentSeq, setSelectedCommentSeq] = useState<number | null>(null)
 
-  const profileImg = data?.profile_path + '?thumb=1';
+  const profileImg = data?.profile_path ? data?.profile_path + '?thumb=1' : null;
   const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
 
   const id = params?.id;
