@@ -37,7 +37,7 @@ const PostList = ({ obj }: { obj: BoardTypes }) => {
           {obj?.content?.replace(/(<([^>]+)>)/gi, '')}
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', flex: 1, gap: 5, fontSize: 12, marginTop: 20 }}>
-          <div style={{ fontWeight: 800 }}>
+          <div style={{ fontWeight: 900 }}>
             TAG
           </div>
           {
@@ -85,7 +85,7 @@ const StyledContentDiv = styled.span`
     -webkit-line-clamp: 1;
     overflow: hidden;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 10px;
   }
   .titleDiv:hover {

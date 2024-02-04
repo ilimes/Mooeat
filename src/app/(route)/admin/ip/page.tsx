@@ -31,12 +31,12 @@ export default Ip;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
 `
 
 const SubTitle = styled.div`
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   color: #5D559A;
 `
 

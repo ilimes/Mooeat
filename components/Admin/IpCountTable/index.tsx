@@ -37,7 +37,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="custom-tooltip" style={{ backgroundColor: 'hsla(0,0%,100%,.8)', border: '1px solid #f5f5f5', padding: 10 }}>
-        <p style={{ fontWeight: 600 }}>{`${label}위`}</p>
+        <p style={{ fontWeight: 700 }}>{`${label}위`}</p>
         <p className="label">{`횟수: ${payload[0].value}회`}</p>
         <p className="intro">{`IP 주소: ${payload?.[0]?.payload?.ip}`}</p>
       </div>

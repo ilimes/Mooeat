@@ -90,7 +90,7 @@ export default MyPage;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
 `
 
 const Explain = styled.div`
@@ -115,7 +115,7 @@ const StyledResponsiveDiv = styled.div`
 
 const StyledTabs = styled(Tabs)`
   && {
-    font-weight: 600;
+    font-weight: 800;
     @media (min-width: 991px) {
       display: none;
     }

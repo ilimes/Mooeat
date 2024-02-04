@@ -43,10 +43,10 @@ const Buttons = ({ router }: { router: AppRouterInstance }) => {
                                     bodyStyle={{ padding: 16 }}
                                     onClick={() => router.push(e?.link)}
                                 >
-                                    <div style={{ fontSize: 14, color: '#47408f', fontWeight: 'bold', marginBottom: 10 }}>
+                                    <div style={{ fontSize: 14, color: '#47408f', fontWeight: 800, marginBottom: 10 }}>
                                         {e?.topMessage}
                                     </div>
-                                    <div style={{ fontSize: 26, fontWeight: 'bold' }}>
+                                    <div style={{ fontSize: 26, fontWeight: 800 }}>
                                         <span style={{ marginRight: 10 }}>{e?.icon}</span>
                                         {e?.title}
                                     </div>

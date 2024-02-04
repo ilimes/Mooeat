@@ -155,11 +155,11 @@ const Write = () => {
     <>
       <Title>글쓰기</Title>
       <Explain>커뮤니티 이용 가이드에 위배되는 게시글을 작성하는 경우 삭제될 수 있습니다.</Explain>
-      <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 10 }}>카테고리</div>
+      <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 10 }}>카테고리</div>
       <Select value={pushDatas?.cate_seq} options={infoItems} onChange={(e) => setPushDatas({... pushDatas, cate_seq: e})} placeholder="카테고리 선택" style={{ width: 150 }} size="large" />
-      <div style={{ fontWeight: 600, fontSize: 15, margin: '10px 0' }}>제목</div>
+      <div style={{ fontWeight: 700, fontSize: 15, margin: '10px 0' }}>제목</div>
       <Input value={pushDatas?.title} onChange={(e) => setPushDatas({...pushDatas, title: e.target.value})} placeholder="제목을 입력해주세요." size="large" />
-      <div style={{ fontWeight: 600, fontSize: 15, margin: '10px 0' }}>내용</div>
+      <div style={{ fontWeight: 700, fontSize: 15, margin: '10px 0' }}>내용</div>
       <div>
         <StyledReactQuill
           forwardedRef={quillInstance}
@@ -170,7 +170,7 @@ const Write = () => {
           placeholder="내용을 입력해주세요."
         />
       </div>
-      <div style={{ fontWeight: 600, fontSize: 15, margin: '20px 0' }}>태그 (최대 5개)</div>
+      <div style={{ fontWeight: 700, fontSize: 15, margin: '20px 0' }}>태그 (최대 5개)</div>
       <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
         {
           pushDatas?.tags?.map((e: any, i: number) => {
@@ -219,7 +219,7 @@ export default Write;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 const Explain = styled.div`

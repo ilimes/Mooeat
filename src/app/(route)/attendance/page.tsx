@@ -69,7 +69,7 @@ const Attendance = () => {
         <Image src={"/img/attendance/attendance.png"} alt='Attendance' width={328} height={279} />
       </div>
       <div style={{ textAlign: 'center' }}>
-        <Tooltip placement="topRight" title={titleMessage} open={open} zIndex={1} overlayStyle={{ fontWeight: 600, fontSize: 13 }}>
+        <Tooltip placement="topRight" title={titleMessage} open={open} zIndex={1} overlayStyle={{ fontWeight: 700, fontSize: 13 }}>
           <StyledButton type="primary" onClick={onClickReg} disabled={(status === "loading" || isTodayAttend) ? true : false}>{status === "loading" ? <Spin /> : isTodayAttend ? '오늘 출석 완료' : '오늘 출석 하기'}</StyledButton>
         </Tooltip>
       </div>
@@ -88,7 +88,7 @@ export default Attendance;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
 `
 
 const Explain = styled.div`
@@ -99,7 +99,7 @@ const Explain = styled.div`
 
 const StyledButton = styled(Button)`
   && {
-    font-weight: 600;
+    font-weight: 700;
     width: 100%;
     max-width: 400px;
     height: 50px;

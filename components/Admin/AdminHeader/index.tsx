@@ -105,7 +105,7 @@ const AdminHeader = () => {
           </Tooltip>
         </div>
       }
-      <div style={{ marginRight: 20, fontWeight: 600 }}>
+      <div style={{ marginRight: 20, fontWeight: 700 }}>
         Mooeat 관리자 페이지
       </div>
       {

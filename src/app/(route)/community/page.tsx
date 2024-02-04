@@ -113,7 +113,7 @@ const Community = () => {
         </button>
       </div>
       <div style={{ marginTop: 15, display: 'flex' }}>
-        <div style={{ fontWeight: 600, width: 105, verticalAlign: 'middle', lineHeight: 2.55 }}>인기 태그 Top5</div>
+        <div style={{ fontWeight: 800, width: 105, verticalAlign: 'middle', lineHeight: 2.55 }}>인기 태그 Top5</div>
         {/* 태그 영역 */}
         <div
           style={{ margin: "0", display: "flex", flexWrap: "wrap", gap: 7, flex: 1 }}
@@ -123,7 +123,7 @@ const Community = () => {
           ))}
         </div>
       </div>
-      <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600, marginTop: 15 }} />
+      <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 800, marginTop: 15 }} />
       <Row gutter={[15, 15]}>
         {filteredArr?.map((e: any, i: number) => {
           const item = items?.find((ele: any) => ele.key === String(e?.cate_seq));
@@ -157,7 +157,7 @@ export default Community;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
 `
 
 const Explain = styled.div`

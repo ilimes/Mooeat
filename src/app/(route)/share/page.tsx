@@ -14,7 +14,7 @@ import { loadFriendList } from "@/api/Api";
 
 const Titles = ({name, required} : {name: string, required: boolean}) => {
   return (
-    <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 7 }}>
+    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 7 }}>
       <span>{name}</span> {required && <span style={{ color: 'red' }}>(*)</span>}
     </div>
   )
@@ -67,7 +67,7 @@ const Share = () => {
     <div>
       <Title>공유하기</Title>
       <Explain>등록된 친구에게 내 식단을 공유해보세요.</Explain>
-      <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600 }} tabBarGutter={20} />
+      <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 800 }} tabBarGutter={20} />
       <div style={{ textAlign: 'center', margin: '20px 0' }}>
         <Image src={"/img/share/share.png"} alt='Attendance' width={300} height={210} />
       </div>
@@ -89,7 +89,7 @@ const Share = () => {
         </Col>
       </Row>
       <div style={{ marginTop: 10, textAlign: 'right' }}>
-        <Button type="primary" style={{ width: 130, height: 50, fontWeight: 600 }}>공유하기</Button>
+        <Button type="primary" style={{ width: 130, height: 50, fontWeight: 700 }}>공유하기</Button>
       </div>
       <div style={{ marginTop: 20, textAlign: 'center' }}>
         <a href="https://kr.freepik.com/free-vector/colorful-icons-set-style_12067938.htm#query=share&position=5&from_view=search&track=sph&uuid=ff78e392-b332-4598-ac8b-18451751f2c3">작가 coolvector</a> 출처 Freepik
@@ -102,7 +102,7 @@ export default Share;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
 `
 
 const Explain = styled.div`

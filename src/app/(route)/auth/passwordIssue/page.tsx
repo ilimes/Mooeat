@@ -66,13 +66,13 @@ export default PasswordIssue;
 const StyledTitleDiv = styled.div`
   font-size: 13px;
   color: #606060;
-  font-weight: 600;
+  font-weight: 700;
   padding-bottom: 5px;
 `
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
 `
 
 const Explain = styled.div`

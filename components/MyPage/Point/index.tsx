@@ -51,7 +51,7 @@ const Point = () => {
         {
           point != null &&
           <>
-            <span style={{ fontWeight: 600, fontSize: 18 }}>{Number(point)?.toLocaleString()}</span> 포인트
+            <span style={{ fontWeight: 800, fontSize: 18 }}>{Number(point)?.toLocaleString()}</span> 포인트
           </>
         }
         {
@@ -80,11 +80,11 @@ const Point = () => {
                       {e?.type === "D" && <MinusOutlined />}
                     </div>
                     <div style={{ display:'flex', flex: 1, flexDirection: 'column', gap: 3 }}>
-                      <div style={{ fontWeight: 600, fontSize: 16 }}>{e?.message}</div>
+                      <div style={{ fontWeight: 800, fontSize: 16 }}>{e?.message}</div>
                       <div style={{ color: 'grey', fontSize: 13 }}>{moment(e?.reg_dt).format("YYYY-MM-DD")}</div>
                       {e?.type === "G" && <div style={{ color: 'grey', fontSize: 13 }}>{moment(e?.reg_dt).format("YYYY-MM-DD")} ~ {e?.expire_dt ? moment(e?.expire_dt).format("YYYY-MM-DD") : '유효기간 없음'}</div>}
                     </div>
-                    <div style={{ display: 'flex', width: 100, justifyContent: 'flex-end', alignItems: 'center', fontWeight: 600, fontSize: 18, color: e?.type === "G" ? '#47408F' : "grey" }}>
+                    <div style={{ display: 'flex', width: 100, justifyContent: 'flex-end', alignItems: 'center', fontWeight: 700, fontSize: 18, color: e?.type === "G" ? '#47408F' : "grey" }}>
                       {e?.point}P
                     </div>
                   </div>
@@ -111,7 +111,7 @@ const StyledBoxDiv = styled.div`
 const SubTitle = styled.div`
   font-size: 20px;
   margin-bottom: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: #5D559A;
 `
 

@@ -213,15 +213,15 @@ const Friends = () => {
       <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
       <Row gutter={[15, 15]}>
         <Col xs={isMobile && clickSeq ? 0 : 24} sm={isMobile && clickSeq ? 0 : 24} md={isMobile && clickSeq ? 0 : 24} lg={7} xl={7} xxl={7}>
-          <StyledLeftCard title={[<div key={1} style={{ fontWeight: 'bold', fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={onOpen} style={{ float: 'right', fontSize: 14, fontWeight: 'bold', paddingRight: 22, height: 31 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: isMobile ? '100%' : 'calc(100vh - 260px)', overflow: 'auto' }}>
-            <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 600 }} tabBarGutter={20} />
+          <StyledLeftCard title={[<div key={1} style={{ fontWeight: 800, fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={onOpen} style={{ float: 'right', fontSize: 14, fontWeight: 'bold', paddingRight: 22, height: 31 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: isMobile ? '100%' : 'calc(100vh - 260px)', overflow: 'auto' }}>
+            <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 800 }} tabBarGutter={20} />
             <Row gutter={[10, 10]}>
               {
                 getCondition &&
                 (
                   <Col span={24}>
                     <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
-                      <div style={{ fontWeight: 600, margin: '0 auto' }}>받은 요청</div>
+                      <div style={{ fontWeight: 700, margin: '0 auto' }}>받은 요청</div>
                       {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} {...props} element={e} state={'received'} />)}
                     </Row>
                   </Col>
@@ -232,7 +232,7 @@ const Friends = () => {
                 (
                   <Col span={24}>
                     <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
-                      <div style={{ fontWeight: 600, margin: '0 auto' }}>보낸 요청</div>
+                      <div style={{ fontWeight: 700, margin: '0 auto' }}>보낸 요청</div>
                       {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} {...props} element={e} state={'sent'} />)}
                     </Row>
                   </Col>
@@ -243,7 +243,7 @@ const Friends = () => {
                 (
                   <Col span={24}>
                     <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
-                      <div style={{ fontWeight: 600, margin: '0 auto' }}>서로 친구</div>
+                      <div style={{ fontWeight: 700, margin: '0 auto' }}>서로 친구</div>
                       {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i}  {...props} element={e} state={'pure'} />)}
                     </Row>
                 </Col>
@@ -291,7 +291,7 @@ const Friends = () => {
       <Modal title={'친구 등록'} isOpen={isOpen} closeModal={closeModal}>
         <Row gutter={[10, 10]}>
           <Col span={24}>
-            <span style={{ fontWeight: 600 }}>이메일 (계정)</span>
+            <span style={{ fontWeight: 700 }}>이메일 (계정)</span>
           </Col>
           <Col span={24}>
             <Input value={userId} placeholder="등록할 친구의 이메일을 입력해주세요." onChange={(e) => setUserId(e.target.value)} onKeyDown={(e) => handleOnKeyPress(e)} style={{ height: 40 }} />
@@ -331,15 +331,15 @@ const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, st
               <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{element?.to_user_id}</StyledOutDiv>
             </StyledOutDiv>
           </div>
-          {state === 'received' && <Button type="primary" onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'accept'); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 수락</Button>}
-          {state === 'sent' && <Button type="primary" ghost onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'cancel'); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>요청 취소</Button>}
-          {state === 'pure' && <Button danger onClick={(e) => { e.stopPropagation(); openModal(); }} style={{ width: '100%', marginTop: 10, fontWeight: 600 }}>친구 삭제</Button>}
+          {state === 'received' && <Button type="primary" onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'accept'); }} style={{ width: '100%', marginTop: 10, fontWeight: 700 }}>요청 수락</Button>}
+          {state === 'sent' && <Button type="primary" ghost onClick={(e) => { e.stopPropagation(); updateFriend(element?.seq, 'cancel'); }} style={{ width: '100%', marginTop: 10, fontWeight: 700 }}>요청 취소</Button>}
+          {state === 'pure' && <Button danger onClick={(e) => { e.stopPropagation(); openModal(); }} style={{ width: '100%', marginTop: 10, fontWeight: 700 }}>친구 삭제</Button>}
         </StyledCard>
       </Col>
       {state === 'pure' && (
         <Modal title={'삭제'} isOpen={isOpen} closeModal={closeModal}>
           <div style={{ margin: '30px 0' }}>
-            <div style={{ fontWeight: 600, fontSize: 16 }}>정말 삭제하시겠습니까?</div>
+            <div style={{ fontWeight: 700, fontSize: 16 }}>정말 삭제하시겠습니까?</div>
             <div style={{ color: 'grey' }}>차단 관리는 `마이페이지 {'>'} 친구 관리` 를 이용해주세요.</div>
           </div>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
@@ -357,7 +357,7 @@ export default Friends;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
 `
 
 const Explain = styled.div`

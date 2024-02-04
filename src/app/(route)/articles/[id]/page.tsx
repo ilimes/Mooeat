@@ -178,7 +178,7 @@ const Articles = () => {
               <div
                 style={{ display: "flex", flexDirection: "column", gap: 10 }}
               >
-                <div style={{ fontSize: 18, fontWeight: 600 }}>
+                <div style={{ fontSize: 18, fontWeight: 700 }}>
                   {regUserInfo?.user_info?.user_nm}
                 </div>
                 <div style={{ fontSize: 16, fontWeight: 400 }}>
@@ -210,7 +210,7 @@ const Articles = () => {
                 <Avatar size={55} icon={<UserOutlined />} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-                <div style={{ fontWeight: 600 }}>{e?.reg_user_nm}</div>
+                <div style={{ fontWeight: 700 }}>{e?.reg_user_nm}</div>
                 <div>{e?.content}</div>
                 <div style={{ fontSize: 13, marginTop: 10 }}>
                   <span style={{ color: "grey" }}>
@@ -254,7 +254,7 @@ export default Articles;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 20px;
   && {
     overflow: hidden;
@@ -377,7 +377,7 @@ const ReplyDiv = ({session, router, isPadding}: {session: Session | null, router
                     <Tooltip title="클릭 시 로그인 페이지로 이동합니다.">
                       <span
                         style={{
-                          fontWeight: 600,
+                          fontWeight: 700,
                           color: "#4F4791",
                           cursor: "pointer",
                           marginLeft: 5,

@@ -118,24 +118,24 @@ const MyInfo = ({ userInfo, getUserInfoData }: { userInfo: UserInfoTypes | null,
       <>
         <div style={{ textAlign: 'center' }}>
           <div style={{ margin: '20px 0' }}>
-            <div style={{ fontWeight: 600, fontSize: 20 }}>
+            <div style={{ fontWeight: 800, fontSize: 20 }}>
               {userInfo?.user_nm}
             </div>
             {userInfo?.type === 'oAuth' && <>
               <div style={{ background: '#FAE100', width: 100, height: 27, lineHeight: '27px', margin: '5px auto', borderRadius: 16, verticalAlign: 'middle' }}>
-                <Kakao style={{ width: 14, height: 14, verticalAlign: 'middle', fill: '#3C1E1E' }} /> <span style={{ fontSize: 13, fontWeight: 600, color: '#3C1E1E' }}>카카오 계정</span>
+                <Kakao style={{ width: 14, height: 14, verticalAlign: 'middle', fill: '#3C1E1E' }} /> <span style={{ fontSize: 13, fontWeight: 700, color: '#3C1E1E' }}>카카오 계정</span>
               </div>
             </>}
             {userInfo && userInfo.role_rank > 2 && <>
               <div style={{ background: '#292D3E', width: 85, height: 27, lineHeight: '27px', margin: '5px auto', borderRadius: 16, verticalAlign: 'middle' }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>관리자 계정</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>관리자 계정</span>
               </div>
             </>}
             <div>{userInfo?.user_id}</div>
           </div>
           <div>{userInfo?.introduce}</div>
           <div style={{ textAlign: 'right' }}>
-            <Button type="primary" style={{ height: 45, fontWeight: 600 }} onClick={() => setIsEdit(!isEdit)}>수정하기</Button>
+            <Button type="primary" style={{ height: 45, fontWeight: 700 }} onClick={() => setIsEdit(!isEdit)}>수정하기</Button>
           </div>
         </div>
       </>
@@ -199,8 +199,8 @@ const EditForm = ({ userInfo, changeData, setChangeData, setIsEdit, setImgFile, 
           <StyledInput placeholder="자기소개를 입력해주세요." value={changeData?.introduce ?? userInfo?.introduce} onChange={(e) => setChangeData({...changeData, introduce: e.target.value})} />
         </div>
         <div style={{ textAlign: 'right' }}>
-          <Button type="default" style={{ height: 45, fontWeight: 600 }} onClick={() => { setIsEdit(false); setImgFile({ url: null }); }}>취소하기</Button>
-          <Button type="primary" style={{ height: 45, marginLeft: 10, fontWeight: 600 }} onClick={() => onClickMyInfoSave()}>저장하기</Button>
+          <Button type="default" style={{ height: 45, fontWeight: 700 }} onClick={() => { setIsEdit(false); setImgFile({ url: null }); }}>취소하기</Button>
+          <Button type="primary" style={{ height: 45, marginLeft: 10, fontWeight: 700 }} onClick={() => onClickMyInfoSave()}>저장하기</Button>
         </div>
       </div>
     </>
@@ -279,14 +279,14 @@ const PwEditForm = ({ isPwEdit, setIsPwEdit, getUserInfoData }: { isPwEdit: bool
         <div style={{ textAlign: "right" }}>
           <Button
             type="default"
-            style={{ height: 45, fontWeight: 600 }}
+            style={{ height: 45, fontWeight: 700 }}
             onClick={() => setIsPwEdit(false)}
           >
             취소하기
           </Button>
           <Button
             type="primary"
-            style={{ height: 45, marginLeft: 10, fontWeight: 600 }}
+            style={{ height: 45, marginLeft: 10, fontWeight: 700 }}
             onClick={onClickChangePw}
           >
             저장하기
@@ -303,10 +303,10 @@ const PwShowForm = ({ userInfo, isPwEdit, setIsPwEdit }: { userInfo: UserInfoTyp
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ fontSize: 14 }}>
           { }
-          최근 업데이트: <span style={{ fontWeight: 600 }}>{userInfo?.pw_mod_dt ?? '없음'}</span>
+          최근 업데이트: <span style={{ fontWeight: 700 }}>{userInfo?.pw_mod_dt ?? '없음'}</span>
         </div>
         <div>
-          <Button style={{ height: 45, fontWeight: 600 }} onClick={() => setIsPwEdit(!isPwEdit)}>비밀번호 변경</Button>
+          <Button style={{ height: 45, fontWeight: 700 }} onClick={() => setIsPwEdit(!isPwEdit)}>비밀번호 변경</Button>
         </div>
       </div>
     </>
@@ -325,7 +325,7 @@ const AccountLinking = () => {
               <GoogleIcon style={{ width: 38, height: 38, margin: '0 10px', verticalAlign: 'middle' }} /> Google
             </div>
             <div>
-              <Button type='primary' style={{ height: 45, fontWeight: 600 }} disabled>연결하기</Button>
+              <Button type='primary' style={{ height: 45, fontWeight: 700 }} disabled>연결하기</Button>
             </div>
           </div>
           <Divider style={{ margin: '5px 0' }} />
@@ -334,7 +334,7 @@ const AccountLinking = () => {
               <Kakao style={{ width: 38, height: 38, margin: '0 10px', verticalAlign: 'middle' }} /> Kakao
             </div>
             <div>
-              <Button type='primary' style={{ height: 45, fontWeight: 600 }} disabled>연결하기</Button>
+              <Button type='primary' style={{ height: 45, fontWeight: 700 }} disabled>연결하기</Button>
             </div>
           </div>
         </div>
@@ -353,7 +353,7 @@ const DeleteAccount = () => {
             현재 접속된 계정을 삭제합니다.
           </div>
           <div>
-            <Button style={{ height: 45, fontWeight: 600 }}>계정 삭제하기</Button>
+            <Button style={{ height: 45, fontWeight: 700 }}>계정 삭제하기</Button>
           </div>
         </div>
       </StyledBoxDiv>
@@ -363,7 +363,7 @@ const DeleteAccount = () => {
 
 const Title = ({ name, required }: { name: string, required?: boolean }) => {
   return (
-    <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 7 }}>
+    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 7 }}>
       <span>{name}</span> {required && <span style={{ color: 'red' }}>(*)</span>}
     </div>
   )
@@ -388,7 +388,7 @@ const StyledBoxDiv = styled.div`
 const SubTitle = styled.div`
   font-size: 20px;
   margin-bottom: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: #5D559A;
 `
 

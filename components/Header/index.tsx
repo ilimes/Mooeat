@@ -68,7 +68,7 @@ const HeaderPage = () => {
             mode="horizontal"
             selectedKeys={selectedKeys}
             items={menuList}
-            style={{ width: "100%", fontWeight: 600, fontSize: 18 }}
+            style={{ width: "100%", fontWeight: 800, fontSize: 18 }}
             onSelect={(e) => setSelectedKeys([e?.key])}
           />
           {status != "loading" && (
@@ -239,7 +239,7 @@ const ProfilePopOverContent = (
             gap: 5,
           }}
         >
-          <div style={{ fontWeight: 600 }}>
+          <div style={{ fontWeight: 700 }}>
             {session?.user?.info?.userInfo?.user_nm}
           </div>
           <div>

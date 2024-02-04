@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Help = () => {
     return (
         <>
-            <div style={{ fontWeight: 600, marginTop: 20, fontSize: 20 }}>내 문의 내역</div>
+            <div style={{ fontWeight: 700, marginTop: 20, fontSize: 20 }}>내 문의 내역</div>
             <StyledDiv>
                 <TitleDiv>
                     <div>제목</div>

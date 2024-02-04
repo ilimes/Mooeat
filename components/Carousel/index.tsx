@@ -60,7 +60,7 @@ const CarouselComponent = () => {
         <div className={'title1'}>
           <span
             style={{
-              fontWeight: 700,
+              fontWeight: 800,
               color: "#fff",
               fontSize: 24,
               background:

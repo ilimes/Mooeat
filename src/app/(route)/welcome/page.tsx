@@ -15,7 +15,7 @@ const Welcome = () => {
           <Col xs={24} sm={24} md={24} lg={9} xl={9} xxl={9} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div style={{ fontSize: '2.25rem' }}>
               <div>반갑습니다</div>
-              <div style={{ fontWeight: 600, color: "#4f4791" }}>Mooeat</div>
+              <div style={{ fontWeight: 700, color: "#4f4791" }}>Mooeat</div>
               <div>입니다.</div>
             </div>
             <div style={{ marginTop: 20, color: 'grey' }}>
@@ -68,7 +68,7 @@ export default Welcome;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
 `
 
 const Explain = styled.div`

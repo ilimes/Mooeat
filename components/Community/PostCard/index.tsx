@@ -25,14 +25,14 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
       onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}>
       <Skeleton paragraph={{ rows: 3 }} loading={isLoading ? true : false} active>
         {/* 카테고리 영역 */}
-        <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 15, color: obj?.cate_color }}>
+        <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 15, color: obj?.cate_color }}>
           {obj?.cate_nm}
         </div>
         {/* 제목 및 내용 영역 */}
         <Meta title={obj?.title} description={obj?.content?.replace(/(<([^>]+)>)/gi, '')} />
         {/* 태그 영역 */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, fontSize: 12, margin: '15px 0' }}>
-          <div style={{ fontWeight: 800 }}>
+          <div style={{ fontWeight: 900 }}>
             TAG
           </div>
           {
@@ -75,6 +75,9 @@ const StyledCard = styled(Card) <{ background: string | null, catecolor: string 
     &:hover {
       border: 0.5px solid ${props => props.catecolor};
       cursor: pointer;
+    }
+    .ant-card-meta-title {
+      font-weight: 800;
     }
     .ant-card-meta-description {
       font-size: 14px;

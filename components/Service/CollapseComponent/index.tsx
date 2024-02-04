@@ -14,7 +14,7 @@ const StyledChildrenDiv = styled.div`
 
 const ChildDiv = ({ content }: { content: string | React.JSX.Element }) =>
   <StyledChildrenDiv>
-    <span style={{ fontWeight: 600, fontSize: 20, marginRight: 10 }}>A.</span> 
+    <span style={{ fontWeight: 700, fontSize: 20, marginRight: 10 }}>A.</span> 
     <div style={{ paddingTop: 3, marginLeft: 4 }}>{content}</div>
   </StyledChildrenDiv>
 
@@ -42,7 +42,7 @@ const CollapseComponent: React.FC = () => {
   }, [])
 
   return (
-    <StyledCollapse onChange={(e) => setOpenList(e)} expandIcon={() => <span style={{ fontWeight: 600, fontSize: 20, marginLeft: 15 }}>Q.</span>} ghost items={qnaList}/>
+    <StyledCollapse onChange={(e) => setOpenList(e)} expandIcon={() => <span style={{ fontWeight: 700, fontSize: 20, marginLeft: 15 }}>Q.</span>} ghost items={qnaList}/>
   )
 }
 

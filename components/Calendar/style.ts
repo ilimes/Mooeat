@@ -103,7 +103,7 @@ export const StyledCalendarWrapper = styled.div`
           margin-block-end: 10px;
           padding: 20px 6.6667px;
           font-size: 0.9rem;
-          font-weight: 600;
+          font-weight: 700;
           color: #1F2A3D;
         }
       
@@ -151,7 +151,7 @@ export const StyledToday = styled.div`
     && {
         font-size: x-small;
         color: #47408F;
-        font-weight: 600;
+        font-weight: 700;
         position: absolute;
         top: 50%;
         left: 50%;

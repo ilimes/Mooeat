@@ -158,7 +158,7 @@ export default Join;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 15px;
 `
 
@@ -170,7 +170,7 @@ const BtnGroup = styled.div`
 
 const StyledTitleDiv = styled.div`
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: #606060;
   padding-bottom: 5px;
 `

@@ -28,11 +28,11 @@ const Main: React.FC = () => {
               <Row style={{ alignItems: 'center' }}>
                 <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
                   <div
-                    style={{ fontSize: 20, fontWeight: "bold", color: "#212121" }}
+                    style={{ fontSize: 20, fontWeight: 800, color: "#212121" }}
                   >
                     식단공유
                   </div>
-                  <h1>
+                  <h1 style={{ fontWeight: 800 }}>
                     <span style={{ color: '#212529' }}>친구에게,</span>
                     <br />
                     <StyledSpan1>나의 식단</StyledSpan1><span style={{ color: '#212529' }}>을 공유해보세요.</span>
@@ -63,7 +63,7 @@ const Main: React.FC = () => {
                   >
                     건강정보
                   </div>
-                  <h1>
+                  <h1 style={{ fontWeight: 800 }}>
                     <StyledSpan2>건강 정보</StyledSpan2><span style={{ color: '#212529' }}>를,</span>
                     <br /><span style={{ color: '#212529' }}>다 같이 공유해보세요.</span>
                   </h1>
