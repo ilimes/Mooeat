@@ -1,7 +1,7 @@
 'use client'
 
 import { Button, Col, Row, Card, Popconfirm, Avatar, Empty, Input, message, Badge, Tabs, Spin } from "antd";
-import { UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
+import { UsergroupAddOutlined, UserOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import styled, { css } from "styled-components";
 import { useRouter } from "next/navigation";
 import { Dispatch, KeyboardEvent, SetStateAction, useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { FriendTypes } from "@/types/Friend/Friend.interface";
 import useIsMobile from "@/hooks/useIsMobile";
 import { deleteFriendData, loadFriendList, putFriendData, updateFriendData } from '@/api/Api';
+import moment from "moment";
 
 const Friends = () => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const Friends = () => {
   const [activeKey, setActiveKey] = useState('all');
   const [userId, setUserId] = useState<any>(null);
   const [clickSeq, setClickSeq] = useState<number | null>(null);
+  const [nowState, setNowState] = useState<string>('default');
   const [items, setItems] = useState<InfoTypes[]>([
     {
       key: 'all',
@@ -67,6 +69,45 @@ const Friends = () => {
   const onOpen = () => {
     setUserId(null);
     openModal();
+  }
+
+  const getStateInfo = () => {
+    let mod_dt = null;
+    let title = null;
+    let content = null;
+    if (nowState === 'sent') {
+      mod_dt = sentList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
+      title = '요청을 보냈습니다.'
+      content = '보낸 요청을 취소하시려면 `요청 취소` 버튼을 눌러주세요.'
+    }
+    if (nowState === 'received') {
+      mod_dt = receivedList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
+      title = '요청을 받았습니다.'
+      content = '요청을 수락하시려면 `요청 수락` 버튼을 눌러주세요.'
+    }
+    if (nowState === 'pure') {
+      mod_dt = pureFriendList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
+      title = '서로 친구입니다.'
+      content = <div>
+        <h3>회원 기본 정보</h3>
+        <div>이름: </div>
+        <div>아이디: </div>
+        <div>자기소개: </div>
+        <h3>최근 작성한 글</h3>
+        <div>목록</div>
+        <h3>최근 작성한 댓글</h3>
+        <div>목록</div>
+      </div>
+    }
+    return (
+      <>
+        <div>
+          <h2>{title}</h2>
+          <ClockCircleOutlined /> {moment(mod_dt).format('YYYY년 MM월 DD일  HH시mm분ss초')}
+          <div style={{ marginTop: 20 }}>{content}</div>
+        </div>
+      </>
+    )
   }
 
   const handleOnKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -164,6 +205,8 @@ const Friends = () => {
     }
   }, [status])
 
+  const props = { clickSeq, setClickSeq, updateFriend, deleteFriend, setNowState };
+
   return (
     <div>
       <Title>친구</Title>
@@ -179,7 +222,7 @@ const Friends = () => {
                   <Col span={24}>
                     <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
                       <div style={{ fontWeight: 600, margin: '0 auto' }}>받은 요청</div>
-                      {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} clickSeq={clickSeq} setClickSeq={setClickSeq} updateFriend={updateFriend} element={e} state={'received'} />)}
+                      {receivedList?.length != 0 && receivedList?.map((e: FriendTypes, i) => <Friend key={i} {...props} element={e} state={'received'} />)}
                     </Row>
                   </Col>
                 )
@@ -190,7 +233,7 @@ const Friends = () => {
                   <Col span={24}>
                     <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
                       <div style={{ fontWeight: 600, margin: '0 auto' }}>보낸 요청</div>
-                      {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} clickSeq={clickSeq} setClickSeq={setClickSeq} updateFriend={updateFriend} element={e} state={'sent'} />)}
+                      {sentList?.length != 0 && sentList?.map((e: FriendTypes, i) => <Friend key={i} {...props} element={e} state={'sent'} />)}
                     </Row>
                   </Col>
                 )
@@ -201,7 +244,7 @@ const Friends = () => {
                   <Col span={24}>
                     <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
                       <div style={{ fontWeight: 600, margin: '0 auto' }}>서로 친구</div>
-                      {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i} clickSeq={clickSeq} setClickSeq={setClickSeq} deleteFriend={deleteFriend} element={e} state={'pure'} />)}
+                      {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i}  {...props} element={e} state={'pure'} />)}
                     </Row>
                 </Col>
                 )
@@ -237,7 +280,10 @@ const Friends = () => {
                   <Button onClick={() => setClickSeq(null)}>돌아가기</Button>
                 </div>
               )}
-              {clickSeq}
+              <div style={{ marginTop: 20 }}>
+
+              </div>
+              {getStateInfo()}
             </Card>
           </Col>
         }
@@ -259,12 +305,12 @@ const Friends = () => {
   );
 };
 
-const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, state }: { clickSeq: number | null,setClickSeq: Dispatch<SetStateAction<number | null>>, updateFriend?: any, deleteFriend?: any, element: FriendTypes, state?: string }) => {
+const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, state, setNowState }: { clickSeq: number | null,setClickSeq: Dispatch<SetStateAction<number | null>>, updateFriend?: any, deleteFriend?: any, element: FriendTypes, state: string, setNowState: Dispatch<SetStateAction<string>>  }) => {
   const { Modal, isOpen, openModal, closeModal } = useModal();
   return (
     <>
       <Col span={24}>
-        <StyledCard className="fade" bodyStyle={{ padding: 15 }} onClick={() => setClickSeq(element?.to_user_seq)} $isClicked={clickSeq === element?.to_user_seq ? true : false}>
+        <StyledCard className="fade" bodyStyle={{ padding: 15 }} onClick={() => { setClickSeq(/* state === 'received' ? element?.from_user_seq : */ element?.to_user_seq); setNowState(state); }} $isClicked={clickSeq === element?.to_user_seq ? true : false}>
           <div style={{ display: 'flex', gap: 10 }}>
             <div>
               <Badge

@@ -57,7 +57,7 @@ const CarouselComponent = () => {
   const TextComponent = ({ e, i }: TextComponentTypes) => {
     return (
       <>
-        <div className={!titles ? 'title1' : 'no-show'}>
+        <div className={'title1'}>
           <span
             style={{
               fontWeight: 700,
@@ -71,13 +71,13 @@ const CarouselComponent = () => {
           </span>
         </div>
         <div
-          className={!titles ? 'title2' : 'no-show'}
+          className={'title2'}
           style={{ fontWeight: 100, color: "#fff", fontSize: 18 }}
         >
           {e?.bottomText}
         </div>
         <div
-          className={!titles ? 'title3' : 'no-show'}
+          className={'title3'}
           style={{
             fontWeight: 100,
             color: "#fff",
@@ -108,8 +108,7 @@ const CarouselComponent = () => {
                     transition: "0.35s",
                     height: 370,
                   }}
-                  beforeChange={(_, nextNumber) => { setNowIndex(nextNumber); setTitles(true); }}
-                  afterChange={() => setTitles(false)}
+                  beforeChange={(_, nextNumber) => { setNowIndex(nextNumber); }}
                   // fade
                 >
                   {

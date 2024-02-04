@@ -33,16 +33,16 @@ const Main: React.FC = () => {
                     식단공유
                   </div>
                   <h1>
-                    <span style={{ color: '#4e4e4e' }}>친구에게,</span>
+                    <span style={{ color: '#212529' }}>친구에게,</span>
                     <br />
-                    <StyledSpan1>나의 식단</StyledSpan1><span style={{ color: '#4e4e4e' }}>을 공유해보세요.</span>
+                    <StyledSpan1>나의 식단</StyledSpan1><span style={{ color: '#212529' }}>을 공유해보세요.</span>
                   </h1>
                   <div style={{ fontSize: 16, color: '#6b6d6d', lineHeight: 1.45 }}>
                     <div>등록된 친구와 서로 간편하게</div>
                     <div>식단을 공유할 수 있어요.</div>
                   </div>
                 </Col>
-                <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+                <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12} style={{ textAlign: 'center' }}>
                   <Image src={Image1} alt="image1" height={300} style={{ maxWidth: '100%' }} />
                 </Col>
               </Row>
@@ -64,15 +64,15 @@ const Main: React.FC = () => {
                     건강정보
                   </div>
                   <h1>
-                    <StyledSpan2>건강 정보</StyledSpan2><span style={{ color: '#4e4e4e' }}>를,</span>
-                    <br /><span style={{ color: '#4e4e4e' }}>다 같이 공유해보세요.</span>
+                    <StyledSpan2>건강 정보</StyledSpan2><span style={{ color: '#212529' }}>를,</span>
+                    <br /><span style={{ color: '#212529' }}>다 같이 공유해보세요.</span>
                   </h1>
                   <div style={{ fontSize: 16, color: '#6b6d6d', lineHeight: 1.45 }}>
                     <div>커뮤니티에서 건강 정보를</div>
                     <div>다 함께 공유할 수 있어요.</div>
                   </div>
                 </Col>
-                <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+                <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12} style={{ textAlign: 'center' }}>
                   <Image src={Image2} alt="image2" height={300} style={{ maxWidth: '100%' }} />
                 </Col>
               </Row>
@@ -88,7 +88,7 @@ export default Main;
 
 const StyledSpan1 = styled.span`
   && {
-    background: linear-gradient(to right, rgb(92, 71, 27), rgb(130, 100, 38));
+    background: linear-gradient(to right, rgb(167, 129, 55), rgb(161, 131, 98));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

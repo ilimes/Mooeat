@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import moment from 'moment';
+import { useRouter } from "next/navigation";
 
 interface DataType1 {
   board_seq: number,
@@ -20,13 +21,13 @@ interface DataType2 {
 }
 
 const columns1: TableColumnsType<DataType1> = [
-  {
-    title: '글번호',
-    dataIndex: 'board_seq',
-    key: 'board_seq',
-    width: 80,
-    align: 'center',
-  },
+  // {
+  //   title: '글번호',
+  //   dataIndex: 'board_seq',
+  //   key: 'board_seq',
+  //   width: 80,
+  //   align: 'center',
+  // },
   {
     title: '제목',
     dataIndex: 'title',
@@ -37,19 +38,20 @@ const columns1: TableColumnsType<DataType1> = [
     title: '작성일',
     dataIndex: 'reg_dt',
     key: 'reg_dt',
+    width: 140,
     align: 'center',
     render: (text) => moment(text).format("YYYY-MM-DD")
   },
 ]
 
 const columns2: TableColumnsType<DataType2> = [
-  {
-    title: '댓글번호',
-    dataIndex: 'comment_seq',
-    key: 'comment_seq',
-    width: 100,
-    align: 'center',
-  },
+  // {
+  //   title: '댓글번호',
+  //   dataIndex: 'comment_seq',
+  //   key: 'comment_seq',
+  //   width: 100,
+  //   align: 'center',
+  // },
   {
     title: '게시글 제목',
     dataIndex: 'board_title',
@@ -66,6 +68,7 @@ const columns2: TableColumnsType<DataType2> = [
     title: '작성일',
     dataIndex: 'reg_dt',
     key: 'reg_dt',
+    width: 140,
     align: 'center',
     render: (text) => moment(text).format("YYYY-MM-DD")
   },
@@ -74,6 +77,7 @@ const columns2: TableColumnsType<DataType2> = [
 const MyActivities = () => {
   const { data: session, status } = useSession();
   const token = session?.user?.info?.data?.token;
+  const router = useRouter();
 
   const [myBoardList, setMyBoardList] = useState<DataType1[] | []>([]);
   const [myCommentList, setMyCommentList] = useState<DataType2[] | []>([]);
@@ -104,7 +108,7 @@ const MyActivities = () => {
         {myBoardList?.length === 0 && (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
         )}
-        {myBoardList?.length != 0 && <Table rowKey={(record) => record?.board_seq} columns={columns1} dataSource={myBoardList} />}
+        {myBoardList?.length != 0 && <Table rowKey={(record) => record?.board_seq} columns={columns1} dataSource={myBoardList} pagination={{ pageSize: 5 }} onRow={(record, rowIndex) => ({onClick: () => { router.push(`/articles/${record?.board_seq}`) }})} />}
       </StyledBoxDiv>
       <SubTitle>내가 쓴 댓글</SubTitle>
       <StyledBoxDiv>

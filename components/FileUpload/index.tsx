@@ -113,7 +113,7 @@ const StyledSvg = styled.svg`
 
 const StyledLabel = styled.label`
     width: 100%;
-    height: 150px;
+    height: 167px;
     margin: auto;
     background-color: #fff;
     border-radius: 5px;
