@@ -55,7 +55,7 @@ const IpCountTable = () => {
     const sumCount = data?.length;
 
     const getData = async () => {
-      const result = await loadIpData(token);
+      const result = await loadIpData();
       setData(result?.list);
     }
 

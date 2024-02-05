@@ -12,6 +12,9 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useSession, signOut } from "next-auth/react";
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { UserInfoTypes } from "@/types/User/User.interface";
+import { MenuListTypes } from "@/types/Common/Common.interface";
+import { loadMenuList } from "@/api/Api";
+import { useQuery } from "@tanstack/react-query";
 
 const { Header } = Layout;
 
@@ -24,11 +27,17 @@ const HeaderPage = () => {
   const [userInfo, setUserInfo] = useRecoilState<UserInfoTypes | null>(userInfoState);
   const isLoading = useRecoilValue(userInfoLoadingState);
   const setNotiCollapsed = useSetRecoilState(notiCollapseState);
-  const menuList = useRecoilValue(menuState);
   const isMobile = useRecoilValue(isMobileState);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileImg = userInfo?.user_set?.file_path_thumb;
   const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+  const { data, isSuccess, isError } = useQuery({ queryKey: ['menuList'], queryFn: loadMenuList});
+  
+  const menuList = data?.list?.map((e: MenuListTypes) => ({
+    key: e.menu_path,
+    label: e.menu_nm,
+    onClick: () => router.push(e.menu_path),
+  }));
 
   const onClickLogo = () => {
     router.push("/");

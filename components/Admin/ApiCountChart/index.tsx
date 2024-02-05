@@ -26,15 +26,9 @@ const ApiCountChart = () => {
     const [type, setType] = useState<string>('day');
     const [sumCount, setSumCount] = useState(0);
 
-    // const getData = async () => {
-    //   const formData = { type, year }
-    //   const result = await fetchApiData(formData);
-    //   setData(result?.list);
-    //   setSumCount(result?.sum_count);
-    // }
     const getData = async () => {
       const formData: { type: string, year: number } = { type, year }
-      const result = await loadApiData(formData, token);
+      const result = await loadApiData(formData);
       setData(result?.list);
       setSumCount(result?.sum_count);
     }

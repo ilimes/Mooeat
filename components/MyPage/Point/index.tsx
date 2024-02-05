@@ -17,8 +17,7 @@ const Point = () => {
 
   const getUserInfoData = async () => {
     // TODO: 카카오 로그인으 경우 token 처리, info 어떻게 불러올 것인지 설정
-    // const result = await fetchUserInfoData({ token });
-    const result = await loadUserInfoData({}, token);
+    const result = await loadUserInfoData({});
     if (result?.success) {
       setPoint(result?.user_info?.point)
     } else {

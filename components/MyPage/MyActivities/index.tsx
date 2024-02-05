@@ -83,8 +83,8 @@ const MyActivities = () => {
   const [myCommentList, setMyCommentList] = useState<DataType2[] | []>([]);
 
   const getMyBoardAndCommentList = async () => {
-    const boardResult = await loadMyBoardList(token);
-    const commentResult = await loadMyCommentList(token);
+    const boardResult = await loadMyBoardList();
+    const commentResult = await loadMyCommentList();
 
     if (boardResult?.success) {
       setMyBoardList(boardResult?.list);

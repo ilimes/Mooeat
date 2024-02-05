@@ -7,6 +7,7 @@ import StyledComponentsRegistryAnt from "@/lib/AntdRegistry";
 import StyledComponentsRegistry from "@/lib/Registry";
 import { ConfigProvider } from "antd";
 import theme from "../../theme/themeConfig";
+import ReactQueryProvider from "@/lib/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: "Mooeat",
@@ -28,15 +29,17 @@ export default function RootLayout({
       <body>
         <main>
           <SessionProvider>
-            <RecoilRootProvider>
-              <StyledComponentsRegistry>
-                <StyledComponentsRegistryAnt>
-                  <ConfigProvider theme={theme}>
-                    <CustomLayout>{children}</CustomLayout>
-                  </ConfigProvider>
-                </StyledComponentsRegistryAnt>
-              </StyledComponentsRegistry>
-            </RecoilRootProvider>
+            <ReactQueryProvider>
+              <RecoilRootProvider>
+                <StyledComponentsRegistry>
+                  <StyledComponentsRegistryAnt>
+                    <ConfigProvider theme={theme}>
+                      <CustomLayout>{children}</CustomLayout>
+                    </ConfigProvider>
+                  </StyledComponentsRegistryAnt>
+                </StyledComponentsRegistry>
+              </RecoilRootProvider>
+            </ReactQueryProvider>
           </SessionProvider>
         </main>
       </body>

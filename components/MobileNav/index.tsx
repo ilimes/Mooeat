@@ -18,6 +18,9 @@ import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { collapseState, menuState, userInfoState } from "@/recoil/states";
+import { useQuery } from "@tanstack/react-query";
+import { loadMenuList } from "@/api/Api";
+import { MenuListTypes } from "@/types/Common/Common.interface";
 
 const { Sider } = Layout;
 
@@ -28,7 +31,13 @@ const MobileNav = () => {
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  const menuList = useRecoilValue(menuState);
+  const { data, isSuccess, isError } = useQuery({ queryKey: ['menuList'], queryFn: loadMenuList});
+  
+  const menuList = data?.list?.map((e: MenuListTypes) => ({
+    key: e.menu_path,
+    label: e.menu_nm,
+    onClick: () => router.push(e.menu_path),
+  }));
 
   const onClickLogo = () => {
     router.push('/');

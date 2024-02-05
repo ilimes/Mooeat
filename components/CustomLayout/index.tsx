@@ -19,7 +19,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
   const token = session?.user?.info?.data?.token;
 
   const getUserInfoData = async () => {
-    const result = await loadUserInfoData({}, token);
+    const result = await loadUserInfoData({});
     if (result?.success) {
       setUserInfo(result?.user_info)
     } else {
