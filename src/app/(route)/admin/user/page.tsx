@@ -15,7 +15,6 @@ const User = () => {
   const [userList, setUserList] = useState<UserInfoTypes[]>([]);
   
   const getUserList = async () => {
-    // const result = await fetchUserList();
     const result = await loadUserList();
     setUserList(result?.list)
   }

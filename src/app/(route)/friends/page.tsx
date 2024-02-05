@@ -40,6 +40,7 @@ const Friends = () => {
       label: '서로 친구',
     },
   ]);
+  
   const [friendList, setFriendList] = useState<FriendTypes[]>([]);
   const user_seq = session?.user?.info?.userInfo?.user_seq;
 

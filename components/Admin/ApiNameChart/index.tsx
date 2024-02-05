@@ -29,7 +29,7 @@ const ApiCountChart = () => {
     const getData = async () => {
       const formData = { type, group: true, year }
       // const result = await fetchApiData(formData);
-      const result = await loadApiData(formData, token);
+      const result = await loadApiData(formData);
       setData(result?.list);
     }
 

@@ -19,7 +19,7 @@ const AccountManagement = () => {
   const [userInfo, setUserInfo] = useRecoilState<UserInfoTypes | null>(userInfoState);
 
   const getUserInfoData = async () => {
-    const result = await loadUserInfoData({}, token);
+    const result = await loadUserInfoData({});
     if (result?.success) {
       setUserInfo(result?.user_info)
     } else {
