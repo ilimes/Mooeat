@@ -3,7 +3,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import Buttons from "./Buttons";
-import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver2";
 import { useRef } from "react";
 import Content from "../SharedComponents/Content";
 import Image1 from '@/public/img/main/img1.png'
@@ -53,7 +53,6 @@ const Main: React.FC = () => {
           <Content>
             <div
               ref={ref}
-              className={visible ? "fade" : "default"}
               style={{ margin: "0 auto", maxWidth: 1200, padding: "0 16px" }}
             >
               <Row style={{ alignItems: 'center' }}>

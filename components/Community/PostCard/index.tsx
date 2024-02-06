@@ -20,6 +20,7 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
 
   return (
     <StyledCard
+      className='fade-slow'
       catecolor={obj?.cate_color || null}
       background={obj?.bg_color || null}
       onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}>

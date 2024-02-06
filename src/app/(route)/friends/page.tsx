@@ -40,7 +40,7 @@ const Friends = () => {
       label: '서로 친구',
     },
   ]);
-  
+
   const [friendList, setFriendList] = useState<FriendTypes[]>([]);
   const user_seq = session?.user?.info?.userInfo?.user_seq;
 
@@ -78,8 +78,8 @@ const Friends = () => {
     let content = null;
     if (nowState === 'sent') {
       mod_dt = sentList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
-      title = '요청을 보냈습니다.'
-      content = '보낸 요청을 취소하시려면 `요청 취소` 버튼을 눌러주세요.'
+      title = '요청을 보낸 친구입니다.'
+      content = <div><div>상대방이 요청을 수락하면 서로 친구가 맺어집니다.</div><div>보낸 요청을 취소하시려면 `요청 취소` 버튼을 눌러주세요.</div></div>
     }
     if (nowState === 'received') {
       mod_dt = receivedList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
@@ -89,15 +89,29 @@ const Friends = () => {
     if (nowState === 'pure') {
       mod_dt = pureFriendList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
       title = '서로 친구입니다.'
-      content = <div>
-        <h3>회원 기본 정보</h3>
-        <div>이름: </div>
-        <div>아이디: </div>
-        <div>자기소개: </div>
-        <h3>최근 작성한 글</h3>
-        <div>목록</div>
-        <h3>최근 작성한 댓글</h3>
-        <div>목록</div>
+      content = <div style={{ display: 'flex', flexDirection: 'column', gap: 20}}>
+        <StyledCard
+          title='회원 기본 정보'
+          $isClicked={true}
+        >
+          <div>
+            <div>이름: </div>
+            <div>아이디: </div>
+            <div>자기소개: </div>
+          </div>
+        </StyledCard>
+        <StyledCard
+          title='최근 작성한 글'
+          $isClicked={true}
+        >
+          <div>목록</div>
+        </StyledCard>
+        <StyledCard
+          title='최근 작성한 댓글'
+          $isClicked={true}
+        >
+          <div>목록</div>
+        </StyledCard>
       </div>
     }
     return (
@@ -118,6 +132,11 @@ const Friends = () => {
   };
 
   const onClickReg = async () => {
+    if (userId === session?.user?.info?.userInfo?.user_id) {
+      message.warning('자기 자신은 친구로 등록할 수 없습니다.');
+      return;
+    }
+
     if (!userId) {
       message.warning('등록할 이메일을 입력해주세요.');
       return;
@@ -128,7 +147,6 @@ const Friends = () => {
       from_user_seq: user_seq
     };
 
-    // const result = await fetchFriendData(formData);
     const result = await putFriendData(formData);
     if (result?.success) {
       message.success("등록되었습니다.");
@@ -140,7 +158,6 @@ const Friends = () => {
   }
 
   const getFriendList = async () => {
-    // const result = await fetchFriendList(user_seq);
     const formData = { user_seq };
     const result = await loadFriendList(formData);
     setFriendList(result?.list)
@@ -151,7 +168,7 @@ const Friends = () => {
       message.warning("seq가 존재하지 않습니다.");
       return;
     }
-    
+
     if (!type) {
       message.warning("type이 존재하지 않습니다.");
       return;
@@ -178,14 +195,14 @@ const Friends = () => {
       message.warning("to_user_seq가 존재하지 않습니다.");
       return;
     }
-    
+
     if (!isBlock) {
       message.warning("isBlock이 존재하지 않습니다.");
       return;
     }
 
-    const formData = { 
-      to_user_seq, 
+    const formData = {
+      to_user_seq,
       from_user_seq: user_seq,
       isBlock
     };
@@ -240,14 +257,14 @@ const Friends = () => {
                 )
               }
               {
-                pureCondition && 
+                pureCondition &&
                 (
                   <Col span={24}>
                     <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
                       <div style={{ fontWeight: 700, margin: '0 auto' }}>서로 친구</div>
                       {pureFriendList?.length != 0 && pureFriendList?.map((e: FriendTypes, i) => <Friend key={i}  {...props} element={e} state={'pure'} />)}
                     </Row>
-                </Col>
+                  </Col>
                 )
               }
               {(status === 'authenticated' && (!friendList?.length || allCondition)) ?
@@ -258,7 +275,7 @@ const Friends = () => {
                 : ""
               }
               {status === 'loading' && (
-                
+
                 <Spin style={{ display: 'flex', flex: 1, height: 150, justifyContent: 'center', alignItems: 'center' }} />
               )}
             </Row>
@@ -306,7 +323,7 @@ const Friends = () => {
   );
 };
 
-const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, state, setNowState }: { clickSeq: number | null,setClickSeq: Dispatch<SetStateAction<number | null>>, updateFriend?: any, deleteFriend?: any, element: FriendTypes, state: string, setNowState: Dispatch<SetStateAction<string>>  }) => {
+const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, state, setNowState }: { clickSeq: number | null, setClickSeq: Dispatch<SetStateAction<number | null>>, updateFriend?: any, deleteFriend?: any, element: FriendTypes, state: string, setNowState: Dispatch<SetStateAction<string>> }) => {
   const { Modal, isOpen, openModal, closeModal } = useModal();
   return (
     <>
@@ -386,7 +403,7 @@ const StyledOutDiv = styled.div`
   }
 `
 
-const StyledCard = styled(Card)<{$isClicked: boolean}>`
+const StyledCard = styled(Card) <{ $isClicked: boolean }>`
   && {
     ${props => (props.$isClicked) && css`
       border: 1px solid black;

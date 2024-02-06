@@ -5,11 +5,13 @@ import { FormOutlined, AppstoreOutlined, UnorderedListOutlined, AppstoreFilled }
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import PostCard from '@/components/Community/PostCard';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PostList from "@/components/Community/PostList";
 import { BoardTypes } from '@/types/Board/Board.interface';
 import { loadBoardList, loadInfoList, loadTagsTop5 } from '@/api/Api';
 import { useSession } from 'next-auth/react';
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 interface IInfoTypes {
   key: string;
@@ -21,6 +23,7 @@ interface IInfoTypes {
 
 const Community = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { data: session, status } = useSession();
   const [activeKey, setActiveKey] = useState('all');
   const [type, setType] = useState('tile');
@@ -33,19 +36,48 @@ const Community = () => {
       order: undefined,
     }
   ]);
-  const [boardList, setBoardList] = useState<BoardTypes[]>([]);
+
   const [top5TagList, setTop5TagList] = useState<any>([]);
+  const {
+    data: boardList,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status: infiniteStatus,
+  } = useInfiniteQuery({
+    queryKey: ['boardList'],
+    queryFn: ({ pageParam }) => {
+      let formData: { cate_seq_to_exclude?: number[], cate_seq?: number, paging_yn?: string, size?: number, page?: number } = {
+        cate_seq_to_exclude: [4, 5],
+        paging_yn: 'Y',
+        size: 8,
+        page: pageParam
+      }
+      if (activeKey != 'all') {
+        formData.cate_seq = Number(activeKey)
+      }
+      return loadBoardList(formData);
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => {
+      const maxPage = pages?.[0]?.pageInfo?.maxPage;
+      const prevPage = lastPage?.pageInfo?.page;
+      const isLastPage = 
+        lastPage.list.length < 8 || prevPage === maxPage;
+      return isLastPage ? undefined : pages.length + 1;
+    },
+  })
 
   const onChange = (key: string) => {
     setActiveKey(key);
   };
 
-  const defaultFilterCateList = ['4', '5'];
-  const filteredArr = boardList?.length ? boardList?.filter((e: any) => activeKey === 'all' ? !defaultFilterCateList?.includes(String(e?.cate_seq)) : String(e?.cate_seq) === activeKey) : new Array(8).fill(null);
+  const filteredArr = boardList?.pages ? boardList?.pages?.flatMap((e: any) => e?.list) : new Array(8).fill(null);
   const colSpan = type === 'tile' ? [8, 6] : [24, 24]
   
   const getInfoList = async () => {
-    // const result = await fetchInfoList();
     const result = await loadInfoList();
     setItems([...items, ...result?.list?.map((e: any) => ({
       key: `${e.cate_seq}`,
@@ -56,23 +88,27 @@ const Community = () => {
     }))])
   }
 
-  const getBoardList = async () => {
-    // const result = await fetchBoardList();
-    const result = await loadBoardList();
-    setBoardList(result?.list)
-  }
-
   const getTagsTop5 = async () => {
-    // const result = await fetchBoardList();
     const result = await loadTagsTop5();
     setTop5TagList(result?.list)
   }
 
   useEffect(() => {
     getInfoList();
-    getBoardList();
     getTagsTop5();
   }, [])
+
+  useEffect(() => {
+    queryClient.removeQueries({
+      queryKey: ['boardList']
+    })
+    fetchNextPage();
+  }, [activeKey])
+  
+  const { setTarget } = useIntersectionObserver({
+    hasNextPage,
+    fetchNextPage,
+  });
 
   return (
     <div>
@@ -80,7 +116,6 @@ const Community = () => {
       <Explain>커뮤니티에서 자유롭게 이야기를 나눠보세요 :)</Explain>
       <Button
         type="primary"
-        // htmlType="submit"
         disabled={status != 'authenticated' ? true : false}
         onClick={() => router.push('/articles/write')}
         style={{ width: 125, height: 47, fontWeight: "bold", fontSize: 16 }}
@@ -146,9 +181,9 @@ const Community = () => {
               }
             </>
           </Col>
-        )
-            })}
+        )})}
       </Row>
+      <div ref={setTarget}></div>
     </div>
   );
 };

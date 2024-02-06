@@ -58,7 +58,6 @@ const Articles = () => {
 
   const getArticleData = async () => {
     const formData = { board_num: id };
-    // const result = await fetchArticleData(formData);
     const result = await loadArticleData(formData);
     if (result?.success) {
       setData(result?.data);
@@ -70,7 +69,6 @@ const Articles = () => {
 
   const getCommentList = async () => {
     const formData = { board_num: id };
-    // const result = await fetchCommentList(formData);
     const result = await loadCommentList(formData);
     if (result?.success) {
       setCommentList(result?.list);
@@ -82,7 +80,6 @@ const Articles = () => {
   const getRegUserInfo = async (user_seq: number) => {
     const formData = { user_seq };
     // 작성자 정보 조회
-    // const result = await fetchRegUserInfo(formData);
     const result = await loadRegUserInfo(formData);
     if (result?.success) {
       setRegUserInfo(result?.data);
@@ -204,8 +201,8 @@ const Articles = () => {
           댓글 {commentList?.length}
         </div>
         {commentList?.map((e: CommentTypes, i: number) => (
-          <>
-            <div key={i} style={{ display: "flex", marginBottom: 40 }}>
+          <div key={i}>
+            <div style={{ display: "flex", marginBottom: 40 }}>
               <div style={{ marginRight: 10 }}>
                 <Avatar size={55} icon={<UserOutlined />} />
               </div>
@@ -231,11 +228,11 @@ const Articles = () => {
             </div>
             {
               (e?.comment_seq === selectedCommentSeq) &&
-              <ReplyDiv session={session} router={router} isPadding={true} />
+              <ReplyDiv key={'subReply'} session={session} router={router} isPadding={true} />
             }
-          </>
+          </div>
         ))}
-        <ReplyDiv session={session} router={router} isPadding={false} />
+        <ReplyDiv key={'mainReply'} session={session} router={router} isPadding={false} />
         <div style={{ textAlign: "right" }}>
           <Button
             style={{ height: 35, fontSize: 14, fontWeight: 800 }}

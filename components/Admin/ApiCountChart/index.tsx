@@ -41,7 +41,7 @@ const ApiCountChart = () => {
 
     return (
       <>
-        <div style={{ marginBottom: 10, fontWeight: 400, fontSize: 13, color: 'grey' }}>총 {sumCount}회</div>
+        <div style={{ marginBottom: 10, fontWeight: 400, fontSize: 13, color: 'grey' }}>총 {Number(sumCount)?.toLocaleString()}회</div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 20 }}>
           <Select options={options} value={year} onChange={(e) => setYear(e)} style={{ width: 85 }} size="large" />
           <Radio.Group value={type} size="large" onChange={(e) => setType(e.target.value)}>

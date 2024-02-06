@@ -67,7 +67,7 @@ const IpCountTable = () => {
 
     return (
       <>
-        <div style={{ marginBottom: 10, fontWeight: 400, fontSize: 13, color: 'grey' }}>총 {sumCount}회</div>
+        <div style={{ marginBottom: 10, fontWeight: 400, fontSize: 13, color: 'grey' }}>총 {Number(sumCount)?.toLocaleString()}개</div>
         <Row>
           <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
             <Table rowKey={(record) => record?.idx} columns={columns} dataSource={data} />

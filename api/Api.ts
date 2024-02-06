@@ -95,7 +95,7 @@ export const loadInfoList = async () => {
  * @param formData 
  * @returns data
  */
-export const loadBoardList = async (formData?: { cate_seq: number }) => {
+export const loadBoardList = async (formData?: { cate_seq?: number, cate_seq_to_exclude?: number[], pading_yn?: string }) => {
     return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/list`, formData || {})
                       .then(res => res?.data)
                       .catch(err => console.error(err));

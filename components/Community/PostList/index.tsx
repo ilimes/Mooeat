@@ -18,7 +18,7 @@ const PostList = ({ obj }: { obj: BoardTypes }) => {
   const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
+    <div className='fade-slow' style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
       <div>
         <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
           <div>

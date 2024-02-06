@@ -33,7 +33,7 @@ const Login = () => {
       <Explain>Mooeat에 로그인 합니다.</Explain>
       <div style={{ margin: '40px 0' }}>
         <RegisterButton icon={<Kakao style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom', fill: '#3C1E1E' }} />} onClick={() => signIn('kakao')} style={{ background: '#FAE100', color: '#3C1E1E' }}>카카오로 로그인</RegisterButton>
-        <RegisterButton icon={<GoogleIcon style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />} onClick={() => message.info('준비중 입니다.')}>구글로 로그인</RegisterButton>
+        <RegisterButton icon={<GoogleIcon style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />} onClick={() => signIn('google')}>구글로 로그인</RegisterButton>
         <RegisterButton type="primary" icon={<Mail style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />} onClick={() => router.push('/auth/login/email')}>이메일로 로그인</RegisterButton>
       </div>
       <BtnGroup>
