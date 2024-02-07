@@ -12,10 +12,6 @@ import { FriendTypes } from "@/types/Friend/Friend.interface";
 import useIsMobile from "@/hooks/useIsMobile";
 import { deleteFriendData, loadFriendList, loadRegUserInfo, putFriendData, updateFriendData } from '@/api/Api';
 import moment from "moment";
-import Image from "next/image";
-import FriendImg from '/public/img/friend/friend1.png';
-import AgreeImg1 from '/public/img/friend/agree1.png';
-import AgreeImg2 from '/public/img/friend/agree2.png';
 import { DataType1, DataType2 } from "@/types/Board/Board.interface";
 
 const Friends = () => {
@@ -95,17 +91,17 @@ const Friends = () => {
     let content = null;
     if (nowState === 'sent') {
       mod_dt = sentList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
-      title = <><Image src={AgreeImg1} width={32} height={32} alt='agree1' />요청을 보낸 친구입니다.</>
+      title = <><img src={'/img/friend/agree1.png'} width={32} height={32} alt='agree1' />요청을 보낸 친구입니다.</>
       content = <div><div>상대방이 요청을 수락하면 서로 친구가 맺어집니다.</div><div>보낸 요청을 취소하시려면 `요청 취소` 버튼을 눌러주세요.</div></div>
     }
     if (nowState === 'received') {
       mod_dt = receivedList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
-      title = <><Image src={AgreeImg2} width={32} height={32} alt='agree2' />요청을 받았습니다.</>
+      title = <><img src={'/img/friend/agree2.png'} width={32} height={32} alt='agree2' />요청을 받았습니다.</>
       content = '요청을 수락하시려면 `요청 수락` 버튼을 눌러주세요.'
     }
     if (nowState === 'pure') {
       mod_dt = pureFriendList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
-      title = <><Image src={FriendImg} width={32} height={32} alt='friend' />서로 친구입니다.</>
+      title = <><img src={'/img/friend/friend1.png'} width={32} height={32} alt='friend' />서로 친구입니다.</>
       content = <div style={{ display: 'flex', flexDirection: 'column', gap: 20}}>
         <StyledCard
           title='회원 기본 정보'
