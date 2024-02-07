@@ -60,8 +60,9 @@ const HeaderPage = () => {
     width: "100%",
     display: "flex",
     alignItems: "center",
-    background: "#fff",
+    background: "rgba(255, 255, 255, 0.7)",
     boxShadow: "0 1px 5px rgba(57, 63, 72, 0.2)",
+    backdropFilter: "blur(3px)",
     padding: 16,
   }
 
@@ -69,7 +70,7 @@ const HeaderPage = () => {
     <Header
       style={HeaderStyle}
     >
-      <div className="pc-menu-btn">
+      <div className="pc-menu-btn" style={{ background: ''}}>
         <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
         <>
           <Menu
@@ -77,7 +78,7 @@ const HeaderPage = () => {
             mode="horizontal"
             selectedKeys={selectedKeys}
             items={menuList}
-            style={{ width: "100%", fontWeight: 800, fontSize: 18 }}
+            style={{ width: "100%", fontWeight: 800, fontSize: 18, background: 'none' }}
             onSelect={(e) => setSelectedKeys([e?.key])}
           />
           {status != "loading" && (
@@ -467,6 +468,7 @@ const StyledLogo = styled(Image)`
     margin-right: 20px;
     font-size: 20px;
     cursor: pointer;
+    background:
   }
 `;
 

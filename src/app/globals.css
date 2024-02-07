@@ -85,7 +85,6 @@ body {
 .pc-menu-btn {
     display: none;
     justify-content: center;
-    background: #fff;
     margin: 0 auto;
     width: 1200px;
     @media (min-width: 991px) {
@@ -96,7 +95,6 @@ body {
 .mobile-btn {
     justify-content: center;
     display: flex;
-    background: #fff;
     margin: 0 auto;
     width: 1200px;
     @media (min-width: 991px) {
