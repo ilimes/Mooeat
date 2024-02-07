@@ -272,7 +272,7 @@ export const uploadFile = async (files: File, token: string) => {
 
     const formData = new FormData();
     formData.append('file', files);
-    return await axios.put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/file/put`, formData, header)
+    return await axios.post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/file/put`, formData, header)
                       .then(res => res?.data)
                       .catch(err => console.error(err));
 }
