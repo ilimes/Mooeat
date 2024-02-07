@@ -82,6 +82,11 @@ body {
     opacity: 0;
 }
 
+.main-header {
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
 .pc-menu-btn {
     display: none;
     justify-content: center;

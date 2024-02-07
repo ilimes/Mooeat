@@ -62,12 +62,12 @@ const HeaderPage = () => {
     alignItems: "center",
     background: "rgba(255, 255, 255, 0.7)",
     boxShadow: "0 1px 5px rgba(57, 63, 72, 0.2)",
-    backdropFilter: "blur(3px)",
     padding: 16,
   }
 
   return (
     <Header
+      className="main-header"
       style={HeaderStyle}
     >
       <div className="pc-menu-btn">
