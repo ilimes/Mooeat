@@ -427,12 +427,12 @@ const ReplyDiv = ({session, router, getCommentList, isPadding}: {session: Sessio
                   gap: 15,
                 }}
               >
-                <div style={{ display: "flex", gap: 5 }}>
+                {/* <div style={{ display: "flex", gap: 5 }}>
                   <Checkbox />
                   <div style={{ display: "flex", alignItems: "self-end" }}>
                     비밀글
                   </div>
-                </div>
+                </div> */}
                 <Button
                   type="primary"
                   style={{ height: 45, fontSize: 15, fontWeight: 800 }}

@@ -51,11 +51,12 @@ const MyInfo = ({ userInfo, getUserInfoData }: { userInfo: UserInfoTypes | null,
   const [imgFile, setImgFile] = useState<FileTypes>({ url: null });
   const profileImg = userInfo?.user_set?.file_path_thumb;
   const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
-  const isDefault = changeData?.del_file_yn === 'Y';
+  const isDefault = changeData?.del_file_yn === 'Y' ? true : false;
   const imgRef = useRef<HTMLInputElement>(null);
-
+  
   // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
+    setChangeData({...changeData, del_file_yn: 'N'});
     if (imgRef.current) {
       if (!imgRef.current.files?.length) return;
       
