@@ -13,9 +13,9 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { deleteFriendData, loadFriendList, loadRegUserInfo, putFriendData, updateFriendData } from '@/api/Api';
 import moment from "moment";
 import Image from "next/image";
-import FriendImg from '@/public/img/friend/friend1.png';
-import AgreeImg1 from '@/public/img/friend/agree1.png';
-import AgreeImg2 from '@/public/img/friend/agree2.png';
+import FriendImg from '../../../../public/img/friend/friend1.png';
+import AgreeImg1 from '../../../..//public/img/friend/agree1.png';
+import AgreeImg2 from '../../../..//public/img/friend/agree2.png';
 import { DataType1, DataType2 } from "@/types/Board/Board.interface";
 
 const Friends = () => {
