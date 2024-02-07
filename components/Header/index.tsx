@@ -70,7 +70,7 @@ const HeaderPage = () => {
     <Header
       style={HeaderStyle}
     >
-      <div className="pc-menu-btn" style={{ background: ''}}>
+      <div className="pc-menu-btn">
         <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
         <>
           <Menu
