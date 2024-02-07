@@ -91,6 +91,7 @@ const MyInfo = ({ userInfo, getUserInfoData }: { userInfo: UserInfoTypes | null,
     if (file_cd) {
       formData.file_cd = file_cd;
     } 
+    console.log(file_cd)
     const updateResult = await updateUser(formData, token);
     if (updateResult?.success) {
       getUserInfoData();
