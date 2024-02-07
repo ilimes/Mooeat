@@ -1,4 +1,3 @@
-//IObjTypes
 export interface BoardTypes {
     board_seq: number;
     bg_color: string | undefined;
@@ -53,4 +52,18 @@ export interface RegUserInfoTypes {
             reg_dt: string
         }
     ]
+}
+
+export interface DataType1 {
+    board_seq: number,
+    title: string;
+    reg_dt: string;
+}
+
+export interface DataType2 {
+    comment_seq: number,
+    board_seq: number;
+    board_title: string;
+    content: string;
+    reg_dt: string;
 }

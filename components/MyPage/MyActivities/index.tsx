@@ -5,29 +5,9 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import moment from 'moment';
 import { useRouter } from "next/navigation";
-
-interface DataType1 {
-  board_seq: number,
-  title: string;
-  reg_dt: string;
-}
-
-interface DataType2 {
-  comment_seq: number,
-  board_seq: number;
-  board_title: string;
-  content: string;
-  reg_dt: string;
-}
+import { DataType1, DataType2 } from "@/types/Board/Board.interface";
 
 const columns1: TableColumnsType<DataType1> = [
-  // {
-  //   title: '글번호',
-  //   dataIndex: 'board_seq',
-  //   key: 'board_seq',
-  //   width: 80,
-  //   align: 'center',
-  // },
   {
     title: '제목',
     dataIndex: 'title',
@@ -45,13 +25,6 @@ const columns1: TableColumnsType<DataType1> = [
 ]
 
 const columns2: TableColumnsType<DataType2> = [
-  // {
-  //   title: '댓글번호',
-  //   dataIndex: 'comment_seq',
-  //   key: 'comment_seq',
-  //   width: 100,
-  //   align: 'center',
-  // },
   {
     title: '게시글 제목',
     dataIndex: 'board_title',

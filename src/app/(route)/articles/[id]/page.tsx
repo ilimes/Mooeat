@@ -138,7 +138,7 @@ const Articles = () => {
       </Skeleton>
       {/* 컨텐츠 영역 */}
       <Skeleton paragraph={{ rows: 3 }} loading={!data ? true : false} active>
-        <div dangerouslySetInnerHTML={{__html: data?.content ?? ''}} style={{ whiteSpace: "normal" }}></div>
+        <div dangerouslySetInnerHTML={{__html: data?.content ?? ''}} style={{ whiteSpace: "normal", lineHeight: 1.23 }}></div>
       </Skeleton>
       {/* 태그 영역 */}
       <div
@@ -251,8 +251,8 @@ export default Articles;
 
 const Title = styled.div`
   font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 20px;
+  font-weight: 800;
+  margin-bottom: 40px;
   && {
     overflow: hidden;
     white-space: nowrap;

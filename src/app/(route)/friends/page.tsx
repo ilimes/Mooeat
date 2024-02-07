@@ -1,7 +1,7 @@
 'use client'
 
-import { Button, Col, Row, Card, Popconfirm, Avatar, Empty, Input, message, Badge, Tabs, Spin } from "antd";
-import { UsergroupAddOutlined, UserOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { Button, Col, Row, Card, Popconfirm, Avatar, Empty, Input, message, Badge, Tabs, Spin, TableColumnsType, Table } from "antd";
+import { UsergroupAddOutlined, UserOutlined, ClockCircleOutlined, LeftOutlined } from '@ant-design/icons';
 import styled, { css } from "styled-components";
 import { useRouter } from "next/navigation";
 import { Dispatch, KeyboardEvent, SetStateAction, useEffect, useState } from "react";
@@ -10,8 +10,13 @@ import { InfoTypes } from '@/types/Common/Common.interface';
 import { useSession } from "next-auth/react";
 import { FriendTypes } from "@/types/Friend/Friend.interface";
 import useIsMobile from "@/hooks/useIsMobile";
-import { deleteFriendData, loadFriendList, putFriendData, updateFriendData } from '@/api/Api';
+import { deleteFriendData, loadFriendList, loadRegUserInfo, putFriendData, updateFriendData } from '@/api/Api';
 import moment from "moment";
+import Image from "next/image";
+import FriendImg from '@/public/img/friend/friend1.png';
+import AgreeImg1 from '@/public/img/friend/agree1.png';
+import AgreeImg2 from '@/public/img/friend/agree2.png';
+import { DataType1, DataType2 } from "@/types/Board/Board.interface";
 
 const Friends = () => {
   const router = useRouter();
@@ -44,6 +49,8 @@ const Friends = () => {
   const [friendList, setFriendList] = useState<FriendTypes[]>([]);
   const user_seq = session?.user?.info?.userInfo?.user_seq;
 
+  const [clickUserInfo, setClickUserInfo] = useState<any>(null);
+
   // 받은 요청 리스트
   const receivedList = friendList?.filter(e => e.from_user_seq === user_seq && e?.agree === 'N' && e?.other_agree === 'Y');
 
@@ -72,43 +79,68 @@ const Friends = () => {
     openModal();
   }
 
+  const getRegUserInfo = async (user_seq: number) => {
+    const formData = { user_seq };
+    const result = await loadRegUserInfo(formData);
+    if (result?.success) {
+      setClickUserInfo(result?.data);
+    } else {
+      alert(result?.err || "에러발생");
+    }
+  };
+
   const getStateInfo = () => {
     let mod_dt = null;
     let title = null;
     let content = null;
     if (nowState === 'sent') {
       mod_dt = sentList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
-      title = '요청을 보낸 친구입니다.'
+      title = <><Image src={AgreeImg1} width={32} height={32} alt='agree1' />요청을 보낸 친구입니다.</>
       content = <div><div>상대방이 요청을 수락하면 서로 친구가 맺어집니다.</div><div>보낸 요청을 취소하시려면 `요청 취소` 버튼을 눌러주세요.</div></div>
     }
     if (nowState === 'received') {
       mod_dt = receivedList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
-      title = '요청을 받았습니다.'
+      title = <><Image src={AgreeImg2} width={32} height={32} alt='agree2' />요청을 받았습니다.</>
       content = '요청을 수락하시려면 `요청 수락` 버튼을 눌러주세요.'
     }
     if (nowState === 'pure') {
       mod_dt = pureFriendList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
-      title = '서로 친구입니다.'
+      title = <><Image src={FriendImg} width={32} height={32} alt='friend' />서로 친구입니다.</>
       content = <div style={{ display: 'flex', flexDirection: 'column', gap: 20}}>
         <StyledCard
           title='회원 기본 정보'
           $isClicked={true}
+          style={{ border: '1px solid #eee', boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)' }}
         >
-          <div>
-            <div>이름: </div>
-            <div>아이디: </div>
-            <div>자기소개: </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
+            <div>
+              <b>이름</b>
+              <div>{clickUserInfo?.user_info?.user_nm}</div>
+            </div>
+            <div>
+              <b>아이디</b>
+              <div>{clickUserInfo?.user_info?.user_id}</div>
+            </div>
+            <div>
+              <b>자기소개</b>
+              <div>{clickUserInfo?.user_info?.introduce || '자기소개가 없습니다.'}</div>
+            </div>
           </div>
         </StyledCard>
         <StyledCard
-          title='최근 작성한 글'
+          title='최근 작성한 글 5개'
           $isClicked={true}
+          style={{ border: '1px solid #eee', boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)' }}
         >
-          <div>목록</div>
+          {clickUserInfo?.recent_board_list?.length === 0 && (
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
+        )}
+        {clickUserInfo?.recent_board_list?.length != 0 && <Table rowKey={(record) => record?.board_seq} columns={columns1} dataSource={clickUserInfo?.recent_board_list} pagination={false} onRow={(record, rowIndex) => ({onClick: () => { router.push(`/articles/${record?.board_seq}`) }})} />}
         </StyledCard>
         <StyledCard
-          title='최근 작성한 댓글'
+          title='최근 작성한 댓글 5개'
           $isClicked={true}
+          style={{ border: '1px solid #eee', boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)' }}
         >
           <div>목록</div>
         </StyledCard>
@@ -117,7 +149,11 @@ const Friends = () => {
     return (
       <>
         <div>
-          <h2>{title}</h2>
+          <h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {title}
+            </div>
+          </h2>
           <ClockCircleOutlined /> {moment(mod_dt).format('YYYY년 MM월 DD일  HH시mm분ss초')}
           <div style={{ marginTop: 20 }}>{content}</div>
         </div>
@@ -223,6 +259,12 @@ const Friends = () => {
     }
   }, [status])
 
+  useEffect(() => {
+    if (nowState === 'pure' && clickSeq != null) {
+      getRegUserInfo(clickSeq);
+    }
+  }, [nowState, clickSeq])
+
   const props = { clickSeq, setClickSeq, updateFriend, deleteFriend, setNowState };
 
   return (
@@ -284,25 +326,25 @@ const Friends = () => {
         {
           !clickSeq &&
           <Col xs={isMobile && clickSeq ? 24 : 0} sm={isMobile && clickSeq ? 24 : 0} md={isMobile && clickSeq ? 24 : 0} lg={17} xl={17} xxl={17}>
-            <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
+            <StyledRightCard bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
               <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>자세한 정보를 보려면 친구를 클릭해주세요.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }} />
-            </Card>
+            </StyledRightCard>
           </Col>
         }
         {
           clickSeq &&
           <Col xs={isMobile && clickSeq ? 24 : 0} sm={isMobile && clickSeq ? 24 : 0} md={isMobile && clickSeq ? 24 : 0} lg={17} xl={17} xxl={17}>
-            <Card bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
+            <StyledRightCard bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
               {1 == 1 && (
                 <div>
-                  <Button onClick={() => setClickSeq(null)}>돌아가기</Button>
+                  <Button onClick={() => setClickSeq(null)}><LeftOutlined /> 선택 취소</Button>
                 </div>
               )}
               <div style={{ marginTop: 20 }}>
 
               </div>
               {getStateInfo()}
-            </Card>
+            </StyledRightCard>
           </Col>
         }
       </Row>
@@ -441,6 +483,21 @@ const StyledLeftCard = styled(Card)`
   }
 `
 
+const StyledRightCard = styled(Card)`
+  .ant-card-body {
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #45556066;
+      border-radius: 20px;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+  }
+`
+
 const StyledEmpty = styled(Empty)`
   && {
     display: flex;
@@ -496,3 +553,43 @@ const deleteFriendDatafetch = async (formData: object) => {
 
   return result?.data;
 }
+
+const columns1: TableColumnsType<DataType1> = [
+  {
+    title: '제목',
+    dataIndex: 'title',
+    key: 'title',
+    align: 'center'
+  },
+  {
+    title: '작성일',
+    dataIndex: 'reg_dt',
+    key: 'reg_dt',
+    width: 140,
+    align: 'center',
+    render: (text) => moment(text).format("YYYY-MM-DD")
+  },
+]
+
+const columns2: TableColumnsType<DataType2> = [
+  {
+    title: '게시글 제목',
+    dataIndex: 'board_title',
+    key: 'board_title',
+    align: 'center'
+  },
+  {
+    title: '댓글 내용',
+    dataIndex: 'content',
+    key: 'content',
+    align: 'center'
+  },
+  {
+    title: '작성일',
+    dataIndex: 'reg_dt',
+    key: 'reg_dt',
+    width: 140,
+    align: 'center',
+    render: (text) => moment(text).format("YYYY-MM-DD")
+  },
+]
