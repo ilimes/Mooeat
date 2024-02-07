@@ -25,10 +25,11 @@ export interface CommentTypes {
     comment_seq: number;
     comment_cd: string;
     target_seq: number;
-    parents_cd: number;
+    parents_seq: number;
     content: string;
     comment_level: number;
     comment_order: number;
+    profile_path: string;
     reg_user_seq: number;
     reg_user_nm: string;
     reg_dt: string;

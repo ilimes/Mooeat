@@ -1,7 +1,6 @@
 'use client'
 
 import { Avatar, Button, Col, Input, Row, Select, Tabs } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import FileUpload from "@/components/FileUpload";
@@ -10,6 +9,7 @@ import { useEffect, useState } from "react";
 import { InfoTypes } from "@/types/Common/Common.interface";
 import { FriendTypes } from "@/types/Friend/Friend.interface";
 import { useSession } from "next-auth/react";
+import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { loadFriendList } from "@/api/Api";
 
 const Titles = ({name, required} : {name: string, required: boolean}) => {
@@ -76,7 +76,7 @@ const Share = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div>
               <Titles name="대상 선택" required />
-              <Select placeholder="공유할 친구를 선택해주세요." options={pureFriendList?.map((e: FriendTypes, i: number) => ({ value: e?.to_user_seq, label: <><Avatar size={32} icon={<UserOutlined />} /> {`${e?.to_user_nm} (${e?.to_user_id})`}</> }))} style={{ width: '100%', height: 55 }} size="large" />
+              <Select placeholder="공유할 친구를 선택해주세요." options={pureFriendList?.map((e: FriendTypes, i: number) => ({ value: e?.to_user_seq, label: <><Avatar size={32} icon={e?.profile_path ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${e?.profile_path + '?thumb=1'}`} /> : <Image src={unknownAvatar} alt="unknown" />} /> {`${e?.to_user_nm} (${e?.to_user_id})`}</> }))} style={{ width: '100%', height: 55 }} size="large" />
             </div>
             <div>
               <Titles name="내용" required />

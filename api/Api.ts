@@ -318,3 +318,14 @@ export const writeBoard = async (formData?: object, token?: string) => {
                       .then(res => res?.data)
                       .catch(err => console.error(err));
 }
+
+/**
+ * 댓글 등록
+ * @param formData 
+ * @returns data
+ */
+export const writeComment = async (formData?: object) => {
+    return await axiosInstance.put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/comment/write`, formData)
+                      .then(res => res?.data)
+                      .catch(err => console.error(err));
+}

@@ -11,6 +11,7 @@ import {
   Skeleton,
   Tabs,
   Tooltip,
+  message,
 } from "antd";
 import {
   UserOutlined,
@@ -35,7 +36,7 @@ import {
 } from "@/types/Board/Board.interface";
 import type { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { loadArticleData, loadCommentList, loadRegUserInfo } from '@/api/Api';
+import { loadArticleData, loadCommentList, loadRegUserInfo, writeComment } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import Image from 'next/image';
 import { useRecoilValue } from "recoil";
@@ -204,7 +205,7 @@ const Articles = () => {
           <div key={i}>
             <div style={{ display: "flex", marginBottom: 40 }}>
               <div style={{ marginRight: 10 }}>
-                <Avatar size={55} icon={<UserOutlined />} />
+                <Avatar size={55} icon={e?.profile_path ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${e?.profile_path + '?thumb=1'}`} /> : <Image src={unknownAvatar} alt="unknown" />} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                 <div style={{ fontWeight: 700 }}>{e?.reg_user_nm}</div>
@@ -228,11 +229,11 @@ const Articles = () => {
             </div>
             {
               (e?.comment_seq === selectedCommentSeq) &&
-              <ReplyDiv key={'subReply'} session={session} router={router} isPadding={true} />
+              <ReplyDiv key={'subReply'} session={session} router={router} getCommentList={getCommentList} isPadding={true} />
             }
           </div>
         ))}
-        <ReplyDiv key={'mainReply'} session={session} router={router} isPadding={false} />
+        <ReplyDiv key={'mainReply'} session={session} router={router} getCommentList={getCommentList} isPadding={false} />
         <div style={{ textAlign: "right" }}>
           <Button
             style={{ height: 35, fontSize: 14, fontWeight: 800 }}
@@ -355,10 +356,29 @@ const StyledCommentDiv = styled.div`
   }
 `;
 
-const ReplyDiv = ({session, router, isPadding}: {session: Session | null, router: AppRouterInstance, isPadding: boolean}) => {
+const ReplyDiv = ({session, router, getCommentList, isPadding}: {session: Session | null, router: AppRouterInstance, getCommentList: () => Promise<void>, isPadding: boolean}) => {
   const userInfo = useRecoilValue(userInfoState);
   const profileImg = userInfo?.user_set?.file_path_thumb;
   const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+  const params = useParams();
+
+  const [commentData, setCommentData] = useState<any>({});
+
+  const onClickCommentWrite = async () => {
+    const formData = {comment_cd: 'BOARD', target_seq: Number(params?.id), ...commentData};
+    if (!formData?.content) {
+      message.warning('내용을 입력해주세요.');
+      return;
+    }
+    const result = await writeComment(formData);
+    if (result?.success) {
+      message.success('댓글이 등록되었습니다.');
+      getCommentList();
+      setCommentData({});
+    } else {
+      message.warning(result?.message || "에러발생");
+    }
+  }
 
   return (
     <div style={{ display: "flex", paddingLeft: isPadding ? 50 : 0 }}>
@@ -391,6 +411,8 @@ const ReplyDiv = ({session, router, isPadding}: {session: Session | null, router
               </div>
               <Input.TextArea
                 className="commentArea"
+                value={commentData?.content}
+                onChange={(e) => setCommentData({...commentData, content: e.target.value})}
                 bordered={false}
                 placeholder="내용을 입력해주세요."
                 style={{ padding: 0, resize: "none", marginBottom: 10 }}
@@ -414,6 +436,7 @@ const ReplyDiv = ({session, router, isPadding}: {session: Session | null, router
                 <Button
                   type="primary"
                   style={{ height: 45, fontSize: 15, fontWeight: 800 }}
+                  onClick={onClickCommentWrite}
                   disabled={!session ? true : false}
                 >
                   댓글 쓰기

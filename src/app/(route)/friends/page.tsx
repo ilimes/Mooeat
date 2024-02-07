@@ -13,6 +13,8 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { deleteFriendData, loadFriendList, loadRegUserInfo, putFriendData, updateFriendData } from '@/api/Api';
 import moment from "moment";
 import { DataType1, DataType2 } from "@/types/Board/Board.interface";
+import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import Image from "next/image";
 
 const Friends = () => {
   const router = useRouter();
@@ -129,16 +131,19 @@ const Friends = () => {
           style={{ border: '1px solid #eee', boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)' }}
         >
           {clickUserInfo?.recent_board_list?.length === 0 && (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
-        )}
-        {clickUserInfo?.recent_board_list?.length != 0 && <Table rowKey={(record) => record?.board_seq} columns={columns1} dataSource={clickUserInfo?.recent_board_list} pagination={false} onRow={(record, rowIndex) => ({onClick: () => { router.push(`/articles/${record?.board_seq}`) }})} />}
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
+          )}
+          {clickUserInfo?.recent_board_list?.length != 0 && <Table rowKey={(record) => record?.board_seq} columns={columns1} dataSource={clickUserInfo?.recent_board_list} pagination={false} onRow={(record, rowIndex) => ({onClick: () => { router.push(`/articles/${record?.board_seq}`) }})} />}
         </StyledCard>
         <StyledCard
           title='최근 작성한 댓글 5개'
           $isClicked={true}
           style={{ border: '1px solid #eee', boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)' }}
         >
-          <div>목록</div>
+          {clickUserInfo?.recent_reply_list?.length === 0 && (
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
+          )}
+          {clickUserInfo?.recent_reply_list?.length != 0 && <Table rowKey={(record) => record?.comment_seq} columns={columns2} dataSource={clickUserInfo?.recent_reply_list} pagination={false} onRow={(record, rowIndex) => ({onClick: () => { router.push(`/articles/${record?.board_seq}`) }})} />}
         </StyledCard>
       </div>
     }
@@ -322,7 +327,7 @@ const Friends = () => {
         {
           !clickSeq &&
           <Col xs={isMobile && clickSeq ? 24 : 0} sm={isMobile && clickSeq ? 24 : 0} md={isMobile && clickSeq ? 24 : 0} lg={17} xl={17} xxl={17}>
-            <StyledRightCard bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
+            <StyledRightCard bodyStyle={{ height: !isMobile ? 'calc(100vh - 203px)': 'auto', overflow: 'auto' }}>
               <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>자세한 정보를 보려면 친구를 클릭해주세요.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }} />
             </StyledRightCard>
           </Col>
@@ -330,7 +335,7 @@ const Friends = () => {
         {
           clickSeq &&
           <Col xs={isMobile && clickSeq ? 24 : 0} sm={isMobile && clickSeq ? 24 : 0} md={isMobile && clickSeq ? 24 : 0} lg={17} xl={17} xxl={17}>
-            <StyledRightCard bodyStyle={{ height: 'calc(100vh - 203px)', overflow: 'auto' }}>
+            <StyledRightCard bodyStyle={{ height: !isMobile ? 'calc(100vh - 203px)' : 'auto', overflow: 'auto' }}>
               {1 == 1 && (
                 <div>
                   <Button onClick={() => setClickSeq(null)}><LeftOutlined /> 선택 취소</Button>
@@ -363,6 +368,9 @@ const Friends = () => {
 
 const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, state, setNowState }: { clickSeq: number | null, setClickSeq: Dispatch<SetStateAction<number | null>>, updateFriend?: any, deleteFriend?: any, element: FriendTypes, state: string, setNowState: Dispatch<SetStateAction<string>> }) => {
   const { Modal, isOpen, openModal, closeModal } = useModal();
+  const profileImg = element?.profile_path ? element?.profile_path + '?thumb=1' : null;
+  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+
   return (
     <>
       <Col span={24}>
@@ -379,7 +387,7 @@ const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, st
                 }}
                 dot={true}
               >
-                <Avatar size={40} icon={<UserOutlined />} />
+                <Avatar size={40} icon={profile} />
               </Badge>
             </div>
             <StyledOutDiv>
