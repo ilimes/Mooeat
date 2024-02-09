@@ -1,5 +1,4 @@
-import { NextRequest, NextResponse, userAgent } from 'next/server';
-import { headers } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   const res = await fetch(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/list`, {

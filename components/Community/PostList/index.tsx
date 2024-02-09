@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 import { Avatar, Row, Col } from 'antd';
@@ -7,18 +7,22 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import moment from 'moment';
 import 'moment/locale/ko';
+import Image from 'next/image';
 import CntComponent from '../CntComponent';
 import { BoardTypes } from '@/types/Board/Board.interface';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
-import Image from 'next/image';
 
 const PostList = ({ obj }: { obj: BoardTypes }) => {
   const router = useRouter();
-  const profileImg = obj?.profile_path ? obj?.profile_path + '?thumb=1' : null;
-  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+  const profileImg = obj?.profile_path ? `${obj?.profile_path}?thumb=1` : null;
+  const profile = profileImg ? (
+    <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} alt="profile" />
+  ) : (
+    <Image src={unknownAvatar} alt="unknown" />
+  );
 
   return (
-    <div className='fade-slow' style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
+    <div className="fade-slow" style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
       <div>
         <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
           <div>
@@ -26,43 +30,57 @@ const PostList = ({ obj }: { obj: BoardTypes }) => {
           </div>
           <StyledOutDiv style={{ fontSize: 14 }}>{obj?.reg_user_nm}</StyledOutDiv>
           <div>·</div>
-          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{moment(obj?.reg_dt).isAfter(moment().subtract(1, 'd')) ? moment(obj?.reg_dt).fromNow() : moment(obj?.reg_dt).format('LLL')}</StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
+            {moment(obj?.reg_dt).isAfter(moment().subtract(1, 'd'))
+              ? moment(obj?.reg_dt).fromNow()
+              : moment(obj?.reg_dt).format('LLL')}
+          </StyledOutDiv>
         </div>
       </div>
-      <StyledContentDiv onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}>
-        <div className='titleDiv'>
-          {obj?.title}
-        </div>
-        <div className='contentDiv'>
-          {obj?.content?.replace(/(<([^>]+)>)/gi, '')}
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', flex: 1, gap: 5, fontSize: 12, marginTop: 20 }}>
-          <div style={{ fontWeight: 900 }}>
-            TAG
-          </div>
-          {
-            obj?.tag_names?.split(':')?.map((e: string, i:number) => {
-              return (
-                <div key={i} style={{ fontWeight: 400 }}>
-                  #{e}
-                </div>
-              )
-            })
-          }
+      <StyledContentDiv
+        onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}
+      >
+        <div className="titleDiv">{obj?.title}</div>
+        <div className="contentDiv">{obj?.content?.replace(/(<([^>]+)>)/gi, '')}</div>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            flex: 1,
+            gap: 5,
+            fontSize: 12,
+            marginTop: 20,
+          }}
+        >
+          <div style={{ fontWeight: 900 }}>TAG</div>
+          {obj?.tag_names?.split(':')?.map((e: string, i: number) => (
+            <div key={i} style={{ fontWeight: 400 }}>
+              #{e}
+            </div>
+          ))}
           {!obj?.tag_names && <div style={{ color: '#B1B1B1' }}>태그 없음</div>}
         </div>
       </StyledContentDiv>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <div style={{ fontSize: 14, fontWeight: 'bold', padding: '5px 10px', borderRadius: 5, color: obj?.cate_color, background: obj?.bg_color }}>
+          <div
+            style={{
+              fontSize: 14,
+              fontWeight: 'bold',
+              padding: '5px 10px',
+              borderRadius: 5,
+              color: obj?.cate_color,
+              background: obj?.bg_color,
+            }}
+          >
             {obj.cate_nm}
           </div>
         </div>
-        <CntComponent obj={obj}/>
+        <CntComponent obj={obj} />
       </div>
     </div>
   );
-}
+};
 
 export default PostList;
 
@@ -75,7 +93,7 @@ const StyledTitleDiv = styled.span`
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-`
+`;
 
 const StyledContentDiv = styled.span`
   .titleDiv {
@@ -89,7 +107,7 @@ const StyledContentDiv = styled.span`
     margin-bottom: 10px;
   }
   .titleDiv:hover {
-    color: #4F4791;
+    color: #4f4791;
   }
   .contentDiv {
     display: -webkit-box;
@@ -102,7 +120,7 @@ const StyledContentDiv = styled.span`
   &:hover {
     cursor: pointer;
   }
-`
+`;
 
 const StyledOutDiv = styled.div`
   && {
@@ -111,4 +129,4 @@ const StyledOutDiv = styled.div`
     text-overflow: ellipsis;
     word-break: break-all;
   }
-`
+`;

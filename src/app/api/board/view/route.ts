@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
 
   const data = await res.json();

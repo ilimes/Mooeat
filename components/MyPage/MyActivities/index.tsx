@@ -1,18 +1,18 @@
-import { loadMyBoardList, loadMyCommentList } from "@/api/Api";
-import { Empty, Table, TableColumnsType } from "antd";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { Empty, Table, TableColumnsType } from 'antd';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import moment from 'moment';
-import { useRouter } from "next/navigation";
-import { DataType1, DataType2 } from "@/types/Board/Board.interface";
+import { useRouter } from 'next/navigation';
+import { loadMyBoardList, loadMyCommentList } from '@/api/Api';
+import { DataType1, DataType2 } from '@/types/Board/Board.interface';
 
 const columns1: TableColumnsType<DataType1> = [
   {
     title: '제목',
     dataIndex: 'title',
     key: 'title',
-    align: 'center'
+    align: 'center',
   },
   {
     title: '작성일',
@@ -20,22 +20,22 @@ const columns1: TableColumnsType<DataType1> = [
     key: 'reg_dt',
     width: 140,
     align: 'center',
-    render: (text) => moment(text).format("YYYY-MM-DD")
+    render: (text) => moment(text).format('YYYY-MM-DD'),
   },
-]
+];
 
 const columns2: TableColumnsType<DataType2> = [
   {
     title: '게시글 제목',
     dataIndex: 'board_title',
     key: 'board_title',
-    align: 'center'
+    align: 'center',
   },
   {
     title: '댓글 내용',
     dataIndex: 'content',
     key: 'content',
-    align: 'center'
+    align: 'center',
   },
   {
     title: '작성일',
@@ -43,9 +43,9 @@ const columns2: TableColumnsType<DataType2> = [
     key: 'reg_dt',
     width: 140,
     align: 'center',
-    render: (text) => moment(text).format("YYYY-MM-DD")
+    render: (text) => moment(text).format('YYYY-MM-DD'),
   },
-]
+];
 
 const MyActivities = () => {
   const { data: session, status } = useSession();
@@ -69,7 +69,7 @@ const MyActivities = () => {
   };
 
   useEffect(() => {
-    if (status === "authenticated") {
+    if (status === 'authenticated') {
       getMyBoardAndCommentList();
     }
   }, [status]);
@@ -81,14 +81,32 @@ const MyActivities = () => {
         {myBoardList?.length === 0 && (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
         )}
-        {myBoardList?.length != 0 && <Table rowKey={(record) => record?.board_seq} columns={columns1} dataSource={myBoardList} pagination={{ pageSize: 5 }} onRow={(record, rowIndex) => ({onClick: () => { router.push(`/articles/${record?.board_seq}`) }})} />}
+        {myBoardList?.length !== 0 && (
+          <Table
+            rowKey={(record) => record?.board_seq}
+            columns={columns1}
+            dataSource={myBoardList}
+            pagination={{ pageSize: 5 }}
+            onRow={(record, rowIndex) => ({
+              onClick: () => {
+                router.push(`/articles/${record?.board_seq}`);
+              },
+            })}
+          />
+        )}
       </StyledBoxDiv>
       <SubTitle>내가 쓴 댓글</SubTitle>
       <StyledBoxDiv>
         {myCommentList?.length === 0 && (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
         )}
-        {myCommentList?.length != 0 && <Table rowKey={(record) => record?.comment_seq} columns={columns2} dataSource={myCommentList} />}
+        {myCommentList?.length !== 0 && (
+          <Table
+            rowKey={(record) => record?.comment_seq}
+            columns={columns2}
+            dataSource={myCommentList}
+          />
+        )}
       </StyledBoxDiv>
     </>
   );

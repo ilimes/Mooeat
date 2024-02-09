@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Col, Row, Spin } from 'antd';
 import Image from 'next/image';
-import TestImg from '../../public/test.png';
 import { useRouter } from 'next/navigation';
 import Lottie from 'lottie-react';
-import carouselImg1 from '@/public/carousel/carousel1.png'; 
-import animationData from '@/public/lottie/Animation - 1698745940539.json'; 
+import styled from 'styled-components';
+import TestImg from '../../public/test.png';
+import carouselImg1 from '@/public/carousel/carousel1.png';
+import animationData from '@/public/lottie/Animation - 1698745940539.json';
 import animationData2 from '@/public/lottie/Animation - 1698595350015.json';
-import animationData3 from '@/public/lottie/Animation - 1698745819488.json'; 
+import animationData3 from '@/public/lottie/Animation - 1698745819488.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import NoSSr from '../NoSsr';
-import styled from 'styled-components';
 import { TextComponentTypes } from '@/types/Carousel/Carousel.interface';
-import * as S from "./style";
+import * as S from './style';
 
 const CarouselComponent = () => {
   const router = useRouter();
@@ -31,8 +31,13 @@ const CarouselComponent = () => {
       background: '#47408f',
       textBackground: '#323232',
       link: '/welcome',
-      // img: <Image src={carouselImg1} alt="carousel1" style={{ width: 300, height: imgHeight, margin: '0 auto' }} />
-      img: <Lottie animationData={animationData} loop={true} style={{ width: 340, height: imgHeight, margin: '0 auto' }} />
+      img: (
+        <Lottie
+          animationData={animationData}
+          loop
+          style={{ width: 340, height: imgHeight, margin: '0 auto' }}
+        />
+      ),
     },
     {
       topText: '지금 바로 가입해보세요!',
@@ -41,7 +46,13 @@ const CarouselComponent = () => {
       background: '#E5B175',
       textBackground: '#D98B35',
       link: '/auth/join',
-      img: <Lottie animationData={animationData2} loop={true} style={{ width: 340, height: imgHeight, margin: '0 auto' }} />
+      img: (
+        <Lottie
+          animationData={animationData2}
+          loop
+          style={{ width: 340, height: imgHeight, margin: '0 auto' }}
+        />
+      ),
     },
     {
       topText: '매일 출석체크 이벤트 진행중!',
@@ -50,104 +61,106 @@ const CarouselComponent = () => {
       background: '#004AD5',
       textBackground: '#2972FF',
       link: '/attendance',
-      img: <Lottie animationData={animationData3} loop={true} style={{ width: 340, height: imgHeight, margin: '0 auto' }} />
-    }
+      img: (
+        <Lottie
+          animationData={animationData3}
+          loop
+          style={{ width: 340, height: imgHeight, margin: '0 auto' }}
+        />
+      ),
+    },
   ];
 
-  const TextComponent = ({ e, i }: TextComponentTypes) => {
-    return (
-      <>
-        <div className={'title1'}>
-          <span
-            style={{
-              fontWeight: 800,
-              color: "#fff",
-              fontSize: 24,
-              background:
-              `linear-gradient(to top, ${e?.textBackground} 45%, transparent 50%)`,
-            }}
-          >
-            {e?.topText}
-          </span>
-        </div>
-        <div
-          className={'title2'}
-          style={{ fontWeight: 100, color: "#fff", fontSize: 18 }}
-        >
-          {e?.bottomText}
-        </div>
-        <div
-          className={'title3'}
+  const TextComponent = ({ e, i }: TextComponentTypes) => (
+    <>
+      <div className="title1">
+        <span
           style={{
-            fontWeight: 100,
-            color: "#fff",
-            fontSize: 14,
-            marginTop: 30,
+            fontWeight: 800,
+            color: '#fff',
+            fontSize: 24,
+            background: `linear-gradient(to top, ${e?.textBackground} 45%, transparent 50%)`,
           }}
         >
-          {e?.forwardText} {">"}
-        </div>
-      </>
-    )
-  }
-
-  return (
-    <>
-      <div>
-        <Row>
-          <Col span={24}>
-            <NoSSr>
-                <S.StyledCarousel
-                  autoplay
-                  dotPosition={"bottom"}
-                  speed={600}
-                  style={{
-                    background: contents?.[nowIndex]?.background,
-                    display: "flex",
-                    justifyContent: "center",
-                    transition: "0.35s",
-                    height: 370,
-                  }}
-                  beforeChange={(_, nextNumber) => { setNowIndex(nextNumber); }}
-                  // fade
-                >
-                  {
-                    contents?.map((e, i) =>
-                      <div key={i}>
-                        <Row
-                          style={{
-                            maxWidth: 1200,
-                            margin: "0 auto",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => router.push(e?.link)}
-                        >
-                          {isMobile && <>
-                            <Col span={24} style={{ overflow: "hidden" }}>
-                              {e?.img}
-                            </Col>
-                            <Col span={24} style={{ padding: 16, marginTop: textMargin }}>
-                              <TextComponent e={e} i={i} />
-                            </Col>
-                          </>}
-                          {!isMobile && <>
-                            <Col span={12} style={{ padding: 16, marginTop: textMargin }}>
-                              <TextComponent e={e} i={i} />
-                            </Col>
-                            <Col span={12} style={{ overflow: "hidden" }}>
-                              {e?.img}
-                            </Col>
-                          </>}
-                        </Row>
-                      </div>)
-                  }
-                </S.StyledCarousel>
-              </NoSSr>
-          </Col>
-        </Row>
+          {e?.topText}
+        </span>
+      </div>
+      <div className="title2" style={{ fontWeight: 100, color: '#fff', fontSize: 18 }}>
+        {e?.bottomText}
+      </div>
+      <div
+        className="title3"
+        style={{
+          fontWeight: 100,
+          color: '#fff',
+          fontSize: 14,
+          marginTop: 30,
+        }}
+      >
+        {e?.forwardText} {'>'}
       </div>
     </>
   );
-}
+
+  return (
+    <div>
+      <Row>
+        <Col span={24}>
+          <NoSSr>
+            <S.StyledCarousel
+              autoplay
+              dotPosition="bottom"
+              speed={600}
+              style={{
+                background: contents?.[nowIndex]?.background,
+                display: 'flex',
+                justifyContent: 'center',
+                transition: '0.35s',
+                height: 370,
+              }}
+              beforeChange={(_, nextNumber) => {
+                setNowIndex(nextNumber);
+              }}
+            >
+              {contents?.map((e, i) => (
+                <div key={i}>
+                  <Row
+                    style={{
+                      maxWidth: 1200,
+                      margin: '0 auto',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => router.push(e?.link)}
+                  >
+                    {isMobile && (
+                      <>
+                        <Col span={24} style={{ overflow: 'hidden' }}>
+                          {e?.img}
+                        </Col>
+                        <Col span={24} style={{ padding: 16, marginTop: textMargin }}>
+                          <TextComponent e={e} i={i} />
+                        </Col>
+                      </>
+                    )}
+                    {!isMobile && (
+                      <>
+                        <Col span={12} style={{ padding: 16, marginTop: textMargin }}>
+                          <TextComponent e={e} i={i} />
+                        </Col>
+                        <Col span={12} style={{ overflow: 'hidden' }}>
+                          {e?.img}
+                        </Col>
+                      </>
+                    )}
+                  </Row>
+                </div>
+              ))}
+            </S.StyledCarousel>
+          </NoSSr>
+        </Col>
+      </Row>
+    </div>
+  );
+};
 
 export default CarouselComponent;

@@ -1,8 +1,8 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 
 export const StyledDiv = styled.div`
   margin-bottom: 15px;
-`
+`;
 
 export const Title = styled.div`
   font-size: 26px;
@@ -10,10 +10,10 @@ export const Title = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-`
+`;
 
 export const Explain = styled.div`
   font-size: 14px;
   color: #606060;
   margin-top: 10px;
-`
+`;

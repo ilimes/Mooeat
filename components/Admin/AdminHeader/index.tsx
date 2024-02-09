@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   UserOutlined,
   BarChartOutlined,
@@ -6,10 +6,10 @@ import {
   DatabaseOutlined,
   LeftOutlined,
   MenuUnfoldOutlined,
-  MenuFoldOutlined
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Layout, Menu, Tooltip, theme } from "antd";
+  MenuFoldOutlined,
+} from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Layout, Menu, Tooltip, theme } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilState } from 'recoil';
 import { adminCollapsedState } from '@/recoil/states';
@@ -24,7 +24,7 @@ const AdminHeader = () => {
   const isMobile = useIsMobile();
   const [collapsed, setCollapsed] = useRecoilState(adminCollapsedState);
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
-  
+
   const menuItems: MenuTypes[] = [
     {
       key: '/admin',
@@ -47,7 +47,7 @@ const AdminHeader = () => {
           label: '권한 관리',
           onClick: () => router.push('/admin/auth'),
         },
-      ]
+      ],
     },
     {
       key: 'content',
@@ -64,7 +64,7 @@ const AdminHeader = () => {
           label: '댓글 관리',
           onClick: () => router.push('/admin/reply'),
         },
-      ]
+      ],
     },
     {
       key: 'statistics',
@@ -74,49 +74,51 @@ const AdminHeader = () => {
         {
           key: '/admin/api',
           label: 'API 통계',
-          onClick: () => router.push('/admin/api')
+          onClick: () => router.push('/admin/api'),
         },
         {
           key: '/admin/ip',
           label: 'IP 주소 통계',
-          onClick: () => router.push('/admin/ip')
+          onClick: () => router.push('/admin/ip'),
         },
-      ]
+      ],
     },
     {
       key: 'home',
       icon: React.createElement(LeftOutlined),
       label: '사이트로 돌아가기',
       onClick: () => router.push('/'),
-    }
-  ]
+    },
+  ];
 
   useEffect(() => {
     setSelectedKeys([pathname]);
-  }, [pathname])
+  }, [pathname]);
 
   return (
-    <Header style={{ display: "flex", alignItems: "center", background: '#fff', borderBottom: '2px solid rgba(5, 5, 5, 0.06)' }}>
-      {
-        !isMobile &&
-        <div onClick={() => setCollapsed(!collapsed)} style={{ cursor: 'pointer', fontSize: 20, marginRight: 10 }}>
+    <Header
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        background: '#fff',
+        borderBottom: '2px solid rgba(5, 5, 5, 0.06)',
+      }}
+    >
+      {!isMobile && (
+        <div
+          onClick={() => setCollapsed(!collapsed)}
+          aria-hidden="true"
+          style={{ cursor: 'pointer', fontSize: 20, marginRight: 10 }}
+        >
           <Tooltip title={collapsed ? '메뉴 펼치기' : '메뉴 접기'}>
             {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           </Tooltip>
         </div>
-      }
-      <div style={{ marginRight: 20, fontWeight: 700 }}>
-        Mooeat 관리자 페이지
-      </div>
-      {
-        isMobile &&
-        <Menu
-          theme="light"
-          mode="horizontal"
-          items={menuItems}
-          style={{ flex: 1, minWidth: 0 }}
-        />
-      }
+      )}
+      <div style={{ marginRight: 20, fontWeight: 700 }}>Mooeat 관리자 페이지</div>
+      {isMobile && (
+        <Menu theme="light" mode="horizontal" items={menuItems} style={{ flex: 1, minWidth: 0 }} />
+      )}
     </Header>
   );
 };

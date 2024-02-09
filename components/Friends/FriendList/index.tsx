@@ -1,11 +1,5 @@
-'use client'
+'use client';
 
-const FriendList = () => {
-    return (
-        <>
-        
-        </>
-    )
-}
+const FriendList = () => <></>;
 
 export default FriendList;

@@ -1,15 +1,15 @@
 /* middleware.ts */
 import { NextRequest, NextResponse } from 'next/server';
-import { getToken } from "next-auth/jwt"
+import { getToken } from 'next-auth/jwt';
 
-const secret = process.env.NEXTAUTH_SECRET
+const secret = process.env.NEXTAUTH_SECRET;
 
-const withAuthList = ["/friends", "/share", "/myPage", "/service", "/attendance", "/feed"]
-const withOutAuthList = ["/auth/login", "/auth/login/email", "/auth/join", "/auth/join/email"]
+const withAuthList = ['/friends', '/share', '/myPage', '/service', '/attendance', '/feed'];
+const withOutAuthList = ['/auth/login', '/auth/login/email', '/auth/join', '/auth/join/email'];
 
 export async function middleware(req: NextRequest) {
-  const session: any = await getToken({ req, secret, /* raw: true */ })
-  const pathname = req.nextUrl.pathname;
+  const session: any = await getToken({ req, secret /* raw: true */ });
+  const { pathname } = req.nextUrl;
 
   const isWithAuth = withAuthList.includes(pathname);
   const isWithOutAuth = withOutAuthList.includes(pathname);
@@ -20,7 +20,7 @@ export async function middleware(req: NextRequest) {
   const goHome = NextResponse.redirect(new URL('/', req.url));
   const goHome2 = NextResponse.redirect(new URL('/notAccepted', req.url));
 
-  const isAdminPage = pathname?.split('/')?.[1] === 'admin' ? true : false;
+  const isAdminPage = pathname?.split('/')?.[1] === 'admin';
   const userInfo = session?.user?.userInfo;
 
   /**
@@ -31,10 +31,8 @@ export async function middleware(req: NextRequest) {
       if (!session && isPersonal) {
         return goLogin;
       }
-    } else {
-      if (!session) {
-        return goLogin;
-      }
+    } else if (!session) {
+      return goLogin;
     }
   }
 
@@ -46,7 +44,7 @@ export async function middleware(req: NextRequest) {
       return goHome;
     }
   }
-  
+
   /**
    * 관리자 페이지
    */
@@ -58,5 +56,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [...withAuthList, ...withOutAuthList]
-}
+  matcher: [...withAuthList, ...withOutAuthList],
+};

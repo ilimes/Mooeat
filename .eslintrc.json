@@ -1,41 +1,49 @@
 {
-  "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
-  },
-  "parser": "@babel/eslint-parser",
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "airbnb",
-    "plugin:prettier/recommended"
-  ],
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
+  "extends": ["next/core-web-vitals", "airbnb", "airbnb-typescript"],
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2018,
-    "sourceType": "module"
+    "project": "./tsconfig.json"
   },
-  "plugins": [
-    "react",
-    "react-hooks",
-    "prettier"
-  ],
   "rules": {
-    "react/react-in-jsx-scope": 0,
-    "react/prefer-stateless-function": 0,
-    "react/jsx-filename-extension": 0,
-    "react/jsx-one-expression-per-line": 0,
-    "no-nested-ternary": 0
-  },
-  "globals": {
-    "React": "writable"
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off",
+    "linebreak-style": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/prefer-default-export": [
+      "off",
+      {
+        "target": "single"
+      }
+    ],
+    "operator-linebreak": [0],
+    "react/button-has-type": "off",
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": ["arrow-function", "function-declaration"] }
+    ],
+    "max-len": ["warn", { "code": 250 }],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": 0,
+    "react/jsx-one-expression-per-line": "off",
+    "function-paren-newline": "off",
+    "implicit-arrow-linebreak": "off",
+    "object-curly-newline": "off",
+    "no-confusing-arrow": "off",
+    "no-param-reassign": "off",
+    "react/jsx-wrap-multilines": "off",
+    "react/jsx-indent": "warn",
+    "@typescript-eslint/indent": "warn",
+    "react/require-default-props": "off",
+    "react/no-array-index-key": "warn",
+    "no-unsafe-optional-chaining": "warn",
+    "consistent-return": "warn",
+    "react/jsx-curly-newline": "off",
+    "react/no-unstable-nested-components": "warn",
+    "@typescript-eslint/no-shadow": "warn",
+    "react/jsx-no-useless-fragment": "off",
+    "react/destructuring-assignment": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "no-nested-ternary": "warn"
   }
 }

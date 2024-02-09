@@ -1,18 +1,18 @@
-"use client"
+'use client';
 
 import { useState, useEffect } from 'react';
-import AdminLayout from "./AdminLayout";
-import DefaultLayout from "./DefaultLayout";
 import { usePathname } from 'next/navigation';
-import { useSession } from "next-auth/react";
-import { loadUserInfoData } from '@/api/Api';
+import { useSession } from 'next-auth/react';
 import { useSetRecoilState } from 'recoil';
+import AdminLayout from './AdminLayout';
+import DefaultLayout from './DefaultLayout';
+import { loadUserInfoData } from '@/api/Api';
 import { userInfoState } from '@/recoil/states';
 
 const CustomLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status, update } = useSession();
   const pathname = usePathname();
-  const isAdminPage = pathname?.split("/")?.[1] === "admin" ? true : false;
+  const isAdminPage = pathname?.split('/')?.[1] === 'admin';
   const [updated, setUpdated] = useState(false);
   const setUserInfo = useSetRecoilState(userInfoState);
   const token = session?.user?.info?.data?.token;
@@ -20,11 +20,11 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
   const getUserInfoData = async () => {
     const result = await loadUserInfoData({});
     if (result?.success) {
-      setUserInfo(result?.user_info)
+      setUserInfo(result?.user_info);
     } else {
       setUserInfo(null);
     }
-  }
+  };
 
   // useEffect(() => {
   //   if (!updated && status == 'authenticated') {
@@ -35,10 +35,10 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
   // }, [status])
 
   useEffect(() => {
-    if (status == 'authenticated') {
+    if (status === 'authenticated') {
       getUserInfoData();
     }
-  }, [status])
+  }, [status]);
 
   return (
     <>

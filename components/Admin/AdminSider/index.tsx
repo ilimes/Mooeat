@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   LeftOutlined,
   UserOutlined,
   BarChartOutlined,
   HomeOutlined,
-  DatabaseOutlined
-} from "@ant-design/icons";
+  DatabaseOutlined,
+} from '@ant-design/icons';
 // import type { MenuProps } from "antd";
-import { Layout, Menu } from "antd";
+import { Layout, Menu } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
 import { adminCollapsedState } from '@/recoil/states';
@@ -45,7 +45,7 @@ const AdminSider = () => {
           label: '권한 관리',
           onClick: () => router.push('/admin/auth'),
         },
-      ]
+      ],
     },
     {
       key: 'content',
@@ -62,7 +62,7 @@ const AdminSider = () => {
           label: '댓글 관리',
           onClick: () => router.push('/admin/reply'),
         },
-      ]
+      ],
     },
     {
       key: 'statistics',
@@ -72,38 +72,40 @@ const AdminSider = () => {
         {
           key: '/admin/api',
           label: 'API 통계',
-          onClick: () => router.push('/admin/api')
+          onClick: () => router.push('/admin/api'),
         },
         {
           key: '/admin/ip',
           label: 'IP 주소 통계',
-          onClick: () => router.push('/admin/ip')
+          onClick: () => router.push('/admin/ip'),
         },
-      ]
+      ],
     },
     {
       key: 'home',
       icon: React.createElement(LeftOutlined),
       label: '사이트로 돌아가기',
       onClick: () => router.push('/'),
-    }
-  ]
+    },
+  ];
 
   useEffect(() => {
     setSelectedKeys([pathname]);
-  }, [pathname])
+  }, [pathname]);
 
   return !isMobile ? (
     <Sider width={230} collapsed={collasped} style={{ background: '#fff', marginRight: 24 }}>
       <Menu
         mode="inline"
         selectedKeys={selectedKeys}
-        defaultOpenKeys={menuItems?.map(e => e.key)}
+        defaultOpenKeys={menuItems?.map((e) => e.key)}
         style={{ height: '100%', borderRight: 0 }}
         items={menuItems}
       />
     </Sider>
-  ) : <></>;
+  ) : (
+    <></>
+  );
 };
 
 export default AdminSider;

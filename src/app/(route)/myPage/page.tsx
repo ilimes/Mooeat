@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
 import React, { useState } from 'react';
-import { Button, Divider, Tabs } from "antd";
+import { Button, Divider, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
-import styled, { css } from "styled-components";
-import { useRouter } from "next/navigation";
-import AccountManagement from '@/components/MyPage/AccountManagement'
-import MyActivities from '@/components/MyPage/MyActivities'
+import styled, { css } from 'styled-components';
+import { useRouter } from 'next/navigation';
+import AccountManagement from '@/components/MyPage/AccountManagement';
+import MyActivities from '@/components/MyPage/MyActivities';
 import Point from '@/components/MyPage/Point';
 import Subscribe from '@/components/MyPage/Subscribe';
 import Friend from '@/components/MyPage/Friend';
@@ -42,7 +42,7 @@ const MyPage = () => {
       label: '친구 관리',
       children: null,
     },
-  ]
+  ];
 
   const onChange = (key: string) => {
     setSelectedKey(key);
@@ -50,21 +50,25 @@ const MyPage = () => {
 
   return (
     <div>
-      <TopTitle title='마이페이지' explain='마이페이지 입니다.' />
+      <TopTitle title="마이페이지" explain="마이페이지 입니다." />
       <StyledTabs activeKey={selectedKey} items={list} onChange={onChange} />
       <div style={{ display: 'flex', gap: 40 }}>
         <StyledResponsiveDiv style={{ width: 300, height: 580, position: 'sticky', top: 90 }}>
           <StyledBoxDiv style={{ height: '100%' }}>
-            {
-              list?.map(e =>
-                <StyledMenuDiv key={e?.key} $menukey={e?.key} $selectedkey={selectedKey} onClick={() => setSelectedKey(e?.key)}>
-                  {e?.label}
-                </StyledMenuDiv>)
-            }
+            {list?.map((e) => (
+              <StyledMenuDiv
+                key={e?.key}
+                $menukey={e?.key}
+                $selectedkey={selectedKey}
+                onClick={() => setSelectedKey(e?.key)}
+              >
+                {e?.label}
+              </StyledMenuDiv>
+            ))}
           </StyledBoxDiv>
         </StyledResponsiveDiv>
         <div style={{ flex: 1 }}>
-          <TopTitle title={list?.find(e => e.key === selectedKey)?.label} />
+          <TopTitle title={list?.find((e) => e.key === selectedKey)?.label} />
           {selectedKey === '1' && <AccountManagement />}
           {selectedKey === '2' && <MyActivities />}
           {selectedKey === '3' && <Subscribe />}
@@ -81,16 +85,16 @@ export default MyPage;
 const StyledBoxDiv = styled.div`
   padding: 15px;
   margin-bottom: 20px;
-  border: 1px solid #BBCEDD;
+  border: 1px solid #bbcedd;
   border-radius: 10px;
-`
+`;
 
 const StyledResponsiveDiv = styled.div`
   display: none;
   @media (min-width: 991px) {
     display: block;
   }
-`
+`;
 
 const StyledTabs = styled(Tabs)`
   && {
@@ -98,24 +102,27 @@ const StyledTabs = styled(Tabs)`
     @media (min-width: 991px) {
       display: none;
     }
-}
-`
+  }
+`;
 
-const StyledMenuDiv = styled.div<{ $selectedkey: string, $menukey: string }>`
+const StyledMenuDiv = styled.div<{ $selectedkey: string; $menukey: string }>`
   && {
     border-radius: 10px;
     padding: 15px 10px;
     margin-bottom: 5px;
     font-weight: 500;
-    ${props => (props.$selectedkey == props.$menukey) ? css`
-      background: #E6E4F3;
-      font-weight: 800;
-      color: #47408F;
-    ` : css`
-      &:hover {
-        background: #eee;
-        cursor: pointer;
-      }
-    `}
+    ${(props) =>
+      props.$selectedkey === props.$menukey
+        ? css`
+            background: #e6e4f3;
+            font-weight: 800;
+            color: #47408f;
+          `
+        : css`
+            &:hover {
+              background: #eee;
+              cursor: pointer;
+            }
+          `}
   }
-`
+`;

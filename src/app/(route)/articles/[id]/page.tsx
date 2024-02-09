@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Avatar,
@@ -12,7 +12,7 @@ import {
   Tabs,
   Tooltip,
   message,
-} from "antd";
+} from 'antd';
 import {
   UserOutlined,
   PlusOutlined,
@@ -22,25 +22,21 @@ import {
   LikeFilled,
   RollbackOutlined,
   InfoCircleOutlined,
-} from "@ant-design/icons";
-import styled from "styled-components";
-import { useRouter, useParams } from "next/navigation";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import moment from "moment";
-import "moment/locale/ko";
-import {
-  BoardTypes,
-  CommentTypes,
-  RegUserInfoTypes,
-} from "@/types/Board/Board.interface";
+} from '@ant-design/icons';
+import styled from 'styled-components';
+import { useRouter, useParams } from 'next/navigation';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import moment from 'moment';
+import 'moment/locale/ko';
 import type { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import Image from 'next/image';
+import { useRecoilValue } from 'recoil';
 import { loadArticleData, loadCommentList, loadRegUserInfo, writeComment } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
-import Image from 'next/image';
-import { useRecoilValue } from "recoil";
-import { userInfoState } from "@/recoil/states";
+import { BoardTypes, CommentTypes, RegUserInfoTypes } from '@/types/Board/Board.interface';
+import { userInfoState } from '@/recoil/states';
 
 const Articles = () => {
   const router = useRouter();
@@ -50,10 +46,14 @@ const Articles = () => {
   const [data, setData] = useState<BoardTypes | null>(null);
   const [regUserInfo, setRegUserInfo] = useState<RegUserInfoTypes | null>(null);
   const [commentList, setCommentList] = useState<CommentTypes[] | null>(null);
-  const [selectedCommentSeq, setSelectedCommentSeq] = useState<number | null>(null)
+  const [selectedCommentSeq, setSelectedCommentSeq] = useState<number | null>(null);
 
-  const profileImg = data?.profile_path ? data?.profile_path + '?thumb=1' : null;
-  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+  const profileImg = data?.profile_path ? `${data?.profile_path}?thumb=1` : null;
+  const profile = profileImg ? (
+    <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} alt="profile" />
+  ) : (
+    <Image src={unknownAvatar} alt="unknown" />
+  );
 
   const id = params?.id;
 
@@ -63,8 +63,8 @@ const Articles = () => {
     if (result?.success) {
       setData(result?.data);
     } else {
-      alert(result?.err || "에러발생");
-      router.push("/community");
+      alert(result?.err || '에러발생');
+      router.push('/community');
     }
   };
 
@@ -74,7 +74,7 @@ const Articles = () => {
     if (result?.success) {
       setCommentList(result?.list);
     } else {
-      alert(result?.err || "에러발생");
+      alert(result?.err || '에러발생');
     }
   };
 
@@ -85,12 +85,12 @@ const Articles = () => {
     if (result?.success) {
       setRegUserInfo(result?.data);
     } else {
-      alert(result?.err || "에러발생");
+      alert(result?.err || '에러발생');
     }
   };
 
   useEffect(() => {
-    if (status != 'loading') {
+    if (status !== 'loading') {
       getArticleData();
       getCommentList();
       // 최상단으로 스크롤
@@ -108,135 +108,145 @@ const Articles = () => {
     <div>
       {/* 메뉴 설명 영역 */}
       <Explain>
-        커뮤니티 / <span style={{ color: "#4F4791" }}>{data?.cate_nm}</span>
+        커뮤니티 / <span style={{ color: '#4F4791' }}>{data?.cate_nm}</span>
       </Explain>
       {/* 아바타 영역 */}
-      <div style={{ margin: "30px 0", display: "flex", gap: 10 }}>
+      <div style={{ margin: '30px 0', display: 'flex', gap: 10 }}>
         <div>
           <Avatar size={40} icon={profile} />
         </div>
         <StyledOutDiv>
-          <StyledOutDiv style={{ fontSize: 15, marginBottom: 5 }}>
-            {data?.reg_user_nm}
-          </StyledOutDiv>
-          <StyledOutDiv style={{ fontSize: 13, color: "grey" }}>
-            {moment(data?.reg_dt).isAfter(moment().subtract(1, "d"))
+          <StyledOutDiv style={{ fontSize: 15, marginBottom: 5 }}>{data?.reg_user_nm}</StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
+            {moment(data?.reg_dt).isAfter(moment().subtract(1, 'd'))
               ? moment(data?.reg_dt).fromNow()
-              : moment(data?.reg_dt).format("LLL")}
-            <span style={{ margin: "0 5px" }}>·</span>
+              : moment(data?.reg_dt).format('LLL')}
+            <span style={{ margin: '0 5px' }}>·</span>
             {/* 조회수, 댓글, 좋아요 */}
-            <EyeOutlined style={{ color: "#beb4b4" }} /> {data?.view_cnt}
-            <span style={{ margin: "0 5px" }}>·</span>
-            <CommentOutlined style={{ color: "#beb4b4" }} /> {data?.comment_cnt}
-            <span style={{ margin: "0 5px" }}>·</span>
-            <LikeOutlined style={{ color: "#beb4b4" }} /> {data?.like_cnt}
+            <EyeOutlined style={{ color: '#beb4b4' }} /> {data?.view_cnt}
+            <span style={{ margin: '0 5px' }}>·</span>
+            <CommentOutlined style={{ color: '#beb4b4' }} /> {data?.comment_cnt}
+            <span style={{ margin: '0 5px' }}>·</span>
+            <LikeOutlined style={{ color: '#beb4b4' }} /> {data?.like_cnt}
           </StyledOutDiv>
         </StyledOutDiv>
       </div>
       {/* 제목 영역 */}
-      <Skeleton paragraph={{ rows: 0 }} loading={!data ? true : false} active>
+      <Skeleton paragraph={{ rows: 0 }} loading={!data} active>
         <Title>{data?.title}</Title>
       </Skeleton>
       {/* 컨텐츠 영역 */}
-      <Skeleton paragraph={{ rows: 3 }} loading={!data ? true : false} active>
-        <div dangerouslySetInnerHTML={{__html: data?.content ?? ''}} style={{ whiteSpace: "normal", lineHeight: 1.23 }}></div>
+      <Skeleton paragraph={{ rows: 3 }} loading={!data} active>
+        <div
+          dangerouslySetInnerHTML={{ __html: data?.content ?? '' }}
+          style={{ whiteSpace: 'normal', lineHeight: 1.23 }}
+        />
       </Skeleton>
       {/* 태그 영역 */}
-      <div
-        style={{ margin: "30px 0", display: "flex", flexWrap: "wrap", gap: 10 }}
-      >
-        {data?.tag_names?.split(":")?.map((e: string, i: number) => (
-          <StyledTagSpan key={i}>#{e}</StyledTagSpan>
-        ))}
+      <div style={{ margin: '30px 0', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+        {data?.tag_names
+          ?.split(':')
+          ?.map((e: string, i: number) => <StyledTagSpan key={i}>#{e}</StyledTagSpan>)}
       </div>
       {/* 추천 영역 */}
       <StyledLikeBtn>
-        <LikeOutlined style={{ color: "#beb4b4" }} /> 추천하기
+        <LikeOutlined style={{ color: '#beb4b4' }} /> 추천하기
         {/* <LikeFilled style={{ color: '#5383EC' }} /> 추천취소 */}
       </StyledLikeBtn>
       {/* 작성자 정보 영역 */}
       {
-        <>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              background: "#F5F5F5",
-              borderRadius: 12,
-              padding: 40,
-              gap: 30,
-              height: 140,
-            }}
-          >
-            <Skeleton
-              paragraph={{ rows: 2 }}
-              loading={!regUserInfo ? true : false}
-              active
-            >
-              <div
-                style={{ display: "flex", flexDirection: "column", gap: 10 }}
-              >
-                <div style={{ fontSize: 18, fontWeight: 700 }}>
-                  {regUserInfo?.user_info?.user_nm}
-                </div>
-                <div style={{ fontSize: 16, fontWeight: 400 }}>
-                  {regUserInfo?.user_info?.introduce ||
-                    "자기소개가 존재하지 않습니다."}
-                </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            background: '#F5F5F5',
+            borderRadius: 12,
+            padding: 40,
+            gap: 30,
+            height: 140,
+          }}
+        >
+          <Skeleton paragraph={{ rows: 2 }} loading={!regUserInfo} active>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ fontSize: 18, fontWeight: 700 }}>{regUserInfo?.user_info?.user_nm}</div>
+              <div style={{ fontSize: 16, fontWeight: 400 }}>
+                {regUserInfo?.user_info?.introduce || '자기소개가 존재하지 않습니다.'}
               </div>
-              {/* 자기 자신에게는 구독하기 버튼 나타타지 않음 */}
-              {regUserInfo?.user_info?.user_seq !=
-                session?.user?.info?.userInfo?.user_seq && (
-                <StyledPlusBtn>
-                  <PlusOutlined /> 구독하기
-                </StyledPlusBtn>
-              )}
-            </Skeleton>
-          </div>
-        </>
+            </div>
+            {/* 자기 자신에게는 구독하기 버튼 나타타지 않음 */}
+            {regUserInfo?.user_info?.user_seq !== session?.user?.info?.userInfo?.user_seq && (
+              <StyledPlusBtn>
+                <PlusOutlined /> 구독하기
+              </StyledPlusBtn>
+            )}
+          </Skeleton>
+        </div>
       }
       <Divider />
       {/* 댓글 영역 */}
       <div>
-        <div style={{ marginBottom: 20, fontSize: 18 }}>
-          댓글 {commentList?.length}
-        </div>
+        <div style={{ marginBottom: 20, fontSize: 18 }}>댓글 {commentList?.length}</div>
         {commentList?.map((e: CommentTypes, i: number) => (
           <div key={i}>
-            <div style={{ display: "flex", marginBottom: 40 }}>
+            <div style={{ display: 'flex', marginBottom: 40 }}>
               <div style={{ marginRight: 10 }}>
-                <Avatar size={55} icon={e?.profile_path ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${e?.profile_path + '?thumb=1'}`} /> : <Image src={unknownAvatar} alt="unknown" />} />
+                <Avatar
+                  size={55}
+                  icon={
+                    e?.profile_path ? (
+                      <img
+                        src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e?.profile_path}?thumb=1`}`}
+                        alt="profile"
+                      />
+                    ) : (
+                      <Image src={unknownAvatar} alt="unknown" />
+                    )
+                  }
+                />
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                 <div style={{ fontWeight: 700 }}>{e?.reg_user_nm}</div>
                 <div>{e?.content}</div>
                 <div style={{ fontSize: 13, marginTop: 10 }}>
-                  <span style={{ color: "grey" }}>
-                    {moment(e?.reg_dt).isAfter(moment().subtract(1, "d"))
+                  <span style={{ color: 'grey' }}>
+                    {moment(e?.reg_dt).isAfter(moment().subtract(1, 'd'))
                       ? moment(e?.reg_dt).fromNow()
-                      : moment(e?.reg_dt).format("LLL")}
-                  </span>{" "}
-                  ·{" "}
+                      : moment(e?.reg_dt).format('LLL')}
+                  </span>{' '}
+                  ·{' '}
                   <span
                     onClick={() => setSelectedCommentSeq(e?.comment_seq)}
-                    style={{ color: "#000", fontSize: 14, cursor: "pointer" }}
+                    aria-hidden="true"
+                    style={{ color: '#000', fontSize: 14, cursor: 'pointer' }}
                   >
-                    {"답글 달기"}
+                    답글 달기
                   </span>
                 </div>
               </div>
             </div>
-            {
-              (e?.comment_seq === selectedCommentSeq) &&
-              <ReplyDiv key={'subReply'} session={session} router={router} getCommentList={getCommentList} setSelectedCommentSeq={setSelectedCommentSeq} isPadding={true} />
-            }
+            {e?.comment_seq === selectedCommentSeq && (
+              <ReplyDiv
+                key="subReply"
+                session={session}
+                router={router}
+                getCommentList={getCommentList}
+                setSelectedCommentSeq={setSelectedCommentSeq}
+                isPadding
+              />
+            )}
           </div>
         ))}
-        <ReplyDiv key={'mainReply'} session={session} router={router} getCommentList={getCommentList} isPadding={false} />
-        <div style={{ textAlign: "right" }}>
+        <ReplyDiv
+          key="mainReply"
+          session={session}
+          router={router}
+          getCommentList={getCommentList}
+          isPadding={false}
+        />
+        <div style={{ textAlign: 'right' }}>
           <Button
             style={{ height: 35, fontSize: 14, fontWeight: 800 }}
-            onClick={() => router.push("/community")}
+            onClick={() => router.push('/community')}
           >
             <RollbackOutlined />
             커뮤니티로 돌아가기
@@ -265,32 +275,6 @@ const Explain = styled.div`
   font-size: 14px;
   color: #606060;
   margin: 15px 0;
-`;
-
-const RegisterButton = styled(Button)`
-  && {
-    width: 100%;
-    height: 48px;
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-`;
-
-const BtnGroup = styled.div`
-  margin: 20px 0;
-  font-size: 14px;
-  color: #606060;
-`;
-
-const StyledSpan = styled.span`
-  && {
-    margin: 0 5px;
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
 `;
 
 const StyledOutDiv = styled.div`
@@ -355,16 +339,32 @@ const StyledCommentDiv = styled.div`
   }
 `;
 
-const ReplyDiv = ({session, router, getCommentList, setSelectedCommentSeq, isPadding}: {session: Session | null, router: AppRouterInstance, getCommentList: () => Promise<void>, setSelectedCommentSeq?: Dispatch<SetStateAction<number | null>>, isPadding: boolean}) => {
+const ReplyDiv = ({
+  session,
+  router,
+  getCommentList,
+  setSelectedCommentSeq,
+  isPadding,
+}: {
+  session: Session | null;
+  router: AppRouterInstance;
+  getCommentList: () => Promise<void>;
+  setSelectedCommentSeq?: Dispatch<SetStateAction<number | null>>;
+  isPadding: boolean;
+}) => {
   const userInfo = useRecoilValue(userInfoState);
   const profileImg = userInfo?.user_set?.file_path_thumb;
-  const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
+  const profile = profileImg ? (
+    <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} alt="profile" />
+  ) : (
+    <Image src={unknownAvatar} alt="unknown" />
+  );
   const params = useParams();
 
   const [commentData, setCommentData] = useState<any>({});
 
   const onClickCommentWrite = async () => {
-    const formData = {comment_cd: 'BOARD', target_seq: Number(params?.id), ...commentData};
+    const formData = { comment_cd: 'BOARD', target_seq: Number(params?.id), ...commentData };
     if (!formData?.content) {
       message.warning('내용을 입력해주세요.');
       return;
@@ -375,80 +375,84 @@ const ReplyDiv = ({session, router, getCommentList, setSelectedCommentSeq, isPad
       getCommentList();
       setCommentData({});
     } else {
-      message.warning(result?.message || "에러발생");
+      message.warning(result?.message || '에러발생');
     }
-  }
+  };
 
   return (
-    <div style={{ display: "flex", paddingLeft: isPadding ? 50 : 0 }}>
-          <div style={{ marginRight: 10 }}>
-            <Avatar size={55} icon={profile} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <StyledCommentDiv>
-              <div style={{ fontWeight: 400, marginBottom: 5 }}>
-                {!session && (
-                  <div>
-                    <InfoCircleOutlined />
-                    <Tooltip title="클릭 시 로그인 페이지로 이동합니다.">
-                      <span
-                        style={{
-                          fontWeight: 700,
-                          color: "#4F4791",
-                          cursor: "pointer",
-                          marginLeft: 5,
-                        }}
-                        onClick={() => router.push("/auth/login")}
-                      >
-                        로그인
-                      </span>
-                    </Tooltip>{" "}
-                    후 이용해주세요.
-                  </div>
-                )}
-                {session && session?.user?.info?.userInfo?.user_nm}
+    <div style={{ display: 'flex', paddingLeft: isPadding ? 50 : 0 }}>
+      <div style={{ marginRight: 10 }}>
+        <Avatar size={55} icon={profile} />
+      </div>
+      <div style={{ flex: 1 }}>
+        <StyledCommentDiv>
+          <div style={{ fontWeight: 400, marginBottom: 5 }}>
+            {!session && (
+              <div>
+                <InfoCircleOutlined />
+                <Tooltip title="클릭 시 로그인 페이지로 이동합니다.">
+                  <span
+                    style={{
+                      fontWeight: 700,
+                      color: '#4F4791',
+                      cursor: 'pointer',
+                      marginLeft: 5,
+                    }}
+                    aria-hidden="true"
+                    onClick={() => router.push('/auth/login')}
+                  >
+                    로그인
+                  </span>
+                </Tooltip>{' '}
+                후 이용해주세요.
               </div>
-              <Input.TextArea
-                className="commentArea"
-                value={commentData?.content}
-                onChange={(e) => setCommentData({...commentData, content: e.target.value})}
-                bordered={false}
-                placeholder="내용을 입력해주세요."
-                style={{ padding: 0, resize: "none", marginBottom: 10 }}
-                autoSize
-                disabled={!session ? true : false}
-              />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                  gap: 15,
-                }}
-              >
-                {/* <div style={{ display: "flex", gap: 5 }}>
+            )}
+            {session && session?.user?.info?.userInfo?.user_nm}
+          </div>
+          <Input.TextArea
+            className="commentArea"
+            value={commentData?.content}
+            onChange={(e) => setCommentData({ ...commentData, content: e.target.value })}
+            bordered={false}
+            placeholder="내용을 입력해주세요."
+            style={{ padding: 0, resize: 'none', marginBottom: 10 }}
+            autoSize
+            disabled={!session}
+          />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              gap: 15,
+            }}
+          >
+            {/* <div style={{ display: "flex", gap: 5 }}>
                   <Checkbox />
                   <div style={{ display: "flex", alignItems: "self-end" }}>
                     비밀글
                   </div>
                 </div> */}
-                {
-                  setSelectedCommentSeq &&
-                  <div onClick={() => setSelectedCommentSeq(null)} style={{ cursor: 'pointer' }}>
-                    취소
-                  </div>
-                }
-                <Button
-                  type="primary"
-                  style={{ height: 45, fontSize: 15, fontWeight: 800 }}
-                  onClick={onClickCommentWrite}
-                  disabled={!session ? true : false}
-                >
-                  댓글 쓰기
-                </Button>
+            {setSelectedCommentSeq && (
+              <div
+                onClick={() => setSelectedCommentSeq(null)}
+                aria-hidden="true"
+                style={{ cursor: 'pointer' }}
+              >
+                취소
               </div>
-            </StyledCommentDiv>
+            )}
+            <Button
+              type="primary"
+              style={{ height: 45, fontSize: 15, fontWeight: 800 }}
+              onClick={onClickCommentWrite}
+              disabled={!session}
+            >
+              댓글 쓰기
+            </Button>
           </div>
-        </div>
-  )
-}
+        </StyledCommentDiv>
+      </div>
+    </div>
+  );
+};
