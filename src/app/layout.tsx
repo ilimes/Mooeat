@@ -5,9 +5,9 @@ import CustomLayout from "@/components/CustomLayout";
 import RecoilRootProvider from "@/lib/RecoilRootProvider";
 import StyledComponentsRegistryAnt from "@/lib/AntdRegistry";
 import StyledComponentsRegistry from "@/lib/Registry";
+import ReactQueryProvider from "@/lib/ReactQueryProvider";
 import { ConfigProvider } from "antd";
 import theme from "../../theme/themeConfig";
-import ReactQueryProvider from "@/lib/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: "Mooeat",

@@ -4,16 +4,14 @@ import React from 'react';
 import { Button, Col, Row } from "antd";
 import { InfoCircleOutlined } from '@ant-design/icons'
 import styled from "styled-components";
-import { useRouter } from "next/navigation";
 import ApiCountChart from '@/components/Admin/ApiCountChart';
 import ApiNameChart from '@/components/Admin/ApiNameChart';
+import TopTitle from '@/components/SharedComponents/TopTitle';
 
 const Api = () => {
-  const router = useRouter();
   return (
     <div>
-      <Title>API 통계</Title>
-      <Explain>API 통계를 확인할 수 있는 페이지입니다. </Explain>
+      <TopTitle title='API 통계' explain='API 통계를 확인할 수 있는 페이지입니다.' />
       <SubTitle>API 호출 횟수</SubTitle>
       <Explain><InfoCircleOutlined /> API 호출 횟수를 년, 월, 일 별로 조회할 수 있습니다. 기본값은 `일간` 입니다.</Explain>
       <ApiCountChart />
@@ -29,11 +27,6 @@ const Api = () => {
 };
 
 export default Api;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`
 
 const SubTitle = styled.div`
   font-size: 20px;

@@ -3,26 +3,15 @@
 import { Button } from "antd";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
+import TopTitle from "@/components/SharedComponents/TopTitle";
 
 const Reply = () => {
   const router = useRouter();
   return (
     <div>
-      <Title>댓글 관리</Title>
-      <Explain>댓글 관리 화면</Explain>
+      <TopTitle title="댓글 관리" explain="댓글 관리 화면" />
     </div>
   );
 };
 
 export default Reply;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`
-
-const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`

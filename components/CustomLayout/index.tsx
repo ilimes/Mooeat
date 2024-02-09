@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { Layout } from "antd";
 import AdminLayout from "./AdminLayout";
 import DefaultLayout from "./DefaultLayout";
 import { usePathname } from 'next/navigation';

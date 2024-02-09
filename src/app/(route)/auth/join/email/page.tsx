@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { putJoinData } from '@/api/Api';
+import TopTitle from '@/components/SharedComponents/TopTitle';
 
 interface IValuesType {
   user_id: string;
@@ -22,7 +23,7 @@ const onFinish = async (values: IValuesType, router: AppRouterInstance) => {
     message.warning('개인정보 수집 및 이용에 동의하신 후 가입이 가능합니다.');
     return;
   }
-  
+
   if (values?.password != values?.passwordConfirm) {
     message.warning('비밀번호가 일치하지 않습니다.');
     return;
@@ -53,7 +54,7 @@ const Join = () => {
 
   return (
     <div style={{ marginTop: 30 }}>
-      <Title>이메일로 회원가입</Title>
+      <TopTitle title='이메일로 회원가입' />
       <StyledForm
         name="basic"
         style={{ maxWidth: 600 }}
@@ -156,12 +157,6 @@ const Join = () => {
 
 export default Join;
 
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 15px;
-`
-
 const BtnGroup = styled.div`
   margin: 20px 0;
   font-size: 14px;
@@ -210,6 +205,6 @@ const fetchData = async (formData: object) => {
     body: JSON.stringify(formData)
   });
   const result = await res.json();
-  
+
   return result?.data;
 }

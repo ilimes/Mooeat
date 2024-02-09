@@ -25,7 +25,7 @@ import {
 } from "@ant-design/icons";
 import styled from "styled-components";
 import { useRouter, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import moment from "moment";
 import "moment/locale/ko";
@@ -218,18 +218,17 @@ const Articles = () => {
                   </span>{" "}
                   ·{" "}
                   <span
-                    onClick={() => !selectedCommentSeq ? setSelectedCommentSeq(e?.comment_seq) : setSelectedCommentSeq(null)}
+                    onClick={() => setSelectedCommentSeq(e?.comment_seq)}
                     style={{ color: "#000", fontSize: 14, cursor: "pointer" }}
                   >
-                    {selectedCommentSeq && "달기 취소"}
-                    {!selectedCommentSeq && "답글 달기"}
+                    {"답글 달기"}
                   </span>
                 </div>
               </div>
             </div>
             {
               (e?.comment_seq === selectedCommentSeq) &&
-              <ReplyDiv key={'subReply'} session={session} router={router} getCommentList={getCommentList} isPadding={true} />
+              <ReplyDiv key={'subReply'} session={session} router={router} getCommentList={getCommentList} setSelectedCommentSeq={setSelectedCommentSeq} isPadding={true} />
             }
           </div>
         ))}
@@ -356,7 +355,7 @@ const StyledCommentDiv = styled.div`
   }
 `;
 
-const ReplyDiv = ({session, router, getCommentList, isPadding}: {session: Session | null, router: AppRouterInstance, getCommentList: () => Promise<void>, isPadding: boolean}) => {
+const ReplyDiv = ({session, router, getCommentList, setSelectedCommentSeq, isPadding}: {session: Session | null, router: AppRouterInstance, getCommentList: () => Promise<void>, setSelectedCommentSeq?: Dispatch<SetStateAction<number | null>>, isPadding: boolean}) => {
   const userInfo = useRecoilValue(userInfoState);
   const profileImg = userInfo?.user_set?.file_path_thumb;
   const profile = profileImg ? <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} /> : <Image src={unknownAvatar} alt="unknown" />;
@@ -433,6 +432,12 @@ const ReplyDiv = ({session, router, getCommentList, isPadding}: {session: Sessio
                     비밀글
                   </div>
                 </div> */}
+                {
+                  setSelectedCommentSeq &&
+                  <div onClick={() => setSelectedCommentSeq(null)} style={{ cursor: 'pointer' }}>
+                    취소
+                  </div>
+                }
                 <Button
                   type="primary"
                   style={{ height: 45, fontSize: 15, fontWeight: 800 }}

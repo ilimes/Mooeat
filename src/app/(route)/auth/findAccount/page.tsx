@@ -4,13 +4,13 @@ import { Button } from "antd";
 import styled from "styled-components";
 import Mail from '@/public/svg/mail.svg';
 import { useRouter } from "next/navigation";
+import TopTitle from "@/components/SharedComponents/TopTitle";
 
 const FindId = () => {
   const router = useRouter();
   return (
     <div style={{ marginTop: 30 }}>
-      <Title>계정 찾기</Title>
-      <Explain>아래 방법 중 한 가지를 선택하여 계정을 찾을 수 있습니다.</Explain>
+      <TopTitle title="계정 찾기" explain="아래 방법 중 한 가지를 선택하여 계정을 찾을 수 있습니다." />
       <div style={{ margin: '40px 0' }}>
         <RegisterButton type="primary" icon={<Mail style={{ width: 20, height: 20, margin: '0 10px', verticalAlign: 'text-bottom' }} />}>이메일로 계정찾기</RegisterButton>
       </div>
@@ -22,17 +22,6 @@ const FindId = () => {
 };
 
 export default FindId;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`
-
-const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`
 
 const RegisterButton = styled(Button)`
   && {

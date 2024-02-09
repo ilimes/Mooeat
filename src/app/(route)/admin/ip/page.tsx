@@ -6,13 +6,13 @@ import { InfoCircleOutlined } from '@ant-design/icons'
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import IpCountTable from '@/components/Admin/IpCountTable';
+import TopTitle from '@/components/SharedComponents/TopTitle';
 
 const Ip = () => {
   const router = useRouter();
   return (
-    <div>
-      <Title>IP 주소 통계</Title>
-      <Explain>IP 주소 통계를 확인할 수 있는 페이지입니다. </Explain>
+    <>
+      <TopTitle title='IP 주소 통계' explain='IP 주소 통계를 확인할 수 있는 페이지입니다.' />
       <SubTitle>접속 IP 주소 및 횟수</SubTitle>
       <Explain><InfoCircleOutlined /> 올해 접속 IP 주소를 조회할 수 있습니다.</Explain>
       <IpCountTable />
@@ -23,16 +23,11 @@ const Ip = () => {
           <ApiNameChart />
         </Col>
       </Row> */}
-    </div>
+    </>
   );
 };
 
 export default Ip;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`
 
 const SubTitle = styled.div`
   font-size: 20px;

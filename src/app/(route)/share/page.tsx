@@ -11,8 +11,9 @@ import { FriendTypes } from "@/types/Friend/Friend.interface";
 import { useSession } from "next-auth/react";
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { loadFriendList } from "@/api/Api";
+import TopTitle from "@/components/SharedComponents/TopTitle";
 
-const Titles = ({name, required} : {name: string, required: boolean}) => {
+const Titles = ({ name, required }: { name: string, required: boolean }) => {
   return (
     <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 7 }}>
       <span>{name}</span> {required && <span style={{ color: 'red' }}>(*)</span>}
@@ -65,8 +66,7 @@ const Share = () => {
 
   return (
     <div>
-      <Title>공유하기</Title>
-      <Explain>등록된 친구에게 내 식단을 공유해보세요.</Explain>
+      <TopTitle title="공유하기" explain="등록된 친구에게 내 식단을 공유해보세요." />
       <Tabs activeKey={activeKey} items={items} onChange={onChange} style={{ fontWeight: 800 }} tabBarGutter={20} />
       <div style={{ textAlign: 'center', margin: '20px 0' }}>
         <Image src={"/img/share/share.png"} alt='Attendance' width={300} height={210} />
@@ -99,14 +99,3 @@ const Share = () => {
 };
 
 export default Share;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`
-
-const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`

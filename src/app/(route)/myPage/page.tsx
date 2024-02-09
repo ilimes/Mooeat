@@ -10,12 +10,13 @@ import MyActivities from '@/components/MyPage/MyActivities'
 import Point from '@/components/MyPage/Point';
 import Subscribe from '@/components/MyPage/Subscribe';
 import Friend from '@/components/MyPage/Friend';
+import TopTitle from '@/components/SharedComponents/TopTitle';
 
 const MyPage = () => {
   const router = useRouter();
   const [selectedKey, setSelectedKey] = useState('1');
-  
-  const list: TabsProps['items']  = [
+
+  const list: TabsProps['items'] = [
     {
       key: '1',
       label: '계정 관리',
@@ -49,8 +50,7 @@ const MyPage = () => {
 
   return (
     <div>
-      <Title>마이페이지</Title>
-      <Explain>마이페이지 입니다.</Explain>
+      <TopTitle title='마이페이지' explain='마이페이지 입니다.' />
       <StyledTabs activeKey={selectedKey} items={list} onChange={onChange} />
       <div style={{ display: 'flex', gap: 40 }}>
         <StyledResponsiveDiv style={{ width: 300, height: 580, position: 'sticky', top: 90 }}>
@@ -64,22 +64,12 @@ const MyPage = () => {
           </StyledBoxDiv>
         </StyledResponsiveDiv>
         <div style={{ flex: 1 }}>
-          <Title style={{ marginBottom: 20 }}>{list?.find(e => e.key === selectedKey)?.label}</Title>
-          {
-            selectedKey === '1' && <AccountManagement />
-          }
-          {
-            selectedKey === '2' && <MyActivities />
-          }
-          {
-            selectedKey === '3' && <Subscribe />
-          }
-          {
-            selectedKey === '4' && <Point />
-          }
-          {
-            selectedKey === '5' && <Friend />
-          }
+          <TopTitle title={list?.find(e => e.key === selectedKey)?.label} />
+          {selectedKey === '1' && <AccountManagement />}
+          {selectedKey === '2' && <MyActivities />}
+          {selectedKey === '3' && <Subscribe />}
+          {selectedKey === '4' && <Point />}
+          {selectedKey === '5' && <Friend />}
         </div>
       </div>
     </div>
@@ -87,17 +77,6 @@ const MyPage = () => {
 };
 
 export default MyPage;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`
-
-const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`
 
 const StyledBoxDiv = styled.div`
   padding: 15px;

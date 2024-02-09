@@ -15,6 +15,7 @@ import moment from "moment";
 import { DataType1, DataType2 } from "@/types/Board/Board.interface";
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import Image from "next/image";
+import TopTitle from "@/components/SharedComponents/TopTitle";
 
 const Friends = () => {
   const router = useRouter();
@@ -104,7 +105,7 @@ const Friends = () => {
     if (nowState === 'pure') {
       mod_dt = pureFriendList?.find(e => e?.to_user_seq === clickSeq)?.mod_dt;
       title = <><img src={'/img/friend/friend1.png'} width={32} height={32} alt='friend' />서로 친구입니다.</>
-      content = <div style={{ display: 'flex', flexDirection: 'column', gap: 20}}>
+      content = <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <StyledCard
           title='회원 기본 정보'
           $isClicked={true}
@@ -133,7 +134,7 @@ const Friends = () => {
           {clickUserInfo?.recent_board_list?.length === 0 && (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
           )}
-          {clickUserInfo?.recent_board_list?.length != 0 && <Table rowKey={(record) => record?.board_seq} columns={columns1} dataSource={clickUserInfo?.recent_board_list} pagination={false} onRow={(record, rowIndex) => ({onClick: () => { router.push(`/articles/${record?.board_seq}`) }})} />}
+          {clickUserInfo?.recent_board_list?.length != 0 && <Table rowKey={(record) => record?.board_seq} columns={columns1} dataSource={clickUserInfo?.recent_board_list} pagination={false} onRow={(record, rowIndex) => ({ onClick: () => { router.push(`/articles/${record?.board_seq}`) } })} />}
         </StyledCard>
         <StyledCard
           title='최근 작성한 댓글 5개'
@@ -143,7 +144,7 @@ const Friends = () => {
           {clickUserInfo?.recent_reply_list?.length === 0 && (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
           )}
-          {clickUserInfo?.recent_reply_list?.length != 0 && <Table rowKey={(record) => record?.comment_seq} columns={columns2} dataSource={clickUserInfo?.recent_reply_list} pagination={false} onRow={(record, rowIndex) => ({onClick: () => { router.push(`/articles/${record?.board_seq}`) }})} />}
+          {clickUserInfo?.recent_reply_list?.length != 0 && <Table rowKey={(record) => record?.comment_seq} columns={columns2} dataSource={clickUserInfo?.recent_reply_list} pagination={false} onRow={(record, rowIndex) => ({ onClick: () => { router.push(`/articles/${record?.board_seq}`) } })} />}
         </StyledCard>
       </div>
     }
@@ -270,8 +271,7 @@ const Friends = () => {
 
   return (
     <div>
-      <Title>친구</Title>
-      <Explain>새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다.</Explain>
+      <TopTitle title="친구" explain="새로운 친구를 등록하거나, 현재 등록된 친구 목록을 볼 수 있습니다." />
       <Row gutter={[15, 15]}>
         <Col xs={isMobile && clickSeq ? 0 : 24} sm={isMobile && clickSeq ? 0 : 24} md={isMobile && clickSeq ? 0 : 24} lg={7} xl={7} xxl={7}>
           <StyledLeftCard title={[<div key={1} style={{ fontWeight: 800, fontSize: 18 }}>친구 목록</div>, <Button key={2} size="middle" type="primary" onClick={onOpen} style={{ float: 'right', fontSize: 14, fontWeight: 'bold', paddingRight: 22, height: 31 }}><UsergroupAddOutlined /> 추가</Button>]} bodyStyle={{ padding: '5px 15px', height: isMobile ? '100%' : 'calc(100vh - 260px)', overflow: 'auto' }}>
@@ -327,7 +327,7 @@ const Friends = () => {
         {
           !clickSeq &&
           <Col xs={isMobile && clickSeq ? 24 : 0} sm={isMobile && clickSeq ? 24 : 0} md={isMobile && clickSeq ? 24 : 0} lg={17} xl={17} xxl={17}>
-            <StyledRightCard bodyStyle={{ height: !isMobile ? 'calc(100vh - 203px)': 'auto', overflow: 'auto' }}>
+            <StyledRightCard bodyStyle={{ height: !isMobile ? 'calc(100vh - 203px)' : 'auto', overflow: 'auto' }}>
               <Empty description={<span style={{ fontSize: 14, color: '#1F1F1F' }}>자세한 정보를 보려면 친구를 클릭해주세요.</span>} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100%' }} />
             </StyledRightCard>
           </Col>
@@ -418,27 +418,6 @@ const Friend = ({ clickSeq, setClickSeq, updateFriend, deleteFriend, element, st
 }
 
 export default Friends;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`
-
-const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`
-
-const RegisterButton = styled(Button)`
-  && {
-    width: 100%;
-    height: 48px;
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-`
 
 const StyledOutDiv = styled.div`
   && {

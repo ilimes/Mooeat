@@ -8,6 +8,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { ValuesTypes } from '@/types/User/User.interface';
+import TopTitle from '@/components/SharedComponents/TopTitle';
 
 const onFinish = async (values: ValuesTypes, setIsLoading: Dispatch<SetStateAction<boolean>>, router: AppRouterInstance | any) => {
   setIsLoading(true);
@@ -46,7 +47,7 @@ const EmailLogin = () => {
 
   return (
     <div style={{ marginTop: 30 }}>
-      <Title>Mooeat 로그인</Title>
+      <TopTitle title="Mooeat 로그인" />
       <StyledForm
         name="basic"
         style={{ maxWidth: 600 }}
@@ -99,12 +100,6 @@ const EmailLogin = () => {
 
 export default EmailLogin;
 
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 15px;
-`
-
 const BtnGroup = styled.div`
   margin: 20px 0;
   font-size: 14px;
@@ -136,16 +131,6 @@ const StyledSpan = styled.span`
   }
 `
 
-const fetchData = async (formData: object) => {
-  const res = await fetch(`/api/login`, {
-    method: 'POST',
-    body: JSON.stringify(formData)
-  });
-  const result = await res.json();
-  
-  return result?.data;
-}
-
 const StyledSpin = styled(Spin)`
     && {
         & .ant-spin-dot-item {
@@ -153,17 +138,3 @@ const StyledSpin = styled(Spin)`
         }
     }
 `
-
-const fetchUserInfoData = async (token: string | null) => {
-  const formData = {
-    token,
-    type: undefined
-  }
-  const res = await fetch(`/api/userInfo`, {
-    method: "POST",
-    body: JSON.stringify(formData),
-  });
-  const result = await res.json();
-
-  return result?.data;
-};

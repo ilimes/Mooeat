@@ -9,11 +9,12 @@ import moment from 'moment';
 import 'moment/locale/ko';
 import { UserInfoTypes } from '@/types/User/User.interface';
 import { loadUserList } from '@/api/Api';
+import TopTitle from '@/components/SharedComponents/TopTitle';
 
 const User = () => {
   const router = useRouter();
   const [userList, setUserList] = useState<UserInfoTypes[]>([]);
-  
+
   const getUserList = async () => {
     const result = await loadUserList();
     setUserList(result?.list)
@@ -60,7 +61,7 @@ const User = () => {
       dataIndex: 'type',
       title: '가입 수단',
       align: 'center',
-      render: (text) => text ?? '일반' 
+      render: (text) => text ?? '일반'
     },
     {
       key: '6',
@@ -77,14 +78,13 @@ const User = () => {
       render: (text) => text ? moment(text).format('L') : '-'
     },
   ]
-  
+
   return (
     <div>
-      <Title>
-        회원 관리
-        <span style={{ fontWeight: 400, fontSize: 13, color: 'grey' }}>{userList?.length}</span>
-      </Title>
-      <Explain>회원 관리 화면</Explain>
+      <TopTitle
+        title={<>회원 관리 <span style={{ fontWeight: 400, fontSize: 13, color: 'grey' }}>{userList?.length}</span></>}
+        explain="회원 관리 화면"
+      />
       <div style={{ overflow: 'auto' }}>
         <Table rowKey={(e) => e?.user_seq} dataSource={userList} columns={columns} />
       </div>
@@ -93,27 +93,3 @@ const User = () => {
 };
 
 export default User;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`
-
-const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`
-
-const fetchUserList = async (/* token: string | null */) => {
-  const res = await fetch(`/api/userList`, {
-    method: "POST",
-    // body: JSON.stringify(token),
-  });
-  const result = await res.json();
-
-  return result?.data;
-};

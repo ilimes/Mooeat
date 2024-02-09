@@ -3,12 +3,13 @@
 import { Button } from "antd";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
+import TopTitle from "@/components/SharedComponents/TopTitle";
 
 const Privacy = () => {
   const router = useRouter();
   return (
     <div>
-      <Title>개인정보처리방침</Title>
+      <TopTitle title="개인정보 처리방침" />
       <div style={{ fontSize: 14 }}>
         <p>Mooeat 은(는) 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.</p>
         <p>해당 개인정보 처리방침은 서비스 이용 가입시 적용됩니다.</p>
@@ -29,40 +30,3 @@ const Privacy = () => {
 };
 
 export default Privacy;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`
-
-const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`
-
-const RegisterButton = styled(Button)`
-  && {
-    width: 100%;
-    height: 48px;
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-`
-
-const BtnGroup = styled.div`
-  margin: 20px 0;
-  font-size: 14px;
-  color: #606060;
-`
-
-const StyledSpan = styled.span`
-  && {
-    margin: 0 5px;
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
-`

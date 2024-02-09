@@ -12,6 +12,7 @@ import { loadBoardList, loadInfoList, loadTagsTop5 } from '@/api/Api';
 import { useSession } from 'next-auth/react';
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import TopTitle from "@/components/SharedComponents/TopTitle";
 
 interface IInfoTypes {
   key: string;
@@ -64,7 +65,7 @@ const Community = () => {
     getNextPageParam: (lastPage, pages) => {
       const maxPage = pages?.[0]?.pageInfo?.maxPage;
       const prevPage = lastPage?.pageInfo?.page;
-      const isLastPage = 
+      const isLastPage =
         lastPage.list.length < 8 || prevPage === maxPage;
       return isLastPage ? undefined : pages.length + 1;
     },
@@ -76,7 +77,7 @@ const Community = () => {
 
   const filteredArr = boardList?.pages ? boardList?.pages?.flatMap((e: any) => e?.list) : new Array(8).fill(null);
   const colSpan = type === 'tile' ? [8, 6] : [24, 24]
-  
+
   const getInfoList = async () => {
     const result = await loadInfoList();
     setItems([...items, ...result?.list?.map((e: any) => ({
@@ -104,7 +105,7 @@ const Community = () => {
     })
     fetchNextPage();
   }, [activeKey])
-  
+
   const { setTarget } = useIntersectionObserver({
     hasNextPage,
     fetchNextPage,
@@ -112,8 +113,7 @@ const Community = () => {
 
   return (
     <div>
-      <Title>커뮤니티</Title>
-      <Explain>커뮤니티에서 자유롭게 이야기를 나눠보세요 :)</Explain>
+      <TopTitle title="커뮤니티" explain="커뮤니티에서 자유롭게 이야기를 나눠보세요 :)" />
       <Button
         type="primary"
         disabled={status != 'authenticated' ? true : false}
@@ -163,25 +163,26 @@ const Community = () => {
         {filteredArr?.map((e: any, i: number) => {
           const item = items?.find((ele: any) => ele.key === String(e?.cate_seq));
           return (
-          <Col key={i} xs={24} sm={24} md={24} lg={colSpan?.[0]} xl={colSpan?.[1]} xxl={colSpan?.[1]}>
-            <>
-              {
-                type === 'tile' &&
-                <PostCard key={'card' + i} obj={{...e, cate_color: item?.cateColor, bg_color: item?.bgColor}} />
-              }
-              {
-                type === 'list' &&
-                <>
-                  <PostList key={'list' + i} obj={{...e, cate_color: item?.cateColor, bg_color: item?.bgColor}} />
-                  {
-                    i != filteredArr?.length - 1 &&
-                    <Divider key={'divider' + i} style={{ margin: '15px 0 0 0', borderColor: '#D2D4D8' }} />
-                  }
-                </>
-              }
-            </>
-          </Col>
-        )})}
+            <Col key={i} xs={24} sm={24} md={24} lg={colSpan?.[0]} xl={colSpan?.[1]} xxl={colSpan?.[1]}>
+              <>
+                {
+                  type === 'tile' &&
+                  <PostCard key={'card' + i} obj={{ ...e, cate_color: item?.cateColor, bg_color: item?.bgColor }} />
+                }
+                {
+                  type === 'list' &&
+                  <>
+                    <PostList key={'list' + i} obj={{ ...e, cate_color: item?.cateColor, bg_color: item?.bgColor }} />
+                    {
+                      i != filteredArr?.length - 1 &&
+                      <Divider key={'divider' + i} style={{ margin: '15px 0 0 0', borderColor: '#D2D4D8' }} />
+                    }
+                  </>
+                }
+              </>
+            </Col>
+          )
+        })}
       </Row>
       <div ref={setTarget}></div>
     </div>
@@ -189,35 +190,6 @@ const Community = () => {
 };
 
 export default Community;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`
-
-const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`
-
-const fetchInfoList = async () => {
-  const res = await fetch(`/api/board/info/list`, {
-    method: 'POST',
-  });
-  const result = await res.json();
-
-  return result?.data;
-}
-
-const fetchBoardList = async () => {
-  const res = await fetch(`/api/board/list`, {
-    method: 'POST',
-  });
-  const result = await res.json();
-
-  return result?.data;
-}
 
 const StyledTagSpan = styled.span`
   background: #f9f9ff;

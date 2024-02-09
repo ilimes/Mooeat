@@ -41,7 +41,6 @@ const Notice = () => {
 
     const getNoticeData = async (board_num: number) => {
         const formData = { board_num };
-        // const result = await fetchNoticeData(formData);
         const result = await loadArticleData(formData);
         if (result?.success) {
             setData(result?.data)
@@ -77,7 +76,7 @@ const Notice = () => {
                                 selectedNotice === obj.board_seq &&
                                 <ListContentDiv>
                                     {isLoading && <Spin style={{ display: 'flex', justifyContent: 'flex-start' }} />}
-                                    {!isLoading && <div dangerouslySetInnerHTML={{__html: data?.content ?? ''}}></div>}
+                                    {!isLoading && <div dangerouslySetInnerHTML={{ __html: data?.content ?? '' }}></div>}
                                 </ListContentDiv>
                             }
                         </WrapperDiv>
@@ -90,7 +89,7 @@ const Notice = () => {
 
 export default Notice;
 
-const EmptyComponent = ({title} : {title: string}) => {
+const EmptyComponent = ({ title }: { title: string }) => {
     return (
         <ContentDiv>
             <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description={title} />
@@ -180,23 +179,3 @@ const ListContentDiv = styled.div`
     text-align: left;
     white-space: pre-line;
 `
-
-const fetchNoticeList = async () => {
-    const res = await fetch(`/api/board/list`, {
-        method: 'POST',
-        body: JSON.stringify({ cate_seq: 4 })
-    });
-    const result = await res.json();
-
-    return result?.data;
-}
-
-const fetchNoticeData = async (formData: { board_num: number }) => {
-    const res = await fetch(`/api/board/view`, {
-        method: 'POST',
-        body: JSON.stringify(formData)
-    });
-    const result = await res.json();
-
-    return result?.data;
-}

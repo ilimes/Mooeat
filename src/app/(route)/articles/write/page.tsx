@@ -10,6 +10,7 @@ import ReactQuill from 'react-quill';
 import { loadInfoList, writeBoard } from "@/api/Api";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import TopTitle from "@/components/SharedComponents/TopTitle";
 
 interface TagInputProps {
   placeholder: string;
@@ -73,7 +74,7 @@ const Write = () => {
   const [pushDatas, setPushDatas] = useState<any>({ tags: [] });
   const [newTagText, setNewTagText] = useState<string>('');
   const ref = useRef<HTMLSpanElement>(null);
-  
+
   // 최대 입력가능한 글자수
   const MAX_LENGTH = 10;
 
@@ -103,7 +104,7 @@ const Write = () => {
       } else if (pushDatas?.tags?.length > 4) {
         message.warning('태그는 최대 5개까지만 등록 가능합니다.')
       } else {
-        setPushDatas({...pushDatas, tags: [...pushDatas?.tags, newTagText]});
+        setPushDatas({ ...pushDatas, tags: [...pushDatas?.tags, newTagText] });
         setNewTagText('');
         if (ref.current) {
           ref.current.innerHTML = '';
@@ -137,7 +138,7 @@ const Write = () => {
       message.warning("내용을 입력해주세요.");
       return;
     }
-    
+
     const result = await writeBoard(formData, token);
     if (result?.success) {
       message.success("성공적으로 등록되었습니다.")
@@ -153,18 +154,17 @@ const Write = () => {
 
   return (
     <>
-      <Title>글쓰기</Title>
-      <Explain>커뮤니티 이용 가이드에 위배되는 게시글을 작성하는 경우 삭제될 수 있습니다.</Explain>
+      <TopTitle title="글쓰기" explain="커뮤니티 이용 가이드에 위배되는 게시글을 작성하는 경우 삭제될 수 있습니다." />
       <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 10 }}>카테고리</div>
-      <Select value={pushDatas?.cate_seq} options={infoItems} onChange={(e) => setPushDatas({... pushDatas, cate_seq: e})} placeholder="카테고리 선택" style={{ width: 150 }} size="large" />
+      <Select value={pushDatas?.cate_seq} options={infoItems} onChange={(e) => setPushDatas({ ...pushDatas, cate_seq: e })} placeholder="카테고리 선택" style={{ width: 150 }} size="large" />
       <div style={{ fontWeight: 700, fontSize: 15, margin: '10px 0' }}>제목</div>
-      <Input value={pushDatas?.title} onChange={(e) => setPushDatas({...pushDatas, title: e.target.value})} placeholder="제목을 입력해주세요." size="large" />
+      <Input value={pushDatas?.title} onChange={(e) => setPushDatas({ ...pushDatas, title: e.target.value })} placeholder="제목을 입력해주세요." size="large" />
       <div style={{ fontWeight: 700, fontSize: 15, margin: '10px 0' }}>내용</div>
       <div>
         <StyledReactQuill
           forwardedRef={quillInstance}
           value={pushDatas?.content}
-          onChange={(e) => setPushDatas({...pushDatas, content: e})}
+          onChange={(e) => setPushDatas({ ...pushDatas, content: e })}
           modules={modules}
           theme="snow"
           placeholder="내용을 입력해주세요."
@@ -176,7 +176,7 @@ const Write = () => {
           pushDatas?.tags?.map((e: any, i: number) => {
             return (
               <span key={i}>{e}{" "}
-                <span onClick={() => setPushDatas({...pushDatas, tags: [...pushDatas?.tags?.filter((ele: any) => ele != e)]})} style={{ cursor: 'pointer' }}>
+                <span onClick={() => setPushDatas({ ...pushDatas, tags: [...pushDatas?.tags?.filter((ele: any) => ele != e)] })} style={{ cursor: 'pointer' }}>
                   <CloseCircleOutlined />
                 </span>
               </span>
@@ -184,11 +184,11 @@ const Write = () => {
           })
         }
         <Tooltip trigger={['focus']} title={'태그 입력 후 엔터 키를 누르면 추가됩니다.'} placement="topLeft" overlayClassName="tag-input">
-          <div onClick={ () => setEditable(true) }>
+          <div onClick={() => setEditable(true)}>
             <TagInput
               ref={ref}
               placeholder='태그 입력'
-              spellCheck={ false }
+              spellCheck={false}
               contentEditable={editable}
               onInput={handleInputEvent}
               onKeyDown={handleOnKeyPress}
@@ -198,17 +198,17 @@ const Write = () => {
       </div>
       <div style={{ marginTop: 20, textAlign: 'right' }}>
         <Button
-            onClick={() => router.push('/community')}
-            style={{ width: 125, height: 47, fontWeight: "bold", fontSize: 16, marginRight: 10 }}
+          onClick={() => router.push('/community')}
+          style={{ width: 125, height: 47, fontWeight: "bold", fontSize: 16, marginRight: 10 }}
         >
-            <RollbackOutlined /> 목록으로
+          <RollbackOutlined /> 목록으로
         </Button>
         <Button
-            type="primary"
-            onClick={putBoardData}
-            style={{ width: 125, height: 47, fontWeight: "bold", fontSize: 16 }}
+          type="primary"
+          onClick={putBoardData}
+          style={{ width: 125, height: 47, fontWeight: "bold", fontSize: 16 }}
         >
-            <PlusOutlined /> 등록하기
+          <PlusOutlined /> 등록하기
         </Button>
       </div>
     </>
@@ -216,17 +216,6 @@ const Write = () => {
 };
 
 export default Write;
-
-const Title = styled.div`
-  font-size: 26px;
-  font-weight: 700;
-`;
-
-const Explain = styled.div`
-  font-size: 14px;
-  color: #606060;
-  margin: 15px 0;
-`;
 
 const StyledReactQuill = styled(QuillNoSSRWrapper)`
   .ql-container {

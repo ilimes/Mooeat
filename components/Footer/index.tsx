@@ -13,7 +13,7 @@ const FooterPage = () => {
             <div className='container'>
                 <div style={{ marginBottom: 10 }}>
                     <div style={{ fontWeight: 800, color: '#98a8b9', marginBottom: 10 }}>2023 Mooeat</div>
-                    <div>본 사이트의 모든 콘텐츠나 정보, UI 등의 복제 행위를 금합니다.</div>
+                    <div>본 사이트는 현재 개발 진행중인 사이트 입니다.</div>
                 </div>
                 <StyledDiv>
                     <span onClick={() => router.push('/privacy')} style={{ fontWeight: 800 }}>개인정보 처리방침</span> · <span onClick={() => router.push('/tos')}>이용약관</span> · <span onClick={() => router.push('/service')}>고객센터</span>
