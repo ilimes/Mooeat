@@ -1,28 +1,38 @@
 'use client';
 
-import { Avatar, Button, Col, Input, Row, Select, Tabs } from 'antd';
+import {
+  Avatar,
+  Button,
+  Col,
+  Input,
+  Radio,
+  RadioChangeEvent,
+  Row,
+  Select,
+  Tabs,
+  message,
+} from 'antd';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import FileUpload from '@/components/FileUpload';
-import { InfoTypes } from '@/types/Common/Common.interface';
+import { InfoTypes, UploadInfoTypes } from '@/types/Common/Common.interface';
 import { FriendTypes } from '@/types/Friend/Friend.interface';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
-import { loadFriendList } from '@/api/Api';
+import { contentPut, loadFriendList, uploadFile } from '@/api/Api';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 
-function Titles({ name, required }: { name: string; required: boolean }) {
-  return (
-    <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 7 }}>
-      <span>{name}</span>
-      {required && <span style={{ color: 'red' }}>(*)</span>}
-    </div>
-  );
-}
+const Titles = ({ name, required }: { name: string; required: boolean }) => (
+  <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 7 }}>
+    <span>{name}</span>
+    {required && <span style={{ color: 'red' }}>(*)</span>}
+  </div>
+);
 
-function Share() {
+const Share = () => {
   const { data: session, status } = useSession();
   const [activeKey, setActiveKey] = useState('share');
+  const [shareObj, setShareObj] = useState<any>({ images: [] });
   const [items, setItems] = useState<InfoTypes[]>([
     {
       key: 'share',
@@ -39,6 +49,13 @@ function Share() {
   ]);
 
   const [friendList, setFriendList] = useState<FriendTypes[]>([]);
+
+  const [uploadedInfo, setUploadedInfo] = useState<UploadInfoTypes | null>(null);
+  const [previews, setPreviews] = useState<any>([]);
+
+  const props = { shareObj, setShareObj, uploadedInfo, setUploadedInfo, previews, setPreviews };
+
+  const token = session?.user?.info?.data?.token;
   const userSeq = session?.user?.info?.userInfo?.user_seq;
 
   const friendList1 = friendList?.filter((e) => e?.from_user_seq === userSeq && e?.agree === 'Y');
@@ -56,6 +73,54 @@ function Share() {
     const formData: any = { user_seq: userSeq };
     const result = await loadFriendList(formData);
     setFriendList(result?.list);
+  };
+
+  const onClickShare = async () => {
+    if (!shareObj?.userSeq) {
+      message.warning('대상을 먼저 선택해주세요.');
+      return;
+    }
+    if (!shareObj?.time) {
+      message.warning('시간대를 선택해주세요.');
+      return;
+    }
+    if (!shareObj?.content) {
+      message.warning('내용을 입력해주세요.');
+      return;
+    }
+    if (!shareObj?.images?.length) {
+      message.warning('이미지를 업로드해주세요.');
+      return;
+    }
+
+    let fileCds = [];
+    // 이미지 업로드
+    if (shareObj?.images) {
+      const uploadResult = await uploadFile(shareObj?.images, token);
+      if (uploadResult?.success) {
+        fileCds = uploadResult?.files?.map((e: any) => e?.file_cd);
+      } else {
+        message.warning(uploadResult?.message || '에러');
+        return;
+      }
+    }
+
+    const formData = {
+      to_user_seq: shareObj?.userSeq,
+      time: shareObj?.time,
+      content: shareObj?.content,
+      images: fileCds,
+    };
+
+    const updateResult = await contentPut(formData, token);
+    if (updateResult?.success) {
+      message.success('입력하신 정보로 공유되었습니다.');
+      setShareObj({ Images: [] });
+      setUploadedInfo(null);
+      setPreviews([]);
+    } else {
+      message.warning(updateResult?.message || '에러');
+    }
   };
 
   useEffect(() => {
@@ -105,14 +170,42 @@ function Share() {
                     </>
                   ),
                 }))}
+                value={shareObj?.userSeq}
                 style={{ width: '100%', height: 55 }}
+                onChange={(e: string) => setShareObj({ ...shareObj, userSeq: e })}
                 size="large"
               />
+            </div>
+            <div>
+              <Titles name="시간대" required />
+              <Radio.Group
+                value={shareObj?.time}
+                size="large"
+                buttonStyle="solid"
+                onChange={(e: RadioChangeEvent) =>
+                  setShareObj({ ...shareObj, time: e.target.value })
+                }
+                style={{ display: 'flex', textAlign: 'center', height: 55, fontWeight: 600 }}
+              >
+                <Radio.Button value={1} style={{ flex: 1, height: '100%', lineHeight: '50px' }}>
+                  아침
+                </Radio.Button>
+                <Radio.Button value={2} style={{ flex: 1, height: '100%', lineHeight: '50px' }}>
+                  점심
+                </Radio.Button>
+                <Radio.Button value={3} style={{ flex: 1, height: '100%', lineHeight: '50px' }}>
+                  저녁
+                </Radio.Button>
+              </Radio.Group>
             </div>
             <div>
               <Titles name="내용" required />
               <Input.TextArea
                 placeholder="내용을 작성해주세요."
+                onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                  setShareObj({ ...shareObj, content: e.target.value })
+                }
+                value={shareObj?.content}
                 style={{ resize: 'none', height: 196, padding: 13 }}
                 size="large"
               />
@@ -120,11 +213,15 @@ function Share() {
           </div>
         </Col>
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
-          <FileUpload />
+          <FileUpload {...props} />
         </Col>
       </Row>
       <div style={{ marginTop: 10, textAlign: 'right' }}>
-        <Button type="primary" style={{ width: 130, height: 50, fontWeight: 700 }}>
+        <Button
+          type="primary"
+          onClick={onClickShare}
+          style={{ width: 130, height: 50, fontWeight: 700 }}
+        >
           공유하기
         </Button>
       </div>
@@ -136,6 +233,6 @@ function Share() {
       </div>
     </div>
   );
-}
+};
 
 export default Share;

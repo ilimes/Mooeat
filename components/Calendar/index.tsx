@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import moment from 'moment';
 import { StyledCalendarWrapper, StyledCalendar, StyledDate, StyledToday, StyledDot } from './style';
-import { AttendanceLogTypes } from '@/types/Attendance/Attendance.interface';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];

@@ -71,9 +71,9 @@ const MyInfo = ({
       if (!imgRef.current.files?.length) return;
 
       if (imgRef.current.files) {
-        const file = imgRef.current.files?.[0];
+        const file = imgRef.current.files;
         const reader = new FileReader();
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file?.[0]);
         reader.onloadend = () => {
           if (typeof reader.result === 'string') {
             setImgFile({ file, url: reader.result });

@@ -13,17 +13,19 @@ body {
 ::-moz-selection {
     background: #4F4791;
     color: #fff;
- }
- ::selection {
+}
+
+::selection {
     background: #4F4791;
     color: #fff;
- }
+}
 
 @keyframes fadeInUp {
     0% {
         opacity: 0;
         transform: translate3d(0, 10%, 0);
     }
+
     to {
         opacity: 1;
         transform: translateZ(0);
@@ -36,6 +38,7 @@ body {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         /* 원 위치로 이동합니다. */
         opacity: 1;
@@ -45,13 +48,25 @@ body {
 
 @keyframes moveUp {
     from {
-      transform: translateY(150px);
+        transform: translateY(150px);
     }
+
     to {
-      transform: translateY(0);
-      opacity: 1;
+        transform: translateY(0);
+        opacity: 1;
     }
-  }
+}
+
+.ant-message {
+    bottom: 20px !important;
+    top: unset !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.ant-message-notice-content {
+    border: 2px solid #ddd;
+}
 
 .container {
     max-width: 1200px !important;
@@ -92,6 +107,7 @@ body {
     justify-content: center;
     margin: 0 auto;
     width: 1200px;
+
     @media (min-width: 991px) {
         display: flex;
     }
@@ -102,6 +118,7 @@ body {
     display: flex;
     margin: 0 auto;
     width: 1200px;
+
     @media (min-width: 991px) {
         display: none;
     }
@@ -117,7 +134,7 @@ button {
     padding: 0;
     text-align: left;
 }
-  
+
 button:hover {
     transition: 0.15s;
     box-shadow: inset 0px 0px 999px 5px rgba(255, 255, 255, 0.05);
@@ -136,6 +153,7 @@ button:active {
     animation-timing-function: ease-out;
     opacity: 0;
 }
+
 .title2 {
     animation-delay: 750ms;
     animation-duration: 370ms;
@@ -144,6 +162,7 @@ button:active {
     animation-timing-function: ease-out;
     opacity: 0;
 }
+
 .title3 {
     animation-delay: 1000ms;
     animation-duration: 420ms;
