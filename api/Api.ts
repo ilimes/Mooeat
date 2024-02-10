@@ -362,3 +362,23 @@ export const contentPut = async (formData: object, token: string) => {
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 };
+
+/**
+ * 식단을 보낸 유저 목록 조회
+ * @returns data
+ */
+export const loadShareUserList = async () =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/user/list`)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
+
+/**
+ * 특정 유저의 식단 전송 정보 목록 조회
+ * @returns data
+ */
+export const loadShareListView = async () =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/list/view`)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
