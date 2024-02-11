@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Avatar, Col, Divider, Row, Image as AntImage, Card, Popover } from 'antd';
+import { Avatar, Col, Divider, Row, Image as AntImage, Card, Popover, Modal } from 'antd';
 import { MessageOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import moment from 'moment';
@@ -14,6 +14,8 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
   const [shareUserList, setShareUserList] = useState<any>([]);
   const [shareListView, setShareListView] = useState<any>([]);
   const [filterSeq, setFilterSeq] = useState(null);
+  const [isModalOpen, setIsOpenModal] = useState(false);
+  const [originImg, setOriginImg] = useState(null);
 
   const filteredShareListView = filterSeq
     ? shareListView?.filter((e: any) => e.user_seq === filterSeq)
@@ -146,33 +148,29 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
                 <Row gutter={[0, 20]} style={{ width: '100%', marginTop: 20 }}>
                   {e.file_uids?.map((e: any, index: number) => (
                     <Col key={index} span={8} style={{ padding: 10 }}>
-                      <div>
-                        <Popover
-                          content={
-                            <img
-                              src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}`}`}
-                              alt="originImg"
-                              style={{ maxWidth: '90vw', maxHeight: '90vh' }}
-                            />
-                          }
-                        >
-                          <img
-                            src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}?thumb=1`}`}
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            style={{
-                              width: '100%',
-                              height: 150,
-                              display: 'block',
-                              borderRadius: 16,
-                              border: '1px solid #ccc',
-                              objectFit: 'cover',
-                            }}
-                            // onClick={() => setFileInfo(shareObj.imagses[index])}
-                            alt={`${e}`}
-                          />
-                        </Popover>
+                      <div
+                        onClick={() => {
+                          setOriginImg(e);
+                          setIsOpenModal(true);
+                        }}
+                        aria-hidden="true"
+                      >
+                        <img
+                          src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}?thumb=1`}`}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          style={{
+                            width: '100%',
+                            height: 150,
+                            display: 'block',
+                            borderRadius: 16,
+                            border: '1px solid #ccc',
+                            objectFit: 'cover',
+                          }}
+                          // onClick={() => setFileInfo(shareObj.imagses[index])}
+                          alt={`${e}`}
+                        />
                       </div>
                     </Col>
                   ))}
@@ -182,6 +180,13 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
           );
         })}
       </div>
+      <Modal title="크게 보기" open={isModalOpen} footer={false}>
+        <img
+          src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${originImg}`}`}
+          alt="originImg"
+          // style={{ maxWidth: '90vw', maxHeight: '90vh' }}
+        />
+      </Modal>
     </>
   );
 };
