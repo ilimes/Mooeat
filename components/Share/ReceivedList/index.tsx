@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Avatar, Col, Divider, Row, Image as AntImage, Card, Popover, Modal } from 'antd';
-import { MessageOutlined } from '@ant-design/icons';
+import { Avatar, Col, Divider, Row, Image as AntImage, Card } from 'antd';
+import { MessageOutlined, ZoomInOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -14,8 +14,6 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
   const [shareUserList, setShareUserList] = useState<any>([]);
   const [shareListView, setShareListView] = useState<any>([]);
   const [filterSeq, setFilterSeq] = useState(null);
-  const [isModalOpen, setIsOpenModal] = useState(false);
-  const [originImg, setOriginImg] = useState(null);
 
   const filteredShareListView = filterSeq
     ? shareListView?.filter((e: any) => e.user_seq === filterSeq)
@@ -146,47 +144,50 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
               </div>
               <StyledDiv>
                 <Row gutter={[0, 20]} style={{ width: '100%', marginTop: 20 }}>
-                  {e.file_uids?.map((e: any, index: number) => (
-                    <Col key={index} span={8} style={{ padding: 10 }}>
-                      <div
-                        onClick={() => {
-                          setOriginImg(e);
-                          setIsOpenModal(true);
-                        }}
-                        aria-hidden="true"
-                      >
-                        <img
-                          src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}?thumb=1`}`}
-                          width={0}
-                          height={0}
-                          sizes="100vw"
+                  <AntImage.PreviewGroup
+                    preview={{
+                      onChange: (current, prev) =>
+                        console.log(`current index: ${current}, prev index: ${prev}`),
+                    }}
+                  >
+                    {e.file_uids?.map((e: any, index: number) => (
+                      <Col key={index} span={8} style={{ padding: 10 }}>
+                        <div
                           style={{
-                            width: '100%',
-                            height: 150,
-                            display: 'block',
-                            borderRadius: 16,
+                            textAlign: 'center',
                             border: '1px solid #ccc',
-                            objectFit: 'cover',
+                            borderRadius: 16,
+                            overflow: 'hidden',
                           }}
-                          // onClick={() => setFileInfo(shareObj.imagses[index])}
-                          alt={`${e}`}
-                        />
-                      </div>
-                    </Col>
-                  ))}
+                        >
+                          <AntImage
+                            style={{
+                              width: '100%',
+                              height: 150,
+                              display: 'block',
+                              objectFit: 'cover',
+                              borderRadius: 16,
+                            }}
+                            src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}?thumb=1`}`}
+                            fallback="/img/noimg.png"
+                            preview={{
+                              mask: (
+                                <>
+                                  <ZoomInOutlined style={{ marginRight: 5 }} /> 크게보기
+                                </>
+                              ),
+                            }}
+                          />
+                        </div>
+                      </Col>
+                    ))}
+                  </AntImage.PreviewGroup>
                 </Row>
               </StyledDiv>
             </Card>
           );
         })}
       </div>
-      <Modal title="크게 보기" open={isModalOpen} footer={false}>
-        <img
-          src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${originImg}`}`}
-          alt="originImg"
-          // style={{ maxWidth: '90vw', maxHeight: '90vh' }}
-        />
-      </Modal>
     </>
   );
 };
