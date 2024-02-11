@@ -152,9 +152,9 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
                             <img
                               src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}`}`}
                               alt="originImg"
+                              style={{ maxWidth: '90vw', maxHeight: '90vh' }}
                             />
                           }
-                          style={{ maxWidth: '90vw', maxHeight: '90vh' }}
                         >
                           <img
                             src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}?thumb=1`}`}
