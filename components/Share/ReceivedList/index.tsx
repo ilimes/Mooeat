@@ -154,6 +154,7 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
                               alt="originImg"
                             />
                           }
+                          style={{ maxWidth: '90vw', maxHeight: '90vh' }}
                         >
                           <img
                             src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}?thumb=1`}`}
