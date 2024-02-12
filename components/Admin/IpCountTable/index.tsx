@@ -87,11 +87,11 @@ const IpCountTable = () => {
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
           <Table rowKey={(record) => record?.idx} columns={columns} dataSource={data} />
         </Col>
-        <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+        <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12} style={{ height: 650 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               width={500}
-              height={300}
+              height={650}
               data={data?.slice(0, 5)}
               margin={{
                 top: 5,
