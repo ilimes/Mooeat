@@ -166,6 +166,23 @@ const Friends = () => {
       content = (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <StyledCard
+            title="바로가기"
+            $isClicked
+            style={{
+              border: '1px solid #eee',
+              boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)',
+            }}
+          >
+            <Button
+              type="primary"
+              size="large"
+              style={{ fontWeight: 700 }}
+              onClick={() => router.push(`share?seq=${clickUserInfo?.user_info?.user_seq}`)}
+            >
+              식단 공유하기
+            </Button>
+          </StyledCard>
+          <StyledCard
             title="회원 기본 정보"
             $isClicked
             style={{
@@ -339,6 +356,7 @@ const Friends = () => {
       message.success('정상적으로 처리되었습니다.');
       getFriendList();
       setClickSeq(null);
+      closeModal();
     } else {
       message.warning(result?.message);
     }
@@ -673,7 +691,13 @@ const Friend = ({
           </div>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
             <Button onClick={closeModal}>취소</Button>
-            <Button danger onClick={() => deleteFriend(element?.to_user_seq, 'F')}>
+            <Button
+              danger
+              onClick={() => {
+                deleteFriend(element?.to_user_seq, 'F');
+                closeModal();
+              }}
+            >
               친구 삭제
             </Button>
             <Button type="primary" danger onClick={() => deleteFriend(element?.to_user_seq, 'T')}>

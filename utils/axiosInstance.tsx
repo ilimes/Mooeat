@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { getSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react';
 
 const requestSuccessHandler = async (config: InternalAxiosRequestConfig) => {
-  const session = await getSession()
+  const session = await getSession();
   const token = session?.user?.info?.data?.token;
 
   if (token) {
@@ -11,28 +11,23 @@ const requestSuccessHandler = async (config: InternalAxiosRequestConfig) => {
   return config;
 };
 
-const requestErrorHandler = (error: Error | AxiosError) => {
+const requestErrorHandler = (error: Error | AxiosError) =>
   // console.log('request 실패 : ', error);
-  return Promise.reject(error);
-};
-
-const responseSuccessHandler = (response: AxiosResponse) => {
+  Promise.reject(error);
+const responseSuccessHandler = (response: AxiosResponse) =>
   // console.log('response 성공: ', response);
-  return response;
-};
+  response;
 const responseErrorHandler = (error: Error | AxiosError) => {
-    if (axios.isAxiosError(error)) {
-        const { method, url } = error.config as InternalAxiosRequestConfig;
-        if (error.response) {
-            const { statusCode, message } = error.response.data;
-            console.log(
-                `🚨 [API - ERROR] ${method?.toUpperCase()} ${url} | ${statusCode} : ${message}`,
-            );
-        }
-    } else {
-        console.log(`🚨 [API] | Error ${error.message}`);
+  if (axios.isAxiosError(error)) {
+    const { method, url } = error.config as InternalAxiosRequestConfig;
+    if (error.response) {
+      const { statusCode, message } = error.response.data;
+      console.log(`🚨 [API - ERROR] ${method?.toUpperCase()} ${url} | ${statusCode} : ${message}`);
     }
-    return Promise.reject(error);
+  } else {
+    console.log(`🚨 [API] | Error ${error.message}`);
+  }
+  return Promise.reject(error);
 };
 
 const axiosInstance = axios.create({
@@ -40,7 +35,7 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
   timeout: 6000,
-  timeoutErrorMessage: `요청이 너무 깁니다.`,
+  timeoutErrorMessage: '요청이 너무 깁니다.',
 });
 
 axiosInstance.interceptors.request.use(requestSuccessHandler, requestErrorHandler);

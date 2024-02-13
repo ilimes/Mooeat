@@ -1,6 +1,5 @@
-
-import { UserInfoTypes } from '@/types/User/User.interface';
 import { atom } from 'recoil';
+import { UserInfoTypes } from '@/types/User/User.interface';
 
 /**
  * 메뉴

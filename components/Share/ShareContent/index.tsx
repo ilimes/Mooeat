@@ -1,7 +1,8 @@
 import { Avatar, Button, Col, Input, Radio, RadioChangeEvent, Row, Select, message } from 'antd';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { contentPut, uploadFile } from '@/api/Api';
 import { UploadInfoTypes } from '@/types/Common/Common.interface';
@@ -11,6 +12,9 @@ import FileUpload from '@/components/FileUpload';
 const ShareContent = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => {
   const { data: session, status } = useSession();
   const token = session?.user?.info?.data?.token;
+
+  const searchParams = useSearchParams();
+  const seq = searchParams?.get('seq');
 
   const [shareObj, setShareObj] = useState<any>({ images: [] });
   const [uploadedInfo, setUploadedInfo] = useState<UploadInfoTypes | null>(null);
@@ -65,6 +69,16 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
       message.warning(updateResult?.message || '에러');
     }
   };
+
+  useEffect(() => {
+    if (
+      pureFriendList?.length &&
+      pureFriendList?.find((e: any) => e.to_user_seq === Number(seq)) &&
+      seq
+    ) {
+      setShareObj({ ...shareObj, userSeq: Number(seq) });
+    }
+  }, [pureFriendList, seq]);
 
   return (
     <>
