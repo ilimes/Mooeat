@@ -34,7 +34,7 @@ const onFinish = async (
     message.warning(res?.error || '아이디 혹은 비밀번호가 일치하지 않습니다.');
     router.push('/auth/login/email');
   } else {
-    router.refresh('/');
+    router.push('/');
   }
 };
 
@@ -57,12 +57,10 @@ const EmailLogin = () => {
         style={{ maxWidth: 600 }}
         initialValues={{ agree: false }}
         onFinish={(values: any) => onFinish(values, setIsLoading, router)}
-        // onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <StyledTitleDiv>이메일</StyledTitleDiv>
         <Form.Item<FieldType>
-          // label="이메일"
           name="user_id"
           rules={[{ required: true, message: '형식에 맞게 이메일을 입력해주세요.', type: 'email' }]}
           hasFeedback
@@ -72,7 +70,6 @@ const EmailLogin = () => {
         </Form.Item>
         <StyledTitleDiv>비밀번호</StyledTitleDiv>
         <Form.Item<FieldType>
-          // label="비밀번호"
           name="password"
           rules={[{ required: true, message: '비밀번호를 입력해주세요.' }]}
           hasFeedback
