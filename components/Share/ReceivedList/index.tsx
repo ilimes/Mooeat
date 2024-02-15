@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { FriendTypes } from '@/types/Friend/Friend.interface';
 import { loadShareListView, loadShareUserList } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
-import all from '@/public/img/profile/all.png';
+import all from '../../../public/img/profile/all.png';
 
 const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => {
   const { data: session, status } = useSession();
