@@ -5,12 +5,11 @@ import { MessageOutlined, ZoomInOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import moment from 'moment';
 import styled from 'styled-components';
-import { FriendTypes } from '@/types/Friend/Friend.interface';
+import { Friend, FriendTypes } from '@/types/Friend/Friend.interface';
 import { loadShareListView, loadShareUserList } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
-import allIcon from '@/public/img/profile/all-icon.png';
 
-const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => {
+const ReceivedList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
   const { data: session, status } = useSession();
   const [shareUserList, setShareUserList] = useState<any>([]);
   const [shareListView, setShareListView] = useState<any>([]);

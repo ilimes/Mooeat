@@ -4,7 +4,7 @@ import { Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { InfoTypes } from '@/types/Common/Common.interface';
-import { FriendTypes } from '@/types/Friend/Friend.interface';
+import { Friend, FriendTypes } from '@/types/Friend/Friend.interface';
 import { loadFriendList } from '@/api/Api';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 import ShareContent from '@/components/Share/ShareContent';
@@ -29,25 +29,18 @@ const Share = () => {
   const { data: session, status } = useSession();
   const [activeKey, setActiveKey] = useState('share');
 
-  const [friendList, setFriendList] = useState<FriendTypes[]>([]);
+  const [friendList, setFriendList] = useState<Friend[]>([]);
 
   const userSeq = session?.user?.info?.userInfo?.user_seq;
-
-  const friendList1 = friendList?.filter((e) => e?.from_user_seq === userSeq && e?.agree === 'Y');
-  const friendList2 = friendList?.filter((e) => e?.to_user_seq === userSeq && e?.agree === 'Y');
-  const pureFriendList = friendList1?.filter((e) =>
-    friendList2?.find((ele) => ele?.from_user_seq === e?.to_user_seq),
-  );
-  const pureCondition = pureFriendList?.length !== 0;
 
   const onChange = (key: string) => {
     setActiveKey(key);
   };
 
   const getFriendList = async () => {
-    const formData: any = { user_seq: userSeq };
+    const formData: any = { user_seq: userSeq, type: 'P' };
     const result = await loadFriendList(formData);
-    setFriendList(result?.list);
+    setFriendList(result?.list?.pureList);
   };
 
   useEffect(() => {
@@ -66,9 +59,9 @@ const Share = () => {
         style={{ fontWeight: 800 }}
         tabBarGutter={20}
       />
-      {activeKey === 'share' && <ShareContent pureFriendList={pureFriendList} />}
-      {activeKey === 'received' && <ReceivedList pureFriendList={pureFriendList} />}
-      {activeKey === 'sent' && <ShareContent pureFriendList={pureFriendList} />}
+      {activeKey === 'share' && <ShareContent pureFriendList={friendList} />}
+      {activeKey === 'received' && <ReceivedList pureFriendList={friendList} />}
+      {activeKey === 'sent' && <ShareContent pureFriendList={friendList} />}
     </div>
   );
 };

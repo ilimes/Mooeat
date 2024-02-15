@@ -6,14 +6,14 @@ import { useSearchParams } from 'next/navigation';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { contentPut, uploadFile } from '@/api/Api';
 import { UploadInfoTypes } from '@/types/Common/Common.interface';
-import { FriendTypes } from '@/types/Friend/Friend.interface';
+import { Friend, FriendTypes } from '@/types/Friend/Friend.interface';
 import FileUpload from '@/components/FileUpload';
 import Freepik from '@/components/Freepik';
 
 const freepikLink =
   'https://kr.freepik.com/free-vector/colorful-icons-set-style_12067938.htm#query=share&position=5&from_view=search&track=sph&uuid=ff78e392-b332-4598-ac8b-18451751f2c3';
 
-const ShareContent = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => {
+const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
   const { data: session, status } = useSession();
   const token = session?.user?.info?.data?.token;
 
@@ -96,7 +96,7 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
               <Titles name="대상 선택" required />
               <Select
                 placeholder="공유할 친구를 선택해주세요."
-                options={pureFriendList?.map((e: FriendTypes, i: number) => ({
+                options={pureFriendList?.map((e: Friend, i: number) => ({
                   value: e?.to_user_seq,
                   label: (
                     <>

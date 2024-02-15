@@ -30,7 +30,7 @@ import moment from 'moment';
 import Image from 'next/image';
 import { useModal } from '@/hooks/useModal';
 import { InfoTypes } from '@/types/Common/Common.interface';
-import { FriendTypes } from '@/types/Friend/Friend.interface';
+import { Friend, FriendTypes } from '@/types/Friend/Friend.interface';
 import useIsMobile from '@/hooks/useIsMobile';
 import {
   deleteFriendData,
@@ -72,41 +72,14 @@ const Friends = () => {
   const [clickSeq, setClickSeq] = useState<number | null>(null);
   const [nowState, setNowState] = useState<string>('default');
 
-  const [friendList, setFriendList] = useState<FriendTypes[]>([]);
+  const [friendList, setFriendList] = useState<FriendTypes>({});
   const userSeq = session?.user?.info?.userInfo?.user_seq;
 
   const [clickUserInfo, setClickUserInfo] = useState<any>(null);
 
-  // 받은 요청 리스트
-  const receivedList = friendList?.filter(
-    (e) => e.from_user_seq === userSeq && e?.agree === 'N' && e?.other_agree === 'Y',
-  );
-
-  // 보낸 요청 리스트
-  const sentList = friendList?.filter(
-    (e) => e.from_user_seq === userSeq && e?.agree === 'Y' && e?.other_agree === 'N',
-  );
-
-  const friendList1 = friendList?.filter((e) => e?.from_user_seq === userSeq && e?.agree === 'Y');
-  const friendList2 = friendList?.filter((e) => e?.to_user_seq === userSeq && e?.agree === 'Y');
-  const pureFriendList = friendList1?.filter((e) =>
-    friendList2?.find((ele) => ele?.from_user_seq === e?.to_user_seq),
-  );
-
-  const sendCondition = sentList?.length !== 0 && (activeKey === 'all' || activeKey === 'send');
-  const getCondition = receivedList?.length !== 0 && (activeKey === 'all' || activeKey === 'get');
-  const pureCondition =
-    pureFriendList?.length !== 0 && (activeKey === 'all' || activeKey === 'done');
-
-  const allCondition =
-    (friendList?.length &&
-      activeKey === 'all' &&
-      !receivedList?.length &&
-      !sentList?.length &&
-      !pureFriendList?.length) ||
-    (friendList?.length && activeKey === 'get' && !receivedList?.length) ||
-    (friendList?.length && activeKey === 'send' && !sentList?.length) ||
-    (friendList?.length && activeKey === 'done' && !pureFriendList?.length);
+  const sendCondition = activeKey === 'all' || activeKey === 'send';
+  const getCondition = activeKey === 'all' || activeKey === 'get';
+  const pureCondition = activeKey === 'all' || activeKey === 'done';
 
   const onChange = (key: string) => {
     setActiveKey(key);
@@ -132,7 +105,7 @@ const Friends = () => {
     let title = null;
     let content = null;
     if (nowState === 'sent') {
-      modDt = sentList?.find((e) => e?.to_user_seq === clickSeq)?.mod_dt;
+      modDt = friendList?.sentList?.find((e) => e?.to_user_seq === clickSeq)?.mod_dt;
       title = (
         <>
           <img src="/img/friend/agree1.png" width={32} height={32} alt="agree1" />
@@ -147,7 +120,7 @@ const Friends = () => {
       );
     }
     if (nowState === 'received') {
-      modDt = receivedList?.find((e) => e?.to_user_seq === clickSeq)?.mod_dt;
+      modDt = friendList?.receivedList?.find((e) => e?.to_user_seq === clickSeq)?.mod_dt;
       title = (
         <>
           <img src="/img/friend/agree2.png" width={32} height={32} alt="agree2" />
@@ -157,7 +130,7 @@ const Friends = () => {
       content = '요청을 수락하시려면 `요청 수락` 버튼을 눌러주세요.';
     }
     if (nowState === 'pure') {
-      modDt = pureFriendList?.find((e) => e?.to_user_seq === clickSeq)?.mod_dt;
+      modDt = friendList?.pureList?.find((e) => e?.to_user_seq === clickSeq)?.mod_dt;
       title = (
         <>
           <img src="/img/friend/friend1.png" width={32} height={32} alt="friend" />
@@ -434,64 +407,30 @@ const Friends = () => {
             />
             <Row gutter={[10, 10]}>
               {getCondition && (
-                <Col span={24}>
-                  <Row
-                    gutter={[0, 10]}
-                    style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}
-                  >
-                    <div style={{ fontWeight: 700, margin: '0 auto' }}>받은 요청</div>
-                    {receivedList?.length !== 0 &&
-                      receivedList?.map((e: FriendTypes, i: number) => (
-                        <Friend key={i} {...props} element={e} state="received" />
-                      ))}
-                  </Row>
-                </Col>
+                <ListCard
+                  list={friendList?.receivedList}
+                  title="받은 요청"
+                  state="received"
+                  loading={status === 'loading'}
+                  friendProps={props}
+                />
               )}
               {sendCondition && (
-                <Col span={24}>
-                  <Row
-                    gutter={[0, 10]}
-                    style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}
-                  >
-                    <div style={{ fontWeight: 700, margin: '0 auto' }}>보낸 요청</div>
-                    {sentList?.length !== 0 &&
-                      sentList?.map((e: FriendTypes, i) => (
-                        <Friend key={i} {...props} element={e} state="sent" />
-                      ))}
-                  </Row>
-                </Col>
+                <ListCard
+                  list={friendList?.sentList}
+                  title="보낸 요청"
+                  state="sent"
+                  loading={status === 'loading'}
+                  friendProps={props}
+                />
               )}
               {pureCondition && (
-                <Col span={24}>
-                  <Row
-                    gutter={[0, 10]}
-                    style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}
-                  >
-                    <div style={{ fontWeight: 700, margin: '0 auto' }}>서로 친구</div>
-                    {pureFriendList?.length !== 0 &&
-                      pureFriendList?.map((e: FriendTypes, i: number) => (
-                        <Friend key={i} {...props} element={e} state="pure" />
-                      ))}
-                  </Row>
-                </Col>
-              )}
-              {status === 'authenticated' && (!friendList?.length || allCondition) ? (
-                <StyledEmpty
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                  description="목록이 존재하지 않습니다."
-                />
-              ) : (
-                ''
-              )}
-              {status === 'loading' && (
-                <Spin
-                  style={{
-                    display: 'flex',
-                    flex: 1,
-                    height: 150,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                <ListCard
+                  list={friendList?.pureList}
+                  title="서로 친구"
+                  state="pure"
+                  loading={status === 'loading'}
+                  friendProps={props}
                 />
               )}
             </Row>
@@ -583,7 +522,52 @@ const Friends = () => {
   );
 };
 
-const Friend = ({
+const ListCard = ({
+  list,
+  title,
+  loading,
+  state,
+  friendProps,
+}: {
+  list: any;
+  title: any;
+  loading: any;
+  state: any;
+  friendProps: any;
+}) => (
+  <Col span={24}>
+    <Row gutter={[0, 10]} style={{ background: '#DEE3E9', padding: 10, borderRadius: 12 }}>
+      <div style={{ fontWeight: 700, margin: '0 auto' }}>{title}</div>
+      {list?.map((e: FriendTypes, i: number) => (
+        <FriendCard key={i} {...friendProps} element={e} state={state} />
+      ))}
+      {loading ? (
+        <Col span={24} style={{ background: '#fff', borderRadius: 12 }}>
+          <Spin
+            style={{
+              display: 'flex',
+              flex: 1,
+              height: 134,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          />
+        </Col>
+      ) : (
+        !list?.length && (
+          <Col span={24} style={{ background: '#fff', borderRadius: 12 }}>
+            <StyledEmpty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description="목록이 존재하지 않습니다."
+            />
+          </Col>
+        )
+      )}
+    </Row>
+  </Col>
+);
+
+const FriendCard = ({
   clickSeq,
   setClickSeq,
   updateFriend,
@@ -596,7 +580,7 @@ const Friend = ({
   setClickSeq: Dispatch<SetStateAction<number | null>>;
   updateFriend?: any;
   deleteFriend?: any;
-  element: FriendTypes;
+  element: Friend;
   state: string;
   setNowState: Dispatch<SetStateAction<string>>;
 }) => {
@@ -615,7 +599,7 @@ const Friend = ({
           className="fade"
           bodyStyle={{ padding: 15 }}
           onClick={() => {
-            setClickSeq(/* state === 'received' ? element?.from_user_seq : */ element?.to_user_seq);
+            setClickSeq(element?.to_user_seq);
             setNowState(state);
           }}
           $isClicked={clickSeq === element?.to_user_seq}
@@ -779,13 +763,6 @@ const StyledRightCard = styled(Card)`
 
 const StyledEmpty = styled(Empty)`
   && {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    height: 360px;
-    justify-content: center;
-    align-items: center;
-
     > .ant-empty-description {
       color: grey;
       font-size: 14px;
