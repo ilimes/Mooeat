@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { FriendTypes } from '@/types/Friend/Friend.interface';
 import { loadShareListView, loadShareUserList } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
-import all from '../../../public/img/profile/all.png';
+import allIcon from '@/public/img/profile/all-icon.png';
 
 const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => {
   const { data: session, status } = useSession();
@@ -187,7 +187,11 @@ const Btn = ({
                 alt="avatar"
               />
             ) : (
-              <Image src={seq ? unknownAvatar : all} alt="unknown" style={{ background: '#eee' }} />
+              <Image
+                src={seq ? unknownAvatar : allIcon}
+                alt="unknown"
+                style={{ background: '#eee' }}
+              />
             )
           }
         />
