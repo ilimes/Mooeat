@@ -187,11 +187,7 @@ const Btn = ({
                 alt="avatar"
               />
             ) : (
-              <Image
-                src={seq ? unknownAvatar : allIcon}
-                alt="unknown"
-                style={{ background: '#eee' }}
-              />
+              <Image src={unknownAvatar} alt="unknown" style={{ background: '#eee' }} />
             )
           }
         />
