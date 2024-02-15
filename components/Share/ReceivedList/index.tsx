@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Avatar, Col, Divider, Row, Image as AntImage, Card } from 'antd';
+import { Avatar, Col, Divider, Row, Image as AntImage, Card, Tooltip } from 'antd';
 import { MessageOutlined, ZoomInOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import moment from 'moment';
@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { FriendTypes } from '@/types/Friend/Friend.interface';
 import { loadShareListView, loadShareUserList } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import all from '@/public/img/profile/all.png';
 
 const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => {
   const { data: session, status } = useSession();
@@ -44,63 +45,19 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
 
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          gap: 10,
-          margin: '20px 0',
-          border: '1px solid #ccc',
-          borderRadius: 16,
-          padding: 10,
-        }}
-      >
-        <div
-          key="all"
-          onClick={() => setFilterSeq(null)}
-          aria-hidden="true"
-          style={{
-            textAlign: 'center',
-            background: !filterSeq ? '#ddd' : '#fff',
-            padding: 5,
-            borderRadius: 12,
-            transition: '0.5s',
-            cursor: 'pointer',
-          }}
-        >
-          <Avatar size={32} icon={<Image src={unknownAvatar} alt="unknown" />} />
-          <div>전체보기</div>
-        </div>
+      <StyledBtnsDiv>
+        <Btn filterSeq={filterSeq} setFilterSeq={setFilterSeq} />
         {shareUserList?.map((e: any, i: number) => (
-          <div
+          <Btn
             key={i}
-            onClick={() => setFilterSeq(e?.user_seq)}
-            aria-hidden="true"
-            style={{
-              textAlign: 'center',
-              padding: 5,
-              borderRadius: 12,
-              background: filterSeq === e?.user_seq ? '#ddd' : '#fff',
-              transition: '0.5s',
-              cursor: 'pointer',
-            }}
-          >
-            <Avatar
-              size={32}
-              icon={
-                e?.profile_path ? (
-                  <img
-                    src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e?.profile_path}?thumb=1`}`}
-                    alt="avatar"
-                  />
-                ) : (
-                  <Image src={unknownAvatar} alt="unknown" />
-                )
-              }
-            />
-            <div>{`${e?.user_nm}`}</div>
-          </div>
+            seq={e?.user_seq}
+            profile_path={e?.profile_path}
+            title={e?.user_nm}
+            filterSeq={filterSeq}
+            setFilterSeq={setFilterSeq}
+          />
         ))}
-      </div>
+      </StyledBtnsDiv>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
         {filteredShareListView?.map((e: any, i: number) => {
           const nowProfilePath = shareUserList?.find(
@@ -192,6 +149,54 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
   );
 };
 
+const Btn = ({
+  seq,
+  profile_path,
+  title,
+  filterSeq,
+  setFilterSeq,
+}: {
+  seq?: number;
+  profile_path?: string;
+  title?: string;
+  filterSeq: any;
+  setFilterSeq: Dispatch<SetStateAction<any>>;
+}) => (
+  <div>
+    <div
+      key="all"
+      onClick={() => setFilterSeq(seq || null)}
+      aria-hidden="true"
+      style={{
+        textAlign: 'center',
+        background: (!seq && !filterSeq) || (seq && filterSeq === seq) ? '#ddd' : '#fff',
+        padding: '5px 2px',
+        width: 55,
+        borderRadius: 12,
+        transition: '0.5s',
+        cursor: 'pointer',
+      }}
+    >
+      <Tooltip title={title}>
+        <Avatar
+          size={32}
+          icon={
+            profile_path ? (
+              <img
+                src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${profile_path}?thumb=1`}`}
+                alt="avatar"
+              />
+            ) : (
+              <Image src={seq ? unknownAvatar : all} alt="unknown" style={{ background: '#eee' }} />
+            )
+          }
+        />
+        <BtnTitle>{title || '전체'}</BtnTitle>
+      </Tooltip>
+    </div>
+  </div>
+);
+
 export default ReceivedList;
 
 const StyledDiv = styled.div`
@@ -225,4 +230,23 @@ const StyledOutDiv = styled.div`
     text-overflow: ellipsis;
     word-break: break-all;
   }
+`;
+
+const BtnTitle = styled.div`
+  && {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
+`;
+
+const StyledBtnsDiv = styled.div`
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  overflow: auto;
+  border-radius: 16px;
+  padding: 10px;
 `;

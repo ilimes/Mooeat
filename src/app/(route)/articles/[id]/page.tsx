@@ -184,54 +184,49 @@ const Articles = () => {
       }
       <Divider />
       {/* 댓글 영역 */}
-      <div>
-        <div style={{ marginBottom: 20, fontSize: 18 }}>댓글 {commentList?.length}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+        <div style={{ fontSize: 18 }}>댓글 {commentList?.length}</div>
         {commentList?.map((e: CommentTypes, i: number) => (
           <div key={i}>
-            <div style={{ display: 'flex', marginBottom: 40 }}>
-              <div style={{ marginRight: 10 }}>
-                <Avatar
-                  size={55}
-                  icon={
-                    e?.profile_path ? (
-                      <img
-                        src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e?.profile_path}?thumb=1`}`}
-                        alt="profile"
+            <CommentDiv
+              e={e}
+              selectedCommentSeq={selectedCommentSeq}
+              setSelectedCommentSeq={setSelectedCommentSeq}
+            />
+            {e?.children?.length ? (
+              <>
+                <div
+                  style={{
+                    background: '#f5f5f5',
+                    margin: '20px 0px 0px 30px',
+                    padding: 20,
+                    borderRadius: 16,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 40,
+                  }}
+                >
+                  {e?.children?.map((ele: CommentTypes, idx: number) => (
+                    <div key={idx}>
+                      <CommentDiv
+                        e={ele}
+                        selectedCommentSeq={selectedCommentSeq}
+                        setSelectedCommentSeq={setSelectedCommentSeq}
                       />
-                    ) : (
-                      <Image src={unknownAvatar} alt="unknown" />
-                    )
-                  }
-                />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                <div style={{ fontWeight: 700 }}>{e?.reg_user_nm}</div>
-                <div>{e?.content}</div>
-                <div style={{ fontSize: 13, marginTop: 10 }}>
-                  <span style={{ color: 'grey' }}>
-                    {moment(e?.reg_dt).isAfter(moment().subtract(1, 'd'))
-                      ? moment(e?.reg_dt).fromNow()
-                      : moment(e?.reg_dt).format('LLL')}
-                  </span>{' '}
-                  ·{' '}
-                  <span
-                    onClick={() => setSelectedCommentSeq(e?.comment_seq)}
-                    aria-hidden="true"
-                    style={{ color: '#000', fontSize: 14, cursor: 'pointer' }}
-                  >
-                    답글 달기
-                  </span>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </div>
+              </>
+            ) : null}
             {e?.comment_seq === selectedCommentSeq && (
               <ReplyDiv
                 key="subReply"
                 session={session}
                 router={router}
                 getCommentList={getCommentList}
+                selectedCommentSeq={selectedCommentSeq}
                 setSelectedCommentSeq={setSelectedCommentSeq}
-                isPadding
+                isReply
               />
             )}
           </div>
@@ -241,7 +236,8 @@ const Articles = () => {
           session={session}
           router={router}
           getCommentList={getCommentList}
-          isPadding={false}
+          setSelectedCommentSeq={setSelectedCommentSeq}
+          isReply={false}
         />
         <div style={{ textAlign: 'right' }}>
           <Button
@@ -256,6 +252,63 @@ const Articles = () => {
     </div>
   );
 };
+
+const CommentDiv = ({
+  e,
+  selectedCommentSeq,
+  setSelectedCommentSeq,
+}: {
+  e: any;
+  selectedCommentSeq: any;
+  setSelectedCommentSeq: any;
+}) => (
+  <>
+    <div style={{ display: 'flex' }}>
+      <div style={{ marginRight: 10 }}>
+        <Avatar
+          size={55}
+          icon={
+            e?.profile_path ? (
+              <img
+                src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e?.profile_path}?thumb=1`}`}
+                alt="profile"
+              />
+            ) : (
+              <Image src={unknownAvatar} alt="unknown" />
+            )
+          }
+        />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+        <div style={{ fontWeight: 700 }}>{e?.reg_user_nm}</div>
+        <div>{e?.content}</div>
+        <div style={{ fontSize: 13, marginTop: 10 }}>
+          <span style={{ color: 'grey' }}>
+            {moment(e?.reg_dt).isAfter(moment().subtract(1, 'd'))
+              ? moment(e?.reg_dt).fromNow()
+              : moment(e?.reg_dt).format('LLL')}
+          </span>{' '}
+          {!e?.parents_seq && (
+            <>
+              ·{' '}
+              <span
+                onClick={() =>
+                  setSelectedCommentSeq(
+                    e?.comment_seq === selectedCommentSeq ? null : e?.comment_seq,
+                  )
+                }
+                aria-hidden="true"
+                style={{ color: '#000', fontSize: 14, cursor: 'pointer' }}
+              >
+                {e?.comment_seq === selectedCommentSeq ? '답글 취소' : '답글 달기'}
+              </span>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </>
+);
 
 export default Articles;
 
@@ -343,14 +396,16 @@ const ReplyDiv = ({
   session,
   router,
   getCommentList,
+  selectedCommentSeq,
   setSelectedCommentSeq,
-  isPadding,
+  isReply,
 }: {
   session: Session | null;
   router: AppRouterInstance;
   getCommentList: () => Promise<void>;
-  setSelectedCommentSeq?: Dispatch<SetStateAction<number | null>>;
-  isPadding: boolean;
+  selectedCommentSeq?: number | null;
+  setSelectedCommentSeq: Dispatch<SetStateAction<number | null>>;
+  isReply: boolean;
 }) => {
   const userInfo = useRecoilValue(userInfoState);
   const profileImg = userInfo?.user_set?.file_path_thumb;
@@ -363,8 +418,11 @@ const ReplyDiv = ({
 
   const [commentData, setCommentData] = useState<any>({});
 
-  const onClickCommentWrite = async () => {
+  const onClickCommentWrite = async (isReply: boolean) => {
     const formData = { comment_cd: 'BOARD', target_seq: Number(params?.id), ...commentData };
+    if (isReply) {
+      formData.parents_seq = selectedCommentSeq;
+    }
     if (!formData?.content) {
       message.warning('내용을 입력해주세요.');
       return;
@@ -374,13 +432,14 @@ const ReplyDiv = ({
       message.success('댓글이 등록되었습니다.');
       getCommentList();
       setCommentData({});
+      setSelectedCommentSeq(null);
     } else {
       message.warning(result?.message || '에러발생');
     }
   };
 
   return (
-    <div style={{ display: 'flex', paddingLeft: isPadding ? 50 : 0 }}>
+    <div style={{ display: 'flex', paddingLeft: isReply ? 50 : 0, marginTop: 20 }}>
       <div style={{ marginRight: 10 }}>
         <Avatar size={55} icon={profile} />
       </div>
@@ -433,19 +492,10 @@ const ReplyDiv = ({
                     비밀글
                   </div>
                 </div> */}
-            {setSelectedCommentSeq && (
-              <div
-                onClick={() => setSelectedCommentSeq(null)}
-                aria-hidden="true"
-                style={{ cursor: 'pointer' }}
-              >
-                취소
-              </div>
-            )}
             <Button
               type="primary"
               style={{ height: 45, fontSize: 15, fontWeight: 800 }}
-              onClick={onClickCommentWrite}
+              onClick={() => onClickCommentWrite(!!isReply)}
               disabled={!session}
             >
               댓글 쓰기

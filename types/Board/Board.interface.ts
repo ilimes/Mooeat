@@ -36,6 +36,7 @@ export interface CommentTypes {
   mod_user_seq: number;
   mod_dt: string;
   use_yn: string;
+  children: CommentTypes[];
 }
 
 export interface RegUserInfoTypes {

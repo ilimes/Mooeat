@@ -1,11 +1,9 @@
 'use client';
 
-import { Layout, Menu, Drawer, Button, Divider, message } from 'antd';
+import { Menu, Drawer, Button, Divider } from 'antd';
 import {
   CloseOutlined,
-  UploadOutlined,
   UserOutlined,
-  SettingOutlined,
   LoginOutlined,
   LogoutOutlined,
   UserAddOutlined,
@@ -21,8 +19,6 @@ import { collapseState, menuState, userInfoState } from '@/recoil/states';
 import Logo from '../../public/logo.png';
 import { loadMenuList } from '@/api/Api';
 import { MenuListTypes } from '@/types/Common/Common.interface';
-
-const { Sider } = Layout;
 
 const MobileNav = () => {
   const router = useRouter();
@@ -71,17 +67,10 @@ const MobileNav = () => {
     >
       <div style={{ display: 'flex', height: 64 }}>
         <StyledLogo src={Logo} onClick={onClickLogo} width={130} alt="로고" />
-        <Button
+        <StyledCloseButton
           type="text"
           icon={<CloseOutlined />}
           onClick={() => setCollapsed(!collapsed)}
-          style={{
-            fontSize: '22px',
-            width: 42,
-            height: 48,
-            marginTop: 5,
-            marginLeft: 'auto',
-          }}
         />
       </div>
       <div className="mobile-nav-menu">
@@ -137,15 +126,6 @@ const StyledLogo = styled(Image)`
     cursor: pointer;
   }
 `;
-const StyledButton = styled(Button)`
-  && {
-    font-size: 15px;
-    transition: all 0.1s linear;
-    &:hover {
-      transform: scale(1.03);
-    }
-  }
-`;
 
 const StyledProfileDiv = styled.div`
   && {
@@ -156,5 +136,15 @@ const StyledProfileDiv = styled.div`
       background: #eee;
       cursor: pointer;
     }
+  }
+`;
+
+const StyledCloseButton = styled(Button)`
+  && {
+    font-size: 22px;
+    width: 42px;
+    height: 48px;
+    margin-top: 5px;
+    margin-left: auto;
   }
 `;
