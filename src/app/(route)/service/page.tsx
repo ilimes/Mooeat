@@ -10,6 +10,7 @@ import CollapseComponent from '@/components/Service/CollapseComponent';
 import Notice from '@/components/Service/Notice';
 import Help from '@/components/Service/Help';
 import TopTitle from '@/components/SharedComponents/TopTitle';
+import { MarginSpin } from '../../styles/Spin.styled';
 
 const Service = () => {
   const searchParams = useSearchParams();
@@ -20,17 +21,15 @@ const Service = () => {
     <div>
       <TopTitle title="고객센터" explain="도움이 필요하신가요?" />
       <Tabs selectedKey={selectedKey} setSelectedKey={setSelectedKey} />
-      {
-        selectedKey === 'qna' && (
+      {selectedKey === 'qna' && (
         <>
           <Message />
           <Divider />
           <CollapseComponent />
         </>
-        )
-}
-      {(selectedKey === 'personal' && session) && <Help />}
-      {(selectedKey === 'personal' && !session) && <Spin style={{ display: 'flex', justifyContent: 'center', margin: '100px 0' }} />}
+      )}
+      {selectedKey === 'personal' && session && <Help />}
+      {selectedKey === 'personal' && !session && <MarginSpin />}
       {selectedKey === 'notice' && <Notice />}
     </div>
   );

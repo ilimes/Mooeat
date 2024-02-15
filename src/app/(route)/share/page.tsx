@@ -10,23 +10,24 @@ import TopTitle from '@/components/SharedComponents/TopTitle';
 import ShareContent from '@/components/Share/ShareContent';
 import ReceivedList from '@/components/Share/ReceivedList';
 
+const items: InfoTypes[] = [
+  {
+    key: 'share',
+    label: '공유하기',
+  },
+  {
+    key: 'received',
+    label: '받은 목록',
+  },
+  {
+    key: 'sent',
+    label: '보낸 목록',
+  },
+];
+
 const Share = () => {
   const { data: session, status } = useSession();
   const [activeKey, setActiveKey] = useState('share');
-  const [items, setItems] = useState<InfoTypes[]>([
-    {
-      key: 'share',
-      label: '공유하기',
-    },
-    {
-      key: 'received',
-      label: '받은 목록',
-    },
-    {
-      key: 'sent',
-      label: '보낸 목록',
-    },
-  ]);
 
   const [friendList, setFriendList] = useState<FriendTypes[]>([]);
 

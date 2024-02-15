@@ -8,6 +8,10 @@ import { contentPut, uploadFile } from '@/api/Api';
 import { UploadInfoTypes } from '@/types/Common/Common.interface';
 import { FriendTypes } from '@/types/Friend/Friend.interface';
 import FileUpload from '@/components/FileUpload';
+import Freepik from '@/components/Freepik';
+
+const freepikLink =
+  'https://kr.freepik.com/free-vector/colorful-icons-set-style_12067938.htm#query=share&position=5&from_view=search&track=sph&uuid=ff78e392-b332-4598-ac8b-18451751f2c3';
 
 const ShareContent = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => {
   const { data: session, status } = useSession();
@@ -168,12 +172,7 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: FriendTypes[] }) => 
           공유하기
         </Button>
       </div>
-      <div style={{ marginTop: 20, textAlign: 'center' }}>
-        <a href="https://kr.freepik.com/free-vector/colorful-icons-set-style_12067938.htm#query=share&position=5&from_view=search&track=sph&uuid=ff78e392-b332-4598-ac8b-18451751f2c3">
-          작가 coolvector
-        </a>{' '}
-        출처 Freepik
-      </div>
+      <Freepik link={freepikLink} name1="작가 coolvector" name2="출처 Freepik" />
     </>
   );
 };

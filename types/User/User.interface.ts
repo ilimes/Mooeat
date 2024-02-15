@@ -20,7 +20,7 @@ export interface UserInfoTypes {
     file_path_thumb: string | null;
     kko_push_yn: string;
     sms_push_yn: string;
-  }
+  };
 }
 
 export interface ValuesTypes {

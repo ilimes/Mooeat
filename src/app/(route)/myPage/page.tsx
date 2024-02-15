@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button, Divider, Tabs } from 'antd';
+import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/navigation';
@@ -12,37 +12,36 @@ import Subscribe from '@/components/MyPage/Subscribe';
 import Friend from '@/components/MyPage/Friend';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 
-const MyPage = () => {
-  const router = useRouter();
-  const [selectedKey, setSelectedKey] = useState('1');
+const list: TabsProps['items'] = [
+  {
+    key: '1',
+    label: '계정 관리',
+    children: null,
+  },
+  {
+    key: '2',
+    label: '내 활동',
+    children: null,
+  },
+  {
+    key: '3',
+    label: '구독 관리',
+    children: null,
+  },
+  {
+    key: '4',
+    label: '포인트',
+    children: null,
+  },
+  {
+    key: '5',
+    label: '친구 관리',
+    children: null,
+  },
+];
 
-  const list: TabsProps['items'] = [
-    {
-      key: '1',
-      label: '계정 관리',
-      children: null,
-    },
-    {
-      key: '2',
-      label: '내 활동',
-      children: null,
-    },
-    {
-      key: '3',
-      label: '구독 관리',
-      children: null,
-    },
-    {
-      key: '4',
-      label: '포인트',
-      children: null,
-    },
-    {
-      key: '5',
-      label: '친구 관리',
-      children: null,
-    },
-  ];
+const MyPage = () => {
+  const [selectedKey, setSelectedKey] = useState('1');
 
   const onChange = (key: string) => {
     setSelectedKey(key);

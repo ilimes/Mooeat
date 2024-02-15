@@ -12,6 +12,10 @@ import { AttendanceLogTypes } from '@/types/Attendance/Attendance.interface';
 import Calendar from '@/components/Calendar';
 import { loadAttendanceLogData, updateAttendanceData } from '@/api/Api';
 import TopTitle from '@/components/SharedComponents/TopTitle';
+import Freepik from '@/components/Freepik';
+
+const freepikLink =
+  'https://kr.freepik.com/free-photo/3d-illustration-of-calendar-with-checkmarks-pen_33309561.htm#query=%EB%8B%AC%EB%A0%A5%203d&position=28&from_view=keyword&track=ais&uuid=797e4121-2ab3-4646-ab1d-72a6e8376f7d';
 
 const Attendance = () => {
   const { data: session, status } = useSession();
@@ -91,12 +95,7 @@ const Attendance = () => {
       <div style={{ margin: '10px 0', fontSize: 13.5, color: 'grey' }}>
         출석 완료 날짜는 점으로 표시됩니다.
       </div>
-      <div style={{ marginTop: 20, textAlign: 'center' }}>
-        <a href="https://kr.freepik.com/free-photo/3d-illustration-of-calendar-with-checkmarks-pen_33309561.htm#query=%EB%8B%AC%EB%A0%A5%203d&position=28&from_view=keyword&track=ais&uuid=797e4121-2ab3-4646-ab1d-72a6e8376f7d">
-          작가 upklyak
-        </a>{' '}
-        출처 Freepik
-      </div>
+      <Freepik link={freepikLink} name1="작가 upklyak" name2="출처 Freepik" />
     </div>
   );
 };

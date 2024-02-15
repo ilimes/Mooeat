@@ -43,6 +43,25 @@ import { DataType1, DataType2 } from '@/types/Board/Board.interface';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 
+const items: InfoTypes[] = [
+  {
+    key: 'all',
+    label: '전체',
+  },
+  {
+    key: 'get',
+    label: '받은 요청',
+  },
+  {
+    key: 'send',
+    label: '보낸 요청',
+  },
+  {
+    key: 'done',
+    label: '서로 친구',
+  },
+];
+
 const Friends = () => {
   const router = useRouter();
   const isMobile = useIsMobile();
@@ -52,24 +71,6 @@ const Friends = () => {
   const [userId, setUserId] = useState<any>(null);
   const [clickSeq, setClickSeq] = useState<number | null>(null);
   const [nowState, setNowState] = useState<string>('default');
-  const [items, setItems] = useState<InfoTypes[]>([
-    {
-      key: 'all',
-      label: '전체',
-    },
-    {
-      key: 'get',
-      label: '받은 요청',
-    },
-    {
-      key: 'send',
-      label: '보낸 요청',
-    },
-    {
-      key: 'done',
-      label: '서로 친구',
-    },
-  ]);
 
   const [friendList, setFriendList] = useState<FriendTypes[]>([]);
   const userSeq = session?.user?.info?.userInfo?.user_seq;
@@ -791,46 +792,6 @@ const StyledEmpty = styled(Empty)`
     }
   }
 `;
-
-const fetchFriendList = async (user_seq: number) => {
-  const res = await fetch('/api/friend/list', {
-    method: 'POST',
-    body: JSON.stringify({ user_seq }),
-  });
-  const result = await res.json();
-
-  return result?.data;
-};
-
-const fetchFriendData = async (formData: object) => {
-  const res = await fetch('/api/friend/add', {
-    method: 'PUT',
-    body: JSON.stringify(formData),
-  });
-  const result = await res.json();
-
-  return result?.data;
-};
-
-const updateFriendDatafetch = async (formData: object) => {
-  const res = await fetch('/api/friend/updateFriend', {
-    method: 'PATCH',
-    body: JSON.stringify(formData),
-  });
-  const result = await res.json();
-
-  return result?.data;
-};
-
-const deleteFriendDatafetch = async (formData: object) => {
-  const res = await fetch('/api/friend/deleteFriend', {
-    method: 'DELETE',
-    body: JSON.stringify(formData),
-  });
-  const result = await res.json();
-
-  return result?.data;
-};
 
 const columns1: TableColumnsType<DataType1> = [
   {
