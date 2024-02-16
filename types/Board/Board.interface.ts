@@ -22,6 +22,11 @@ export interface BoardTypes {
 }
 
 export interface CommentTypes {
+  count: number;
+  list: Comment[];
+}
+
+export interface Comment {
   comment_seq: number;
   comment_cd: string;
   target_seq: number;
@@ -36,7 +41,7 @@ export interface CommentTypes {
   mod_user_seq: number;
   mod_dt: string;
   use_yn: string;
-  children: CommentTypes[];
+  children: Comment[];
 }
 
 export interface RegUserInfoTypes {

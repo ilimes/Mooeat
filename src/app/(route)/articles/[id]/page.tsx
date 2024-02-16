@@ -35,7 +35,7 @@ import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { loadArticleData, loadCommentList, loadRegUserInfo, writeComment } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
-import { BoardTypes, CommentTypes, RegUserInfoTypes } from '@/types/Board/Board.interface';
+import { BoardTypes, Comment, CommentTypes, RegUserInfoTypes } from '@/types/Board/Board.interface';
 import { userInfoState } from '@/recoil/states';
 
 const Articles = () => {
@@ -45,7 +45,7 @@ const Articles = () => {
   const { data: session, status } = useSession();
   const [data, setData] = useState<BoardTypes | null>(null);
   const [regUserInfo, setRegUserInfo] = useState<RegUserInfoTypes | null>(null);
-  const [commentList, setCommentList] = useState<CommentTypes[] | null>(null);
+  const [commentList, setCommentList] = useState<CommentTypes | null>(null);
   const [selectedCommentSeq, setSelectedCommentSeq] = useState<number | null>(null);
 
   const profileImg = data?.profile_path ? `${data?.profile_path}?thumb=1` : null;
@@ -72,7 +72,7 @@ const Articles = () => {
     const formData = { board_num: id };
     const result = await loadCommentList(formData);
     if (result?.success) {
-      setCommentList(result?.list);
+      setCommentList({ list: result?.list, count: result?.count });
     } else {
       alert(result?.err || '에러발생');
     }
@@ -185,8 +185,8 @@ const Articles = () => {
       <Divider />
       {/* 댓글 영역 */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
-        <div style={{ fontSize: 18 }}>댓글 {commentList?.length}</div>
-        {commentList?.map((e: CommentTypes, i: number) => (
+        <div style={{ fontSize: 18 }}>댓글 {commentList?.count}</div>
+        {commentList?.list?.map((e: Comment, i: number) => (
           <div key={i}>
             <CommentDiv
               e={e}
@@ -206,7 +206,7 @@ const Articles = () => {
                     gap: 40,
                   }}
                 >
-                  {e?.children?.map((ele: CommentTypes, idx: number) => (
+                  {e?.children?.map((ele: Comment, idx: number) => (
                     <div key={idx}>
                       <CommentDiv
                         e={ele}
