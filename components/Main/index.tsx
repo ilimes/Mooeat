@@ -1,20 +1,29 @@
 'use client';
 
 import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
-import { Col, Row } from 'antd';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useRef } from 'react';
+import { Button, Col, Row } from 'antd';
 import Image from 'next/image';
 import Buttons from './Buttons';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver2';
 import Content from '../SharedComponents/Content';
 import Image1 from '@/public/img/main/img1.png';
 import Image2 from '@/public/img/main/img2.png';
+import { useModal } from '@/hooks/useModal';
 
 const Main: React.FC = () => {
+  const { Modal, isOpen, openModal, closeModal } = useModal();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const targetRef = useRef<HTMLDivElement | null>(null);
   const { ref, visible } = useIntersectionObserver(targetRef);
+
+  useEffect(() => {
+    if (searchParams.get('token') === 'false') {
+      openModal();
+    }
+  }, []);
 
   return (
     <>
@@ -85,6 +94,24 @@ const Main: React.FC = () => {
           </Content>
         </div>
       </div>
+      {searchParams.get('token') === 'false' && (
+        <Modal title="토큰 만료 알림" isOpen={isOpen} closeModal={closeModal}>
+          <div style={{ margin: '30px 0' }}>
+            <div style={{ fontWeight: 700, fontSize: 16 }}>토큰이 만료되었습니다.</div>
+            <div style={{ color: 'grey' }}>다시 로그인해주세요.</div>
+          </div>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+            <Button
+              onClick={() => {
+                router.push('/');
+                closeModal();
+              }}
+            >
+              확인
+            </Button>
+          </div>
+        </Modal>
+      )}
     </>
   );
 };

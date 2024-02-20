@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 
 const requestSuccessHandler = async (config: InternalAxiosRequestConfig) => {
   const session = await getSession();
@@ -14,9 +14,18 @@ const requestSuccessHandler = async (config: InternalAxiosRequestConfig) => {
 const requestErrorHandler = (error: Error | AxiosError) =>
   // console.log('request 실패 : ', error);
   Promise.reject(error);
-const responseSuccessHandler = (response: AxiosResponse) =>
-  // console.log('response 성공: ', response);
-  response;
+const responseSuccessHandler = (response: AxiosResponse) => {
+  const isLogout = response?.data?.logout;
+  const movePage = response?.data?.move_page;
+  // console.log('response 성공: ', response?.data?.logout);
+  if (movePage) {
+    signOut({ callbackUrl: '/auth/login' });
+  }
+  if (isLogout) {
+    signOut({ callbackUrl: '/?token=false' });
+  }
+  return response;
+};
 const responseErrorHandler = (error: Error | AxiosError) => {
   if (axios.isAxiosError(error)) {
     const { method, url } = error.config as InternalAxiosRequestConfig;
