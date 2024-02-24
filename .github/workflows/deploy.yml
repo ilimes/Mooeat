@@ -24,8 +24,6 @@ jobs:
             whoami
             cd Mooeat
             sudo git pull origin develop
-            ${{ secrets.GIT_NAME  }}
-            ${{ secrets.GIT_SECRET  }}
             # 아래 두 작업이 없으면 pm2에 대해서 command not found 에러가 뜰 수 있음
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
