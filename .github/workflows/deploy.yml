@@ -15,7 +15,7 @@ jobs:
         with:
           host: ${{ secrets.REMOTE_SSH_HOST }}
           username: ${{ secrets.REMOTE_SSH_USERNAME }}
-          password: ${{ secrets.REMOTE_SSH_PASSWORD }}
+          # password: ${{ secrets.REMOTE_SSH_PASSWORD }}
           key: ${{ secrets.REMOTE_SSH_KEY  }}
           port: ${{ secrets.REMOTE_SSH_PORT  }}
           # ssh 접속 실패 타임아웃 - 보통 40초는 안걸린다
