@@ -25,7 +25,7 @@ const CarouselComponent = () => {
   const imgHeight = isMobile ? 200 : 350;
   const contents = [
     {
-      topText: 'Mooeat에 오신것을 환영합니다!',
+      topText: 'Mooeat에 오신것을 환영합니다!1',
       bottomText: 'Mooeat 사이트가 오픈하였습니다 🎉',
       forwardText: '자세히보기',
       background: '#47408f',
