@@ -57,93 +57,104 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
           />
         ))}
       </StyledBtnsDiv>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
+      {/* <div style={{ display: 'flex', flexDirection: 'column', gap: 15 }}> */}
+      <Row gutter={[15, 15]}>
         {filteredShareListView?.map((e: any, i: number) => {
           const nowProfilePath = shareUserList?.find(
             (ele: any) => ele.user_id === e.user_id,
           )?.profile_path;
           return (
-            <Card
-              key={i}
-              style={{
-                border: '1px solid #eee',
-                boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)',
-              }}
-            >
-              <h2>{moment(e?.reg_dt)?.format('YYYY-MM-DD')}</h2>
-              <h3>{e?.time_nm}</h3>
-              {/* 아바타 영역 */}
-              <div style={{ margin: '30px 0', display: 'flex', gap: 10 }}>
-                <div>
-                  <Avatar
-                    size={40}
-                    icon={
-                      nowProfilePath ? (
-                        <img
-                          src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${nowProfilePath}?thumb=1`}`}
-                          alt="avatar"
-                        />
-                      ) : (
-                        <Image src={unknownAvatar} alt="unknown" />
-                      )
-                    }
-                  />
-                </div>
-                <StyledOutDiv>
-                  <StyledOutDiv style={{ fontSize: 15 }}>{e?.user_nm}</StyledOutDiv>
-                  <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>{e?.user_id}</StyledOutDiv>
-                </StyledOutDiv>
-              </div>
-              <div style={{ marginTop: 20, fontSize: 15 }}>
-                <MessageOutlined style={{ marginRight: 5 }} />
-                {e?.content}
-              </div>
-              <StyledDiv>
-                <Row gutter={[0, 20]} style={{ width: '100%', marginTop: 20 }}>
-                  <AntImage.PreviewGroup
-                    preview={{
-                      onChange: (current, prev) =>
-                        console.log(`current index: ${current}, prev index: ${prev}`),
-                    }}
-                  >
-                    {e.file_uids?.map((e: any, index: number) => (
-                      <Col key={index} span={8} style={{ padding: 10 }}>
-                        <div
-                          style={{
-                            textAlign: 'center',
-                            border: '1px solid #ccc',
-                            borderRadius: 16,
-                            overflow: 'hidden',
-                          }}
-                        >
-                          <AntImage
-                            style={{
-                              width: '100%',
-                              height: 150,
-                              display: 'block',
-                              objectFit: 'cover',
-                              borderRadius: 16,
-                            }}
-                            src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}?thumb=1`}`}
-                            fallback="/img/noimg.png"
-                            preview={{
-                              mask: (
-                                <>
-                                  <ZoomInOutlined style={{ marginRight: 5 }} /> 크게보기
-                                </>
-                              ),
-                            }}
+            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
+              <Card
+                key={i}
+                style={{
+                  border: '1px solid #eee',
+                  boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)',
+                }}
+              >
+                <h2>
+                  {moment(e?.reg_dt)?.format('YYYY-MM-DD')}
+                  <span style={{ marginLeft: 10, fontWeight: 400 }}>
+                    {moment(e?.reg_dt)?.format('hh:mm:ss')}
+                  </span>
+                </h2>
+                <h3>{e?.time_nm}</h3>
+                {/* 아바타 영역 */}
+                <div style={{ margin: '30px 0', display: 'flex', gap: 10 }}>
+                  <div>
+                    <Avatar
+                      size={40}
+                      icon={
+                        nowProfilePath ? (
+                          <img
+                            src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${nowProfilePath}?thumb=1`}`}
+                            alt="avatar"
                           />
-                        </div>
-                      </Col>
-                    ))}
-                  </AntImage.PreviewGroup>
-                </Row>
-              </StyledDiv>
-            </Card>
+                        ) : (
+                          <Image src={unknownAvatar} alt="unknown" />
+                        )
+                      }
+                    />
+                  </div>
+                  <StyledOutDiv>
+                    <StyledOutDiv style={{ fontSize: 15 }}>{e?.user_nm}</StyledOutDiv>
+                    <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
+                      {e?.user_id}
+                    </StyledOutDiv>
+                  </StyledOutDiv>
+                </div>
+                <div style={{ marginTop: 20, fontSize: 15 }}>
+                  <MessageOutlined style={{ marginRight: 5 }} />
+                  {e?.content}
+                </div>
+                <StyledDiv>
+                  <Row gutter={[0, 20]} style={{ width: '100%', marginTop: 20 }}>
+                    <AntImage.PreviewGroup
+                      preview={{
+                        onChange: (current, prev) =>
+                          console.log(`current index: ${current}, prev index: ${prev}`),
+                      }}
+                    >
+                      {e.file_uids?.map((e: any, index: number) => (
+                        <Col key={index} span={8} style={{ padding: 10 }}>
+                          <div
+                            style={{
+                              textAlign: 'center',
+                              border: '1px solid #ccc',
+                              borderRadius: 16,
+                              overflow: 'hidden',
+                            }}
+                          >
+                            <AntImage
+                              style={{
+                                width: '100%',
+                                height: 150,
+                                display: 'block',
+                                objectFit: 'cover',
+                                borderRadius: 16,
+                              }}
+                              src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}?thumb=1`}`}
+                              fallback="/img/noimg.png"
+                              preview={{
+                                mask: (
+                                  <>
+                                    <ZoomInOutlined style={{ marginRight: 5 }} /> 크게보기
+                                  </>
+                                ),
+                              }}
+                            />
+                          </div>
+                        </Col>
+                      ))}
+                    </AntImage.PreviewGroup>
+                  </Row>
+                </StyledDiv>
+              </Card>
+            </Col>
           );
         })}
-      </div>
+      </Row>
+      {/* </div> */}
     </>
   );
 };

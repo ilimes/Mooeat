@@ -1,0 +1,32 @@
+name: mooeat frontend deploy # workflow의 이름
+on:
+  push:
+    branches: ['develop']
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      # 누군가 만들어 놓은 Actions 활용 시 uses 키워드 사용
+      - uses: actions/checkout@v4
+
+      # step의 이름
+      - name: Run scripts in server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_SSH_HOST }}
+          username: ${{ secrets.REMOTE_SSH_USERNAME }}
+          password: ${{ secrets.REMOTE_SSH_PASSWORD }}
+          key: ${{ secrets.REMOTE_SSH_KEY  }}
+          port: ${{ secrets.REMOTE_SSH_PORT  }}
+          # ssh 접속 실패 타임아웃 - 보통 40초는 안걸린다
+          timeout: 40s
+          script: |
+            whoami
+            cd Mooeat
+            sudo git pull origin develop
+            # 아래 두 작업이 없으면 pm2에 대해서 command not found 에러가 뜰 수 있음
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            npm install
+            npm run build
+            pm2 restart mooeat
