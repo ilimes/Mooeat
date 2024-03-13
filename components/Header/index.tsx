@@ -32,23 +32,40 @@ import { loadMenuList, loadUserInfoData } from '@/api/Api';
 const { Header } = Layout;
 
 const HeaderPage = () => {
+  const { data: session, status, update } = useSession();
+  const user = session?.user;
   const router = useRouter();
   const pathname = usePathname();
-  const { data: session, status } = useSession();
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
-  const [userInfo, setUserInfo] = useRecoilState<UserInfoTypes | null>(userInfoState);
+  // const [userInfo, setUserInfo] = useRecoilState<UserInfoTypes | null>(userInfoState);
   const isLoading = useRecoilValue(userInfoLoadingState);
   const setNotiCollapsed = useSetRecoilState(notiCollapseState);
   const isMobile = useRecoilValue(isMobileState);
   const [profileOpen, setProfileOpen] = useState(false);
+  const {
+    data: userInfo,
+    isSuccess,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: async () => {
+      const result = await loadUserInfoData({});
+      if (result?.success) {
+        return result?.user_info;
+      }
+      return null;
+    },
+    enabled: !!user,
+  });
+  const { data } = useQuery({ queryKey: ['menuList'], queryFn: loadMenuList });
   const profileImg = userInfo?.user_set?.file_path_thumb;
   const profile = profileImg ? (
     <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} alt="profile" />
   ) : (
     <Image src={unknownAvatar} alt="unknown" />
   );
-  const { data, isSuccess, isError } = useQuery({ queryKey: ['menuList'], queryFn: loadMenuList });
 
   const menuList = data?.list?.map((e: MenuListTypes) => ({
     key: e.menu_path,
@@ -120,7 +137,7 @@ const HeaderPage = () => {
                   trigger="click"
                   open={profileOpen}
                   title="내 정보"
-                  content={() => ProfilePopOverContent(setProfileOpen)}
+                  content={() => ProfilePopOverContent(userInfo, setProfileOpen)}
                   onOpenChange={() => setProfileOpen(!profileOpen)}
                   placement="bottom"
                 >
@@ -209,26 +226,12 @@ const notiPopOverContent = () => (
   </StyledPopoverDiv>
 );
 
-const ProfilePopOverContent = (setProfileOpen: Dispatch<SetStateAction<boolean>>) => {
-  const { data: session, status, update } = useSession();
-  const user = session?.user;
-  const {
-    data: userInfo,
-    isSuccess,
-    isError,
-    refetch,
-  } = useQuery({
-    queryKey: ['userInfo'],
-    queryFn: async () => {
-      const result = await loadUserInfoData({});
-      if (result?.success) {
-        return result?.user_info;
-      }
-      return null;
-    },
-    enabled: !!user,
-  });
+const ProfilePopOverContent = (
+  userInfo: UserInfoTypes,
+  setProfileOpen: Dispatch<SetStateAction<boolean>>,
+) => {
   const router = useRouter();
+  const { data: session, status, update } = useSession();
   const profileImg = userInfo?.user_set?.file_path_thumb;
   const profile = profileImg ? (
     <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} alt="profile" />
