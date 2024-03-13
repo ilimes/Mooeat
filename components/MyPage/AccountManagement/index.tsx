@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { useRecoilState } from 'recoil';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
 import { changePw, loadUserInfoData, updateUser, uploadFile } from '@/api/Api';
@@ -35,7 +36,7 @@ const AccountManagement = () => {
 
   return (
     <>
-      <MyInfo userInfo={userInfo} getUserInfoData={getUserInfoData} />
+      <MyInfo getUserInfoData={getUserInfoData} />
       <Password userInfo={userInfo} getUserInfoData={getUserInfoData} />
       <AccountLinking />
       <DeleteAccount />
@@ -43,15 +44,42 @@ const AccountManagement = () => {
   );
 };
 
-const MyInfo = ({
-  userInfo,
-  getUserInfoData,
-}: {
-  userInfo: UserInfoTypes | null;
-  getUserInfoData: () => Promise<void>;
-}) => {
+const MyInfo = ({ getUserInfoData }: { getUserInfoData: () => Promise<void> }) => {
   const { data: session, status, update } = useSession();
   const token = session?.user?.info?.data?.token;
+  const user = session?.user;
+  const {
+    data: userInfo,
+    isSuccess,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: async () => {
+      const result = await loadUserInfoData({});
+      if (result?.success) {
+        return result?.user_info;
+      }
+      return null;
+    },
+    enabled: !!user,
+  });
+  const { mutate: profileMutate } = useMutation({
+    mutationFn: async (formData: any) => updateUser(formData, token),
+    onMutate: () => {},
+    onSuccess: (result) => {
+      if (result?.success) {
+        // getUserInfoData();
+        setIsEdit(false);
+        message.success('성공적으로 수정되었습니다.');
+        refetch();
+      } else {
+        message.warning(result?.message || '에러');
+      }
+    },
+    onError: () => {},
+    onSettled: () => {},
+  });
   const [changeData, setChangeData] = useState<ChangeDataTypes>({});
   const [isEdit, setIsEdit] = useState(false);
   const [imgFile, setImgFile] = useState<FileTypes>({ url: null });
@@ -102,14 +130,15 @@ const MyInfo = ({
       formData.file_cd = fileCd;
     }
 
-    const updateResult = await updateUser(formData, token);
-    if (updateResult?.success) {
-      getUserInfoData();
-      setIsEdit(false);
-      message.success('성공적으로 수정되었습니다.');
-    } else {
-      message.warning(updateResult?.message || '에러');
-    }
+    await profileMutate(formData);
+    // const updateResult = await updateUser(formData, token);
+    // if (updateResult?.success) {
+    //   getUserInfoData();
+    //   setIsEdit(false);
+    //   message.success('성공적으로 수정되었습니다.');
+    // } else {
+    //   message.warning(updateResult?.message || '에러');
+    // }
   };
 
   const onClickDefault = () => {

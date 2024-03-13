@@ -27,7 +27,7 @@ import {
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { UserInfoTypes } from '@/types/User/User.interface';
 import { MenuListTypes } from '@/types/Common/Common.interface';
-import { loadMenuList } from '@/api/Api';
+import { loadMenuList, loadUserInfoData } from '@/api/Api';
 
 const { Header } = Layout;
 
@@ -210,9 +210,25 @@ const notiPopOverContent = () => (
 );
 
 const ProfilePopOverContent = (setProfileOpen: Dispatch<SetStateAction<boolean>>) => {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
+  const user = session?.user;
+  const {
+    data: userInfo,
+    isSuccess,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: async () => {
+      const result = await loadUserInfoData({});
+      if (result?.success) {
+        return result?.user_info;
+      }
+      return null;
+    },
+    enabled: !!user,
+  });
   const router = useRouter();
-  const userInfo = useRecoilValue(userInfoState);
   const profileImg = userInfo?.user_set?.file_path_thumb;
   const profile = profileImg ? (
     <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} alt="profile" />
@@ -249,8 +265,8 @@ const ProfilePopOverContent = (setProfileOpen: Dispatch<SetStateAction<boolean>>
             gap: 5,
           }}
         >
-          <div style={{ fontWeight: 700 }}>{session?.user?.info?.userInfo?.user_nm}</div>
-          <div>{session?.user?.info?.userInfo?.introduce || '자기소개를 입력해주세요.'}</div>
+          <div style={{ fontWeight: 700 }}>{userInfo?.user_nm}</div>
+          <div>{userInfo?.introduce || '자기소개를 입력해주세요.'}</div>
         </div>
       </div>
       <div>
