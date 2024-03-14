@@ -38,7 +38,6 @@ const HeaderPage = () => {
   const pathname = usePathname();
   const [selectedKeys, setSelectedKeys] = useState([pathname]);
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
-  // const [userInfo, setUserInfo] = useRecoilState<UserInfoTypes | null>(userInfoState);
   const isLoading = useRecoilValue(userInfoLoadingState);
   const setNotiCollapsed = useSetRecoilState(notiCollapseState);
   const isMobile = useRecoilValue(isMobileState);

@@ -9,6 +9,7 @@ import { loadFriendList } from '@/api/Api';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 import ShareContent from '@/components/Share/ShareContent';
 import ReceivedList from '@/components/Share/ReceivedList';
+import SentList from '@/components/Share/SentList';
 
 const items: InfoTypes[] = [
   {
@@ -61,7 +62,7 @@ const Share = () => {
       />
       {activeKey === 'share' && <ShareContent pureFriendList={friendList} />}
       {activeKey === 'received' && <ReceivedList pureFriendList={friendList} />}
-      {activeKey === 'sent' && <ShareContent pureFriendList={friendList} />}
+      {activeKey === 'sent' && <SentList pureFriendList={friendList} />}
     </div>
   );
 };

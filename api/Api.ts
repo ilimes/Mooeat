@@ -364,12 +364,22 @@ export const contentPut = async (formData: object, token: string) => {
 };
 
 /**
- * 식단을 보낸 유저 목록 조회
+ * 나에게 식단을 보낸 유저 목록 조회
  * @returns data
  */
 export const loadShareUserList = async () =>
   axiosInstance
     .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/user/list`)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
+
+/**
+ * 내가 식단을 보낸 유저 목록 조회
+ * @returns data
+ */
+export const loadSendUserList = async () =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/send/user/list`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -380,5 +390,15 @@ export const loadShareUserList = async () =>
 export const loadShareListView = async () =>
   axiosInstance
     .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/list/view`)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
+
+/**
+ * 특정 유저에게 보낸 식단 전송 정보 목록 조회
+ * @returns data
+ */
+export const loadSendListView = async (formData: object) =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/send/list/view`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
