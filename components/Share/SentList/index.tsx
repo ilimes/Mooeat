@@ -55,6 +55,9 @@ const SentList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
     <>
       <StyledBtnsDiv>
         {/* <Btn filterSeq={filterSeq} setFilterSeq={setFilterSeq} /> */}
+        {!sendUserList?.length && (
+          <div style={{ padding: '20px 5px' }}>보낸 친구 목록이 존재하지 않습니다.</div>
+        )}
         {sendUserList?.map((e: any, i: number) => (
           <Btn
             key={i}

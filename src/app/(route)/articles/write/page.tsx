@@ -1,14 +1,19 @@
 'use client';
 
 import { Button, Input, Select, Tooltip, message } from 'antd';
-import { PlusOutlined, CloseCircleOutlined, RollbackOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  CloseCircleOutlined,
+  RollbackOutlined,
+  EditOutlined,
+} from '@ant-design/icons';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
 import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { loadInfoList, writeBoard } from '@/api/Api';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { loadArticleData, loadInfoList, writeBoard } from '@/api/Api';
 import QuillNoSSRWrapper from '@/components/QuillNoSSRWrappper';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 
@@ -63,12 +68,14 @@ const Write = () => {
   const { data: session, status } = useSession();
   const token = session?.user?.info?.data?.token;
   const router = useRouter();
+  const searchParams = useSearchParams();
   const quillInstance = useRef<ReactQuill>(null);
   const [editable, setEditable] = useState<boolean>(false);
   const [infoItems, setInfoItems] = useState<IInfoTypes[]>([]);
   const [pushDatas, setPushDatas] = useState<any>({ tags: [] });
   const [newTagText, setNewTagText] = useState<string>('');
   const ref = useRef<HTMLSpanElement>(null);
+  const isEdit = pushDatas?.board_seq;
 
   // 최대 입력가능한 글자수
   const MAX_LENGTH = 10;
@@ -144,14 +151,31 @@ const Write = () => {
     }
   };
 
+  const getBoardView = async (board_num: number) => {
+    const formData = {
+      board_num,
+    };
+    const result = await loadArticleData(formData);
+    setPushDatas({
+      ...pushDatas,
+      ...result?.data,
+      tags: result?.data?.tag_names?.split(':'),
+      cate_seq: result?.data?.cate_seq?.toString(),
+    });
+  };
+
   useEffect(() => {
     getInfoList();
+    if (searchParams.get('id')) {
+      const boardSeq = searchParams.get('id');
+      getBoardView(Number(boardSeq));
+    }
   }, []);
 
   return (
     <>
       <TopTitle
-        title="글쓰기"
+        title={isEdit ? '게시글 수정' : '글쓰기'}
         explain="커뮤니티 이용 가이드에 위배되는 게시글을 작성하는 경우 삭제될 수 있습니다."
       />
       <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 10 }}>카테고리</div>
@@ -230,7 +254,15 @@ const Write = () => {
           onClick={putBoardData}
           style={{ width: 125, height: 47, fontWeight: 'bold', fontSize: 16 }}
         >
-          <PlusOutlined /> 등록하기
+          {isEdit ? (
+            <div>
+              <EditOutlined /> 수정하기
+            </div>
+          ) : (
+            <div>
+              <PlusOutlined /> 등록하기
+            </div>
+          )}
         </Button>
       </div>
     </>

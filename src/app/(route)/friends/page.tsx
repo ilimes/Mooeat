@@ -15,12 +15,14 @@ import {
   Spin,
   TableColumnsType,
   Table,
+  Tooltip,
 } from 'antd';
 import {
   UsergroupAddOutlined,
   UserOutlined,
   ClockCircleOutlined,
   LeftOutlined,
+  ShareAltOutlined,
 } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/navigation';
@@ -108,15 +110,30 @@ const Friends = () => {
       modDt = friendList?.sentList?.find((e) => e?.to_user_seq === clickSeq)?.mod_dt;
       title = (
         <>
-          <img src="/img/friend/agree1.png" width={32} height={32} alt="agree1" />
-          요청을 보낸 친구입니다.
+          <div>
+            <img src="/img/friend/agree1.png" width={32} height={32} alt="agree1" />
+          </div>
+          <div>요청을 보낸 친구입니다.</div>
         </>
       );
       content = (
-        <div>
-          <div>상대방이 요청을 수락하면 서로 친구가 맺어집니다.</div>
-          <div>보낸 요청을 취소하시려면 `요청 취소` 버튼을 눌러주세요.</div>
-        </div>
+        <StyledCard
+          title="안내"
+          $isClicked
+          style={{
+            border: '1px solid #eee',
+            boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)',
+          }}
+        >
+          <div>
+            <div>
+              상대방이 <b>요청을 수락</b>하면 <b>서로 친구</b>가 맺어집니다.
+            </div>
+            <div>
+              보낸 요청을 취소하시려면 <b>`요청 취소`</b> 버튼을 눌러주세요.
+            </div>
+          </div>
+        </StyledCard>
       );
     }
     if (nowState === 'received') {
@@ -147,14 +164,17 @@ const Friends = () => {
               boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)',
             }}
           >
-            <Button
-              type="primary"
-              size="large"
-              style={{ fontWeight: 700 }}
-              onClick={() => router.push(`share?seq=${clickUserInfo?.user_info?.user_seq}`)}
-            >
-              식단 공유하기
-            </Button>
+            <Tooltip title="선택한 친구에게 바로 식단을 공유합니다.">
+              <Button
+                type="primary"
+                size="large"
+                style={{ fontWeight: 700 }}
+                onClick={() => router.push(`share?seq=${clickUserInfo?.user_info?.user_seq}`)}
+              >
+                <ShareAltOutlined />
+                바로 식단 공유하기
+              </Button>
+            </Tooltip>
           </StyledCard>
           <StyledCard
             title="회원 기본 정보"
@@ -235,9 +255,24 @@ const Friends = () => {
     return (
       <div>
         <h2>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>{title}</div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              gap: 10,
+            }}
+          >
+            {title}
+          </div>
         </h2>
-        <ClockCircleOutlined /> {moment(modDt).format('YYYY년 MM월 DD일  HH시mm분ss초')}
+        <div style={{ marginBottom: 5 }}>
+          <b>
+            <ClockCircleOutlined /> 등록 시간
+          </b>
+        </div>
+        {moment(modDt).format('YYYY년 MM월 DD일  HH시mm분ss초')}
         <div style={{ marginTop: 20 }}>{content}</div>
       </div>
     );

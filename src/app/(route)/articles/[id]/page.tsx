@@ -22,6 +22,7 @@ import {
   LikeFilled,
   RollbackOutlined,
   InfoCircleOutlined,
+  EditOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useRouter, useParams } from 'next/navigation';
@@ -47,6 +48,7 @@ const Articles = () => {
   const [regUserInfo, setRegUserInfo] = useState<RegUserInfoTypes | null>(null);
   const [commentList, setCommentList] = useState<CommentTypes | null>(null);
   const [selectedCommentSeq, setSelectedCommentSeq] = useState<number | null>(null);
+  const isMyArticle = data?.reg_user_seq === session?.user?.info?.userInfo?.user_seq;
 
   const profileImg = data?.profile_path ? `${data?.profile_path}?thumb=1` : null;
   const profile = profileImg ? (
@@ -135,6 +137,14 @@ const Articles = () => {
       <Skeleton paragraph={{ rows: 0 }} loading={!data} active>
         <Title>{data?.title}</Title>
       </Skeleton>
+      {isMyArticle && (
+        <div style={{ marginBottom: 20 }}>
+          <Button onClick={() => router.push(`/articles/write?id=${data?.board_seq}`)}>
+            <EditOutlined />
+            게시글 수정
+          </Button>
+        </div>
+      )}
       {/* 컨텐츠 영역 */}
       <Skeleton paragraph={{ rows: 3 }} loading={!data} active>
         <div
@@ -315,7 +325,7 @@ export default Articles;
 const Title = styled.div`
   font-size: 26px;
   font-weight: 800;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   && {
     overflow: hidden;
     white-space: nowrap;
