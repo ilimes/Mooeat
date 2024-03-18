@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Avatar, Col, Divider, Row, Image as AntImage, Card, Tooltip } from 'antd';
+import { Avatar, Col, Divider, Row, Image as AntImage, Card, Tooltip, Tag } from 'antd';
 import { MessageOutlined, ZoomInOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import moment from 'moment';
@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { Friend, FriendTypes } from '@/types/Friend/Friend.interface';
 import { loadShareListView, loadShareUserList } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import { getDayKorean, getTagColor } from '@/utils/util';
 
 const ReceivedList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
   const { data: session, status } = useSession();
@@ -72,13 +73,14 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
                   boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)',
                 }}
               >
+                <Tag color={getTagColor(e?.time_nm)}>{e?.time_nm}</Tag>
                 <h2>
-                  {moment(e?.reg_dt)?.format('YYYY-MM-DD')}
+                  {moment(e?.reg_dt)?.format('YYYY-MM-DD')} (
+                  {getDayKorean(moment(e?.reg_dt)?.day())})
                   <span style={{ marginLeft: 10, fontWeight: 400 }}>
-                    {moment(e?.reg_dt)?.format('hh:mm:ss')}
+                    {moment(e?.reg_dt)?.format('HH:mm:ss')}
                   </span>
                 </h2>
-                <h3>{e?.time_nm}</h3>
                 {/* 아바타 영역 */}
                 <div style={{ margin: '30px 0', display: 'flex', gap: 10 }}>
                   <div>
@@ -103,7 +105,15 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
                     </StyledOutDiv>
                   </StyledOutDiv>
                 </div>
-                <div style={{ marginTop: 20, fontSize: 15 }}>
+                <div
+                  style={{
+                    marginTop: 20,
+                    fontSize: 15,
+                    border: '1px solid #dbdbdb',
+                    borderRadius: 12,
+                    padding: 10,
+                  }}
+                >
                   <MessageOutlined style={{ marginRight: 5 }} />
                   {e?.content}
                 </div>

@@ -156,7 +156,6 @@ const Write = () => {
       board_num,
     };
     const result = await loadArticleData(formData);
-    console.log('result', result);
     setPushDatas({
       ...pushDatas,
       ...result?.data,
