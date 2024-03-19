@@ -144,7 +144,20 @@ const Friends = () => {
           요청을 받았습니다.
         </>
       );
-      content = '요청을 수락하시려면 `요청 수락` 버튼을 눌러주세요.';
+      content = (
+        <StyledCard
+          title="안내"
+          $isClicked
+          style={{
+            border: '1px solid #eee',
+            boxShadow: '0 8px 15px 0 rgba(129, 137, 143, 0.18)',
+          }}
+        >
+          <div>
+            요청을 수락하시려면 <b>`요청 수락`</b> 버튼을 눌러주세요.
+          </div>
+        </StyledCard>
+      );
     }
     if (nowState === 'pure') {
       modDt = friendList?.pureList?.find((e) => e?.to_user_seq === clickSeq)?.mod_dt;

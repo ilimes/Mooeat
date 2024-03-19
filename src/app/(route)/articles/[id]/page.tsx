@@ -7,6 +7,7 @@ import {
   Col,
   Divider,
   Input,
+  Modal,
   Row,
   Skeleton,
   Tabs,
@@ -14,7 +15,7 @@ import {
   message,
 } from 'antd';
 import {
-  UserOutlined,
+  DeleteOutlined,
   PlusOutlined,
   EyeOutlined,
   CommentOutlined,
@@ -34,14 +35,23 @@ import type { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
-import { loadArticleData, loadCommentList, loadRegUserInfo, writeComment } from '@/api/Api';
+import {
+  deleteBoard,
+  loadArticleData,
+  loadCommentList,
+  loadRegUserInfo,
+  writeComment,
+} from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { BoardTypes, Comment, CommentTypes, RegUserInfoTypes } from '@/types/Board/Board.interface';
 import { userInfoState } from '@/recoil/states';
+import { useModal } from '@/hooks/useModal';
 
 const Articles = () => {
   const router = useRouter();
   const params = useParams();
+
+  const { Modal, isOpen, openModal, closeModal } = useModal();
 
   const { data: session, status } = useSession();
   const [data, setData] = useState<BoardTypes | null>(null);
@@ -86,6 +96,19 @@ const Articles = () => {
     const result = await loadRegUserInfo(formData);
     if (result?.success) {
       setRegUserInfo(result?.data);
+    } else {
+      alert(result?.err || '에러발생');
+    }
+  };
+
+  const onClickDeleteBoard = async () => {
+    const formData = {
+      board_seq: data?.board_seq,
+    };
+    const result = await deleteBoard(formData);
+    if (result?.success) {
+      message.success('게시글이 삭제되었습니다.');
+      router.push('/community');
     } else {
       alert(result?.err || '에러발생');
     }
@@ -138,10 +161,14 @@ const Articles = () => {
         <Title>{data?.title}</Title>
       </Skeleton>
       {isMyArticle && (
-        <div style={{ marginBottom: 20 }}>
+        <div style={{ display: 'flex', marginBottom: 20, gap: 10 }}>
           <Button onClick={() => router.push(`/articles/write?id=${data?.board_seq}`)}>
             <EditOutlined />
             게시글 수정
+          </Button>
+          <Button danger onClick={openModal}>
+            <DeleteOutlined />
+            게시글 삭제
           </Button>
         </div>
       )}
@@ -259,6 +286,24 @@ const Articles = () => {
           </Button>
         </div>
       </div>
+      <Modal title="삭제" isOpen={isOpen} closeModal={closeModal}>
+        <div style={{ margin: '30px 0' }}>
+          <div style={{ fontWeight: 700, fontSize: 16 }}>정말 게시글을 삭제하시겠습니까?</div>
+          <div style={{ color: 'grey' }}>삭제 버튼을 누르면 현재 보고있는 게시글이 삭제됩니다.</div>
+        </div>
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+          <Button onClick={closeModal}>취소</Button>
+          <Button
+            danger
+            onClick={() => {
+              onClickDeleteBoard();
+              closeModal();
+            }}
+          >
+            삭제
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -106,6 +106,19 @@ export const loadBoardList = async (formData?: {
     .catch((err) => console.error(err));
 
 /**
+ * 게시글 삭제
+ * @param formData
+ * @returns data
+ */
+export const deleteBoard = async (formData: object) =>
+  axiosInstance
+    .delete(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/delete`, {
+      data: formData,
+    })
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
+
+/**
  * 내가 쓴 글 목록 가져오기
  * @returns data
  */
