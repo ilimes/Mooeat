@@ -1,6 +1,7 @@
 import './styles/globals.css';
 import type { Metadata } from 'next';
 import { ConfigProvider } from 'antd';
+import KakaoScript from 'components/common/KakaoScript';
 import SessionProvider from '../../lib/SessionProvider';
 import CustomLayout from '@/components/CustomLayout';
 import RecoilRootProvider from '@/lib/RecoilRootProvider';
@@ -8,6 +9,12 @@ import StyledComponentsRegistryAnt from '@/lib/AntdRegistry';
 import StyledComponentsRegistry from '@/lib/Registry';
 import ReactQueryProvider from '@/lib/ReactQueryProvider';
 import theme from '../../theme/themeConfig';
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 export const metadata: Metadata = {
   title: 'Mooeat',
@@ -39,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </SessionProvider>
         </main>
       </body>
+      <KakaoScript />
     </html>
   );
 }

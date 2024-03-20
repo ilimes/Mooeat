@@ -20,7 +20,7 @@ import {
   EyeOutlined,
   CommentOutlined,
   LikeOutlined,
-  LikeFilled,
+  ShareAltOutlined,
   RollbackOutlined,
   InfoCircleOutlined,
   EditOutlined,
@@ -114,6 +114,13 @@ const Articles = () => {
     }
   };
 
+  const handleShearToKakao = () => {
+    const { Kakao, location } = window;
+    Kakao.Share.sendScrap({
+      requestUrl: location.href,
+    });
+  };
+
   useEffect(() => {
     if (status !== 'loading') {
       getArticleData();
@@ -160,18 +167,24 @@ const Articles = () => {
       <Skeleton paragraph={{ rows: 0 }} loading={!data} active>
         <Title>{data?.title}</Title>
       </Skeleton>
-      {isMyArticle && (
-        <div style={{ display: 'flex', marginBottom: 20, gap: 10 }}>
-          <Button onClick={() => router.push(`/articles/write?id=${data?.board_seq}`)}>
-            <EditOutlined />
-            게시글 수정
-          </Button>
-          <Button danger onClick={openModal}>
-            <DeleteOutlined />
-            게시글 삭제
-          </Button>
-        </div>
-      )}
+      <div style={{ display: 'flex', marginBottom: 20, gap: 10 }}>
+        {isMyArticle && (
+          <>
+            <Button onClick={() => router.push(`/articles/write?id=${data?.board_seq}`)}>
+              <EditOutlined />
+              게시글 수정
+            </Button>
+            <Button danger onClick={openModal}>
+              <DeleteOutlined />
+              게시글 삭제
+            </Button>
+          </>
+        )}
+        <Button onClick={handleShearToKakao} style={{ marginLeft: 'auto' }}>
+          <ShareAltOutlined />
+          카카오로 공유하기
+        </Button>
+      </div>
       {/* 컨텐츠 영역 */}
       <Skeleton paragraph={{ rows: 3 }} loading={!data} active>
         <div
