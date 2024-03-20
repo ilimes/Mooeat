@@ -98,9 +98,15 @@ export const options: NextAuthOptions = {
       if (user) {
         token.user = user;
       }
-      // if (trigger === 'update') {
-      //     console.log('업데이트됨')
-      // }
+      const newProfile: any = { ...profile };
+      if (newProfile?.kakao_account) {
+        const result = await login(
+          { user_id: newProfile?.id, password: null },
+          true,
+          user?.userInfo,
+        );
+        token.user = { ...user, data: { token: result?.data?.token } };
+      }
       return token;
     },
     /**
@@ -125,7 +131,11 @@ const getUser = async (formData: any) => {
   return result;
 };
 
-const login = async (credentials: Record<'user_id' | 'password', string> | undefined) => {
+const login = async (
+  credentials: Record<'user_id' | 'password', string> | undefined | any,
+  isOauth?: any,
+  oauthInfo?: any,
+) => {
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
     method: 'POST',
     headers: {
@@ -134,6 +144,8 @@ const login = async (credentials: Record<'user_id' | 'password', string> | undef
     body: JSON.stringify({
       user_id: credentials?.user_id,
       password: credentials?.password,
+      isOauth,
+      oauthInfo,
     }),
   });
   const result = await res.json();
