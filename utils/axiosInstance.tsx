@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { getSession, signOut } from 'next-auth/react';
+import https from 'https';
 
 const requestSuccessHandler = async (config: InternalAxiosRequestConfig) => {
   const session = await getSession();
@@ -45,6 +46,9 @@ const axiosInstance = axios.create({
   },
   timeout: 6000,
   timeoutErrorMessage: '요청이 너무 깁니다.',
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false,
+  }),
 });
 
 axiosInstance.interceptors.request.use(requestSuccessHandler, requestErrorHandler);

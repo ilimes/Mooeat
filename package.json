@@ -21,6 +21,7 @@
     "babel-plugin-styled-components": "^2.1.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "framer-motion": "^10.16.4",
+    "https": "^1.0.0",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",
     "next": "13.5.4",
