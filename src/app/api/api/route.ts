@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const formData = await req.json();
   const session: any = await getToken({ req, secret /* raw: true */ });
 
-  const res = await fetch(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/api/statistics`, {
+  const res = await fetch(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/api/statistics`, {
     cache: 'no-store',
     method: 'POST',
     headers: {
