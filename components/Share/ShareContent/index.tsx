@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import moment from 'moment';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { contentPut, uploadFile } from '@/api/Api';
 import { UploadInfoTypes } from '@/types/Common/Common.interface';
@@ -25,6 +26,19 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
   const [previews, setPreviews] = useState<any>([]);
 
   const props = { shareObj, setShareObj, uploadedInfo, setUploadedInfo, previews, setPreviews };
+
+  const currentTime = moment().format('HH');
+  const getTime = () => {
+    if (Number(currentTime) > 18) {
+      return 3;
+    }
+    if (Number(currentTime) > 12) {
+      return 2;
+    }
+    if (Number(currentTime) > 6) {
+      return 1;
+    }
+  };
 
   const onClickShare = async () => {
     if (!shareObj?.userSeq) {
@@ -80,9 +94,13 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
       pureFriendList?.find((e: any) => e.to_user_seq === Number(seq)) &&
       seq
     ) {
-      setShareObj({ ...shareObj, userSeq: Number(seq) });
+      setShareObj({ ...shareObj, userSeq: Number(seq), time: getTime() });
     }
   }, [pureFriendList, seq]);
+
+  useEffect(() => {
+    setShareObj({ ...shareObj, time: getTime() });
+  }, []);
 
   return (
     <>
