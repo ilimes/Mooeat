@@ -75,6 +75,14 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: '/(.*)',
+        destination: `https://mooeat.ilime.kr/$1`,
+      },
+    ];
+  },
   /* CORS 우회 방법 proxy 대체하여 rewrites */
   // async rewrites() {
   //     return [
