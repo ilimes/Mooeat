@@ -22,7 +22,7 @@ const uploadConfig = {
  */
 export const loadMenuList = async () =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/menu/list`)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/menu/list`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -33,7 +33,7 @@ export const loadMenuList = async () =>
  */
 export const loadApiData = async (formData: { type: string; group?: boolean; year: number }) =>
   axiosInstance
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/api/statistics`, formData)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/api/statistics`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -43,7 +43,7 @@ export const loadApiData = async (formData: { type: string; group?: boolean; yea
  */
 export const loadIpData = async () =>
   axiosInstance
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/ip/statistics`, {})
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/ip/statistics`, {})
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -54,7 +54,7 @@ export const loadIpData = async () =>
  */
 export const loadCommentList = async (formData: { board_num: string | string[] }) =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/comment/list`, formData)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/comment/list`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -65,7 +65,7 @@ export const loadCommentList = async (formData: { board_num: string | string[] }
  */
 export const loadArticleData = async (formData: { board_num: number | string | string[] }) =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/view`, formData)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/view`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -76,7 +76,7 @@ export const loadArticleData = async (formData: { board_num: number | string | s
  */
 export const loadRegUserInfo = async (formData: { user_seq: number }) =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/user/info`, formData)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/user/info`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -86,7 +86,7 @@ export const loadRegUserInfo = async (formData: { user_seq: number }) =>
  */
 export const loadInfoList = async () =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/info/list`)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/info/list`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -101,7 +101,7 @@ export const loadBoardList = async (formData?: {
   pading_yn?: string;
 }) =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/list`, formData || {})
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/list`, formData || {})
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -112,7 +112,7 @@ export const loadBoardList = async (formData?: {
  */
 export const deleteBoard = async (formData: object) =>
   axiosInstance
-    .delete(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/delete`, {
+    .delete(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/delete`, {
       data: formData,
     })
     .then((res) => res?.data)
@@ -124,7 +124,7 @@ export const deleteBoard = async (formData: object) =>
  */
 export const loadMyBoardList = async () =>
   axiosInstance
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/my/list`, {})
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/my/list`, {})
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -134,7 +134,7 @@ export const loadMyBoardList = async () =>
  */
 export const loadMyCommentList = async () =>
   axiosInstance
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/my/comment/list`, {})
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/my/comment/list`, {})
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -145,7 +145,7 @@ export const loadMyCommentList = async () =>
  */
 export const loadUserInfoData = async (formData?: object) =>
   axiosInstance
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/info`, formData)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/info`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -155,7 +155,7 @@ export const loadUserInfoData = async (formData?: object) =>
  */
 export const loadUserList = async () =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/list`)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/list`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -166,7 +166,7 @@ export const loadUserList = async () =>
  */
 export const putJoinData = async (formData: object) =>
   axios
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/put`, formData)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/put`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -177,7 +177,7 @@ export const putJoinData = async (formData: object) =>
  */
 export const loadPointLogData = async (formData: { user_seq: number }) =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/point/log`, formData)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/point/log`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -188,7 +188,7 @@ export const loadPointLogData = async (formData: { user_seq: number }) =>
  */
 export const loadAttendanceLogData = async (formData: { user_seq: number }) =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/attendance/log`, formData)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/attendance/log`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -199,7 +199,7 @@ export const loadAttendanceLogData = async (formData: { user_seq: number }) =>
  */
 export const updateAttendanceData = async (formData: object) =>
   axios
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/attendance/update`, formData)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/attendance/update`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -215,7 +215,7 @@ export const postTempPw = async (formData: { email: string | null }) => {
   header.headers.token = token;
 
   return axios
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/reset/email`, formData, header)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/reset/email`, formData, header)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 };
@@ -233,7 +233,7 @@ export const changePw = async (formData?: object, token?: string) => {
   }
 
   return axios
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/change/pw`, formData, header)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/change/pw`, formData, header)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 };
@@ -245,7 +245,7 @@ export const changePw = async (formData?: object, token?: string) => {
  */
 export const putFriendData = async (formData: object) =>
   axios
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/friend/add`, formData)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/friend/add`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -256,7 +256,7 @@ export const putFriendData = async (formData: object) =>
  */
 export const loadFriendList = async (formData: { user_seq: number }) =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/friend/list`, formData)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/friend/list`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -267,7 +267,7 @@ export const loadFriendList = async (formData: { user_seq: number }) =>
  */
 export const updateFriendData = async (formData: object) =>
   axios
-    .patch(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/friend/updateFriend`, formData)
+    .patch(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/friend/updateFriend`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -278,7 +278,7 @@ export const updateFriendData = async (formData: object) =>
  */
 export const deleteFriendData = async (formData: object) =>
   axios
-    .delete(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/friend/deleteFriend`, {
+    .delete(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/friend/deleteFriend`, {
       data: formData,
     })
     .then((res) => res?.data)
@@ -300,7 +300,7 @@ export const uploadFile = async (files: FileList, token: string) => {
   }
 
   return axios
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/file/put`, formData, header)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/file/put`, formData, header)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 };
@@ -316,7 +316,7 @@ export const updateUser = async (formData: object, token: string) => {
   header.headers.token = token;
 
   return axios
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/update`, formData, header)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/update`, formData, header)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 };
@@ -327,7 +327,7 @@ export const updateUser = async (formData: object, token: string) => {
  */
 export const loadTagsTop5 = async () =>
   axios
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/tags/top5`)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/tags/top5`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -344,7 +344,7 @@ export const writeBoard = async (formData?: object, token?: string) => {
   }
 
   return axios
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/write`, formData, header)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/write`, formData, header)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 };
@@ -356,7 +356,7 @@ export const writeBoard = async (formData?: object, token?: string) => {
  */
 export const writeComment = async (formData?: object) =>
   axiosInstance
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/comment/write`, formData)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/comment/write`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -371,7 +371,7 @@ export const contentPut = async (formData: object, token: string) => {
   header.headers.token = token;
 
   return axios
-    .put(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/content/put`, formData, header)
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/content/put`, formData, header)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 };
@@ -382,7 +382,7 @@ export const contentPut = async (formData: object, token: string) => {
  */
 export const loadShareUserList = async () =>
   axiosInstance
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/user/list`)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/user/list`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -392,7 +392,7 @@ export const loadShareUserList = async () =>
  */
 export const loadSendUserList = async () =>
   axiosInstance
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/send/user/list`)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/send/user/list`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -402,7 +402,7 @@ export const loadSendUserList = async () =>
  */
 export const loadShareListView = async () =>
   axiosInstance
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/list/view`)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/list/view`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
 
@@ -412,6 +412,6 @@ export const loadShareListView = async () =>
  */
 export const loadSendListView = async (formData: object) =>
   axiosInstance
-    .post(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/send/list/view`, formData)
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/send/list/view`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));

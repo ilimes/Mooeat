@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     headers.type = formData?.type;
   }
 
-  const res = await fetch(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/info`, {
+  const res = await fetch(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/info`, {
     cache: 'no-store',
     method: 'POST',
     headers,

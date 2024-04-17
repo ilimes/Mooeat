@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     token: 'eyJhbGciOiJIUzI1NiJ9.YWRtaW5AYWRtaW4uY29t.PNfKo6O33BzNllo7lUaKTz2sgm8GOpcuKxcZddllbDg',
   };
 
-  const res = await fetch(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/reset/email`, {
+  const res = await fetch(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/reset/email`, {
     cache: 'no-store',
     method: 'POST',
     headers,

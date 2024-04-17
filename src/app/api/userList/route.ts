@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-  const res = await fetch(`https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/list`, {
+  const res = await fetch(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/list`, {
     cache: 'no-store',
     method: 'POST',
     headers: {
