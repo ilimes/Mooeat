@@ -415,3 +415,13 @@ export const loadSendListView = async (formData: object) =>
     .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/send/list/view`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
+
+/**
+ * 로그인
+ * @returns data
+ */
+export const login = async (formData: object) =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/login`, formData)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));

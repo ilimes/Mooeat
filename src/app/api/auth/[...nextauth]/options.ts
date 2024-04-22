@@ -4,6 +4,7 @@ import KakaoProvider from 'next-auth/providers/kakao';
 import GoogleProvider from 'next-auth/providers/google';
 import { type DefaultSession, type DefaultUser } from 'next-auth';
 import { UserInfoTypes } from '@/types/User/User.interface';
+import { loginApi } from '@/api/Api';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
@@ -44,7 +45,6 @@ export const options: NextAuthOptions = {
         try {
           console.log('로그인', credentials);
           const result = await login(credentials);
-          console.log('result', result);
           if (result?.data?.success) {
             // Any object returned will be saved in `user` property of the JWT
             return result;
@@ -137,18 +137,26 @@ const login = async (
   isOauth?: any,
   oauthInfo?: any,
 ) => {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      user_id: credentials?.user_id,
-      password: credentials?.password,
-      isOauth,
-      oauthInfo,
-    }),
-  });
-  const result = await res.json();
+  // const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     user_id: credentials?.user_id,
+  //     password: credentials?.password,
+  //     isOauth,
+  //     oauthInfo,
+  //   }),
+  // });
+  // const result = await res.json();
+  const formData = {
+    user_id: credentials?.user_id,
+    password: credentials?.password,
+    isOauth,
+    oauthInfo,
+  };
+  const result = await loginApi(formData);
+  console.log('result-api', result);
   return result;
 };
