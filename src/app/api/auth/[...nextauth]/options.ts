@@ -156,7 +156,7 @@ const login = async (
     oauthInfo,
   };
   const result = await axios
-    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/login`, formData)
+    .post(`${process.env.NEXTAUTH_URL}/api/login`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
   console.log('result-api', result);
