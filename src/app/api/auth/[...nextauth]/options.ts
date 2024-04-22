@@ -3,8 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import KakaoProvider from 'next-auth/providers/kakao';
 import GoogleProvider from 'next-auth/providers/google';
 import { type DefaultSession, type DefaultUser } from 'next-auth';
-import { UserInfoTypes } from '@/types/User/User.interface';
-import { loginApi } from '@/api/Api';
+import { loginApi } from '../../../../../api/Api';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
