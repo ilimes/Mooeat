@@ -3,7 +3,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import KakaoProvider from 'next-auth/providers/kakao';
 import GoogleProvider from 'next-auth/providers/google';
 import { type DefaultSession, type DefaultUser } from 'next-auth';
-import axios from 'axios';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
@@ -136,29 +135,17 @@ const login = async (
   isOauth?: any,
   oauthInfo?: any,
 ) => {
-  // const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({
-  //     user_id: credentials?.user_id,
-  //     password: credentials?.password,
-  //     isOauth,
-  //     oauthInfo,
-  //   }),
-  // });
-  // const result = await res.json();
-  const formData = {
-    user_id: credentials?.user_id,
-    password: credentials?.password,
-    isOauth,
-    oauthInfo,
-  };
-  const result = await axios
-    .post(`${process.env.NEXTAUTH_URL}/api/login`, formData)
-    .then((res) => res?.data)
-    .catch((err) => console.error(err));
-  console.log('result-api', result);
-  return result;
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      user_id: credentials?.user_id,
+      password: credentials?.password,
+      isOauth,
+      oauthInfo,
+    }),
+  });
+  const result = await res.json();
 };
