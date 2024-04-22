@@ -44,6 +44,7 @@ export const options: NextAuthOptions = {
         try {
           console.log('로그인', credentials);
           const result = await login(credentials);
+          console.log('result', result);
           if (result?.data?.success) {
             // Any object returned will be saved in `user` property of the JWT
             return result;
