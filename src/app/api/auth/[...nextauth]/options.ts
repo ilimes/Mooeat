@@ -3,7 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import KakaoProvider from 'next-auth/providers/kakao';
 import GoogleProvider from 'next-auth/providers/google';
 import { type DefaultSession, type DefaultUser } from 'next-auth';
-import { loginApi } from '../../../../../api/Api';
+import axios from 'axios';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
@@ -155,7 +155,10 @@ const login = async (
     isOauth,
     oauthInfo,
   };
-  const result = await loginApi(formData);
+  const result = await axios
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/login`, formData)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
   console.log('result-api', result);
   return result;
 };
