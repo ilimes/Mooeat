@@ -148,4 +148,5 @@ const login = async (
     }),
   });
   const result = await res.json();
+  return result;
 };
