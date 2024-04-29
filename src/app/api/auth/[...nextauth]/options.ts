@@ -18,11 +18,13 @@ declare module 'next-auth' {
 
 // NextAuth 옵션 지정 객체
 export const options: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   cookies: {
     sessionToken: {
-      name: 'next-auth.session-token',
+      name: `${process.env.NEXTAUTH_URL?.startsWith('https://') ? '__Secure-' : ''}next-auth.session-token`,
       options: {
-        domain: `.${process.env.NEXT_PUBLIC_FRONT_URL}`,
+        domain:
+          new URL(process.env.NEXTAUTH_URL!).hostname === 'localhost' ? 'localhost' : '.ilime.kr',
         path: '/',
         httpOnly: false,
         sameSite: 'lax',
