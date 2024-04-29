@@ -15,20 +15,23 @@ declare module 'next-auth' {
     userInfo: any;
   }
 }
+const nextAuthUrl: any = process.env.NEXTAUTH_URL;
 
 // NextAuth 옵션 지정 객체
 export const options: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   cookies: {
     sessionToken: {
-      name: `${process.env.NEXTAUTH_URL?.startsWith('https://') ? '__Secure-' : ''}next-auth.session-token`,
+      name: `${nextAuthUrl.startsWith('https://') ? '__Secure-' : ''}next-auth.session-token`,
       options: {
         domain:
-          new URL(process.env.NEXTAUTH_URL!).hostname === 'localhost' ? 'localhost' : '.ilime.kr',
+          new URL(nextAuthUrl).hostname === 'localhost'
+            ? 'localhost'
+            : `.${new URL(nextAuthUrl).hostname}`,
+        httpOnly: true,
         path: '/',
-        httpOnly: false,
         sameSite: 'lax',
-        secure: false,
+        secure: nextAuthUrl.startsWith('https://'),
       },
     },
   },
