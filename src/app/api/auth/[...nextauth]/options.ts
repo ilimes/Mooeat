@@ -24,7 +24,7 @@ export const options: NextAuthOptions = {
       options: {
         domain: `.${process.env.NEXT_PUBLIC_FRONT_URL}`,
         path: '/',
-        httpOnly: true,
+        httpOnly: false,
         sameSite: 'lax',
         secure: false,
       },
