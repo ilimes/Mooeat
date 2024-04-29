@@ -18,6 +18,18 @@ declare module 'next-auth' {
 
 // NextAuth 옵션 지정 객체
 export const options: NextAuthOptions = {
+  cookies: {
+    sessionToken: {
+      name: 'next-auth.session-token',
+      options: {
+        domain: `.${process.env.NEXT_PUBLIC_FRONT_URL}`,
+        path: '/',
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: false,
+      },
+    },
+  },
   providers: [
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID!,
