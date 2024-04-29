@@ -17,6 +17,8 @@ declare module 'next-auth' {
 }
 const nextAuthUrl: any = process.env.NEXTAUTH_URL;
 
+console.log(new URL(nextAuthUrl).hostname);
+
 // NextAuth 옵션 지정 객체
 export const options: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
