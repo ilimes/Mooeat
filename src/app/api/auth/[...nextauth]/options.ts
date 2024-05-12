@@ -55,7 +55,7 @@ export const options: NextAuthOptions = {
         password: { label: '비밀번호', type: 'password' },
       },
 
-      async authorize(credentials, req) {
+      async authorize(credentials, req): Promise<any> {
         let msg = null;
         try {
           console.log('로그인', credentials);
@@ -164,6 +164,7 @@ const login = async (
       oauthInfo,
     }),
   });
+  console.log('로!!', res);
   const result = await res.json();
   return result;
 };
