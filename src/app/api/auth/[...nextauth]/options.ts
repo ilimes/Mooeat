@@ -108,7 +108,7 @@ export const options: NextAuthOptions = {
           true,
           user?.userInfo,
         );
-        token.user = { ...user, data: { token: result?.data?.token } };
+        token.user = { ...user, data: { token: `${result?.data?.token}` } };
       }
       return token;
     },

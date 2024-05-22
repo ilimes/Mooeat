@@ -7,7 +7,7 @@ const requestSuccessHandler = async (config: InternalAxiosRequestConfig) => {
   const token = session?.user?.info?.data?.token;
 
   if (token) {
-    config.headers.token = token;
+    config.headers.token = `Bearer ${token}`;
   }
   return config;
 };
