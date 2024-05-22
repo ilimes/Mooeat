@@ -3,9 +3,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import KakaoProvider from 'next-auth/providers/kakao';
 import GoogleProvider from 'next-auth/providers/google';
 import { type DefaultSession, type DefaultUser } from 'next-auth';
-import axios from 'axios';
-import { stringify } from 'flatted';
-import axiosInstance from '@/utils/axiosInstance';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
@@ -18,7 +15,6 @@ declare module 'next-auth' {
     userInfo: any;
   }
 }
-
 const nextAuthUrl: any = process.env.NEXTAUTH_URL;
 
 // NextAuth 옵션 지정 객체
@@ -36,6 +32,7 @@ export const options: NextAuthOptions = {
         path: '/',
         sameSite: 'lax',
         secure: nextAuthUrl.startsWith('https://'),
+        maxAge: 30 * 24 * 60 * 60, // 30 days
       },
     },
   },
@@ -57,12 +54,13 @@ export const options: NextAuthOptions = {
         },
         password: { label: '비밀번호', type: 'password' },
       },
+
       async authorize(credentials, req): Promise<any> {
         let msg = null;
         try {
           const result = await login(credentials);
           if (result?.data?.success) {
-            return JSON.parse(stringify(result));
+            return result;
           }
           msg = result?.data?.message || '에러';
           throw new Error(msg || '에러');
@@ -80,7 +78,10 @@ export const options: NextAuthOptions = {
       try {
         const token = user?.data?.token;
         const type = user?.id ? 'oAuth' : undefined;
-        const formData: any = { token, type };
+        const formData: any = {
+          token,
+          type,
+        };
         if (type) {
           formData.user = user;
         }
@@ -98,11 +99,7 @@ export const options: NextAuthOptions = {
     },
     async jwt({ token, user, trigger, account, profile, isNewUser }) {
       if (user) {
-        // user 객체에서 필요한 정보만 선택하여 저장
-        token.user = {
-          data: user.data,
-          userInfo: user.userInfo,
-        };
+        token.user = user;
       }
       const newProfile: any = { ...profile };
       if (newProfile?.kakao_account) {
@@ -111,49 +108,49 @@ export const options: NextAuthOptions = {
           true,
           user?.userInfo,
         );
-        token.user = {
-          data: { token: result?.data?.token },
-          userInfo: user.userInfo,
-        };
+        token.user = { ...user, data: { token: result?.data?.token } };
       }
       return token;
     },
-    async session({ session, trigger, user, token }) {
+    async session({ session, token }) {
       session.user.info = token?.user;
       return session;
     },
   },
 };
 
-const getUser = async (formData: any) =>
-  axios
-    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/info`, formData, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        token: formData?.token,
-      },
-    })
-    .then((res) => res)
-    .catch((err) => {
-      console.error(err);
-      throw err;
-    });
+const getUser = async (formData: any) => {
+  const res = await fetch(`${nextAuthUrl}/api/userInfo`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${formData?.token}`, // 추가된 Authorization 헤더
+    },
+    body: JSON.stringify(formData),
+  });
+  const result = await res.json();
+  return result;
+};
 
 const login = async (
   credentials: Record<'user_id' | 'password', string> | undefined | any,
   isOauth?: any,
   oauthInfo?: any,
-) =>
-  axiosInstance
-    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/login`, {
+) => {
+  const res = await fetch(`${nextAuthUrl}/api/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
       user_id: credentials?.user_id,
       password: credentials?.password,
       isOauth,
       oauthInfo,
-    })
-    .then((res) => res)
-    .catch((err) => {
-      console.error(err);
-      throw err;
-    });
+    }),
+  });
+  const result = await res.json();
+  return result;
+};
