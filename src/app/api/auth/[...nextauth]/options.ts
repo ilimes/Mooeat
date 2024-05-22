@@ -3,6 +3,9 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import KakaoProvider from 'next-auth/providers/kakao';
 import GoogleProvider from 'next-auth/providers/google';
 import { type DefaultSession, type DefaultUser } from 'next-auth';
+import axios from 'axios';
+import { stringify } from 'flatted';
+import axiosInstance from '@/utils/axiosInstance';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
@@ -15,6 +18,7 @@ declare module 'next-auth' {
     userInfo: any;
   }
 }
+
 const nextAuthUrl: any = process.env.NEXTAUTH_URL;
 
 // NextAuth 옵션 지정 객체
@@ -45,7 +49,6 @@ export const options: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: 'Credentials',
       credentials: {
         user_id: {
@@ -54,20 +57,15 @@ export const options: NextAuthOptions = {
         },
         password: { label: '비밀번호', type: 'password' },
       },
-
       async authorize(credentials, req): Promise<any> {
         let msg = null;
         try {
-          console.log('로그인', credentials);
           const result = await login(credentials);
           if (result?.data?.success) {
-            // Any object returned will be saved in `user` property of the JWT
-            return result;
+            return JSON.parse(stringify(result));
           }
-
           msg = result?.data?.message || '에러';
           throw new Error(msg || '에러');
-          // return null
         } catch (error) {
           throw new Error(msg || '에러');
         }
@@ -80,39 +78,31 @@ export const options: NextAuthOptions = {
   callbacks: {
     async signIn({ user, profile }) {
       try {
-        // // 데이터베이스에 유저가 있는지 확인
         const token = user?.data?.token;
         const type = user?.id ? 'oAuth' : undefined;
-        const formData: any = {
-          token,
-          type,
-        };
+        const formData: any = { token, type };
         if (type) {
           formData.user = user;
         }
-        // TODO: axios
         const result = await getUser(formData);
         if (result?.data?.success) {
           user.userInfo = result?.data?.user_info;
         }
-
         return true;
       } catch (error) {
         return false;
       }
     },
     async redirect({ url, baseUrl }) {
-      return Promise.resolve(url);
+      return url;
     },
-    /**
-     * JWT Callback
-     * 웹 토큰이 실행 혹은 업데이트될때마다 콜백이 실행
-     * 반환된 값은 암호화되어 쿠키에 저장됨
-     */
     async jwt({ token, user, trigger, account, profile, isNewUser }) {
-      // 초기 로그인 시 user 정보 가공하여 변환함
       if (user) {
-        token.user = user;
+        // user 객체에서 필요한 정보만 선택하여 저장
+        token.user = {
+          data: user.data,
+          userInfo: user.userInfo,
+        };
       }
       const newProfile: any = { ...profile };
       if (newProfile?.kakao_account) {
@@ -121,16 +111,13 @@ export const options: NextAuthOptions = {
           true,
           user?.userInfo,
         );
-        token.user = { ...user, data: { token: result?.data?.token } };
+        token.user = {
+          data: { token: result?.data?.token },
+          userInfo: user.userInfo,
+        };
       }
       return token;
     },
-    /**
-     * Session Callback
-     * ClientSide에서 NextAuth에 세션을 체크할때마다 실행
-     * 반환된 값은 useSession을 통해 ClientSide에서 사용할 수 있음
-     * JWT 토큰의 정보를 Session에 유지 시킨다.
-     */
     async session({ session, trigger, user, token }) {
       session.user.info = token?.user;
       return session;
@@ -138,33 +125,35 @@ export const options: NextAuthOptions = {
   },
 };
 
-const getUser = async (formData: any) => {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/userInfo`, {
-    method: 'POST',
-    body: JSON.stringify(formData),
-  });
-  const result = await res.json();
-  return result;
-};
+const getUser = async (formData: any) =>
+  axios
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/info`, formData, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        token: formData?.token,
+      },
+    })
+    .then((res) => res)
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
 
 const login = async (
   credentials: Record<'user_id' | 'password', string> | undefined | any,
   isOauth?: any,
   oauthInfo?: any,
-) => {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
+) =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/login`, {
       user_id: credentials?.user_id,
       password: credentials?.password,
       isOauth,
       oauthInfo,
-    }),
-  });
-  console.log('로!!', res);
-  const result = await res.json();
-  return result;
-};
+    })
+    .then((res) => res)
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
