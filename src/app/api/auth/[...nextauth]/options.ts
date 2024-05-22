@@ -59,7 +59,9 @@ export const options: NextAuthOptions = {
         let msg = null;
         try {
           const result = await login(credentials);
+          console.log('로그인 시도');
           if (result?.data?.success) {
+            console.log('로그인 성공');
             return result;
           }
           msg = result?.data?.message || '에러';
@@ -86,7 +88,9 @@ export const options: NextAuthOptions = {
           formData.user = user;
         }
         const result = await getUser(formData);
+        console.log('정보얻기 시도');
         if (result?.data?.success) {
+          console.log('정보얻기 성공');
           user.userInfo = result?.data?.user_info;
         }
         return true;
@@ -114,6 +118,7 @@ export const options: NextAuthOptions = {
     },
     async session({ session, token }) {
       session.user.info = token?.user;
+      console.log('session', session);
       return session;
     },
   },
