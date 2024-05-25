@@ -210,9 +210,9 @@ export const updateAttendanceData = async (formData: object) =>
  */
 export const postTempPw = async (formData: { email: string | null }) => {
   const token =
-    'Bearer eyJhbGciOiJIUzI1NiJ9.YWRtaW5AYWRtaW4uY29t.PNfKo6O33BzNllo7lUaKTz2sgm8GOpcuKxcZddllbDg';
+    'eyJhbGciOiJIUzI1NiJ9.YWRtaW5AYWRtaW4uY29t.PNfKo6O33BzNllo7lUaKTz2sgm8GOpcuKxcZddllbDg';
   const header = { ...defaultHeader };
-  header.headers.token = `Bearer ${token}`;
+  header.headers.token = `${token}`;
 
   return axios
     .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/reset/email`, formData, header)
@@ -229,7 +229,7 @@ export const postTempPw = async (formData: { email: string | null }) => {
 export const changePw = async (formData?: object, token?: string) => {
   const header = { ...defaultHeader };
   if (typeof token === 'string') {
-    header.headers.token = `Bearer ${token}`;
+    header.headers.token = `${token}`;
   }
 
   return axios
@@ -290,7 +290,7 @@ export const deleteFriendData = async (formData: object) =>
  */
 export const uploadFile = async (files: FileList, token: string) => {
   const header = { ...uploadConfig };
-  header.headers.token = `Bearer ${token}`;
+  header.headers.token = `${token}`;
 
   const formData = new FormData();
 
@@ -313,7 +313,7 @@ export const uploadFile = async (files: FileList, token: string) => {
  */
 export const updateUser = async (formData: object, token: string) => {
   const header = { ...defaultHeader };
-  header.headers.token = `Bearer ${token}`;
+  header.headers.token = `${token}`;
 
   return axios
     .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/update`, formData, header)
@@ -340,7 +340,7 @@ export const loadTagsTop5 = async () =>
 export const writeBoard = async (formData?: object, token?: string) => {
   const header = { ...defaultHeader };
   if (typeof token === 'string') {
-    header.headers.token = `Bearer ${token}`;
+    header.headers.token = `${token}`;
   }
 
   return axios
@@ -368,7 +368,7 @@ export const writeComment = async (formData?: object) =>
  */
 export const contentPut = async (formData: object, token: string) => {
   const header = { ...defaultHeader };
-  header.headers.token = `Bearer ${token}`;
+  header.headers.token = `${token}`;
 
   return axios
     .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/share/content/put`, formData, header)

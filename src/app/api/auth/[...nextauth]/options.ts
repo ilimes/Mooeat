@@ -130,7 +130,7 @@ const getUser = async (formData: any) => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${formData?.token}`, // 추가된 Authorization 헤더
+      Authorization: `${formData?.token}`, // 추가된 Authorization 헤더
     },
     body: JSON.stringify(formData),
   });
