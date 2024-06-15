@@ -150,6 +150,7 @@ const login = async (
 ) => {
   try {
     console.log('login 함수 시작');
+    console.log('요청한 주소:', `${nextAuthUrl}/api/login`);
     const res = await fetch(`${nextAuthUrl}/api/login`, {
       method: 'POST',
       headers: {
