@@ -63,8 +63,10 @@ export const options: NextAuthOptions = {
             return result;
           }
           msg = result?.data?.message || '에러';
+          console.error('로그인 실패:', msg);
           throw new Error(msg || '에러');
         } catch (error) {
+          console.error('authorize 에러:', error);
           throw new Error(msg || '에러');
         }
       },
@@ -74,19 +76,23 @@ export const options: NextAuthOptions = {
     signIn: '/auth/login',
   },
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, account, profile }) {
       try {
+        console.log('signIn 콜백 호출');
         const token = user?.data?.token;
         const type = user?.id ? 'oAuth' : undefined;
         const formData: any = { token, type, user: type ? user : undefined };
         const result = await getUser(formData);
-        console.log('정보얻기 시도');
+        console.log('정보 얻기 시도');
         if (result?.data?.success) {
-          console.log('정보얻기 성공');
+          console.log('정보 얻기 성공');
           user.userInfo = result?.data?.user_info;
+          return true;
         }
-        return true;
+        console.log('정보 얻기 실패:', result?.data?.message);
+        return false;
       } catch (error) {
+        console.error('signIn 콜백 에러:', error);
         return false;
       }
     },
@@ -99,7 +105,7 @@ export const options: NextAuthOptions = {
       }
       const newProfile: any = { ...profile };
       if (newProfile?.kakao_account) {
-        const result = await login({ user_id: newProfile?.id, password: '' }, true, user?.userInfo);
+        const result = await login({ user_id: newProfile.id, password: '' }, true, user?.userInfo);
         token.user = { ...user, data: { token: `${result?.data?.token}` } };
       }
       return token;
@@ -114,17 +120,26 @@ export const options: NextAuthOptions = {
 
 // 유저 정보 가져오는 함수
 const getUser = async (formData: any) => {
-  const res = await fetch(`${nextAuthUrl}/api/userInfo`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${formData?.token}`, // Bearer 토큰 사용
-    },
-    body: JSON.stringify(formData),
-  });
-  const result = await res.json();
-  return result;
+  try {
+    const res = await fetch(`${nextAuthUrl}/api/userInfo`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${formData?.token}`, // Bearer 토큰 사용
+      },
+      body: JSON.stringify(formData),
+    });
+    if (!res.ok) {
+      console.error('getUser 요청 실패:', res.statusText);
+      throw new Error('getUser 요청 실패');
+    }
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    console.error('getUser 에러:', error);
+    throw error;
+  }
 };
 
 // 로그인 함수
@@ -133,19 +148,28 @@ const login = async (
   isOauth?: boolean,
   oauthInfo?: any,
 ) => {
-  const res = await fetch(`${nextAuthUrl}/api/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      user_id: credentials?.user_id,
-      password: credentials?.password,
-      isOauth,
-      oauthInfo,
-    }),
-  });
-  const result = await res.json();
-  return result;
+  try {
+    const res = await fetch(`${nextAuthUrl}/api/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        user_id: credentials?.user_id,
+        password: credentials?.password,
+        isOauth,
+        oauthInfo,
+      }),
+    });
+    if (!res.ok) {
+      console.error('login 요청 실패:', res.statusText);
+      throw new Error('login 요청 실패');
+    }
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    console.error('login 에러:', error);
+    throw error;
+  }
 };
