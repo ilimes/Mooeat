@@ -47,6 +47,7 @@ const AccountManagement = () => {
 const MyInfo = ({ getUserInfoData }: { getUserInfoData: () => Promise<void> }) => {
   const { data: session, status, update } = useSession();
   const token = session?.user?.info?.data?.token;
+  const oAuthType = session?.user?.info?.data?.type;
   const user = session?.user;
   const {
     data: userInfo,
@@ -157,7 +158,7 @@ const MyInfo = ({ getUserInfoData }: { getUserInfoData: () => Promise<void> }) =
     <div style={{ textAlign: 'center' }}>
       <div style={{ margin: '20px 0' }}>
         <div style={{ fontWeight: 800, fontSize: 20 }}>{userInfo?.user_nm}</div>
-        {userInfo?.type === 'oAuth' && (
+        {oAuthType === 'kakao' && (
           <div
             style={{
               background: '#FAE100',
@@ -166,11 +167,35 @@ const MyInfo = ({ getUserInfoData }: { getUserInfoData: () => Promise<void> }) =
               lineHeight: '27px',
               margin: '5px auto',
               borderRadius: 16,
-              verticalAlign: 'middle',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 3.5,
             }}
           >
             <Kakao style={{ width: 14, height: 14, verticalAlign: 'middle', fill: '#3C1E1E' }} />{' '}
             <span style={{ fontSize: 13, fontWeight: 700, color: '#3C1E1E' }}>카카오 계정</span>
+          </div>
+        )}
+        {oAuthType === 'google' && (
+          <div
+            style={{
+              background: '#eaeaea',
+              width: 100,
+              height: 27,
+              lineHeight: '27px',
+              margin: '5px auto',
+              borderRadius: 16,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 3.5,
+            }}
+          >
+            <GoogleIcon
+              style={{ width: 14, height: 14, verticalAlign: 'middle', fill: '#3C1E1E' }}
+            />{' '}
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#3C1E1E' }}>구글 계정</span>
           </div>
         )}
         {userInfo && userInfo.role_rank > 2 && (

@@ -102,19 +102,24 @@ export const options: NextAuthOptions = {
       return url;
     },
     async jwt({ token, user, profile }) {
+      const newProfile: any = { ...profile };
+      const oAuthType = newProfile?.id ? 'kakao' : newProfile?.sub ? 'google' : undefined;
+
       if (user) {
         token.user = user;
       }
-      const newProfile: any = { ...profile };
-      if (newProfile?.kakao_account) {
-        const result = await login({ user_id: newProfile.id, password: '' }, true, user?.userInfo);
-        token.user = { ...user, data: { token: `${result?.data?.token}` } };
+      if (oAuthType) {
+        const result = await login(
+          { user_id: newProfile.id ?? newProfile?.sub, password: '' },
+          true,
+          user?.userInfo,
+        );
+        token.user = { ...user, data: { token: `${result?.data?.token}`, type: oAuthType } };
       }
       return token;
     },
     async session({ session, token }) {
       session.user.info = token?.user;
-      console.log('session', session);
       return session;
     },
   },
