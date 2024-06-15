@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 
+const pre = process.env.NEXT_PUBLIC_BACKEND_URL === '127.0.0.1:5000' ? 'http://' : 'https://';
+
 export async function POST(req: NextRequest) {
   try {
     console.log('유저 정보 API 호출 시작');
     const formData = await req.json();
     console.log('요청 바디:', formData);
 
-    const backendUrl = `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/info`;
+    const backendUrl = `${pre}${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/info`;
     console.log('백엔드 URL:', backendUrl);
 
     const headers: any = {

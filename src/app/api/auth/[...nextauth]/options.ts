@@ -3,6 +3,8 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import KakaoProvider from 'next-auth/providers/kakao';
 import GoogleProvider from 'next-auth/providers/google';
 import { type DefaultSession, type DefaultUser } from 'next-auth';
+import axios from 'axios';
+import https from 'https';
 
 // 타입 확장 선언
 declare module 'next-auth' {
@@ -121,29 +123,28 @@ export const options: NextAuthOptions = {
 // 유저 정보 가져오는 함수
 const getUser = async (formData: any) => {
   try {
-    console.log('getUser 함수 시작');
-    console.log('요청한 주소:', `${nextAuthUrl}/api/userInfo`);
+    const httpsAgent = new https.Agent({
+      rejectUnauthorized: false, // 이 옵션은 보안상 좋지 않으므로 테스트 용도로만 사용
+    });
 
-    const res = await fetch(`${nextAuthUrl}/api/userInfo`, {
-      method: 'POST',
+    const res = await axios.post(`${nextAuthUrl}/api/userInfo`, formData, {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `${formData?.token}`, // Bearer 토큰 사용
+        Authorization: `Bearer ${formData?.token}`, // Bearer 토큰 사용
       },
-      body: JSON.stringify(formData),
+      httpsAgent,
     });
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error(`getUser 요청 실패: ${res.status} ${res.statusText}, 응답 내용: ${errorText}`);
-      throw new Error(`getUser 요청 실패: ${res.status} ${res.statusText}`);
-    }
-
-    const result = await res.json();
-    console.log('getUser 요청 성공:', result);
-    return result;
+    console.log('getUser 요청 성공:', res.data);
+    return res.data;
   } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error(
+        `getUser 요청 실패: ${error.response.status} ${error.response.statusText}, 응답 내용: ${error.response.data}`,
+      );
+      throw new Error(`getUser 요청 실패: ${error.response.status} ${error.response.statusText}`);
+    }
     console.error('getUser 에러:', error);
     throw error;
   }
