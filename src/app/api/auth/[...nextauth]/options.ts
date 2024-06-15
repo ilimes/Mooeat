@@ -121,20 +121,27 @@ export const options: NextAuthOptions = {
 // 유저 정보 가져오는 함수
 const getUser = async (formData: any) => {
   try {
+    console.log('getUser 함수 시작');
+    console.log('요청한 주소:', `${nextAuthUrl}/api/userInfo`);
+
     const res = await fetch(`${nextAuthUrl}/api/userInfo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${formData?.token}`, // Bearer 토큰 사용
+        Authorization: `${formData?.token}`, // Bearer 토큰 사용
       },
       body: JSON.stringify(formData),
     });
+
     if (!res.ok) {
-      console.error('getUser 요청 실패:', res.statusText);
-      throw new Error('getUser 요청 실패');
+      const errorText = await res.text();
+      console.error(`getUser 요청 실패: ${res.status} ${res.statusText}, 응답 내용: ${errorText}`);
+      throw new Error(`getUser 요청 실패: ${res.status} ${res.statusText}`);
     }
+
     const result = await res.json();
+    console.log('getUser 요청 성공:', result);
     return result;
   } catch (error) {
     console.error('getUser 에러:', error);
