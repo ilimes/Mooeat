@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     console.log('요청 바디:', body);
 
-    const backendUrl = `http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/login`;
+    const backendUrl = `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/login`;
     console.log('백엔드 URL:', backendUrl);
 
     const res = await fetch(backendUrl, {
