@@ -149,6 +149,7 @@ const login = async (
   oauthInfo?: any,
 ) => {
   try {
+    console.log('login 함수 시작');
     const res = await fetch(`${nextAuthUrl}/api/login`, {
       method: 'POST',
       headers: {
@@ -162,11 +163,15 @@ const login = async (
         oauthInfo,
       }),
     });
+
     if (!res.ok) {
-      console.error('login 요청 실패:', res.statusText);
-      throw new Error('login 요청 실패');
+      const errorText = await res.text();
+      console.error(`login 요청 실패: ${res.status} ${res.statusText}, 응답 내용: ${errorText}`);
+      throw new Error(`login 요청 실패: ${res.status} ${res.statusText}`);
     }
+
     const result = await res.json();
+    console.log('login 요청 성공:', result);
     return result;
   } catch (error) {
     console.error('login 에러:', error);
