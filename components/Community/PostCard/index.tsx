@@ -90,6 +90,10 @@ const StyledCard = styled(Card)<{ background: string | null; catecolor: string |
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
+    &:active {
+      transition: 0.3s;
+      transform: scale(0.97);
+    }
   }
 `;
 
