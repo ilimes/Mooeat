@@ -3,17 +3,42 @@
 import { Button, Card, Col, Row } from 'antd';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { BarChartOutlined } from '@ant-design/icons';
+import { BarChartOutlined, UserOutlined, NotificationOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
+import moment from 'moment';
 import { adminCollapsedState } from '@/recoil/states';
 import TopTitle from '@/components/SharedComponents/TopTitle';
-import { loadTodayVisitorCount } from '@/api/Api';
+import { loadApiData, loadTodayVisitorCount, loadUserList } from '@/api/Api';
+import { UserInfoTypes } from '@/types/User/User.interface';
 
 const Admin = () => {
   const router = useRouter();
+  const [userList, setUserList] = useState<UserInfoTypes[]>([]);
   const setCollapsed = useSetRecoilState(adminCollapsedState);
+  const [apiCount, setApiCount] = useState(0);
+
+  const getApiData = async () => {
+    const type = 'day';
+    const year = 2024;
+    const formData: { type: string; year: number } = { type, year };
+    const result = await loadApiData(formData);
+    const todayCount = result?.list?.find(
+      (e: any) => e.date === moment().format('YYYY-MM-DD'),
+    )?.count;
+    setApiCount(todayCount ?? 0);
+  };
+
+  const getUserList = async () => {
+    const result = await loadUserList();
+    setUserList(result?.list);
+  };
+
+  useEffect(() => {
+    getUserList();
+    getApiData();
+  }, []);
 
   const {
     data: visitorCount,
@@ -41,7 +66,7 @@ const Admin = () => {
       <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
           <StyledAdminTopCardDiv>
-            <h2>금일 방문자 수</h2>
+            <h2>오늘 방문자 수</h2>
             <div>
               <div>
                 <BarChartOutlined />
@@ -52,25 +77,28 @@ const Admin = () => {
         </Col>
         <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
           <StyledAdminTopCardDiv>
-            <h2>2번 카드</h2>
+            <h2>전체 회원 수</h2>
             <div>
               <div>
-                <BarChartOutlined />
+                <UserOutlined />
               </div>
-              <div>{visitorCount ?? 0}</div>
+              <div>{userList?.length ?? 0}</div>
             </div>
           </StyledAdminTopCardDiv>
         </Col>
         <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
           <StyledAdminTopCardDiv>
-            <h2>3번 카드</h2>
+            <h2>오늘 API 호출 수</h2>
             <div>
               <div>
-                <BarChartOutlined />
+                <NotificationOutlined />
               </div>
-              <div>{visitorCount ?? 0}</div>
+              <div>{apiCount ?? 0}</div>
             </div>
           </StyledAdminTopCardDiv>
+        </Col>
+        <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
+          <Card>관리자 페이지 카드 입니다.</Card>
         </Col>
       </Row>
     </>
