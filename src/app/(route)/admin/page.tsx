@@ -21,7 +21,7 @@ const Admin = () => {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ['userInfo'],
+    queryKey: ['visitorCount'],
     queryFn: async () => {
       const result = await loadTodayVisitorCount();
       if (result?.success) {
