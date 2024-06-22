@@ -369,6 +369,8 @@ const Password = ({
   getUserInfoData: () => Promise<void>;
 }) => {
   const [isPwEdit, setIsPwEdit] = useState(false);
+  const { data: session, status, update } = useSession();
+  const oAuthType = session?.user?.info?.data?.type;
 
   return (
     <>
@@ -382,7 +384,12 @@ const Password = ({
           />
         )}
         {!isPwEdit && (
-          <PwShowForm userInfo={userInfo} isPwEdit={isPwEdit} setIsPwEdit={setIsPwEdit} />
+          <PwShowForm
+            userInfo={userInfo}
+            isPwEdit={isPwEdit}
+            setIsPwEdit={setIsPwEdit}
+            oAuthType={oAuthType}
+          />
         )}
       </StyledBoxDiv>
     </>
@@ -475,22 +482,35 @@ const PwShowForm = ({
   userInfo,
   isPwEdit,
   setIsPwEdit,
+  oAuthType,
 }: {
   userInfo: UserInfoTypes | null;
   isPwEdit: boolean;
   setIsPwEdit: Dispatch<SetStateAction<boolean>>;
+  oAuthType: any;
 }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-    <div style={{ fontSize: 14 }}>
-      {}
-      최근 업데이트: <span style={{ fontWeight: 700 }}>{userInfo?.pw_mod_dt ?? '없음'}</span>
+  <>
+    {oAuthType && (
+      <div style={{ color: 'grey', fontSize: 14, marginTop: 15 }}>
+        소셜 계정을 이용한 간편 가입을 하신 경우에는 비밀번호 변경이 불가능합니다.
+      </div>
+    )}
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ fontSize: 14 }}>
+        {}
+        최근 업데이트: <span style={{ fontWeight: 700 }}>{userInfo?.pw_mod_dt ?? '없음'}</span>
+      </div>
+      <div>
+        <Button
+          style={{ height: 45, fontWeight: 700 }}
+          onClick={() => setIsPwEdit(!isPwEdit)}
+          disabled={!!oAuthType}
+        >
+          비밀번호 변경
+        </Button>
+      </div>
     </div>
-    <div>
-      <Button style={{ height: 45, fontWeight: 700 }} onClick={() => setIsPwEdit(!isPwEdit)}>
-        비밀번호 변경
-      </Button>
-    </div>
-  </div>
+  </>
 );
 
 const AccountLinking = () => (
