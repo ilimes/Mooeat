@@ -425,3 +425,14 @@ export const login = async (formData: object) =>
     .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/login`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
+
+/**
+ * 금일 방문자 수 데이터 가져오기
+ * @param formData
+ * @returns data
+ */
+export const loadTodayVisitorCount = async () =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/admin/visitor/count`)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));

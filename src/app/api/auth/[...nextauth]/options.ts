@@ -59,9 +59,7 @@ export const options: NextAuthOptions = {
         let msg = null;
         try {
           const result = await login(credentials);
-          console.log('로그인 시도');
           if (result?.data?.success) {
-            console.log('로그인 성공');
             return result;
           }
           msg = result?.data?.message || '에러';
@@ -80,18 +78,14 @@ export const options: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       try {
-        console.log('signIn 콜백 호출');
         const token = user?.data?.token;
         const type = user?.id ? 'oAuth' : undefined;
         const formData: any = { token, type, user: type ? user : undefined };
         const result = await getUser(formData);
-        console.log('정보 얻기 시도');
         if (result?.data?.success) {
-          console.log('정보 얻기 성공');
           user.userInfo = result?.data?.user_info;
           return true;
         }
-        console.log('정보 얻기 실패:', result?.data?.message);
         return false;
       } catch (error) {
         console.error('signIn 콜백 에러:', error);
@@ -141,7 +135,6 @@ const getUser = async (formData: any) => {
       httpsAgent,
     });
 
-    console.log('getUser 요청 성공:', res.data);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -162,8 +155,6 @@ const login = async (
   oauthInfo?: any,
 ) => {
   try {
-    console.log('login 함수 시작');
-    console.log('요청한 주소:', `${nextAuthUrl}/api/login`);
     const res = await fetch(`${nextAuthUrl}/api/login`, {
       method: 'POST',
       headers: {
@@ -185,7 +176,6 @@ const login = async (
     }
 
     const result = await res.json();
-    console.log('login 요청 성공:', result);
     return result;
   } catch (error) {
     console.error('login 에러:', error);
