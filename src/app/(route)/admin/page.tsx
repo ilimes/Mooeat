@@ -23,7 +23,7 @@ const Admin = () => {
   } = useQuery({
     queryKey: ['userInfo'],
     queryFn: async () => {
-      const result = await loadTodayVisitorCount({});
+      const result = await loadTodayVisitorCount();
       if (result?.success) {
         return result?.data;
       }
