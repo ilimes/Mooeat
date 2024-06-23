@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Col, Row } from 'antd';
+import { Button, Card, Col, Row, Spin } from 'antd';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -8,6 +8,16 @@ import { useSetRecoilState } from 'recoil';
 import { BarChartOutlined, UserOutlined, NotificationOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import { adminCollapsedState } from '@/recoil/states';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 import { loadApiData, loadTodayVisitorCount, loadUserList } from '@/api/Api';
@@ -17,6 +27,7 @@ const Admin = () => {
   const router = useRouter();
   const [userList, setUserList] = useState<UserInfoTypes[]>([]);
   const setCollapsed = useSetRecoilState(adminCollapsedState);
+  const [data, setData] = useState([]);
   const [apiCount, setApiCount] = useState(0);
 
   const getApiData = async () => {
@@ -27,6 +38,7 @@ const Admin = () => {
     const todayCount = result?.list?.find(
       (e: any) => e.date === moment().format('YYYY-MM-DD'),
     )?.count;
+    setData(result?.list);
     setApiCount(todayCount ?? 0);
   };
 
@@ -67,38 +79,71 @@ const Admin = () => {
         <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
           <StyledAdminTopCardDiv>
             <h2>오늘 방문자 수</h2>
-            <div>
+            <StyledTopCardContent>
               <div>
                 <BarChartOutlined />
               </div>
-              <div>{visitorCount ?? 0}</div>
-            </div>
+              <div>{isSuccess ? visitorCount ?? 0 : <Spin />}</div>
+            </StyledTopCardContent>
           </StyledAdminTopCardDiv>
         </Col>
         <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
           <StyledAdminTopCardDiv>
             <h2>전체 회원 수</h2>
-            <div>
+            <StyledTopCardContent>
               <div>
                 <UserOutlined />
               </div>
               <div>{userList?.length ?? 0}</div>
-            </div>
+            </StyledTopCardContent>
           </StyledAdminTopCardDiv>
         </Col>
         <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
           <StyledAdminTopCardDiv>
             <h2>오늘 API 호출 수</h2>
-            <div>
+            <StyledTopCardContent>
               <div>
                 <NotificationOutlined />
               </div>
               <div>{apiCount ?? 0}</div>
-            </div>
+            </StyledTopCardContent>
           </StyledAdminTopCardDiv>
         </Col>
-        <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
-          <Card>관리자 페이지 카드 입니다.</Card>
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
+          <StyledAdminTopCardDiv>
+            <h2>일별 API 호출 수</h2>
+            <div style={{ width: '100%', height: 500 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  width={500}
+                  height={300}
+                  data={data}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" fontSize={13} />
+                  <YAxis />
+                  <Tooltip formatter={(e: any) => `${e}회`} />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="count"
+                    name="호출 횟수"
+                    stroke="#8884d8"
+                    strokeWidth={3}
+                    dot={{ r: 4.5 }}
+                    activeDot={{ r: 6 }}
+                    animationDuration={500}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </StyledAdminTopCardDiv>
         </Col>
       </Row>
     </>
@@ -120,11 +165,11 @@ const StyledAdminTopCardDiv = styled(Card)`
     h2 {
       margin: 0;
     }
-
-    > div {
-      display: flex;
-      justify-content: space-between;
-      font-size: 24px;
-    }
   }
+`;
+
+const StyledTopCardContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px;
 `;
