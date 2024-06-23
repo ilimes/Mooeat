@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input, Select, Tooltip, message } from 'antd';
+import { Button, Input, Select, Spin, Tooltip, message } from 'antd';
 import {
   PlusOutlined,
   CloseCircleOutlined,
@@ -74,6 +74,7 @@ const Write = () => {
   const [infoItems, setInfoItems] = useState<IInfoTypes[]>([]);
   const [pushDatas, setPushDatas] = useState<any>({ tags: [] });
   const [newTagText, setNewTagText] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const ref = useRef<HTMLSpanElement>(null);
   const isEdit = pushDatas?.board_seq;
 
@@ -162,7 +163,14 @@ const Write = () => {
       tags: result?.data?.tag_names?.split(':'),
       cate_seq: result?.data?.cate_seq?.toString(),
     });
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (editable && ref.current) {
+      ref.current.focus();
+    }
+  }, [editable]);
 
   useEffect(() => {
     getInfoList();
@@ -173,99 +181,101 @@ const Write = () => {
   }, []);
 
   return (
-    <>
-      <TopTitle
-        title={isEdit ? '게시글 수정' : '글쓰기'}
-        explain="커뮤니티 이용 가이드에 위배되는 게시글을 작성하는 경우 삭제될 수 있습니다."
-      />
-      <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 10 }}>카테고리</div>
-      <Select
-        value={pushDatas?.cate_seq}
-        options={infoItems}
-        onChange={(e) => setPushDatas({ ...pushDatas, cate_seq: e })}
-        placeholder="카테고리 선택"
-        style={{ width: 150 }}
-        size="large"
-      />
-      <div style={{ fontWeight: 700, fontSize: 15, margin: '10px 0' }}>제목</div>
-      <Input
-        value={pushDatas?.title}
-        onChange={(e) => setPushDatas({ ...pushDatas, title: e.target.value })}
-        placeholder="제목을 입력해주세요."
-        size="large"
-      />
-      <div style={{ fontWeight: 700, fontSize: 15, margin: '10px 0' }}>내용</div>
-      <div>
-        <StyledReactQuill
-          forwardedRef={quillInstance}
-          value={pushDatas?.content}
-          onChange={(e) => setPushDatas({ ...pushDatas, content: e })}
-          modules={modules}
-          theme="snow"
-          placeholder="내용을 입력해주세요."
+    (!searchParams.get('id') || !isLoading) && (
+      <>
+        <TopTitle
+          title={isEdit ? '게시글 수정' : '글쓰기'}
+          explain="커뮤니티 이용 가이드에 위배되는 게시글을 작성하는 경우 삭제될 수 있습니다."
         />
-      </div>
-      <div style={{ fontWeight: 700, fontSize: 15, margin: '20px 0' }}>태그 (최대 5개)</div>
-      <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
-        {pushDatas?.tags?.map((e: any, i: number) => (
-          <span key={i}>
-            {e}{' '}
-            <span
-              onClick={() =>
-                setPushDatas({
-                  ...pushDatas,
-                  tags: [...pushDatas?.tags?.filter((ele: any) => ele !== e)],
-                })
-              }
-              aria-hidden="true"
-              style={{ cursor: 'pointer' }}
-            >
-              <CloseCircleOutlined />
+        <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 10 }}>카테고리</div>
+        <Select
+          value={pushDatas?.cate_seq}
+          options={infoItems}
+          onChange={(e) => setPushDatas({ ...pushDatas, cate_seq: e })}
+          placeholder="카테고리 선택"
+          style={{ width: 150 }}
+          size="large"
+        />
+        <div style={{ fontWeight: 700, fontSize: 15, margin: '10px 0' }}>제목</div>
+        <Input
+          value={pushDatas?.title}
+          onChange={(e) => setPushDatas({ ...pushDatas, title: e.target.value })}
+          placeholder="제목을 입력해주세요."
+          size="large"
+        />
+        <div style={{ fontWeight: 700, fontSize: 15, margin: '10px 0' }}>내용</div>
+        <div>
+          <StyledReactQuill
+            forwardedRef={quillInstance}
+            value={pushDatas?.content}
+            onChange={(e) => setPushDatas({ ...pushDatas, content: e })}
+            modules={modules}
+            theme="snow"
+            placeholder="내용을 입력해주세요."
+          />
+        </div>
+        <div style={{ fontWeight: 700, fontSize: 15, margin: '20px 0' }}>태그 (최대 5개)</div>
+        <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
+          {pushDatas?.tags?.map((e: any, i: number) => (
+            <span key={i}>
+              {e}{' '}
+              <span
+                onClick={() =>
+                  setPushDatas({
+                    ...pushDatas,
+                    tags: [...pushDatas?.tags?.filter((ele: any) => ele !== e)],
+                  })
+                }
+                aria-hidden="true"
+                style={{ cursor: 'pointer' }}
+              >
+                <CloseCircleOutlined />
+              </span>
             </span>
-          </span>
-        ))}
-        <Tooltip
-          trigger={['focus']}
-          title="태그 입력 후 엔터 키를 누르면 추가됩니다."
-          placement="topLeft"
-          overlayClassName="tag-input"
-        >
-          <div onClick={() => setEditable(true)} aria-hidden="true">
-            <TagInput
-              ref={ref}
-              placeholder="태그 입력"
-              spellCheck={false}
-              contentEditable={editable}
-              onInput={handleInputEvent}
-              onKeyDown={handleOnKeyPress}
-            />
-          </div>
-        </Tooltip>
-      </div>
-      <div style={{ marginTop: 20, textAlign: 'right' }}>
-        <Button
-          onClick={() => router.push('/community')}
-          style={{ width: 125, height: 47, fontWeight: 'bold', fontSize: 16, marginRight: 10 }}
-        >
-          <RollbackOutlined /> 목록으로
-        </Button>
-        <Button
-          type="primary"
-          onClick={putBoardData}
-          style={{ width: 125, height: 47, fontWeight: 'bold', fontSize: 16 }}
-        >
-          {isEdit ? (
-            <div>
-              <EditOutlined /> 수정하기
+          ))}
+          <Tooltip
+            trigger={['focus']}
+            title="태그 입력 후 엔터 키를 누르면 추가됩니다."
+            placement="topLeft"
+            overlayClassName="tag-input"
+          >
+            <div onClick={() => setEditable(true)} aria-hidden="true">
+              <TagInput
+                ref={ref}
+                placeholder="태그 입력"
+                spellCheck={false}
+                contentEditable={editable}
+                onInput={handleInputEvent}
+                onKeyDown={handleOnKeyPress}
+              />
             </div>
-          ) : (
-            <div>
-              <PlusOutlined /> 등록하기
-            </div>
-          )}
-        </Button>
-      </div>
-    </>
+          </Tooltip>
+        </div>
+        <div style={{ marginTop: 20, textAlign: 'right' }}>
+          <Button
+            onClick={() => router.push('/community')}
+            style={{ width: 125, height: 47, fontWeight: 'bold', fontSize: 16, marginRight: 10 }}
+          >
+            <RollbackOutlined /> 목록으로
+          </Button>
+          <Button
+            type="primary"
+            onClick={putBoardData}
+            style={{ width: 125, height: 47, fontWeight: 'bold', fontSize: 16 }}
+          >
+            {isEdit ? (
+              <div>
+                <EditOutlined /> 수정하기
+              </div>
+            ) : (
+              <div>
+                <PlusOutlined /> 등록하기
+              </div>
+            )}
+          </Button>
+        </div>
+      </>
+    )
   );
 };
 
