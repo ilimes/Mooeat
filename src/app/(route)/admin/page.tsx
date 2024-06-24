@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Col, Row, Spin } from 'antd';
+import { Alert, Button, Card, Col, Row, Spin } from 'antd';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -29,6 +29,7 @@ const Admin = () => {
   const setCollapsed = useSetRecoilState(adminCollapsedState);
   const [data, setData] = useState([]);
   const [apiCount, setApiCount] = useState(0);
+  const [firstTime, setFirstTime] = useState('');
 
   const getApiData = async () => {
     const type = 'day';
@@ -50,6 +51,7 @@ const Admin = () => {
   useEffect(() => {
     getUserList();
     getApiData();
+    setFirstTime(moment().format('YYYY-MM-DD HH:mm:ss'));
   }, []);
 
   const {
@@ -74,8 +76,21 @@ const Admin = () => {
 
   return (
     <>
-      <TopTitle title="관리자 페이지 홈" explain="관리자 페이지 메인 화면" />
+      <TopTitle title="관리자 페이지 홈" explain="관리자 페이지 메인 화면 입니다." />
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          marginBottom: 10,
+        }}
+      >
+        {firstTime} 기준
+      </div>
       <Row gutter={[15, 15]}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
+          <Alert message="관리자 페이지 수정 중 입니다." type="warning" closable />
+        </Col>
         <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
           <StyledAdminTopCardDiv>
             <h2>오늘 방문자 수</h2>
@@ -136,7 +151,7 @@ const Admin = () => {
                     name="호출 횟수"
                     stroke="#8884d8"
                     strokeWidth={3}
-                    dot={{ r: 4.5 }}
+                    dot={{ r: 0 }}
                     activeDot={{ r: 6 }}
                     animationDuration={500}
                   />

@@ -91,7 +91,7 @@ const ApiCountChart = () => {
               name="호출 횟수"
               stroke="#8884d8"
               strokeWidth={3}
-              dot={{ r: 4.5 }}
+              dot={{ r: 0 }}
               activeDot={{ r: 6 }}
               animationDuration={500}
             />

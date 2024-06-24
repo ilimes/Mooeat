@@ -19,7 +19,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => (
         </div>
       </S.StyledLayout>
     </div>
-    <S.StyledFooterDiv>Mooeat ©2023 Created by ilimes</S.StyledFooterDiv>
+    <S.StyledFooterDiv>Mooeat ©2024 Created by ilimes</S.StyledFooterDiv>
   </>
 );
 

@@ -11,4 +11,5 @@ export const StyledLayout = styled(Layout)`
 export const StyledFooterDiv = styled.div`
   padding: 10px 0px 30px 0;
   text-align: center;
+  font-family: PretendardVariable;
 `;
