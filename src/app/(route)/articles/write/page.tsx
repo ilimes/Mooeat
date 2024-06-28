@@ -106,7 +106,11 @@ const Write = () => {
       } else if (pushDatas?.tags?.length > 4) {
         message.warning('태그는 최대 5개까지만 등록 가능합니다.');
       } else {
-        setPushDatas({ ...pushDatas, tags: [...pushDatas?.tags, newTagText] });
+        if (pushDatas.tags) {
+          setPushDatas({ ...pushDatas, tags: [...pushDatas.tags, newTagText] });
+        } else {
+          setPushDatas({ ...pushDatas, tags: [newTagText] });
+        }
         setNewTagText('');
         if (ref.current) {
           ref.current.innerHTML = '';
