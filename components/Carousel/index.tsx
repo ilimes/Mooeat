@@ -34,7 +34,7 @@ const CarouselComponent = () => {
       img: (
         <Lottie
           animationData={animationData}
-          loop
+          loop={false}
           style={{ width: 340, height: imgHeight, margin: '0 auto' }}
         />
       ),
@@ -49,7 +49,7 @@ const CarouselComponent = () => {
       img: (
         <Lottie
           animationData={animationData2}
-          loop
+          loop={false}
           style={{ width: 340, height: imgHeight, margin: '0 auto' }}
         />
       ),
@@ -64,7 +64,7 @@ const CarouselComponent = () => {
       img: (
         <Lottie
           animationData={animationData3}
-          loop
+          loop={false}
           style={{ width: 340, height: imgHeight, margin: '0 auto' }}
         />
       ),

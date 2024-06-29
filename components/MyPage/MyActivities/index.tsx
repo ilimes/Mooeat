@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
+import { ColumnsType, TableProps } from 'antd/es/table';
 import { loadMyBoardList, loadMyCommentList } from '@/api/Api';
 import { DataType1, DataType2 } from '@/types/Board/Board.interface';
 
-const columns1: TableColumnsType<DataType1> = [
+const columns1: ColumnsType<DataType1> = [
   {
     title: '제목',
     dataIndex: 'title',
@@ -25,7 +26,7 @@ const columns1: TableColumnsType<DataType1> = [
   },
 ];
 
-const columns2: TableColumnsType<DataType2> = [
+const columns2: ColumnsType<DataType2> = [
   {
     title: '게시글 제목',
     dataIndex: 'board_title',
@@ -44,7 +45,7 @@ const columns2: TableColumnsType<DataType2> = [
     key: 'reg_dt',
     width: 140,
     align: 'center',
-    render: (text) => moment(text).format('YYYY-MM-DD'),
+    render: (text: string) => moment(text).format('YYYY-MM-DD'),
   },
 ];
 
@@ -112,11 +113,14 @@ const MyActivities = () => {
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
         )}
         {myBoardList?.length !== 0 && (
-          <Table
+          <StyledTable
             rowKey={(record) => record?.board_seq}
             columns={columns1}
             dataSource={myBoardList}
-            pagination={{ pageSize: 5 }}
+            pagination={{
+              pageSize: 5,
+              showTotal: (total, range) => `${range[0]}-${range[1]} / 총 ${total}건`,
+            }}
             onRow={(record, rowIndex) => ({
               onClick: () => {
                 router.push(`/articles/${record?.board_seq}`);
@@ -137,7 +141,10 @@ const MyActivities = () => {
             rowKey={(record) => record?.comment_seq}
             columns={columns2}
             dataSource={myCommentList}
-            pagination={{ pageSize: 5 }}
+            pagination={{
+              pageSize: 5,
+              showTotal: (total, range) => `${range[0]}-${range[1]} / 총 ${total}건`,
+            }}
           />
         )}
       </StyledBoxDiv>
@@ -204,5 +211,11 @@ const SubTitle = styled.div`
     font-size: 13px;
     font-weight: 400;
     color: #666666;
+  }
+`;
+
+const StyledTable = styled(Table)<TableProps<DataType1>>`
+  .ant-table-row: hover {
+    cursor: pointer;
   }
 `;
