@@ -208,7 +208,7 @@ const HeaderPage = () => {
             <>
               {session && (
                 <span onClick={() => setNotiCollapsed(true)} aria-hidden="true">
-                  <Badge dot style={{ marginRight: 10 }}>
+                  <Badge dot={notiList?.count > 0} style={{ marginRight: 10 }}>
                     <BellOutlined
                       style={{
                         fontSize: 20,
