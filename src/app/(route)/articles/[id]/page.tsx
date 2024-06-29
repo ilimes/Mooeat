@@ -167,9 +167,17 @@ const Articles = () => {
       <Skeleton paragraph={{ rows: 0 }} loading={!data} active>
         <Title>{data?.title}</Title>
       </Skeleton>
-      <div style={{ display: 'flex', marginBottom: 20, gap: 10 }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          marginBottom: 20,
+          gap: 10,
+        }}
+      >
         {isMyArticle && (
-          <>
+          <div style={{ display: 'flex', gap: 10 }}>
             <Button onClick={() => router.push(`/articles/write?id=${data?.board_seq}`)}>
               <EditOutlined />
               게시글 수정
@@ -178,9 +186,9 @@ const Articles = () => {
               <DeleteOutlined />
               게시글 삭제
             </Button>
-          </>
+          </div>
         )}
-        <Button onClick={handleShearToKakao} style={{ marginLeft: 'auto' }}>
+        <Button onClick={handleShearToKakao}>
           <ShareAltOutlined />
           카카오로 공유하기
         </Button>

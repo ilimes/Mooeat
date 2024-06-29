@@ -3,9 +3,10 @@
 import { Button, Input, Select, Spin, Tooltip, message } from 'antd';
 import {
   PlusOutlined,
-  CloseCircleOutlined,
+  DeleteOutlined,
   RollbackOutlined,
   EditOutlined,
+  InfoCircleOutlined,
 } from '@ant-design/icons';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
@@ -75,6 +76,7 @@ const Write = () => {
   const [pushDatas, setPushDatas] = useState<any>({ tags: [] });
   const [newTagText, setNewTagText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [tooltipVisible, setTooltipVisible] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
   const isEdit = pushDatas?.board_seq;
 
@@ -86,7 +88,6 @@ const Write = () => {
     const newValue = e.target.innerText;
     if (newValue.length >= MAX_LENGTH) {
       // setEditable(false);
-      message.warning('태그는 최대 10글자 까지만 입력 가능합니다.');
       if (ref.current) {
         ref.current.innerHTML = newTagText;
       }
@@ -99,8 +100,9 @@ const Write = () => {
     if (e.key === 'Enter') {
       // 기본 엔터 동작을 막지 않으면 개행 문자가 삽입된다.
       e.preventDefault();
+
       if (!newTagText) {
-        message.warning('태그를 입력하신 뒤 엔터를 눌러주세요.');
+        message.warning('태그 내용을 입력하신 뒤 엔터를 눌러주세요.');
       } else if (pushDatas?.tags?.find((ele: any) => ele === newTagText)) {
         message.warning('이미 등록되어 있는 태그입니다.');
       } else if (pushDatas?.tags?.length > 4) {
@@ -112,9 +114,19 @@ const Write = () => {
           setPushDatas({ ...pushDatas, tags: [newTagText] });
         }
         setNewTagText('');
+        setTooltipVisible(false);
+
         if (ref.current) {
           ref.current.innerHTML = '';
         }
+
+        // 포커스 다시 설정
+        setTimeout(() => {
+          if (ref.current) {
+            ref.current.focus();
+            setTooltipVisible(true);
+          }
+        }, 100);
       }
     }
   };
@@ -218,8 +230,21 @@ const Write = () => {
             placeholder="내용을 입력해주세요."
           />
         </div>
-        <div style={{ fontWeight: 700, fontSize: 15, margin: '20px 0' }}>태그 (최대 5개)</div>
-        <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 5, fontWeight: 700, fontSize: 15, margin: '20px 0' }}>
+          태그
+          <Tooltip
+            trigger="click"
+            placement="right"
+            title={
+              <div>
+                · 최대 5개 등록 가능 <br /> · 10글자까지 입력 가능
+              </div>
+            }
+          >
+            <InfoCircleOutlined />
+          </Tooltip>
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 15, alignItems: 'center' }}>
           {pushDatas?.tags?.map((e: any, i: number) => (
             <span key={i}>
               {e}{' '}
@@ -231,17 +256,19 @@ const Write = () => {
                   })
                 }
                 aria-hidden="true"
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: 'pointer', color: '#909090' }}
               >
-                <CloseCircleOutlined />
+                <DeleteOutlined />
               </span>
             </span>
           ))}
           <Tooltip
             trigger={['focus']}
-            title="태그 입력 후 엔터 키를 누르면 추가됩니다."
-            placement="topLeft"
+            title="입력 후 엔터 키를 누르면 추가됩니다."
+            placement="bottomLeft"
             overlayClassName="tag-input"
+            open={tooltipVisible}
+            onOpenChange={setTooltipVisible}
           >
             <div onClick={() => setEditable(true)} aria-hidden="true">
               <TagInput
@@ -251,11 +278,12 @@ const Write = () => {
                 contentEditable={editable}
                 onInput={handleInputEvent}
                 onKeyDown={handleOnKeyPress}
+                onFocus={() => setTooltipVisible(true)}
               />
             </div>
           </Tooltip>
         </div>
-        <div style={{ marginTop: 20, textAlign: 'right' }}>
+        <div style={{ marginTop: 60, textAlign: 'right' }}>
           <Button
             onClick={() => router.push('/community')}
             style={{ width: 125, height: 47, fontWeight: 'bold', fontSize: 16, marginRight: 10 }}
