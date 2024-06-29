@@ -436,3 +436,25 @@ export const loadTodayVisitorCount = async () =>
     .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/admin/visitor/count`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
+
+/**
+ * 알림 목록 가져오기
+ * @param formData
+ * @returns data
+ */
+export const loadNotificationList = async () =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/notification/list`)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
+
+/**
+ * 알림 확인 처리
+ * @param formData
+ * @returns data
+ */
+export const notificationConfirm = async (formData: { seq: number }) =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/notification/confirm`, formData)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));

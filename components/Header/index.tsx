@@ -1,6 +1,19 @@
 'use client';
 
-import { Layout, Menu, Button, Popover, Col, Row, Card, Avatar, Badge, Drawer, Empty } from 'antd';
+import {
+  Layout,
+  Menu,
+  Button,
+  Popover,
+  Col,
+  Row,
+  Card,
+  Avatar,
+  Badge,
+  Drawer,
+  Empty,
+  message,
+} from 'antd';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -14,20 +27,28 @@ import { use, useState, useEffect, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useSession, signOut } from 'next-auth/react';
-import { useQuery } from '@tanstack/react-query';
+import { QueryObserverResult, RefetchOptions, useQuery } from '@tanstack/react-query';
+import moment from 'moment';
+import 'moment/locale/ko';
 import Logo from '../../public/logo.png';
 import {
   collapseState,
   isMobileState,
   menuState,
   notiCollapseState,
+  notiPopoverState,
   userInfoLoadingState,
   userInfoState,
 } from '@/recoil/states';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { UserInfoTypes } from '@/types/User/User.interface';
 import { MenuListTypes } from '@/types/Common/Common.interface';
-import { loadMenuList, loadUserInfoData } from '@/api/Api';
+import {
+  loadMenuList,
+  loadNotificationList,
+  loadUserInfoData,
+  notificationConfirm,
+} from '@/api/Api';
 
 const { Header } = Layout;
 
@@ -40,6 +61,7 @@ const HeaderPage = () => {
   const [collapsed, setCollapsed] = useRecoilState(collapseState);
   const isLoading = useRecoilValue(userInfoLoadingState);
   const setNotiCollapsed = useSetRecoilState(notiCollapseState);
+  const [notiPopoverOpen, setNotiPopoverOpen] = useRecoilState(notiPopoverState);
   const isMobile = useRecoilValue(isMobileState);
   const [profileOpen, setProfileOpen] = useState(false);
   const {
@@ -59,6 +81,11 @@ const HeaderPage = () => {
     enabled: !!user,
   });
   const { data } = useQuery({ queryKey: ['menuList'], queryFn: loadMenuList });
+  const { data: notiList, refetch: notiListRefetch } = useQuery({
+    queryKey: ['notificationList'],
+    queryFn: loadNotificationList,
+    enabled: !!user,
+  });
   const profileImg = userInfo?.user_set?.file_path_thumb;
   const profile = profileImg ? (
     <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} alt="profile" />
@@ -83,6 +110,9 @@ const HeaderPage = () => {
   useEffect(() => {
     if (!isMobile) {
       setNotiCollapsed(false);
+    }
+    if (isMobile) {
+      setNotiPopoverOpen(false);
     }
   }, [isMobile]);
 
@@ -117,8 +147,13 @@ const HeaderPage = () => {
                 <Popover
                   trigger="click"
                   title="알림"
-                  content={notiPopOverContent}
+                  content={() => notiPopOverContent(notiList)}
                   placement="bottom"
+                  open={notiPopoverOpen}
+                  onOpenChange={(isOpen: boolean) => {
+                    setNotiPopoverOpen(!notiPopoverOpen);
+                    if (isOpen) notiListRefetch();
+                  }}
                 >
                   <div
                     style={{
@@ -127,7 +162,7 @@ const HeaderPage = () => {
                       alignItems: 'center',
                     }}
                   >
-                    <Badge dot>
+                    <Badge dot={notiList?.count > 0}>
                       <BellOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
                     </Badge>
                   </div>
@@ -199,12 +234,12 @@ const HeaderPage = () => {
           )}
         </div>
       </div>
-      <AlertDrawer />
+      <AlertDrawer notiList={notiList} notiListRefetch={notiListRefetch} />
     </Header>
   );
 };
 
-const notiPopOverContent = () => (
+const notiPopOverContent = (notiList: any) => (
   <StyledPopoverDiv
     style={{
       width: 320,
@@ -213,14 +248,18 @@ const notiPopOverContent = () => (
       overflowX: 'hidden',
     }}
   >
-    <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10 }}>
-      <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description="알림이 존재하지 않습니다." />
+    <Row gutter={[5, 5]} style={{ paddingTop: 20, padding: 10 }}>
+      {notiList?.count < 1 && (
+        <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description="알림이 존재하지 않습니다." />
+      )}
+      {notiList?.count > 0 &&
+        notiList?.list?.map((e: any, idx: any) => <Alert key={idx} data={e} />)}
       {/* 더미 항목 */}
       {/* <Alert3 />
-        <Alert2 />
-        <Alert key={1} />
-        <Alert key={2} />
-        <Alert key={3} /> */}
+      <Alert2 /> */}
+      {/* <Alert key={1} />
+      <Alert key={2} />
+      <Alert key={3} /> */}
     </Row>
   </StyledPopoverDiv>
 );
@@ -294,104 +333,117 @@ const StyledProfileDiv = styled.div`
   }
 `;
 
-const Alert = () => (
-  <StyledAlertCol span={24}>
-    <div style={{ display: 'flex', gap: 10 }}>
-      <div>
-        <Avatar size="large" icon={<UserOutlined />} />
-      </div>
-      <div>
-        <StyledOutDiv style={{ fontSize: 14 }}>
-          가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라
-        </StyledOutDiv>
-        <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>2분 전</StyledOutDiv>
-      </div>
-    </div>
-  </StyledAlertCol>
-);
+const Alert = ({ data }: { data: any }) => {
+  const router = useRouter();
 
-const Alert2 = () => (
-  <StyledAlertCol span={24}>
-    <div style={{ display: 'flex', gap: 10 }}>
-      <div>
-        <Avatar size="large" icon={<UserOutlined />} />
-      </div>
-      <div>
-        <StyledOutDiv style={{ fontSize: 14 }}>
-          <Point>LIME</Point>님이 회원님의 글에 <Point>좋아요</Point>를 눌렀습니다.
-        </StyledOutDiv>
-        <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>2분 전</StyledOutDiv>
-      </div>
-    </div>
-  </StyledAlertCol>
-);
+  const { data: session, status, update } = useSession();
+  const user = session?.user;
+  const { data: notiList, refetch: notiListRefetch } = useQuery({
+    queryKey: ['notificationList'],
+    queryFn: loadNotificationList,
+    enabled: !!user,
+  });
 
-const Alert3 = () => (
-  <Col span={24}>
-    <div style={{ display: 'flex', gap: 10 }}>
-      <div>
-        <Avatar size="large" icon={<UserOutlined />} />
-      </div>
-      <div>
-        <StyledOutDiv style={{ fontSize: 14 }}>
-          <span style={{ fontWeight: 'bold' }}>Mooeat님의 친구추가 요청이 도착하였습니다.</span>
-        </StyledOutDiv>
-        <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>2분 전</StyledOutDiv>
-        <Button type="primary" style={{ fontSize: 13, margin: '7px 7px 0 0' }}>
-          수락
-        </Button>
-        <Button style={{ fontSize: 13 }}>거절</Button>
-      </div>
-    </div>
-  </Col>
-);
-
-const AlertDrawer = () => {
   const [notiCollapsed, setNotiCollapsed] = useRecoilState(notiCollapseState);
+  const [notiPopoverOpen, setNotiPopoverOpen] = useRecoilState(notiPopoverState);
+
+  const notiConfirm = async (seq: number, showMessage?: boolean) => {
+    const formData = { seq };
+    const result = await notificationConfirm(formData);
+    if (result?.success) {
+      notiListRefetch();
+    }
+    if (showMessage) {
+      message.success('알림 확인이 처리되었습니다.');
+    }
+  };
+
+  const onClickViewArticle = async (seq: number) => {
+    router.push(data?.link);
+    setNotiCollapsed(false);
+    setNotiPopoverOpen(false);
+    await notiConfirm(seq);
+  };
+
+  const onClickConfirm = async (seq: number) => {
+    await notiConfirm(seq, true);
+  };
+
   return (
-    <Drawer
-      title={
-        <div style={{ display: 'flex', height: 64, alignItems: 'baseline' }}>
-          <div style={{ fontWeight: 'bold', fontSize: 18 }}>알림</div>
-          <Button
-            type="text"
-            icon={<CloseOutlined />}
-            onClick={() => setNotiCollapsed(!notiCollapsed)}
-            style={{
-              fontSize: '22px',
-              width: 42,
-              height: 48,
-              marginTop: 5,
-              marginLeft: 'auto',
-            }}
-          />
+    <StyledAlertCol span={24}>
+      <div style={{ display: 'flex', gap: 10 }}>
+        <div>
+          <Avatar size="large" icon={<UserOutlined />} />
         </div>
-      }
-      placement="top"
-      closable={false}
-      onClose={() => setNotiCollapsed(false)}
-      open={notiCollapsed}
-      styles={{ body: { padding: '0 20px' }, header: { padding: '0 20px' } }}
-      height="100%"
-    >
-      <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10, overflow: 'auto' }}>
-        <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description="알림이 존재하지 않습니다." />
-        {/* 더미 데이터 */}
-        {/* <Alert3 />
-        <Alert2 />
-        <Alert key={1} />
-        <Alert key={2} />
-        <Alert key={3} />
-        <Alert key={4} />
-        <Alert key={5} />
-        <Alert key={6} />
-        <Alert key={7} /> */}
-      </Row>
-    </Drawer>
+        <div>
+          <div>
+            <b>{data?.type_kor}</b>
+          </div>
+          <StyledOutDiv style={{ fontSize: 14 }}>{data?.message}</StyledOutDiv>
+          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
+            {moment(data?.created_at).isAfter(moment().subtract(1, 'd'))
+              ? moment(data?.created_at).fromNow()
+              : moment(data?.created_at).format('LLL')}
+          </StyledOutDiv>
+          <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
+            <Button type="primary" size="small" onClick={() => onClickViewArticle(data?.seq)}>
+              게시글 보기
+            </Button>
+            <Button size="small" onClick={() => onClickConfirm(data?.seq)}>
+              알람 확인 처리
+            </Button>
+          </div>
+        </div>
+      </div>
+    </StyledAlertCol>
   );
 };
 
-const ProfileDrawer = () => {
+// const Alert2 = () => (
+//   <StyledAlertCol span={24}>
+//     <div style={{ display: 'flex', gap: 10 }}>
+//       <div>
+//         <Avatar size="large" icon={<UserOutlined />} />
+//       </div>
+//       <div>
+//         <StyledOutDiv style={{ fontSize: 14 }}>
+//           <Point>LIME</Point>님이 회원님의 글에 <Point>좋아요</Point>를 눌렀습니다.
+//         </StyledOutDiv>
+//         <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>2분 전</StyledOutDiv>
+//       </div>
+//     </div>
+//   </StyledAlertCol>
+// );
+
+// const Alert3 = () => (
+//   <Col span={24}>
+//     <div style={{ display: 'flex', gap: 10 }}>
+//       <div>
+//         <Avatar size="large" icon={<UserOutlined />} />
+//       </div>
+//       <div>
+//         <StyledOutDiv style={{ fontSize: 14 }}>
+//           <span style={{ fontWeight: 'bold' }}>Mooeat님의 친구추가 요청이 도착하였습니다.</span>
+//         </StyledOutDiv>
+//         <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>2분 전</StyledOutDiv>
+//         <Button type="primary" style={{ fontSize: 13, margin: '7px 7px 0 0' }}>
+//           수락
+//         </Button>
+//         <Button style={{ fontSize: 13 }}>거절</Button>
+//       </div>
+//     </div>
+//   </Col>
+// );
+
+const AlertDrawer = ({
+  notiList,
+  notiListRefetch,
+}: {
+  notiList?: any;
+  notiListRefetch: (
+    options?: RefetchOptions | undefined,
+  ) => Promise<QueryObserverResult<any, Error>>;
+}) => {
   const [notiCollapsed, setNotiCollapsed] = useRecoilState(notiCollapseState);
   return (
     <Drawer
@@ -415,12 +467,20 @@ const ProfileDrawer = () => {
       placement="top"
       closable={false}
       onClose={() => setNotiCollapsed(false)}
+      afterOpenChange={(isOpen: boolean) => isOpen && notiListRefetch()}
       open={notiCollapsed}
       styles={{ body: { padding: '0 20px' }, header: { padding: '0 20px' } }}
       height="100%"
     >
-      <Row gutter={[25, 25]} style={{ paddingTop: 20, padding: 10, overflow: 'auto' }}>
-        <StyledEmpty image={Empty.PRESENTED_IMAGE_SIMPLE} description="알림이 존재하지 않습니다." />
+      <Row gutter={[5, 5]} style={{ paddingTop: 20, padding: 10, overflow: 'auto' }}>
+        {notiList?.count < 1 && (
+          <StyledEmpty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description="알림이 존재하지 않습니다."
+          />
+        )}
+        {notiList?.count > 0 &&
+          notiList?.list?.map((e: any, idx: any) => <Alert key={idx} data={e} />)}
         {/* 더미 데이터 */}
         {/* <Alert3 />
         <Alert2 />
@@ -483,11 +543,23 @@ const Point = styled.span`
 `;
 
 const StyledAlertCol = styled(Col)`
+  // @keyframes loadEffect1 {
+  //   0% {
+  //     opacity: 0;
+  //   }
+  //   100% {
+  //     opacity: 1;
+  //   }
+  // }
+
   && {
+    transition: all 0.2s ease-in-out;
+    // animation: loadEffect1 0.3s ease-in-out;
+    padding: 10px 0px;
+
     &:hover {
       background: #eee;
       border-radius: 10px;
-      cursor: pointer;
     }
   }
 `;

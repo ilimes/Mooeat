@@ -26,6 +26,14 @@ export const collapseState = atom({
 });
 
 /**
+ * PC 화면에서 Notification Popover 열림 여부
+ */
+export const notiPopoverState = atom({
+  key: 'isNotiPopoverOpen',
+  default: false,
+});
+
+/**
  * Mobile 화면에서 Notification 접힘 여부
  */
 export const notiCollapseState = atom({
