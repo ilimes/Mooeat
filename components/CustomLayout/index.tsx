@@ -20,7 +20,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
 
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotification = (message: string, type?: string, targetSeq?: string) => {
+  const openNotification = (message: string, type?: string, link?: string) => {
     const key = `open${Date.now()}`;
 
     const btn = (
@@ -30,7 +30,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
           size="small"
           onClick={() => {
             api.destroy(key);
-            router.push(`/articles/${targetSeq}` ?? '/');
+            router.push(`${link}` ?? '/');
           }}
         >
           게시글 바로가기
@@ -62,9 +62,9 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
         try {
           const message: string = JSON.parse(event.data)?.message;
           const type: string = JSON.parse(event.data)?.type;
-          const targetSeq: string = JSON.parse(event.data)?.target_seq;
+          const link: string = JSON.parse(event.data)?.link;
 
-          openNotification(message, type, targetSeq);
+          openNotification(message, type, link);
         } catch (e) {
           console.error('Error parsing SSE data:', e);
         }
