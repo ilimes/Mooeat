@@ -1,4 +1,5 @@
-import { Empty, Table, TableColumnsType } from 'antd';
+import { Card, Col, Empty, Row, Table, TableColumnsType } from 'antd';
+import { FileTextOutlined, CommentOutlined } from '@ant-design/icons';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -76,7 +77,36 @@ const MyActivities = () => {
 
   return (
     <>
-      <SubTitle>내가 쓴 글</SubTitle>
+      <StyledTopBoxDiv>
+        <div className="top-box">
+          <SubTitle>
+            <div className="title">작성한 글 수</div>
+          </SubTitle>
+          <div className="box-div">
+            <div className="number">
+              <FileTextOutlined />
+              {myBoardList?.length} 개
+            </div>
+          </div>
+        </div>
+        <div className="top-box">
+          <SubTitle>
+            <div className="title">작성한 댓글 수</div>
+          </SubTitle>
+          <div className="box-div">
+            <div className="number">
+              <CommentOutlined />
+              {myCommentList?.length} 개
+            </div>
+          </div>
+        </div>
+      </StyledTopBoxDiv>
+      <SubTitle>
+        <div className="title">작성한 글 목록</div>
+        <div className="sub-title">
+          내가 작성한 글 목록입니다. 클릭 시 해당 게시글로 이동합니다.
+        </div>
+      </SubTitle>
       <StyledBoxDiv>
         {myBoardList?.length === 0 && (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
@@ -95,7 +125,9 @@ const MyActivities = () => {
           />
         )}
       </StyledBoxDiv>
-      <SubTitle>내가 쓴 댓글</SubTitle>
+      <SubTitle>
+        <div className="title">작성한 댓글 목록</div>
+      </SubTitle>
       <StyledBoxDiv>
         {myCommentList?.length === 0 && (
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
@@ -105,6 +137,7 @@ const MyActivities = () => {
             rowKey={(record) => record?.comment_seq}
             columns={columns2}
             dataSource={myCommentList}
+            pagination={{ pageSize: 5 }}
           />
         )}
       </StyledBoxDiv>
@@ -114,6 +147,40 @@ const MyActivities = () => {
 
 export default MyActivities;
 
+const StyledTopBoxDiv = styled.div`
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+
+  @media screen and (max-width: 991px) {
+    flex-direction: column;
+  }
+
+  .top-box {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .box-div {
+    border: 1px solid #bbcedd;
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .top-box-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #5d559a;
+  }
+
+  .number {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+  }
+`;
+
 const StyledBoxDiv = styled.div`
   padding: 15px;
   margin-bottom: 20px;
@@ -122,8 +189,20 @@ const StyledBoxDiv = styled.div`
 `;
 
 const SubTitle = styled.div`
-  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   margin-bottom: 15px;
-  font-weight: 700;
-  color: #5d559a;
+
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #5d559a;
+  }
+
+  .sub-title {
+    font-size: 13px;
+    font-weight: 400;
+    color: #666666;
+  }
 `;
