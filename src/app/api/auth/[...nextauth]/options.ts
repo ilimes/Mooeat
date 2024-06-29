@@ -63,10 +63,8 @@ export const options: NextAuthOptions = {
             return result;
           }
           msg = result?.data?.message || '에러';
-          console.error('로그인 실패:', msg);
           throw new Error(msg || '에러');
         } catch (error) {
-          console.error('authorize 에러:', error);
           throw new Error(msg || '에러');
         }
       },

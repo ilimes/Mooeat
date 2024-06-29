@@ -5,12 +5,9 @@ const pre = process.env.NEXT_PUBLIC_BACKEND_URL === '127.0.0.1:5000' ? 'http://'
 
 export async function POST(req: NextRequest) {
   try {
-    console.log('유저 정보 API 호출 시작');
     const formData = await req.json();
-    console.log('요청 바디:', formData);
 
     const backendUrl = `${pre}${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/user/info`;
-    console.log('백엔드 URL:', backendUrl);
 
     const headers: any = {
       Accept: 'application/json',
@@ -25,8 +22,6 @@ export async function POST(req: NextRequest) {
     const res = await axios.post(backendUrl, formData?.type ? formData?.user : {}, {
       headers,
     });
-
-    console.log('백엔드 응답 데이터:', res.data);
 
     return NextResponse.json({ data: res.data });
   } catch (error) {
