@@ -76,8 +76,8 @@ const cardContentArr = [
   },
   {
     icon: <SaveOutlined style={{ fontSize: 30 }} />,
-    title: '구독 기능',
-    description: '구독 기능이 있어 내가 원하는 컨텐츠를 정리하여 볼 수 있습니다.',
+    title: '팔로우 기능',
+    description: '팔로우 기능이 있어 내가 원하는 유저의 컨텐츠를 정리하여 볼 수 있습니다.',
   },
 ];
 

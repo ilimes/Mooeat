@@ -25,7 +25,7 @@ const list: TabsProps['items'] = [
   },
   {
     key: '3',
-    label: '구독 관리',
+    label: '팔로우 관리',
     children: null,
   },
   {

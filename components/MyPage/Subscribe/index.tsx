@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Subscribe = () => (
   <>
-    <SubTitle>구독 내역</SubTitle>
+    <SubTitle>팔로우 목록</SubTitle>
     <StyledBoxDiv>준비중 입니다.</StyledBoxDiv>
   </>
 );
