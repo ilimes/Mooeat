@@ -195,10 +195,7 @@ const Articles = () => {
       </div>
       {/* 컨텐츠 영역 */}
       <Skeleton paragraph={{ rows: 3 }} loading={!data} active>
-        <div
-          dangerouslySetInnerHTML={{ __html: data?.content ?? '' }}
-          style={{ whiteSpace: 'normal', lineHeight: 1.23 }}
-        />
+        <StyledContentDiv dangerouslySetInnerHTML={{ __html: data?.content ?? '' }} />
       </Skeleton>
       {/* 태그 영역 */}
       <div style={{ margin: '30px 0', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
@@ -465,6 +462,14 @@ const StyledCommentDiv = styled.div`
   &:focus-within {
     border: 1px solid black;
     color: black;
+  }
+`;
+
+const StyledContentDiv = styled.div`
+  white-space: normal;
+  line-height: 1.23;
+  img {
+    max-width: 100%;
   }
 `;
 
