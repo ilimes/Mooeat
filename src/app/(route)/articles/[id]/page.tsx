@@ -46,7 +46,6 @@ import {
   loadRegUserInfo,
   writeComment,
 } from '@/api/Api';
-import LogoImg from '@/public/logo.png';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { BoardTypes, Comment, CommentTypes, RegUserInfoTypes } from '@/types/Board/Board.interface';
 import { userInfoState } from '@/recoil/states';
@@ -129,7 +128,8 @@ const Articles = () => {
       content: {
         title: data?.title,
         // description: '공유할 설명',
-        imageUrl: LogoImg,
+        imageUrl:
+          'https://github.com/ilimes/ilimes.github.io/assets/95404736/e45aba79-622e-4475-a783-852606f0541c',
         link: {
           mobileWebUrl: location.href,
           webUrl: location.href,
