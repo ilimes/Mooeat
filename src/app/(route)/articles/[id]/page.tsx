@@ -46,6 +46,7 @@ import {
   loadRegUserInfo,
   writeComment,
 } from '@/api/Api';
+import LogoImg from '@/public/logo.png';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { BoardTypes, Comment, CommentTypes, RegUserInfoTypes } from '@/types/Board/Board.interface';
 import { userInfoState } from '@/recoil/states';
@@ -128,7 +129,7 @@ const Articles = () => {
       content: {
         title: data?.title,
         // description: '공유할 설명',
-        // imageUrl: 'https://your-image-url.com/image.png', // 공유할 이미지 URL
+        imageUrl: LogoImg,
         link: {
           mobileWebUrl: location.href,
           webUrl: location.href,
