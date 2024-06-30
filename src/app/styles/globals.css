@@ -1,177 +1,205 @@
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: auto;
-    letter-spacing: -0.15px;
-    line-height: 1.35;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: auto;
+  letter-spacing: -0.15px;
+  line-height: 1.35;
 }
 
 ::-moz-selection {
-    background: #4F4791;
-    color: #fff;
+  background: #4f4791;
+  color: #fff;
 }
 
 ::selection {
-    background: #4F4791;
-    color: #fff;
+  background: #4f4791;
+  color: #fff;
 }
 
 @keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translate3d(0, 10%, 0);
-    }
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 10%, 0);
+  }
 
-    to {
-        opacity: 1;
-        transform: translateZ(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
 }
 
 @keyframes slideUp {
-    0% {
-        /* 하위 20px 에서 시작합니다. */
-        opacity: 0;
-        transform: translateY(20px);
-    }
+  0% {
+    /* 하위 20px 에서 시작합니다. */
+    opacity: 0;
+    transform: translateY(20px);
+  }
 
-    to {
-        /* 원 위치로 이동합니다. */
-        opacity: 1;
-        transform: translateY(0);
-    }
+  to {
+    /* 원 위치로 이동합니다. */
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes moveUp {
-    from {
-        transform: translateY(150px);
-    }
+  from {
+    transform: translateY(150px);
+  }
 
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .ant-message {
-    bottom: 20px !important;
-    top: unset !important;
-    font-size: 16px;
-    font-weight: 500;
+  bottom: 20px !important;
+  top: unset !important;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .ant-message-notice-content {
-    border: 2px solid #ddd;
+  border: 2px solid #ddd;
 }
 
 .container {
-    max-width: 1200px !important;
-    margin: 0 auto;
-    padding: 16px;
-    padding-top: 25px;
+  max-width: 1200px !important;
+  margin: 0 auto;
+  padding: 16px;
+  padding-top: 25px;
 }
 
 .auth-container {
-    max-width: 372px !important;
-    margin: 0 auto;
-    padding: 16px;
+  max-width: 372px !important;
+  margin: 0 auto;
+  padding: 16px;
 }
 
 .fade {
-    animation-delay: 100ms;
-    position: relative;
-    animation: fadeInUp 0.8s;
+  animation-delay: 100ms;
+  position: relative;
+  animation: fadeInUp 0.8s;
 }
 
 .fade-slow {
-    animation-delay: 100ms;
-    position: relative;
-    animation: fadeInUp 1.2s;
+  animation-delay: 100ms;
+  position: relative;
+  animation: fadeInUp 1.2s;
 }
 
 .default {
-    opacity: 0;
+  opacity: 0;
 }
 
 .main-header {
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
 
 .pc-menu-btn {
-    display: none;
-    justify-content: center;
-    margin: 0 auto;
-    width: 1200px;
+  display: none;
+  justify-content: center;
+  margin: 0 auto;
+  width: 1200px;
 
-    @media (min-width: 991px) {
-        display: flex;
-    }
+  @media (min-width: 991px) {
+    display: flex;
+  }
 }
 
 .mobile-btn {
-    justify-content: center;
-    display: flex;
-    margin: 0 auto;
-    width: 1200px;
+  justify-content: center;
+  display: flex;
+  margin: 0 auto;
+  width: 1200px;
 
-    @media (min-width: 991px) {
-        display: none;
-    }
+  @media (min-width: 991px) {
+    display: none;
+  }
 }
 
 button {
-    background-color: inherit;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-    transition: 0.15s;
-    margin: 0;
-    padding: 0;
-    text-align: left;
+  background-color: inherit;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  transition: 0.15s;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
 button:hover {
-    transition: 0.15s;
-    box-shadow: inset 0px 0px 999px 5px rgba(255, 255, 255, 0.05);
+  transition: 0.15s;
+  box-shadow: inset 0px 0px 999px 5px rgba(255, 255, 255, 0.05);
 }
 
 button:active {
-    transition: 0.15s;
-    transform: scale(0.97);
+  transition: 0.15s;
+  transform: scale(0.97);
 }
 
 .title1 {
-    animation-delay: 550ms;
-    animation-duration: 300ms;
-    animation-fill-mode: forwards;
-    animation-name: slideUp;
-    animation-timing-function: ease-out;
-    opacity: 0;
+  animation-delay: 550ms;
+  animation-duration: 300ms;
+  animation-fill-mode: forwards;
+  animation-name: slideUp;
+  animation-timing-function: ease-out;
+  opacity: 0;
 }
 
 .title2 {
-    animation-delay: 750ms;
-    animation-duration: 370ms;
-    animation-fill-mode: forwards;
-    animation-name: slideUp;
-    animation-timing-function: ease-out;
-    opacity: 0;
+  animation-delay: 750ms;
+  animation-duration: 370ms;
+  animation-fill-mode: forwards;
+  animation-name: slideUp;
+  animation-timing-function: ease-out;
+  opacity: 0;
 }
 
 .title3 {
-    animation-delay: 1000ms;
-    animation-duration: 420ms;
-    animation-fill-mode: forwards;
-    animation-name: slideUp;
-    animation-timing-function: ease-out;
-    opacity: 0;
+  animation-delay: 1000ms;
+  animation-duration: 420ms;
+  animation-fill-mode: forwards;
+  animation-name: slideUp;
+  animation-timing-function: ease-out;
+  opacity: 0;
 }
 
 .no-show {
-    opacity: 0;
+  opacity: 0;
+}
+
+.link-title {
+  scroll-margin-top: 80px;
+}
+
+.link-title a {
+  color: inherit !important; /* 부모 요소의 색상을 상속받도록 설정 */
+  text-decoration: none; /* 기본 밑줄 제거 (선택 사항) */
+  position: relative;
+}
+
+/* ::after 가상 요소를 사용하여 아이콘 추가 */
+.link-title a::after {
+  content: '🔗'; /* 표시할 아이콘 (여기서는 예시로 링크 아이콘) */
+  position: absolute;
+  right: -30px; /* 링크의 오른쪽에 아이콘 위치 */
+  opacity: 0; /* 초기 투명도 설정 */
+  transform: translateX(10px); /* 초기 위치를 약간 오른쪽으로 이동 */
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease; /* 서서히 나타나는 효과 추가 */
+}
+
+/* 링크에 마우스를 올렸을 때 아이콘 나타나기 */
+.link-title a:hover::after {
+  opacity: 1; /* 투명도를 높여 아이콘을 보이게 함 */
+  transform: translateX(0); /* 위치를 원래대로 이동 */
 }

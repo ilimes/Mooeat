@@ -103,7 +103,9 @@ const MyActivities = () => {
         </div>
       </StyledTopBoxDiv>
       <SubTitle>
-        <div className="title">작성한 글 목록</div>
+        <div className="title link-title" id="작성한-글-목록">
+          <a href="#작성한-글-목록">작성한 글 목록</a>
+        </div>
         <div className="sub-title">
           내가 작성한 글 목록입니다. 클릭 시 해당 게시글로 이동합니다.
         </div>
@@ -130,7 +132,9 @@ const MyActivities = () => {
         )}
       </StyledBoxDiv>
       <SubTitle>
-        <div className="title">작성한 댓글 목록</div>
+        <div className="title link-title" id="작성한-댓글-목록">
+          <a href="#작성한-댓글-목록">작성한 댓글 목록</a>
+        </div>
       </SubTitle>
       <StyledBoxDiv>
         {myCommentList?.length === 0 && (
