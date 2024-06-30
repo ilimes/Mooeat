@@ -120,8 +120,29 @@ const Articles = () => {
 
   const handleShearToKakao = () => {
     const { Kakao, location } = window;
-    Kakao.Share.sendScrap({
-      requestUrl: location.href,
+    // Kakao.Share.sendScrap({
+    //   requestUrl: location.href,
+    // });
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: data?.title,
+        // description: '공유할 설명',
+        // imageUrl: 'https://your-image-url.com/image.png', // 공유할 이미지 URL
+        link: {
+          mobileWebUrl: location.href,
+          webUrl: location.href,
+        },
+      },
+      buttons: [
+        {
+          title: '웹으로 보기',
+          link: {
+            mobileWebUrl: location.href,
+            webUrl: location.href,
+          },
+        },
+      ],
     });
   };
 
