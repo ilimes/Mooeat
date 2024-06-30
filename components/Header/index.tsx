@@ -19,6 +19,8 @@ import {
   MenuUnfoldOutlined,
   BellOutlined,
   UserOutlined,
+  CommentOutlined,
+  UserAddOutlined,
   CloseOutlined,
 } from '@ant-design/icons';
 import Image from 'next/image';
@@ -354,7 +356,7 @@ const Alert = ({ data }: { data: any }) => {
       notiListRefetch();
     }
     if (showMessage) {
-      message.success('알림 확인이 처리되었습니다.');
+      message.success('알림 확인 처리되었습니다.');
     }
   };
 
@@ -369,11 +371,22 @@ const Alert = ({ data }: { data: any }) => {
     await notiConfirm(seq, true);
   };
 
+  const getIcon = () => {
+    switch (data?.type) {
+      case 'comment':
+        return <CommentOutlined />;
+      case 'friend':
+        return <UserAddOutlined />;
+      default:
+        return <UserOutlined />;
+    }
+  };
+
   return (
     <StyledAlertCol span={24}>
       <div style={{ display: 'flex', gap: 10 }}>
         <div>
-          <Avatar size="large" icon={<UserOutlined />} />
+          <Avatar size="large" icon={getIcon()} />
         </div>
         <div>
           <div>
@@ -387,7 +400,7 @@ const Alert = ({ data }: { data: any }) => {
           </StyledOutDiv>
           <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
             <Button type="primary" size="small" onClick={() => onClickViewArticle(data?.seq)}>
-              게시글 보기
+              바로가기
             </Button>
             <Button size="small" onClick={() => onClickConfirm(data?.seq)}>
               알람 확인 처리

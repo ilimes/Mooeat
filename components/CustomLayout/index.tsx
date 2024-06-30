@@ -49,7 +49,7 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
     const btn = (
       <Space>
         <Button type="primary" size="small" onClick={onClickViewArticle}>
-          게시글 바로가기
+          바로가기
         </Button>
         <Button type="default" size="small" onClick={() => api.destroy(key)}>
           닫기
