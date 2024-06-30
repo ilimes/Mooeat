@@ -8,6 +8,7 @@ import {
   Divider,
   Input,
   Modal,
+  Popconfirm,
   Row,
   Skeleton,
   Tabs,
@@ -41,6 +42,7 @@ import { useRecoilValue } from 'recoil';
 import KakaoSvg from '@/public/svg/kakao.svg';
 import {
   deleteBoard,
+  deleteComment,
   loadArticleData,
   loadCommentList,
   loadRegUserInfo,
@@ -275,7 +277,7 @@ const Articles = () => {
             {/* 자기 자신에게는 구독하기 버튼 나타타지 않음 */}
             {regUserInfo?.user_info?.user_seq !== session?.user?.info?.userInfo?.user_seq && (
               <StyledPlusBtn>
-                <PlusOutlined /> 구독하기
+                <PlusOutlined /> 팔로우
               </StyledPlusBtn>
             )}
           </Skeleton>
@@ -291,6 +293,7 @@ const Articles = () => {
               e={e}
               selectedCommentSeq={selectedCommentSeq}
               setSelectedCommentSeq={setSelectedCommentSeq}
+              getCommentList={getCommentList}
             />
             {e?.children?.length ? (
               <>
@@ -311,6 +314,7 @@ const Articles = () => {
                         e={ele}
                         selectedCommentSeq={selectedCommentSeq}
                         setSelectedCommentSeq={setSelectedCommentSeq}
+                        getCommentList={getCommentList}
                       />
                     </div>
                   ))}
@@ -374,58 +378,92 @@ const CommentDiv = ({
   e,
   selectedCommentSeq,
   setSelectedCommentSeq,
+  getCommentList,
 }: {
   e: any;
   selectedCommentSeq: any;
   setSelectedCommentSeq: any;
-}) => (
-  <>
-    <div style={{ display: 'flex' }}>
-      <div style={{ marginRight: 10 }}>
-        <Avatar
-          size={55}
-          icon={
-            e?.profile_path ? (
-              <img
-                src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e?.profile_path}?thumb=1`}`}
-                alt="profile"
-              />
-            ) : (
-              <Image src={unknownAvatar} alt="unknown" />
-            )
-          }
-        />
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-        <div style={{ fontWeight: 700 }}>{e?.reg_user_nm}</div>
-        <div>{e?.content}</div>
-        <div style={{ fontSize: 13, marginTop: 10 }}>
-          <span style={{ color: 'grey' }}>
-            {moment(e?.reg_dt).isAfter(moment().subtract(1, 'd'))
-              ? moment(e?.reg_dt).fromNow()
-              : moment(e?.reg_dt).format('LLL')}
-          </span>{' '}
-          {!e?.parents_seq && (
-            <>
-              ·{' '}
-              <span
-                onClick={() =>
-                  setSelectedCommentSeq(
-                    e?.comment_seq === selectedCommentSeq ? null : e?.comment_seq,
-                  )
-                }
-                aria-hidden="true"
-                style={{ color: '#000', fontSize: 14, cursor: 'pointer' }}
-              >
-                {e?.comment_seq === selectedCommentSeq ? '답글 취소' : '답글 달기'}
-              </span>
-            </>
-          )}
+  getCommentList: any;
+}) => {
+  const { data: session, status } = useSession();
+
+  const onClickDeleteComment = async () => {
+    const formData = {
+      comment_seq: e?.comment_seq,
+    };
+    const result = await deleteComment(formData);
+    if (result?.success) {
+      message.success('댓글이 삭제되었습니다.');
+      getCommentList();
+    } else {
+      alert(result?.err || '에러발생');
+    }
+  };
+
+  return (
+    <>
+      <div style={{ display: 'flex' }}>
+        <div style={{ marginRight: 10 }}>
+          <Avatar
+            size={55}
+            icon={
+              e?.profile_path ? (
+                <img
+                  src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e?.profile_path}?thumb=1`}`}
+                  alt="profile"
+                />
+              ) : (
+                <Image src={unknownAvatar} alt="unknown" />
+              )
+            }
+          />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+          <div style={{ fontWeight: 700 }}>{e?.reg_user_nm}</div>
+          <div>{e?.content}</div>
+          <div style={{ fontSize: 13, marginTop: 10 }}>
+            <span style={{ color: 'grey' }}>
+              {moment(e?.reg_dt).isAfter(moment().subtract(1, 'd'))
+                ? moment(e?.reg_dt).fromNow()
+                : moment(e?.reg_dt).format('LLL')}
+            </span>{' '}
+            {!e?.parents_seq && (
+              <>
+                ·{' '}
+                <span
+                  onClick={() =>
+                    setSelectedCommentSeq(
+                      e?.comment_seq === selectedCommentSeq ? null : e?.comment_seq,
+                    )
+                  }
+                  aria-hidden="true"
+                  style={{ color: '#000', fontSize: 14, cursor: 'pointer' }}
+                >
+                  {e?.comment_seq === selectedCommentSeq ? '답글 취소' : '답글 달기'}
+                </span>
+                {e?.reg_user_seq === session?.user?.info?.userInfo?.user_seq ? (
+                  <Popconfirm
+                    title="정말 삭제하시겠습니까?"
+                    onConfirm={onClickDeleteComment}
+                    okText="삭제"
+                    cancelText="취소"
+                  >
+                    <span style={{ color: '#f04c53', fontSize: 14, cursor: 'pointer' }}>
+                      {' '}
+                      · 삭제
+                    </span>
+                  </Popconfirm>
+                ) : (
+                  ''
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default Articles;
 

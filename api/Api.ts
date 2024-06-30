@@ -458,3 +458,16 @@ export const notificationConfirm = async (formData: { seq: number }) =>
     .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/notification/confirm`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
+
+/**
+ * 댓글 삭제
+ * @param formData
+ * @returns data
+ */
+export const deleteComment = async (formData: object) =>
+  axiosInstance
+    .delete(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/comment/delete`, {
+      data: formData,
+    })
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
