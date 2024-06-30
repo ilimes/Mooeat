@@ -1,4 +1,16 @@
-import { Avatar, Button, Col, Input, Radio, RadioChangeEvent, Row, Select, message } from 'antd';
+import {
+  Avatar,
+  Button,
+  Col,
+  Input,
+  Modal,
+  Radio,
+  RadioChangeEvent,
+  Row,
+  Select,
+  Spin,
+  message,
+} from 'antd';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -20,6 +32,8 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
 
   const searchParams = useSearchParams();
   const seq = searchParams?.get('seq');
+
+  const [uploading, setUploading] = useState(false); // 모달 상태 관리
 
   const [shareObj, setShareObj] = useState<any>({ images: [] });
   const [uploadedInfo, setUploadedInfo] = useState<UploadInfoTypes | null>(null);
@@ -58,6 +72,8 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
       return;
     }
 
+    setUploading(true); // 모달 열기
+
     let fileCds = [];
     // 이미지 업로드
     if (shareObj?.images) {
@@ -66,6 +82,7 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
         fileCds = uploadResult?.files?.map((e: any) => e?.file_cd);
       } else {
         message.warning(uploadResult?.message || '에러');
+        setUploading(false); // 모달 닫기
         return;
       }
     }
@@ -85,7 +102,10 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
       setPreviews([]);
     } else {
       message.warning(updateResult?.message || '에러');
+      setUploading(false); // 모달 닫기
     }
+
+    setUploading(false); // 모달 닫기
   };
 
   useEffect(() => {
@@ -191,6 +211,12 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
         </Button>
       </div>
       <Freepik link={freepikLink} name1="작가 coolvector" name2="출처 Freepik" />
+      <Modal title="파일 업로드 중" visible={uploading} footer={null} closable={false}>
+        <div style={{ textAlign: 'center' }}>
+          <Spin size="large" />
+          <p>파일을 전송 중입니다...</p>
+        </div>
+      </Modal>
     </>
   );
 };
