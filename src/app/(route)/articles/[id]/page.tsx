@@ -24,6 +24,9 @@ import {
   RollbackOutlined,
   InfoCircleOutlined,
   EditOutlined,
+  HeartOutlined,
+  HeartFilled,
+  NotificationOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useRouter, useParams } from 'next/navigation';
@@ -35,6 +38,7 @@ import type { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
+import KakaoSvg from '@/public/svg/kakao.svg';
 import {
   deleteBoard,
   loadArticleData,
@@ -159,7 +163,8 @@ const Articles = () => {
             <span style={{ margin: '0 5px' }}>·</span>
             <CommentOutlined style={{ color: '#beb4b4' }} /> {data?.comment_cnt}
             <span style={{ margin: '0 5px' }}>·</span>
-            <LikeOutlined style={{ color: '#beb4b4' }} /> {data?.like_cnt}
+            {/* <LikeOutlined style={{ color: '#beb4b4' }} /> {data?.like_cnt} */}
+            <HeartFilled style={{ color: '#F04C53' }} /> {data?.like_cnt}
           </StyledOutDiv>
         </StyledOutDiv>
       </div>
@@ -188,8 +193,23 @@ const Articles = () => {
             </Button>
           </div>
         )}
+        {!isMyArticle && (
+          <Button>
+            <NotificationOutlined />
+            신고하기
+          </Button>
+        )}
         <Button onClick={handleShearToKakao}>
-          <ShareAltOutlined />
+          {/* <ShareAltOutlined /> */}
+          <KakaoSvg
+            style={{
+              width: 16,
+              height: 16,
+              marginRight: 7,
+              verticalAlign: 'text-bottom',
+              fill: '#3C1E1E',
+            }}
+          />
           카카오로 공유하기
         </Button>
       </div>
@@ -205,8 +225,10 @@ const Articles = () => {
       </div>
       {/* 추천 영역 */}
       <StyledLikeBtn>
-        <LikeOutlined style={{ color: '#beb4b4' }} /> 추천하기
+        {/* <LikeOutlined style={{ color: '#beb4b4' }} /> 추천하기 */}
         {/* <LikeFilled style={{ color: '#5383EC' }} /> 추천취소 */}
+        <HeartOutlined style={{ color: '#F04C53' }} /> 좋아요
+        {/* <HeartFilled style={{ color: '#F04C53' }} /> 좋아요 취소 */}
       </StyledLikeBtn>
       {/* 작성자 정보 영역 */}
       {

@@ -91,7 +91,15 @@ const User = () => {
         explain="회원 관리 화면"
       />
       <div style={{ overflow: 'auto' }}>
-        <Table rowKey={(e) => e?.user_seq} dataSource={userList} columns={columns} />
+        <Table
+          rowKey={(e) => e?.user_seq}
+          dataSource={userList}
+          columns={columns}
+          pagination={{
+            pageSize: 10,
+            showTotal: (total, range) => `${range[0]}-${range[1]} / 총 ${total}건`,
+          }}
+        />
       </div>
     </div>
   );

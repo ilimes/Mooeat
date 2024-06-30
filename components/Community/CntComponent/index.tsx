@@ -1,5 +1,5 @@
 import React from 'react';
-import { EyeOutlined, CommentOutlined, LikeOutlined } from '@ant-design/icons';
+import { EyeOutlined, CommentOutlined, LikeOutlined, HeartFilled } from '@ant-design/icons';
 import { Col, Row } from 'antd';
 import { BoardTypes } from '@/types/Board/Board.interface';
 
@@ -13,7 +13,8 @@ const CntComponent = ({ obj }: { obj: BoardTypes }) => (
         <CommentOutlined style={{ color: '#beb4b4' }} /> {obj?.comment_cnt}
       </Col>
       <Col style={{ fontSize: 14 }}>
-        <LikeOutlined style={{ color: '#beb4b4' }} /> {obj?.like_cnt}
+        {/* <LikeOutlined style={{ color: '#beb4b4' }} /> {obj?.like_cnt} */}
+        <HeartFilled style={{ color: '#F04C53' }} /> {obj?.like_cnt}
       </Col>
     </Row>
   </div>

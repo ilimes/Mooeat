@@ -83,7 +83,15 @@ const Content = () => {
         explain="글 관리 화면"
       />
       <div style={{ overflow: 'auto' }}>
-        <Table rowKey={(e) => e?.board_seq} dataSource={boardList} columns={columns} />
+        <Table
+          rowKey={(e) => e?.board_seq}
+          dataSource={boardList}
+          columns={columns}
+          pagination={{
+            pageSize: 10,
+            showTotal: (total, range) => `${range[0]}-${range[1]} / 총 ${total}건`,
+          }}
+        />
       </div>
     </div>
   );

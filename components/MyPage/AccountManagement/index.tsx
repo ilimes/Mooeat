@@ -216,7 +216,7 @@ const MyInfo = ({ getUserInfoData }: { getUserInfoData: () => Promise<void> }) =
         <div>{userInfo?.user_id}</div>
       </div>
       <div>{userInfo?.introduce}</div>
-      <div style={{ textAlign: 'right' }}>
+      <div style={{ textAlign: 'right', marginTop: 20 }}>
         <Button
           type="primary"
           style={{ height: 45, fontWeight: 700 }}
