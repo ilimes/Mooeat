@@ -39,6 +39,7 @@ import type { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
+import { useQuery } from '@tanstack/react-query';
 import KakaoSvg from '@/public/svg/kakao.svg';
 import {
   deleteBoard,
@@ -46,6 +47,7 @@ import {
   loadArticleData,
   loadCommentList,
   loadRegUserInfo,
+  loadUserInfoData,
   writeComment,
 } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
@@ -570,7 +572,24 @@ const ReplyDiv = ({
   setSelectedCommentSeq: Dispatch<SetStateAction<number | null>>;
   isReply: boolean;
 }) => {
-  const userInfo = useRecoilValue(userInfoState);
+  const user = session?.user;
+  const {
+    data: userInfo,
+    isSuccess,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: async () => {
+      const result = await loadUserInfoData({});
+      if (result?.success) {
+        return result?.user_info;
+      }
+      return null;
+    },
+    enabled: !!user,
+  });
+
   const profileImg = userInfo?.user_set?.file_path_thumb;
   const profile = profileImg ? (
     <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} alt="profile" />
