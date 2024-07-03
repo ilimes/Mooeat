@@ -471,3 +471,25 @@ export const deleteComment = async (formData: object) =>
     })
     .then((res) => res?.data)
     .catch((err) => console.error(err));
+
+/**
+ * 게시글 좋아요 확인 여부 체크
+ * @param formData
+ * @returns data
+ */
+export const loadBoardLikeCheck = async (formData: object) =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/like/check`, formData)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
+
+/**
+ * 게시글 좋아요 등록
+ * @param formData
+ * @returns data
+ */
+export const putBoardLike = async (formData: object) =>
+  axiosInstance
+    .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/like`, formData)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));

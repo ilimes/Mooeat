@@ -45,9 +45,11 @@ import {
   deleteBoard,
   deleteComment,
   loadArticleData,
+  loadBoardLikeCheck,
   loadCommentList,
   loadRegUserInfo,
   loadUserInfoData,
+  putBoardLike,
   writeComment,
 } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
@@ -76,6 +78,26 @@ const Articles = () => {
   );
 
   const id = params?.id;
+
+  const user = session?.user;
+  const {
+    data: boardLikeCheck,
+    isSuccess,
+    isError,
+    refetch: boardLikeRefetch,
+  } = useQuery({
+    queryKey: ['boardLikeCheck'],
+    queryFn: async () => {
+      const result = await loadBoardLikeCheck({
+        board_seq: id,
+      });
+      if (result?.success) {
+        return result?.data;
+      }
+      return null;
+    },
+    enabled: !!user,
+  });
 
   const getArticleData = async () => {
     const formData = { board_num: id };
@@ -119,6 +141,21 @@ const Articles = () => {
       router.push('/community');
     } else {
       alert(result?.err || '에러발생');
+    }
+  };
+
+  const onClickBoardLike = async () => {
+    const formData = {
+      board_seq: data?.board_seq,
+    };
+    const result = await putBoardLike(formData);
+    if (result?.success) {
+      message.success(
+        !boardLikeCheck ? '좋아요 등록이 완료되었습니다.' : '좋아요 등록이 취소되었습니다.',
+      );
+      boardLikeRefetch();
+    } else {
+      message.success(result?.message || '에러발생');
     }
   };
 
@@ -250,11 +287,19 @@ const Articles = () => {
           ?.map((e: string, i: number) => <StyledTagSpan key={i}>#{e}</StyledTagSpan>)}
       </div>
       {/* 추천 영역 */}
-      <StyledLikeBtn>
+      <StyledLikeBtn $background={boardLikeCheck ? '#ffdcdc' : '#fff'} onClick={onClickBoardLike}>
         {/* <LikeOutlined style={{ color: '#beb4b4' }} /> 추천하기 */}
         {/* <LikeFilled style={{ color: '#5383EC' }} /> 추천취소 */}
-        <HeartOutlined style={{ color: '#F04C53' }} /> 좋아요
-        {/* <HeartFilled style={{ color: '#F04C53' }} /> 좋아요 취소 */}
+        {!boardLikeCheck && (
+          <>
+            <HeartOutlined style={{ color: '#F04C53' }} /> 좋아요
+          </>
+        )}
+        {boardLikeCheck && (
+          <>
+            <HeartFilled style={{ color: '#F04C53' }} /> 좋아요 취소
+          </>
+        )}
       </StyledLikeBtn>
       {/* 작성자 정보 영역 */}
       {
@@ -521,7 +566,7 @@ const StyledPlusBtn = styled.div`
   }
 `;
 
-const StyledLikeBtn = styled.div`
+const StyledLikeBtn = styled.div<{ $background: string }>`
   border: 1px solid #ababab;
   color: #0c0c0c;
   border-radius: 20px;
@@ -529,6 +574,7 @@ const StyledLikeBtn = styled.div`
   margin: 0 auto 30px auto;
   width: 170px;
   text-align: center;
+  ${({ $background }) => `background: ${$background};`}
   &:hover {
     cursor: pointer;
     border: 1px solid black;
