@@ -62,6 +62,12 @@ const Articles = () => {
   const params = useParams();
 
   const { Modal, isOpen, openModal, closeModal } = useModal();
+  const {
+    Modal: LoginModal,
+    isOpen: isOpenLoginModal,
+    openModal: openLoginModal,
+    closeModal: closeLoginModal,
+  } = useModal();
 
   const { data: session, status } = useSession();
   const [data, setData] = useState<BoardTypes | null>(null);
@@ -145,11 +151,22 @@ const Articles = () => {
   };
 
   const onClickBoardLike = async () => {
+    if (!session) {
+      openLoginModal();
+      return;
+    }
+
     const formData = {
       board_seq: data?.board_seq,
     };
     const result = await putBoardLike(formData);
     if (result?.success) {
+      // 좋아요 등록 => 카운트 증가
+      if (!boardLikeCheck && data) setData({ ...data, like_cnt: data.like_cnt + 1 });
+      // 좋아요 취소 => 카운트 감소
+      if (boardLikeCheck && data) setData({ ...data, like_cnt: data.like_cnt - 1 });
+
+      // 항목에 따른 메시지 표시
       message.success(
         !boardLikeCheck ? '좋아요 등록이 완료되었습니다.' : '좋아요 등록이 취소되었습니다.',
       );
@@ -417,6 +434,25 @@ const Articles = () => {
           </Button>
         </div>
       </Modal>
+      <LoginModal
+        title="로그인이 필요합니다."
+        isOpen={isOpenLoginModal}
+        closeModal={closeLoginModal}
+      >
+        <div>게시글에 좋아요를 누르시려면 로그인이 필요합니다.</div>
+        <div>로그인 페이지로 이동할까요?</div>
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+          <Button onClick={closeLoginModal}>취소</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              router.push('/auth/login');
+            }}
+          >
+            이동
+          </Button>
+        </div>
+      </LoginModal>
     </div>
   );
 };
