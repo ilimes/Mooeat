@@ -9,6 +9,8 @@ import { BarChartOutlined, UserOutlined, NotificationOutlined } from '@ant-desig
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import {
+  Area,
+  AreaChart,
   CartesianGrid,
   Legend,
   Line,
@@ -129,7 +131,7 @@ const Admin = () => {
             <h2>일별 API 호출 수</h2>
             <div style={{ width: '100%', height: 500 }}>
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart
+                <AreaChart
                   width={500}
                   height={300}
                   data={data}
@@ -145,17 +147,19 @@ const Admin = () => {
                   <YAxis />
                   <Tooltip formatter={(e: any) => `${e}회`} />
                   <Legend />
-                  <Line
+                  <Area
                     type="monotone"
                     dataKey="count"
                     name="호출 횟수"
                     stroke="#8884d8"
+                    fill="#8884d8"
+                    fillOpacity={0.2}
                     strokeWidth={3}
                     dot={{ r: 0 }}
                     activeDot={{ r: 6 }}
                     animationDuration={500}
                   />
-                </LineChart>
+                </AreaChart>
               </ResponsiveContainer>
             </div>
           </StyledAdminTopCardDiv>

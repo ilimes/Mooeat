@@ -12,6 +12,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  AreaChart,
+  Area,
 } from 'recharts';
 import { loadApiData } from '@/api/Api';
 
@@ -69,7 +71,7 @@ const ApiCountChart = () => {
       </div>
       <div style={{ width: '100%', height: 500 }}>
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
+          <AreaChart
             width={500}
             height={300}
             data={data}
@@ -85,17 +87,19 @@ const ApiCountChart = () => {
             <YAxis />
             <Tooltip formatter={(e: any) => `${e}회`} />
             <Legend />
-            <Line
+            <Area
               type="monotone"
               dataKey="count"
               name="호출 횟수"
               stroke="#8884d8"
+              fill="#8884d8"
+              fillOpacity={0.2}
               strokeWidth={3}
               dot={{ r: 0 }}
               activeDot={{ r: 6 }}
               animationDuration={500}
             />
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       </div>
     </>
