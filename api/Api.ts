@@ -493,3 +493,14 @@ export const putBoardLike = async (formData: object) =>
     .put(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/like`, formData)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
+
+/**
+ * 모든 댓글 목록 가져오기
+ * @param formData
+ * @returns data
+ */
+export const loadAllCommentList = async () =>
+  axiosInstance
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/comment/all/list`)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));
