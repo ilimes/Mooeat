@@ -6,14 +6,18 @@ import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Space, message, notification } from 'antd';
 import type { NotificationArgsProps } from 'antd';
+import { useRecoilState } from 'recoil';
 import AdminLayout from './AdminLayout';
 import DefaultLayout from './DefaultLayout';
 import { loadNotificationList, loadUserInfoData, notificationConfirm } from '@/api/Api';
+import { clientsState } from '@/recoil/states';
 
 const CustomLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status, update } = useSession();
   const userSeq = session?.user?.info?.userInfo?.user_seq;
   const user = session?.user;
+
+  const [clients, setClients] = useRecoilState(clientsState);
 
   const { data: notiList, refetch: notiListRefetch } = useQuery({
     queryKey: ['notificationList'],
@@ -81,8 +85,12 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
           const link: string = JSON.parse(event.data)?.link;
           const seq: string = JSON.parse(event.data)?.seq;
 
-          openNotification(message, type, link, seq);
-          notiListRefetch();
+          if (JSON.parse(event.data).isClients) {
+            setClients(JSON.parse(event.data)?.clients);
+          } else {
+            openNotification(message, type, link, seq);
+            notiListRefetch();
+          }
         } catch (e) {
           console.error('Error parsing SSE data:', e);
         }

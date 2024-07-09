@@ -64,3 +64,11 @@ export const adminCollapsedState = atom({
   key: 'collapsed',
   default: false,
 });
+
+/**
+ * clients userSeq State
+ */
+export const clientsState = atom({
+  key: 'clients',
+  default: [],
+});

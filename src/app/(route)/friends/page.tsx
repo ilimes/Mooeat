@@ -30,6 +30,7 @@ import { Dispatch, KeyboardEvent, SetStateAction, useEffect, useState } from 're
 import { useSession } from 'next-auth/react';
 import moment from 'moment';
 import Image from 'next/image';
+import { useRecoilValue } from 'recoil';
 import { useModal } from '@/hooks/useModal';
 import { InfoTypes } from '@/types/Common/Common.interface';
 import { Friend, FriendTypes } from '@/types/Friend/Friend.interface';
@@ -44,6 +45,7 @@ import {
 import { DataType1, DataType2 } from '@/types/Board/Board.interface';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import TopTitle from '@/components/SharedComponents/TopTitle';
+import { clientsState } from '@/recoil/states';
 
 const items: InfoTypes[] = [
   {
@@ -633,6 +635,7 @@ const FriendCard = ({
   setNowState: Dispatch<SetStateAction<string>>;
 }) => {
   const { Modal, isOpen, openModal, closeModal } = useModal();
+  const clients = useRecoilValue(clientsState);
   const profileImg = element?.profile_path ? `${element?.profile_path}?thumb=1` : null;
   const profile = profileImg ? (
     <img src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profileImg}`} alt="profile" />
@@ -660,7 +663,16 @@ const FriendCard = ({
                   width: '13px',
                   height: '13px',
                   boxShadow: '0 0 0 3px #fff',
-                  backgroundColor: '#6384EB',
+                  backgroundColor: clients?.find(
+                    (e: any) =>
+                      e.userSeq?.toString() ===
+                      (state === 'pure' || state === 'sent'
+                        ? element?.to_user_seq?.toString()
+                        : element?.from_user_seq
+                      )?.toString(),
+                  )
+                    ? '#4a74f4'
+                    : '#7a7c80',
                 }}
                 dot
               >
