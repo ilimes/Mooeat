@@ -14,7 +14,7 @@ import animationData3 from '@/public/lottie/Animation - 1698745819488.json';
 import useIsMobile from '@/hooks/useIsMobile';
 import NoSSr from '../NoSsr';
 import { TextComponentTypes } from '@/types/Carousel/Carousel.interface';
-import * as S from './style';
+import * as S from './styles';
 
 const CarouselComponent = () => {
   const router = useRouter();

@@ -16,17 +16,7 @@ import {
   Area,
 } from 'recharts';
 import { loadApiData } from '@/api/Api';
-
-const options = [
-  {
-    label: 2024,
-    value: 2024,
-  },
-  {
-    label: 2023,
-    value: 2023,
-  },
-];
+import { yearOptions } from '@/meta/select';
 
 const ApiCountChart = () => {
   const { data: session, status } = useSession();
@@ -57,7 +47,7 @@ const ApiCountChart = () => {
       </div>
       <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 20 }}>
         <Select
-          options={options}
+          options={yearOptions}
           value={year}
           onChange={(e) => setYear(e)}
           style={{ width: 85 }}
