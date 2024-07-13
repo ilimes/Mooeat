@@ -72,7 +72,7 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
       return;
     }
 
-    setUploading(true); // 모달 열기
+    setUploading(true);
 
     let fileCds = [];
     // 이미지 업로드
@@ -82,7 +82,7 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
         fileCds = uploadResult?.files?.map((e: any) => e?.file_cd);
       } else {
         message.warning(uploadResult?.message || '에러');
-        setUploading(false); // 모달 닫기
+        setUploading(false);
         return;
       }
     }
@@ -102,10 +102,10 @@ const ShareContent = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
       setPreviews([]);
     } else {
       message.warning(updateResult?.message || '에러');
-      setUploading(false); // 모달 닫기
+      setUploading(false);
     }
 
-    setUploading(false); // 모달 닫기
+    setUploading(false);
   };
 
   useEffect(() => {

@@ -69,21 +69,6 @@ const Write = () => {
   // 최대 입력가능한 글자수
   const MAX_LENGTH = 10;
 
-  // const modules = {
-  //   toolbar: [
-  //     [{ header: '1' }, { header: '2' }],
-  //     [{ size: [] }],
-  //     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-  //     [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-  //     ['link', 'image', 'video'],
-  //     ['clean'],
-  //   ],
-  //   clipboard: {
-  //     // toggle to add extra line breaks when pasting HTML:
-  //     matchVisual: false,
-  //   },
-  // };
-
   const imageHandler = async () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
