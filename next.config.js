@@ -70,6 +70,11 @@ const nextConfig = {
   },
   /* useEffect 2번 실행되는 문제 해결 */
   reactStrictMode: false,
+  images: {
+    domains: [
+      'mooeat.ilime.kr',
+    ],
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
