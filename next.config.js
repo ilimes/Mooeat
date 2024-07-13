@@ -86,9 +86,6 @@ const nextConfig = {
       },
     ];
   },
-  images: {
-    domains: ['mooeat.ilime.kr'],
-  },
   /* CORS 우회 방법 proxy 대체하여 rewrites */
   // async rewrites() {
   //     return [
