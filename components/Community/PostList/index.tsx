@@ -11,6 +11,7 @@ import Image from 'next/image';
 import CntComponent from '../CntComponent';
 import { BoardTypes } from '@/types/Board/Board.interface';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import noImg from '@/public/img/noimg.png';
 
 const PostList = ({ obj }: { obj: BoardTypes }) => {
   const router = useRouter();
@@ -20,6 +21,7 @@ const PostList = ({ obj }: { obj: BoardTypes }) => {
   ) : (
     <Image src={unknownAvatar} alt="unknown" />
   );
+  const thumbnailUrl = obj?.thumbnail_url ? `${obj?.thumbnail_url}?thumb=1` : noImg;
 
   return (
     <div className="fade-slow" style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
@@ -40,8 +42,27 @@ const PostList = ({ obj }: { obj: BoardTypes }) => {
       <StyledContentDiv
         onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}
       >
-        <div className="titleDiv">{obj?.title}</div>
-        <div className="contentDiv">{obj?.content?.replace(/(<([^>]+)>)/gi, '')}</div>
+        <div style={{ display: 'flex', gap: 12 }}>
+          <div>
+            {/* 썸네일 영역 */}
+            <div
+              style={{
+                width: 70,
+                height: 60,
+                position: 'relative',
+                borderRadius: 10,
+                overflow: 'hidden',
+              }}
+              className="community-thumbnail-wrap"
+            >
+              <Image src={thumbnailUrl} alt="Thumbnail Image" layout="fill" objectFit="cover" />
+            </div>
+          </div>
+          <div>
+            <div className="titleDiv">{obj?.title}</div>
+            <div className="contentDiv">{obj?.content?.replace(/(<([^>]+)>)/gi, '')}</div>
+          </div>
+        </div>
         <div
           style={{
             display: 'flex',
@@ -104,7 +125,7 @@ const StyledContentDiv = styled.span`
     overflow: hidden;
     font-size: 16px;
     font-weight: 800;
-    margin-bottom: 10px;
+    margin-bottom: 7px;
   }
   .titleDiv:hover {
     color: #4f4791;

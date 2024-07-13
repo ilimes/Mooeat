@@ -32,15 +32,17 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
       onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}
     >
       <Skeleton paragraph={{ rows: 3 }} loading={!!isLoading} active>
+        {/* 썸네일 영역 */}
         <div
           style={{
             width: '100%',
             height: 130,
             position: 'relative',
             borderRadius: 10,
-            marginBottom: 10,
+            marginBottom: 20,
             overflow: 'hidden',
           }}
+          className="community-thumbnail-wrap"
         >
           <Image src={thumbnailUrl} alt="Thumbnail Image" layout="fill" objectFit="cover" />
         </div>

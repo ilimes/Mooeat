@@ -73,6 +73,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // images: {
+  //   domains: ['mooeat.ilime.kr'],
+  // },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

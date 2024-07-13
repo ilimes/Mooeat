@@ -29,8 +29,8 @@ export const options: NextAuthOptions = {
       name: `${nextAuthUrl.startsWith('https://') ? '__Secure-' : ''}next-auth.session-token`,
       options: {
         domain:
-          new URL(nextAuthUrl).hostname === 'localhost'
-            ? 'localhost'
+          new URL(nextAuthUrl).hostname === '127.0.0.1'
+            ? '127.0.0.1'
             : `.${new URL(nextAuthUrl).hostname}`,
         httpOnly: true,
         path: '/',
