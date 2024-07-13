@@ -633,7 +633,10 @@ const StyledCommentDiv = styled.div`
 
 const StyledContentDiv = styled.div`
   white-space: normal;
-  line-height: 1.23;
+  line-height: 1.4;
+  p {
+    margin: 0;
+  }
   img {
     max-width: 100%;
   }
