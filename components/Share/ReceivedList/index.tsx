@@ -141,7 +141,7 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
                                 height: 150,
                                 display: 'block',
                                 objectFit: 'cover',
-                                borderRadius: 16,
+                                // borderRadius: 16,
                               }}
                               src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${e}?thumb=1`}`}
                               fallback="/img/noimg.png"

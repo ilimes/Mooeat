@@ -203,3 +203,13 @@ button:active {
   opacity: 1; /* 투명도를 높여 아이콘을 보이게 함 */
   transform: translateX(0); /* 위치를 원래대로 이동 */
 }
+
+.community-thumbnail-wrap {
+  img {
+    transition: transform 0.3s ease-in-out;
+  }
+  img:hover {
+    transform: scale(1.08);
+    transition: 0.3s;
+  }
+}
