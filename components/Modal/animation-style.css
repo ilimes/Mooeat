@@ -1,0 +1,68 @@
+.fade-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Define the animation for modal enter */
+.my-modal-enter,
+.my-modal-appear {
+  opacity: 0;
+  transform: translateY(-10%);
+}
+
+.my-modal-enter.my-modal-enter-active,
+.my-modal-appear.my-modal-appear-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Define the animation for modal leave */
+.my-modal-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.my-modal-leave.my-modal-leave-active {
+  opacity: 0;
+  transform: translateY(-10%);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Optional: Mask transition to slide down */
+.my-modal-mask-enter,
+.my-modal-mask-appear {
+  opacity: 0;
+}
+
+.my-modal-mask-enter.my-modal-mask-enter-active,
+.my-modal-mask-appear.my-modal-mask-appear-active {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.my-modal-mask-leave {
+  opacity: 1;
+}
+
+.my-modal-mask-leave.my-modal-mask-leave-active {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
