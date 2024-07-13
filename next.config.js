@@ -74,6 +74,14 @@ const nextConfig = {
     domains: [
       'mooeat.ilime.kr',
     ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'mooeat.ilime.kr',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
   webpack(config) {
     config.module.rules.push({
