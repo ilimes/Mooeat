@@ -524,22 +524,22 @@ const CommentDiv = ({
                 >
                   {e?.comment_seq === selectedCommentSeq ? '답글 취소' : '답글 달기'}
                 </span>
-                {e?.reg_user_seq === session?.user?.info?.userInfo?.user_seq ? (
-                  <Popconfirm
-                    title="정말 삭제하시겠습니까?"
-                    onConfirm={onClickDeleteComment}
-                    okText="삭제"
-                    cancelText="취소"
-                  >
-                    <span style={{ color: '#f04c53', fontSize: 14, cursor: 'pointer' }}>
-                      {' '}
-                      · 삭제
-                    </span>
-                  </Popconfirm>
-                ) : (
-                  ''
-                )}
               </>
+            )}
+            {e?.reg_user_seq === session?.user?.info?.userInfo?.user_seq ? (
+              <Popconfirm
+                title="정말 삭제하시겠습니까?"
+                onConfirm={onClickDeleteComment}
+                okText="삭제"
+                cancelText="취소"
+              >
+                <span style={{ color: '#f04c53', fontSize: 14, cursor: 'pointer' }}>
+                  {' '}
+                  <span style={{ color: '#000' }}>·</span> 삭제
+                </span>
+              </Popconfirm>
+            ) : (
+              ''
             )}
           </div>
         </div>
