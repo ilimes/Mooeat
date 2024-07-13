@@ -10,11 +10,11 @@ import {
 } from '@ant-design/icons';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { loadArticleData, loadInfoList, writeBoard } from '@/api/Api';
+import { loadArticleData, loadInfoList, uploadImgFileOne, writeBoard } from '@/api/Api';
 import QuillNoSSRWrapper from '@/components/QuillNoSSRWrappper';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 
@@ -25,20 +25,6 @@ interface TagInputProps {
   onInput: (e: React.ChangeEvent<HTMLSpanElement>) => void;
 }
 
-const modules = {
-  toolbar: [
-    [{ header: '1' }, { header: '2' }, { font: [] }],
-    [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-    ['link', 'image', 'video'],
-    ['clean'],
-  ],
-  clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false,
-  },
-};
 /*
  * Quill editor formats
  * See https://quilljs.com/docs/formats/
@@ -82,6 +68,62 @@ const Write = () => {
 
   // 최대 입력가능한 글자수
   const MAX_LENGTH = 10;
+
+  // const modules = {
+  //   toolbar: [
+  //     [{ header: '1' }, { header: '2' }],
+  //     [{ size: [] }],
+  //     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+  //     [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+  //     ['link', 'image', 'video'],
+  //     ['clean'],
+  //   ],
+  //   clipboard: {
+  //     // toggle to add extra line breaks when pasting HTML:
+  //     matchVisual: false,
+  //   },
+  // };
+
+  const imageHandler = async () => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+    input.addEventListener('change', async () => {
+      const file = input.files?.[0];
+      if (file) {
+        const uploadResult = await uploadImgFileOne(file, token);
+        if (uploadResult?.success) {
+          const fileUid = uploadResult?.files?.[0]?.file_uid;
+          if (quillInstance) {
+            const editor = quillInstance.current!.getEditor();
+            const range = editor.getSelection();
+            // 가져온 위치에 이미지를 삽입한다
+            const IMG_URL = `http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/file/image/${fileUid}`;
+            editor.insertEmbed(range!.index, 'image', IMG_URL);
+          }
+        } else {
+          message.warning(uploadResult?.message || '에러');
+        }
+      }
+    });
+  };
+
+  const modules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          ['image', 'link'],
+          [{ header: [1, 2, 3, 4, 5, false] }],
+          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        ],
+        handlers: {
+          image: imageHandler,
+        },
+      },
+    }),
+    [],
+  );
 
   // onInput handler
   const handleInputEvent = (e: React.ChangeEvent<HTMLSpanElement>) => {
@@ -220,7 +262,7 @@ const Write = () => {
           size="large"
         />
         <div style={{ fontWeight: 700, fontSize: 15, margin: '10px 0' }}>내용</div>
-        <div>
+        <div data-text-editor="editor-div">
           <StyledReactQuill
             forwardedRef={quillInstance}
             value={pushDatas?.content}
@@ -228,6 +270,7 @@ const Write = () => {
             modules={modules}
             theme="snow"
             placeholder="내용을 입력해주세요."
+            bounds={'[data-text-editor="editor-div"]'}
           />
         </div>
         <div style={{ display: 'flex', gap: 5, fontWeight: 700, fontSize: 15, margin: '20px 0' }}>

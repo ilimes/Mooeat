@@ -306,6 +306,31 @@ export const uploadFile = async (files: FileList, token: string) => {
 };
 
 /**
+ * 서버에 이미지 저장 및 URL 반환
+ * @param {File} file 이미지 등록에 필요한 해당 File 형식 data
+ * @param {string} token 인증 토큰
+ * @returns {Promise<string>} 업로드된 이미지 URL
+ */
+export const uploadImgFileOne = async (file: File, token: string) => {
+  const header = { ...uploadConfig };
+  header.headers.token = `${token}`;
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const res = await axios.put(
+      `http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/file/put`,
+      formData,
+      header,
+    );
+    return res?.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+/**
  * 유저 정보 업데이트
  * @param formData
  * @param token
