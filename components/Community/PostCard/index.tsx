@@ -9,6 +9,7 @@ import Image from 'next/image';
 import CntComponent from '../CntComponent';
 import { BoardTypes } from '@/types/Board/Board.interface';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
+import noImg from '@/public/img/noimg.png';
 
 const { Meta } = Card;
 
@@ -21,6 +22,7 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
   ) : (
     <Image src={unknownAvatar} alt="unknown" />
   );
+  const thumbnailUrl = obj?.thumbnail_url ? `${obj?.thumbnail_url}?thumb=1` : noImg;
 
   return (
     <StyledCard
@@ -30,6 +32,18 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
       onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}
     >
       <Skeleton paragraph={{ rows: 3 }} loading={!!isLoading} active>
+        <div
+          style={{
+            width: '100%',
+            height: 130,
+            position: 'relative',
+            borderRadius: 10,
+            marginBottom: 10,
+            overflow: 'hidden',
+          }}
+        >
+          <Image src={thumbnailUrl} alt="Thumbnail Image" layout="fill" objectFit="cover" />
+        </div>
         {/* 카테고리 영역 */}
         <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 15, color: obj?.cate_color }}>
           {obj?.cate_nm}
@@ -74,7 +88,7 @@ export default PostCard;
 const StyledCard = styled(Card)<{ background: string | null; catecolor: string | null }>`
   && {
     width: 100%;
-    height: 300px;
+    height: 450px;
     background: ${(props) => props.background};
     &:hover {
       border: 0.5px solid ${(props) => props.catecolor};
