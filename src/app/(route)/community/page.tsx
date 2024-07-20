@@ -170,7 +170,7 @@ const Community = () => {
         onChange={onChange}
         style={{ fontWeight: 800, marginTop: 15 }}
       />
-      <Row gutter={[15, 15]}>
+      <Row gutter={[25, 25]}>
         {filteredArr?.map((e: any, i: number) => {
           const item = items?.find((ele: any) => ele.key === String(e?.cate_seq));
           return (
