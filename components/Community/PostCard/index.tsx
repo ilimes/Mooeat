@@ -26,7 +26,7 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
 
   return (
     <StyledCard
-      className="fade-slow"
+      className="fade-slow community-thumbnail-wrap"
       catecolor={obj?.cate_color || null}
       background={obj?.bg_color || null}
       onClick={() => obj?.board_seq && router.push(`/articles/${obj?.board_seq}`)}
@@ -35,14 +35,13 @@ const PostCard = ({ obj }: { obj: BoardTypes }) => {
         {/* 썸네일 영역 */}
         <div
           style={{
-            width: '100%',
-            height: 130,
+            // width: '100%',
+            height: 160,
             position: 'relative',
-            borderRadius: 10,
-            marginBottom: 20,
+            borderRadius: '10px 10px 0 0',
+            margin: '-24px -24px 15px -24px',
             overflow: 'hidden',
           }}
-          className="community-thumbnail-wrap"
         >
           <Image src={thumbnailUrl} alt="Thumbnail Image" layout="fill" objectFit="cover" />
         </div>
@@ -92,6 +91,7 @@ const StyledCard = styled(Card)<{ background: string | null; catecolor: string |
     width: 100%;
     height: 450px;
     background: ${(props) => props.background};
+    box-shadow: 0 8px 20px 0 rgba(129, 137, 143, 0.1);
     &:hover {
       border: 0.5px solid ${(props) => props.catecolor};
       cursor: pointer;
