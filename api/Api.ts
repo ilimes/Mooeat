@@ -529,3 +529,14 @@ export const loadAllCommentList = async () =>
     .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/board/comment/all/list`)
     .then((res) => res?.data)
     .catch((err) => console.error(err));
+
+/**
+ * Top3 랭크 가져오기 (메인 화면)
+ * @param formData
+ * @returns data
+ */
+export const loadTop3Rank = async () =>
+  axios
+    .post(`http://${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/rank/top3`)
+    .then((res) => res?.data)
+    .catch((err) => console.error(err));

@@ -24,14 +24,35 @@ import { adminCollapsedState } from '@/recoil/states';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 import { loadApiData, loadTodayVisitorCount, loadUserList } from '@/api/Api';
 import { UserInfoTypes } from '@/types/User/User.interface';
+import useCountUp from '@/hooks/useCountUp';
 
 const Admin = () => {
+  const {
+    data: visitorCount,
+    isSuccess,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ['visitorCount'],
+    queryFn: async () => {
+      const result = await loadTodayVisitorCount();
+      if (result?.success) {
+        return result?.data;
+      }
+      return null;
+    },
+  });
+
   const router = useRouter();
   const [userList, setUserList] = useState<UserInfoTypes[]>([]);
   const setCollapsed = useSetRecoilState(adminCollapsedState);
   const [data, setData] = useState([]);
   const [apiCount, setApiCount] = useState(0);
   const [firstTime, setFirstTime] = useState('');
+
+  const todayApiCount = useCountUp(apiCount, 700);
+  const todayVisitorCount = useCountUp(visitorCount ?? 0, 700);
+  const totalMemberCount = useCountUp(userList?.length, 700);
 
   const getApiData = async () => {
     const type = 'day';
@@ -55,22 +76,6 @@ const Admin = () => {
     getApiData();
     setFirstTime(moment().format('YYYY-MM-DD HH:mm:ss'));
   }, []);
-
-  const {
-    data: visitorCount,
-    isSuccess,
-    isError,
-    refetch,
-  } = useQuery({
-    queryKey: ['visitorCount'],
-    queryFn: async () => {
-      const result = await loadTodayVisitorCount();
-      if (result?.success) {
-        return result?.data;
-      }
-      return null;
-    },
-  });
 
   useEffect(() => {
     setCollapsed(false);
@@ -100,7 +105,7 @@ const Admin = () => {
               <div>
                 <BarChartOutlined />
               </div>
-              <div>{isSuccess ? visitorCount ?? 0 : <Spin />}</div>
+              <div>{isSuccess ? todayVisitorCount ?? 0 : <Spin />}</div>
             </StyledTopCardContent>
           </StyledAdminTopCardDiv>
         </Col>
@@ -111,7 +116,7 @@ const Admin = () => {
               <div>
                 <UserOutlined />
               </div>
-              <div>{userList?.length ?? 0}</div>
+              <div>{totalMemberCount ?? 0}</div>
             </StyledTopCardContent>
           </StyledAdminTopCardDiv>
         </Col>
@@ -122,7 +127,7 @@ const Admin = () => {
               <div>
                 <NotificationOutlined />
               </div>
-              <div>{apiCount ?? 0}</div>
+              <div>{todayApiCount ?? 0}</div>
             </StyledTopCardContent>
           </StyledAdminTopCardDiv>
         </Col>

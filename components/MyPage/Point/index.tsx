@@ -6,11 +6,14 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { PointLogTypes } from '@/types/Point/Point.interface';
 import { loadPointLogData, loadUserInfoData } from '@/api/Api';
+import useCountUp from '@/hooks/useCountUp';
 
 const Point = () => {
   const { data: session, status } = useSession();
   const [point, setPoint] = useState<number | null>(null);
   const [pointLog, setPointLog] = useState<PointLogTypes[]>([]);
+
+  const myPoint = useCountUp(point !== null ? Number(point) : 0, 700);
 
   const token = session?.user?.info?.data?.token;
   const userSeq = session?.user?.info?.userInfo?.user_seq;
@@ -48,8 +51,7 @@ const Point = () => {
       <StyledBoxDiv style={{ height: 22 }}>
         {point != null && (
           <>
-            <span style={{ fontWeight: 800, fontSize: 18 }}>{Number(point)?.toLocaleString()}</span>{' '}
-            포인트
+            <span style={{ fontWeight: 800, fontSize: 18 }}>{myPoint || 0}</span> 포인트
           </>
         )}
         {point === null && (

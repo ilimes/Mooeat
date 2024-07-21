@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { ColumnsType, TableProps } from 'antd/es/table';
 import { loadMyBoardList, loadMyCommentList } from '@/api/Api';
 import { DataType1, DataType2 } from '@/types/Board/Board.interface';
+import useCountUp from '@/hooks/useCountUp';
 
 const columns1: ColumnsType<DataType1> = [
   {
@@ -57,6 +58,9 @@ const MyActivities = () => {
   const [myBoardList, setMyBoardList] = useState<DataType1[] | []>([]);
   const [myCommentList, setMyCommentList] = useState<DataType2[] | []>([]);
 
+  const myBoardNum = useCountUp(myBoardList?.length, 700);
+  const myCommentNum = useCountUp(myCommentList?.length, 700);
+
   const getMyBoardAndCommentList = async () => {
     const boardResult = await loadMyBoardList();
     const commentResult = await loadMyCommentList();
@@ -86,7 +90,7 @@ const MyActivities = () => {
           <div className="box-div">
             <div className="number">
               <FileTextOutlined />
-              {myBoardList?.length} 개
+              {myBoardNum} 개
             </div>
           </div>
         </div>
@@ -97,7 +101,7 @@ const MyActivities = () => {
           <div className="box-div">
             <div className="number">
               <CommentOutlined />
-              {myCommentList?.length} 개
+              {myCommentNum} 개
             </div>
           </div>
         </div>

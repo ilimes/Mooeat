@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-import { Button, Col, Row } from 'antd';
+import { Avatar, Button, Card, Col, Empty, Row } from 'antd';
 import Image from 'next/image';
 import Buttons from './Buttons';
 import useIntersectionObserver from '@/hooks/useIntersectionObserver2';
@@ -11,6 +11,7 @@ import Content from '../SharedComponents/Content';
 import Image1 from '@/public/img/main/img1.png';
 import Image2 from '@/public/img/main/img2.png';
 import { useModal } from '@/hooks/useModal';
+import TopContent from './TopContent';
 
 const Main: React.FC = () => {
   const { Modal, isOpen, openModal, closeModal } = useModal();
@@ -29,7 +30,8 @@ const Main: React.FC = () => {
     <>
       <Buttons router={router} />
       <div>
-        <div style={{ background: '#F2F6F8', padding: '20px 0' }}>
+        <TopContent />
+        <div style={{ background: '#fff8f2', padding: '20px 0' }}>
           <Content>
             <div style={{ margin: '0 auto', maxWidth: 1200, padding: '0 16px' }}>
               <Row style={{ alignItems: 'center' }}>
