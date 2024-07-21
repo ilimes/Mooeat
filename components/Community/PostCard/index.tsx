@@ -92,7 +92,7 @@ const StyledCard = styled(Card)<{ background: string | null; catecolor: string |
     height: 450px;
     overflow: hidden;
     background: ${(props) => props.background};
-    border: 0.5px solid #d1d1d1;
+    border: 0.5px solid #dddddd;
     &:hover {
       border: 0.5px solid ${(props) => props.catecolor};
       cursor: pointer;
