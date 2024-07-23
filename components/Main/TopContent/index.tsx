@@ -1,5 +1,10 @@
 import { Card, Col, Empty, Row, Tooltip } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import {
+  InfoCircleOutlined,
+  CommentOutlined,
+  DollarOutlined,
+  FileOutlined,
+} from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import Content from '@/components/SharedComponents/Content';
 import * as S from './styles';
@@ -26,7 +31,10 @@ const TopContent = () => {
               <Card
                 title={
                   <S.CardTitleWrap>
-                    <div>포인트 적립 Top3</div>
+                    <div>
+                      <DollarOutlined />
+                      포인트 적립 Top3
+                    </div>
                     <div style={{ color: '#6b7280' }}>
                       <Tooltip title="전체 회원의 포인트 순위를 표시합니다." placement="bottom">
                         <InfoCircleOutlined />
@@ -55,7 +63,9 @@ const TopContent = () => {
               <Card
                 title={
                   <S.CardTitleWrap>
-                    <div>게시글 작성 Top3</div>
+                    <div>
+                      <FileOutlined /> 게시글 작성 Top3
+                    </div>
                     <div style={{ color: '#6b7280' }}>
                       <Tooltip
                         title="전체 회원의 게시글 작성 순위를 표시합니다."
@@ -89,7 +99,9 @@ const TopContent = () => {
               <Card
                 title={
                   <S.CardTitleWrap>
-                    <div>댓글 작성 Top3</div>
+                    <div>
+                      <CommentOutlined /> 댓글 작성 Top3
+                    </div>
                     <div style={{ color: '#6b7280' }}>
                       <Tooltip title="전체 회원의 댓글 작성 순위를 표시합니다." placement="bottom">
                         <InfoCircleOutlined />

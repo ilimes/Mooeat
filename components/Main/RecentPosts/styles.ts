@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrap = styled.div`
-  background: #f2f6f8;
+  background: #fff;
   padding: 20px 0;
 `;
 

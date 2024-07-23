@@ -90,7 +90,7 @@ const MyActivities = () => {
           <div className="box-div">
             <div className="number">
               <FileTextOutlined />
-              {myBoardNum} 개
+              {myBoardNum?.toLocaleString()} 개
             </div>
           </div>
         </div>
@@ -101,7 +101,7 @@ const MyActivities = () => {
           <div className="box-div">
             <div className="number">
               <CommentOutlined />
-              {myCommentNum} 개
+              {myCommentNum?.toLocaleString()} 개
             </div>
           </div>
         </div>

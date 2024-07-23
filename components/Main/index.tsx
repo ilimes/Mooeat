@@ -12,6 +12,7 @@ import Image1 from '@/public/img/main/img1.png';
 import Image2 from '@/public/img/main/img2.png';
 import { useModal } from '@/hooks/useModal';
 import TopContent from './TopContent';
+import RecentPosts from './RecentPosts';
 
 const Main: React.FC = () => {
   const { Modal, isOpen, openModal, closeModal } = useModal();
@@ -31,6 +32,9 @@ const Main: React.FC = () => {
       <Buttons router={router} />
       <div>
         <TopContent />
+        <div style={{ height: 490 }}>
+          <RecentPosts />
+        </div>
         <div style={{ background: '#fff8f2', padding: '20px 0' }}>
           <Content>
             <div style={{ margin: '0 auto', maxWidth: 1200, padding: '0 16px' }}>

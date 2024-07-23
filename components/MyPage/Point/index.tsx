@@ -19,7 +19,6 @@ const Point = () => {
   const userSeq = session?.user?.info?.userInfo?.user_seq;
 
   const getUserInfoData = async () => {
-    // TODO: 카카오 로그인으 경우 token 처리, info 어떻게 불러올 것인지 설정
     const result = await loadUserInfoData({});
     if (result?.success) {
       setPoint(result?.user_info?.point);
@@ -51,7 +50,8 @@ const Point = () => {
       <StyledBoxDiv style={{ height: 22 }}>
         {point != null && (
           <>
-            <span style={{ fontWeight: 800, fontSize: 18 }}>{myPoint || 0}</span> 포인트
+            <span style={{ fontWeight: 800, fontSize: 18 }}>{myPoint?.toLocaleString() || 0}</span>{' '}
+            포인트
           </>
         )}
         {point === null && (
