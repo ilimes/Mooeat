@@ -1,3 +1,5 @@
+import { ModalProps } from 'antd';
+
 export interface MenuListTypes {
   menu_cd: string;
   menu_category: string;
@@ -18,7 +20,7 @@ export interface UploadInfoTypes {
   type: string | null;
 }
 
-export interface ModalPropsTypes {
+export interface ModalPropsTypes extends ModalProps {
   children: React.ReactNode;
   title: string;
   isOpen: boolean;
