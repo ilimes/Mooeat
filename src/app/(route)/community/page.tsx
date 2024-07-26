@@ -248,6 +248,11 @@ const Community = () => {
         afterClose={onCloseModal}
         width="90%"
         destroyOnClose
+        afterOpenChange={(open) => {
+          if (!open) {
+            setSearchBoardList([]); // 모달이 닫힐 때 searchBoardList 초기화
+          }
+        }}
         styles={{ content: { maxWidth: 860, margin: '0 auto' } }}
       >
         <div style={{ margin: '30px 0' }}>
