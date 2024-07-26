@@ -2,7 +2,7 @@
 
 'use client';
 
-import { Button, Col, Divider, Row, Tabs } from 'antd';
+import { Button, Col, Divider, Row, Spin, Tabs } from 'antd';
 import {
   FormOutlined,
   AppstoreOutlined,
@@ -275,7 +275,8 @@ const Community = () => {
             })}
           </SearchListDiv>
           {!searchBoardList?.length && (
-            <div style={{ textAlign: 'center', marginTop: 20 }}>검색 결과가 존재하지 않습니다.</div>
+            <Spin style={{ marginTop: 10, textAlign: 'center' }} size="large" />
+            // <div style={{ textAlign: 'center', marginTop: 20 }}>검색 결과가 존재하지 않습니다.</div>
           )}
         </div>
       </Modal>
