@@ -275,7 +275,7 @@ const Community = () => {
             })}
           </SearchListDiv>
           {!searchBoardList?.length && (
-            <Spin style={{ marginTop: 10, textAlign: 'center' }} size="large" />
+            <Spin style={{ display: 'flex', justifyContent: 'center' }} size="large" />
             // <div style={{ textAlign: 'center', marginTop: 20 }}>검색 결과가 존재하지 않습니다.</div>
           )}
         </div>
