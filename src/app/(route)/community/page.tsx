@@ -48,6 +48,7 @@ const Community = () => {
   ]);
   const [searchTag, setSearchTag] = useState<string>('');
   const [searchContent, setSearchContent] = useState<string>('');
+  const [searchBoardList, setSearchBoardList] = useState([]);
 
   const [top5TagList, setTop5TagList] = useState<any>([]);
   const {
@@ -138,6 +139,17 @@ const Community = () => {
     });
     fetchNextPage();
   }, [activeKey]);
+
+  useEffect(() => {
+    if (searchTag) {
+      const getSearchBoardList = async () => {
+        const formData = { option: { search_tag: searchTag } };
+        const result = await loadBoardList(formData);
+        setSearchBoardList(result?.list);
+      };
+      getSearchBoardList();
+    }
+  }, [searchTag]);
 
   const { setTarget } = useIntersectionObserver({
     hasNextPage,
@@ -234,9 +246,9 @@ const Community = () => {
         isOpen={isOpen}
         closeModal={closeModal}
         afterClose={onCloseModal}
-        width="80%"
+        width="90%"
         destroyOnClose
-        styles={{ body: { height: 'calc(100vh - 250px)' } }}
+        styles={{ content: { maxWidth: 860, margin: '0 auto' } }}
       >
         <div style={{ margin: '30px 0' }}>
           <div style={{ fontWeight: 800, fontSize: 20 }}>
@@ -245,7 +257,21 @@ const Community = () => {
             </span>
             {searchTag && '태그'} {searchContent && '게시글'} 검색 결과
           </div>
-          <div style={{ color: 'grey' }}>검색 결과가 존재하지 않습니다.</div>
+          <div style={{ marginBottom: 20 }}>{searchBoardList?.length}건의 게시물을 찾았습니다.</div>
+          <SearchListDiv>
+            {searchBoardList?.map((e: any, i: number) => {
+              const item = items?.find((ele: any) => ele.key === String(e?.cate_seq));
+              return (
+                <PostList
+                  key={`list-search${i}`}
+                  obj={{ ...e, cate_color: item?.cateColor, bg_color: item?.bgColor }}
+                />
+              );
+            })}
+          </SearchListDiv>
+          {!searchBoardList?.length && (
+            <div style={{ textAlign: 'center', marginTop: 20 }}>검색 결과가 존재하지 않습니다.</div>
+          )}
         </div>
       </Modal>
     </>
@@ -262,5 +288,16 @@ const StyledTagSpan = styled.span`
   &:hover {
     cursor: pointer;
     color: #7944f4;
+  }
+`;
+
+const SearchListDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  > div {
+    background: #f1f1f1;
+    padding: 15px;
+    border-radius: 10px;
   }
 `;

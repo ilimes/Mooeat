@@ -84,13 +84,13 @@ body {
 .fade {
   animation-delay: 100ms;
   position: relative;
-  animation: fadeInUp 0.8s;
+  animation: fadeInUp 0.6s;
 }
 
 .fade-slow {
   animation-delay: 100ms;
   position: relative;
-  animation: fadeInUp 1.2s;
+  animation: fadeInUp 0.9s;
 }
 
 .default {
