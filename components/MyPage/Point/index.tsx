@@ -4,16 +4,16 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
+import SlotCounter from 'react-slot-counter';
 import { PointLogTypes } from '@/types/Point/Point.interface';
 import { loadPointLogData, loadUserInfoData } from '@/api/Api';
-import useCountUp from '@/hooks/useCountUp';
 
 const Point = () => {
   const { data: session, status } = useSession();
   const [point, setPoint] = useState<number | null>(null);
   const [pointLog, setPointLog] = useState<PointLogTypes[]>([]);
 
-  const myPoint = useCountUp(point !== null ? Number(point) : 0, 700);
+  const myPoint = point !== null ? Number(point) : 0;
 
   const token = session?.user?.info?.data?.token;
   const userSeq = session?.user?.info?.userInfo?.user_seq;
@@ -50,8 +50,14 @@ const Point = () => {
       <StyledBoxDiv style={{ height: 22 }}>
         {point != null && (
           <>
-            <span style={{ fontWeight: 800, fontSize: 18 }}>{myPoint?.toLocaleString() || 0}</span>{' '}
-            포인트
+            <span>
+              <span
+                style={{ verticalAlign: 'bottom', marginRight: 5, fontWeight: 800, fontSize: 18 }}
+              >
+                <SlotCounter value={myPoint ? myPoint?.toLocaleString() : 0} />
+              </span>
+              포인트
+            </span>
           </>
         )}
         {point === null && (

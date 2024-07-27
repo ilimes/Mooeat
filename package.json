@@ -33,6 +33,7 @@
     "react-fast-marquee": "^1.6.5",
     "react-quill": "^2.0.0",
     "react-responsive": "^9.0.2",
+    "react-slot-counter": "^3.0.1",
     "recharts": "^2.10.3",
     "recoil": "^0.7.7",
     "sharp": "^0.33.4",

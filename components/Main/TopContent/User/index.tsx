@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Avatar } from 'antd';
+import SlotCounter from 'react-slot-counter';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import useCountUp from '@/hooks/useCountUp';
 
@@ -17,7 +18,7 @@ const User = ({
   const val = useCountUp(Number(value), 700);
 
   return (
-    <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+    <div style={{ display: 'flex', gap: 5, alignItems: 'center', fontSize: 15 }}>
       <Avatar
         size={25}
         icon={
@@ -33,7 +34,11 @@ const User = ({
       />
       <div>{userName || '닉네임'}</div>
       <div style={{ marginLeft: 'auto' }}>
-        {val?.toLocaleString() || 0} {suffix}
+        {/* {val?.toLocaleString() || 0} {suffix} */}
+        <span style={{ verticalAlign: 'bottom', margin: '0 5px' }}>
+          {value ? <SlotCounter value={value?.toLocaleString()} /> : 0}
+        </span>
+        {suffix}
       </div>
     </div>
   );

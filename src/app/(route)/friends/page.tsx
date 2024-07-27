@@ -54,11 +54,11 @@ const items: InfoTypes[] = [
   },
   {
     key: 'get',
-    label: '받은 요청',
+    label: '받음',
   },
   {
     key: 'send',
-    label: '보낸 요청',
+    label: '보냄',
   },
   {
     key: 'done',
@@ -406,6 +406,27 @@ const Friends = () => {
     setNowState,
   };
 
+  // label에 따라서 친구 몇명인지 표시
+  const getListCount = (key: string) => {
+    if (key === 'all') {
+      return (
+        (friendList.pureList?.length || 0) +
+        (friendList.receivedList?.length || 0) +
+        (friendList.sentList?.length || 0)
+      );
+    }
+    if (key === 'get') {
+      return friendList?.receivedList?.length;
+    }
+    if (key === 'send') {
+      return friendList?.sentList?.length;
+    }
+    if (key === 'done') {
+      return friendList?.pureList?.length;
+    }
+    return 0;
+  };
+
   return (
     <div>
       <TopTitle
@@ -450,7 +471,15 @@ const Friends = () => {
           >
             <Tabs
               activeKey={activeKey}
-              items={items}
+              items={items.map((item) => ({
+                ...item,
+                label: (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                    {item.label}
+                    <Badge count={getListCount(item.key) || '０'} size="small" color="#2c3846" />
+                  </div>
+                ),
+              }))}
               onChange={onChange}
               style={{ fontWeight: 800 }}
               tabBarGutter={20}
@@ -459,7 +488,7 @@ const Friends = () => {
               {getCondition && (
                 <ListCard
                   list={friendList?.receivedList}
-                  title="받은 요청"
+                  title="받음"
                   state="received"
                   loading={status === 'loading'}
                   friendProps={props}
@@ -468,7 +497,7 @@ const Friends = () => {
               {sendCondition && (
                 <ListCard
                   list={friendList?.sentList}
-                  title="보낸 요청"
+                  title="보냄"
                   state="sent"
                   loading={status === 'loading'}
                   friendProps={props}

@@ -6,9 +6,9 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { ColumnsType, TableProps } from 'antd/es/table';
+import SlotCounter from 'react-slot-counter';
 import { loadMyBoardList, loadMyCommentList } from '@/api/Api';
 import { DataType1, DataType2 } from '@/types/Board/Board.interface';
-import useCountUp from '@/hooks/useCountUp';
 
 const columns1: ColumnsType<DataType1> = [
   {
@@ -58,8 +58,8 @@ const MyActivities = () => {
   const [myBoardList, setMyBoardList] = useState<DataType1[] | []>([]);
   const [myCommentList, setMyCommentList] = useState<DataType2[] | []>([]);
 
-  const myBoardNum = useCountUp(myBoardList?.length, 700);
-  const myCommentNum = useCountUp(myCommentList?.length, 700);
+  const myBoardNum = myBoardList?.length;
+  const myCommentNum = myCommentList?.length;
 
   const getMyBoardAndCommentList = async () => {
     const boardResult = await loadMyBoardList();
@@ -90,7 +90,12 @@ const MyActivities = () => {
           <div className="box-div">
             <div className="number">
               <FileTextOutlined />
-              {myBoardNum?.toLocaleString()} 개
+              <span>
+                <span style={{ verticalAlign: 'bottom', margin: '0 3px' }}>
+                  <SlotCounter value={myBoardNum ? myBoardNum?.toLocaleString() : 0} />
+                </span>
+                개
+              </span>
             </div>
           </div>
         </div>
@@ -101,7 +106,12 @@ const MyActivities = () => {
           <div className="box-div">
             <div className="number">
               <CommentOutlined />
-              {myCommentNum?.toLocaleString()} 개
+              <span>
+                <span style={{ verticalAlign: 'bottom', margin: '0 3px' }}>
+                  <SlotCounter value={myCommentNum ? myCommentNum?.toLocaleString() : 0} />
+                </span>
+                개
+              </span>
             </div>
           </div>
         </div>

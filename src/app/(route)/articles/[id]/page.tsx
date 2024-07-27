@@ -35,6 +35,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import moment from 'moment';
 import 'moment/locale/ko';
+import SlotCounter from 'react-slot-counter';
 import type { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
@@ -243,8 +244,12 @@ const Articles = () => {
             <span style={{ margin: '0 5px' }}>·</span>
             <CommentOutlined style={{ color: '#beb4b4' }} /> {data?.comment_cnt}
             <span style={{ margin: '0 5px' }}>·</span>
-            {/* <LikeOutlined style={{ color: '#beb4b4' }} /> {data?.like_cnt} */}
-            <HeartFilled style={{ color: '#F04C53' }} /> {data?.like_cnt}
+            <span>
+              <HeartFilled style={{ color: '#F04C53' }} />
+              <span style={{ verticalAlign: 'bottom', margin: '0 5px' }}>
+                <SlotCounter value={data?.like_cnt || 0} />
+              </span>
+            </span>
           </StyledOutDiv>
         </StyledOutDiv>
       </div>

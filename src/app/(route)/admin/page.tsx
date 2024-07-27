@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
+import SlotCounter from 'react-slot-counter';
 import { BarChartOutlined, UserOutlined, NotificationOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
@@ -50,9 +51,9 @@ const Admin = () => {
   const [apiCount, setApiCount] = useState(0);
   const [firstTime, setFirstTime] = useState('');
 
-  const todayApiCount = useCountUp(apiCount, 700);
-  const todayVisitorCount = useCountUp(visitorCount ?? 0, 700);
-  const totalMemberCount = useCountUp(userList?.length, 700);
+  const todayApiCount = apiCount;
+  const todayVisitorCount = visitorCount ?? 0;
+  const totalMemberCount = userList?.length;
 
   const getApiData = async () => {
     const type = 'day';
@@ -105,7 +106,19 @@ const Admin = () => {
               <div>
                 <BarChartOutlined />
               </div>
-              <div>{isSuccess ? todayVisitorCount ?? 0 : <Spin />}</div>
+              <div>
+                {isSuccess ? (
+                  <span style={{ verticalAlign: 'bottom' }}>
+                    {todayVisitorCount ? (
+                      <SlotCounter value={todayVisitorCount?.toLocaleString()} />
+                    ) : (
+                      0
+                    )}
+                  </span>
+                ) : (
+                  <Spin />
+                )}
+              </div>
             </StyledTopCardContent>
           </StyledAdminTopCardDiv>
         </Col>
@@ -116,7 +129,11 @@ const Admin = () => {
               <div>
                 <UserOutlined />
               </div>
-              <div>{totalMemberCount ?? 0}</div>
+              <div>
+                <span style={{ verticalAlign: 'bottom' }}>
+                  <SlotCounter value={totalMemberCount ? totalMemberCount?.toLocaleString() : 0} />
+                </span>
+              </div>
             </StyledTopCardContent>
           </StyledAdminTopCardDiv>
         </Col>
@@ -127,7 +144,11 @@ const Admin = () => {
               <div>
                 <NotificationOutlined />
               </div>
-              <div>{todayApiCount ?? 0}</div>
+              <div>
+                <span style={{ verticalAlign: 'bottom' }}>
+                  <SlotCounter value={todayApiCount ? todayApiCount?.toLocaleString() : 0} />
+                </span>
+              </div>
             </StyledTopCardContent>
           </StyledAdminTopCardDiv>
         </Col>
