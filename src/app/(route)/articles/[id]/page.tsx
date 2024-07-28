@@ -234,20 +234,28 @@ const Articles = () => {
         </div>
         <StyledOutDiv>
           <StyledOutDiv style={{ fontSize: 15, marginBottom: 5 }}>{data?.reg_user_nm}</StyledOutDiv>
-          <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
+          <StyledOutDiv
+            style={{ fontSize: 13, color: 'grey', display: 'flex', alignItems: 'center', gap: 2 }}
+          >
             {moment(data?.reg_dt).isAfter(moment().subtract(1, 'd'))
               ? moment(data?.reg_dt).fromNow()
               : moment(data?.reg_dt).format('LLL')}
             <span style={{ margin: '0 5px' }}>·</span>
             {/* 조회수, 댓글, 좋아요 */}
-            <EyeOutlined style={{ color: '#beb4b4' }} /> {data?.view_cnt}
-            <span style={{ margin: '0 5px' }}>·</span>
-            <CommentOutlined style={{ color: '#beb4b4' }} /> {data?.comment_cnt}
-            <span style={{ margin: '0 5px' }}>·</span>
+            <span style={{ display: 'flex', gap: 3 }}>
+              <EyeOutlined style={{ color: '#beb4b4' }} /> {data?.view_cnt}
+              <span>·</span>
+            </span>
+            <span style={{ display: 'flex', gap: 3 }}>
+              <CommentOutlined style={{ color: '#beb4b4' }} /> {data?.comment_cnt}
+              <span>·</span>
+            </span>
             <span>
-              <HeartFilled style={{ color: '#F04C53' }} />
-              <span style={{ verticalAlign: 'bottom', margin: '0 5px' }}>
-                <SlotCounter value={data?.like_cnt || 0} />
+              <span style={{ display: 'flex', gap: 3 }}>
+                <HeartFilled style={{ color: '#F04C53' }} />
+                <span>
+                  <SlotCounter value={data?.like_cnt || 0} />
+                </span>
               </span>
             </span>
           </StyledOutDiv>

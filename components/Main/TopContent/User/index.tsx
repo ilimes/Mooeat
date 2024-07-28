@@ -18,27 +18,42 @@ const User = ({
   const val = useCountUp(Number(value), 700);
 
   return (
-    <div style={{ display: 'flex', gap: 5, alignItems: 'center', fontSize: 15 }}>
-      <Avatar
-        size={25}
-        icon={
-          profilePath ? (
-            <img
-              src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profilePath}`}
-              alt="profile"
-            />
-          ) : (
-            <Image src={unknownAvatar} alt="unknown" />
-          )
-        }
-      />
-      <div>{userName || '닉네임'}</div>
-      <div style={{ marginLeft: 'auto' }}>
+    <div
+      style={{
+        display: 'flex',
+        gap: 5,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        fontSize: 15,
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          gap: 5,
+        }}
+      >
+        <Avatar
+          size={25}
+          icon={
+            profilePath ? (
+              <img
+                src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${profilePath}`}
+                alt="profile"
+              />
+            ) : (
+              <Image src={unknownAvatar} alt="unknown" />
+            )
+          }
+        />
+        <div>{userName || '닉네임'}</div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         {/* {val?.toLocaleString() || 0} {suffix} */}
-        <span style={{ verticalAlign: 'bottom', margin: '0 5px' }}>
+        <span style={{ margin: '0 5px', fontSize: 17 }}>
           {value ? <SlotCounter value={value?.toLocaleString()} /> : 0}
         </span>
-        {suffix}
+        <span style={{ fontSize: 13 }}>{suffix}</span>
       </div>
     </div>
   );
