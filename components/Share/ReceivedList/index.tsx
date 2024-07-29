@@ -1,12 +1,13 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Avatar, Col, Divider, Row, Image as AntImage, Card, Tooltip, Tag } from 'antd';
-import { MessageOutlined, ZoomInOutlined } from '@ant-design/icons';
+import { MessageOutlined, ZoomInOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import moment from 'moment';
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
 import { Friend, FriendTypes } from '@/types/Friend/Friend.interface';
-import { loadShareListView, loadShareUserList } from '@/api/Api';
+import { loadShareListView, loadShareUserList, loadUserInfoData } from '@/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import { getDayKorean, getTagColor } from '@/utils/util';
 
@@ -19,6 +20,25 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
   const filteredShareListView = filterSeq
     ? shareListView?.filter((e: any) => e.user_seq === filterSeq)
     : shareListView;
+
+  const user = session?.user;
+  const {
+    data: userInfo,
+    isSuccess,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: async () => {
+      const result = await loadUserInfoData({});
+      if (result?.success) {
+        return result?.user_info;
+      }
+      return null;
+    },
+    enabled: !!user,
+  });
+  const profileImg = userInfo?.user_set?.file_path_thumb;
 
   /**
    * 식단을 보낸 유저 목록 조회
@@ -83,27 +103,53 @@ const ReceivedList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
                 </h2>
                 {/* 아바타 영역 */}
                 <div style={{ margin: '30px 0', display: 'flex', gap: 10 }}>
-                  <div>
-                    <Avatar
-                      size={40}
-                      icon={
-                        nowProfilePath ? (
-                          <img
-                            src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${nowProfilePath}?thumb=1`}`}
-                            alt="avatar"
-                          />
-                        ) : (
-                          <Image src={unknownAvatar} alt="unknown" />
-                        )
-                      }
-                    />
-                  </div>
-                  <StyledOutDiv>
-                    <StyledOutDiv style={{ fontSize: 15 }}>{e?.user_nm}</StyledOutDiv>
-                    <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
-                      {e?.user_id}
+                  <div style={{ display: 'flex', gap: 10 }}>
+                    <div>
+                      <Avatar
+                        size={40}
+                        icon={
+                          nowProfilePath ? (
+                            <img
+                              src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${nowProfilePath}?thumb=1`}`}
+                              alt="avatar"
+                            />
+                          ) : (
+                            <Image src={unknownAvatar} alt="unknown" />
+                          )
+                        }
+                      />
+                    </div>
+                    <StyledOutDiv>
+                      <StyledOutDiv style={{ fontSize: 15 }}>{e?.user_nm}</StyledOutDiv>
+                      <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
+                        {e?.user_id}
+                      </StyledOutDiv>
                     </StyledOutDiv>
-                  </StyledOutDiv>
+                  </div>
+                  <ArrowRightOutlined />
+                  <div style={{ display: 'flex', gap: 10 }}>
+                    <div>
+                      <Avatar
+                        size={40}
+                        icon={
+                          profileImg ? (
+                            <img
+                              src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${profileImg}?thumb=1`}`}
+                              alt="avatar"
+                            />
+                          ) : (
+                            <Image src={unknownAvatar} alt="unknown" />
+                          )
+                        }
+                      />
+                    </div>
+                    <StyledOutDiv>
+                      <StyledOutDiv style={{ fontSize: 15 }}>{e?.to_user_nm}</StyledOutDiv>
+                      <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
+                        {e?.to_user_id}
+                      </StyledOutDiv>
+                    </StyledOutDiv>
+                  </div>
                 </div>
                 <div
                   style={{
