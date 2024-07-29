@@ -11,6 +11,6 @@ export interface ContentsTypes {
 }
 
 export interface TextComponentTypes {
-  e: ContentsTypes;
-  i: number;
+  content: ContentsTypes;
+  index: number;
 }

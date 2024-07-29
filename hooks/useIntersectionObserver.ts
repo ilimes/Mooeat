@@ -13,7 +13,7 @@ export const useIntersectionObserver = ({
   hasNextPage,
   fetchNextPage,
 }: IuseIntersectionObserverProps) => {
-  // 관찰할 요소입니다. 스크롤 최하단 div요소에 setTarget을 ref로 넣어 사용할 것입니다.
+  // 관찰할 요소입니다. 스크롤 최하단 div요소에 setTarget을 ref로 넣어 사용
   const [target, setTarget] = useState<HTMLDivElement | null | undefined>(null);
 
   const observerCallback: IntersectionObserverCallback = (entries) => {
@@ -28,7 +28,7 @@ export const useIntersectionObserver = ({
   useEffect(() => {
     if (!target) return;
 
-    // ointersection observer 인스턴스 생성
+    // intersection observer 인스턴스 생성
     const observer = new IntersectionObserver(observerCallback, {
       threshold,
     });

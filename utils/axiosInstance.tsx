@@ -12,13 +12,10 @@ const requestSuccessHandler = async (config: InternalAxiosRequestConfig) => {
   return config;
 };
 
-const requestErrorHandler = (error: Error | AxiosError) =>
-  // console.log('request 실패 : ', error);
-  Promise.reject(error);
+const requestErrorHandler = (error: Error | AxiosError) => Promise.reject(error);
 const responseSuccessHandler = (response: AxiosResponse) => {
   const isLogout = response?.data?.logout;
   const movePage = response?.data?.move_page;
-  // console.log('response 성공: ', response?.data?.logout);
   if (movePage) {
     signOut({ callbackUrl: '/auth/login' });
   }

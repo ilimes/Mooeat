@@ -23,6 +23,8 @@ const CarouselComponent = () => {
   const [nowIndex, setNowIndex] = useState(0);
   const textMargin = isMobile ? 0 : 120;
   const imgHeight = isMobile ? 200 : 350;
+  const contentStyle = { width: 340, height: imgHeight, margin: '0 auto' };
+
   const contents = [
     {
       topText: 'Mooeat에 오신것을 환영합니다!',
@@ -31,13 +33,7 @@ const CarouselComponent = () => {
       background: '#47408f',
       textBackground: '#323232',
       link: '/welcome',
-      img: (
-        <Lottie
-          animationData={animationData}
-          loop={false}
-          style={{ width: 340, height: imgHeight, margin: '0 auto' }}
-        />
-      ),
+      img: <Lottie animationData={animationData} loop={false} style={contentStyle} />,
     },
     {
       topText: '지금 바로 가입해보세요!',
@@ -46,13 +42,7 @@ const CarouselComponent = () => {
       background: '#E5B175',
       textBackground: '#D98B35',
       link: '/auth/join',
-      img: (
-        <Lottie
-          animationData={animationData2}
-          loop={false}
-          style={{ width: 340, height: imgHeight, margin: '0 auto' }}
-        />
-      ),
+      img: <Lottie animationData={animationData2} loop={false} style={contentStyle} />,
     },
     {
       topText: '매일 출석체크 이벤트 진행중!',
@@ -61,17 +51,11 @@ const CarouselComponent = () => {
       background: '#004AD5',
       textBackground: '#2972FF',
       link: '/attendance',
-      img: (
-        <Lottie
-          animationData={animationData3}
-          loop={false}
-          style={{ width: 340, height: imgHeight, margin: '0 auto' }}
-        />
-      ),
+      img: <Lottie animationData={animationData3} loop={false} style={contentStyle} />,
     },
   ];
 
-  const TextComponent = ({ e, i }: TextComponentTypes) => (
+  const TextComponent = ({ content, index }: TextComponentTypes) => (
     <>
       <div className="title1">
         <span
@@ -79,14 +63,14 @@ const CarouselComponent = () => {
             fontWeight: 800,
             color: '#fff',
             fontSize: 24,
-            background: `linear-gradient(to top, ${e?.textBackground} 45%, transparent 50%)`,
+            background: `linear-gradient(to top, ${content?.textBackground} 45%, transparent 50%)`,
           }}
         >
-          {e?.topText}
+          {content?.topText}
         </span>
       </div>
       <div className="title2" style={{ fontWeight: 100, color: '#fff', fontSize: 18 }}>
-        {e?.bottomText}
+        {content?.bottomText}
       </div>
       <div
         className="title3"
@@ -97,7 +81,7 @@ const CarouselComponent = () => {
           marginTop: 30,
         }}
       >
-        {e?.forwardText} {'>'}
+        {content?.forwardText} {'>'}
       </div>
     </>
   );
@@ -111,44 +95,39 @@ const CarouselComponent = () => {
               autoplay
               dotPosition="bottom"
               speed={600}
-              style={{
-                background: contents?.[nowIndex]?.background,
-                display: 'flex',
-                justifyContent: 'center',
-                transition: '0.35s',
-                height: 370,
-              }}
+              $background={contents?.[nowIndex]?.background}
+              $nowIndex={nowIndex}
               beforeChange={(_, nextNumber) => {
                 setNowIndex(nextNumber);
               }}
             >
-              {contents?.map((e, i) => (
-                <div key={i}>
+              {contents?.map((content, index) => (
+                <div key={index}>
                   <Row
                     style={{
                       maxWidth: 1200,
                       margin: '0 auto',
                       cursor: 'pointer',
                     }}
-                    onClick={() => router.push(e?.link)}
+                    onClick={() => router.push(content?.link)}
                   >
                     {isMobile && (
                       <>
                         <Col span={24} style={{ overflow: 'hidden' }}>
-                          {e?.img}
+                          {index === nowIndex && content?.img}
                         </Col>
                         <Col span={24} style={{ padding: 16, marginTop: textMargin }}>
-                          <TextComponent e={e} i={i} />
+                          <TextComponent content={content} index={index} />
                         </Col>
                       </>
                     )}
                     {!isMobile && (
                       <>
                         <Col span={12} style={{ padding: 16, marginTop: textMargin }}>
-                          <TextComponent e={e} i={i} />
+                          <TextComponent content={content} index={index} />
                         </Col>
                         <Col span={12} style={{ overflow: 'hidden' }}>
-                          {e?.img}
+                          {index === nowIndex && content?.img}
                         </Col>
                       </>
                     )}
