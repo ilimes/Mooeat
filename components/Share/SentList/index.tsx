@@ -103,7 +103,7 @@ const SentList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
       <Row gutter={[15, 15]}>
         {sendListView?.map((e: any, i: number) => {
           const nowProfilePath = sendUserList?.find(
-            (ele: any) => ele.user_id === e.user_id,
+            (ele: any) => ele.user_id === e.to_user_id,
           )?.profile_path;
           return (
             <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
@@ -132,30 +132,6 @@ const SentList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
                         icon={
                           profileImg ? (
                             <img
-                              src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${nowProfilePath}?thumb=1`}`}
-                              alt="avatar"
-                            />
-                          ) : (
-                            <Image src={unknownAvatar} alt="unknown" />
-                          )
-                        }
-                      />
-                    </div>
-                    <StyledOutDiv>
-                      <StyledOutDiv style={{ fontSize: 15 }}>{e?.to_user_nm}</StyledOutDiv>
-                      <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
-                        {e?.to_user_id}
-                      </StyledOutDiv>
-                    </StyledOutDiv>
-                  </div>
-                  <ArrowRightOutlined />
-                  <div style={{ display: 'flex', gap: 10 }}>
-                    <div>
-                      <Avatar
-                        size={40}
-                        icon={
-                          profileImg ? (
-                            <img
                               src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${profileImg}?thumb=1`}`}
                               alt="avatar"
                             />
@@ -169,6 +145,30 @@ const SentList = ({ pureFriendList }: { pureFriendList: Friend[] }) => {
                       <StyledOutDiv style={{ fontSize: 15 }}>{e?.user_nm}</StyledOutDiv>
                       <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
                         {e?.user_id}
+                      </StyledOutDiv>
+                    </StyledOutDiv>
+                  </div>
+                  <ArrowRightOutlined />
+                  <div style={{ display: 'flex', gap: 10 }}>
+                    <div>
+                      <Avatar
+                        size={40}
+                        icon={
+                          nowProfilePath ? (
+                            <img
+                              src={`http://${process.env.NEXT_PUBLIC_BACKEND_URL}${`${nowProfilePath}?thumb=1`}`}
+                              alt="avatar"
+                            />
+                          ) : (
+                            <Image src={unknownAvatar} alt="unknown" />
+                          )
+                        }
+                      />
+                    </div>
+                    <StyledOutDiv>
+                      <StyledOutDiv style={{ fontSize: 15 }}>{e?.to_user_nm}</StyledOutDiv>
+                      <StyledOutDiv style={{ fontSize: 13, color: 'grey' }}>
+                        {e?.to_user_id}
                       </StyledOutDiv>
                     </StyledOutDiv>
                   </div>
