@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import SlotCounter from 'react-slot-counter';
+import FlipNumbers from 'react-flip-numbers';
 import { PointLogTypes } from '@/types/Point/Point.interface';
 import { loadPointLogData, loadUserInfoData } from '@/api/Api';
 
@@ -50,11 +51,16 @@ const Point = () => {
       <StyledBoxDiv style={{ height: 22 }}>
         {point != null && (
           <>
-            <span>
-              <span
-                style={{ verticalAlign: 'bottom', marginRight: 5, fontWeight: 800, fontSize: 18 }}
-              >
-                <SlotCounter value={myPoint ? myPoint?.toLocaleString() : 0} />
+            <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+              <span style={{ fontWeight: 700, fontSize: 18 }}>
+                {/* <SlotCounter value={myPoint ? myPoint?.toLocaleString() : 0} /> */}
+                <FlipNumbers
+                  play
+                  color="#000"
+                  width={14}
+                  height={22}
+                  numbers={myPoint ? myPoint?.toLocaleString() : '0'}
+                />
               </span>
               포인트
             </span>

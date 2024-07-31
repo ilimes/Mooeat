@@ -41,6 +41,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.share
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
+import FlipNumbers from 'react-flip-numbers';
 import KakaoSvg from '@/public/svg/kakao.svg';
 import {
   deleteBoard,
@@ -254,7 +255,14 @@ const Articles = () => {
               <span style={{ display: 'flex', gap: 3 }}>
                 <HeartFilled style={{ color: '#F04C53' }} />
                 <span>
-                  <SlotCounter value={data?.like_cnt || 0} />
+                  {/* <SlotCounter value={data?.like_cnt || 0} /> */}
+                  <FlipNumbers
+                    play
+                    color="#808080"
+                    width={10}
+                    height={13}
+                    numbers={data?.like_cnt?.toString() || '0'}
+                  />
                 </span>
               </span>
             </span>

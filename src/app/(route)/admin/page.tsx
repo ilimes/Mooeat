@@ -21,6 +21,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import FlipNumbers from 'react-flip-numbers';
 import { adminCollapsedState } from '@/recoil/states';
 import TopTitle from '@/components/SharedComponents/TopTitle';
 import { loadApiData, loadTodayVisitorCount, loadUserList } from '@/api/Api';
@@ -108,9 +109,16 @@ const Admin = () => {
               </div>
               <div>
                 {isSuccess ? (
-                  <span style={{ verticalAlign: 'bottom' }}>
+                  <span>
                     {todayVisitorCount ? (
-                      <SlotCounter value={todayVisitorCount?.toLocaleString()} />
+                      // <SlotCounter value={todayVisitorCount?.toLocaleString()} />
+                      <FlipNumbers
+                        play
+                        color="#000"
+                        width={12}
+                        height={22}
+                        numbers={todayVisitorCount?.toLocaleString() ?? '0'}
+                      />
                     ) : (
                       0
                     )}
@@ -130,8 +138,15 @@ const Admin = () => {
                 <UserOutlined />
               </div>
               <div>
-                <span style={{ verticalAlign: 'bottom' }}>
-                  <SlotCounter value={totalMemberCount ? totalMemberCount?.toLocaleString() : 0} />
+                <span>
+                  {/* <SlotCounter value={totalMemberCount ? totalMemberCount?.toLocaleString() : 0} /> */}
+                  <FlipNumbers
+                    play
+                    color="#000"
+                    width={12}
+                    height={22}
+                    numbers={totalMemberCount ? totalMemberCount?.toLocaleString() : '0'}
+                  />
                 </span>
               </div>
             </StyledTopCardContent>
@@ -145,8 +160,15 @@ const Admin = () => {
                 <NotificationOutlined />
               </div>
               <div>
-                <span style={{ verticalAlign: 'bottom' }}>
-                  <SlotCounter value={todayApiCount ? todayApiCount?.toLocaleString() : 0} />
+                <span>
+                  {/* <SlotCounter value={todayApiCount ? todayApiCount?.toLocaleString() : 0} /> */}
+                  <FlipNumbers
+                    play
+                    color="#000"
+                    width={12}
+                    height={22}
+                    numbers={todayApiCount ? todayApiCount?.toLocaleString() : '0'}
+                  />
                 </span>
               </div>
             </StyledTopCardContent>
@@ -215,6 +237,7 @@ const StyledAdminTopCardDiv = styled(Card)`
 
 const StyledTopCardContent = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-size: 24px;
 `;

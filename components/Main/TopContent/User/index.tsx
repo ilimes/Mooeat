@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Avatar } from 'antd';
 import SlotCounter from 'react-slot-counter';
+import FlipNumbers from 'react-flip-numbers';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import useCountUp from '@/hooks/useCountUp';
 
@@ -50,8 +51,15 @@ const User = ({
       </div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {/* {val?.toLocaleString() || 0} {suffix} */}
-        <span style={{ margin: '0 5px', fontSize: 17 }}>
-          {value ? <SlotCounter value={value?.toLocaleString()} /> : 0}
+        <span style={{ margin: '0 5px' }}>
+          {/* {value ? <SlotCounter value={value?.toLocaleString()} /> : 0} */}
+          <FlipNumbers
+            play
+            color="#000"
+            width={10}
+            height={16}
+            numbers={value?.toLocaleString() || '0'}
+          />
         </span>
         <span style={{ fontSize: 13 }}>{suffix}</span>
       </div>

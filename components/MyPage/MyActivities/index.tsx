@@ -7,6 +7,7 @@ import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { ColumnsType, TableProps } from 'antd/es/table';
 import SlotCounter from 'react-slot-counter';
+import FlipNumbers from 'react-flip-numbers';
 import { loadMyBoardList, loadMyCommentList } from '@/api/Api';
 import { DataType1, DataType2 } from '@/types/Board/Board.interface';
 
@@ -90,9 +91,16 @@ const MyActivities = () => {
           <div className="box-div">
             <div className="number">
               <FileTextOutlined />
-              <span>
-                <span style={{ verticalAlign: 'bottom', margin: '0 3px' }}>
-                  <SlotCounter value={myBoardNum ? myBoardNum?.toLocaleString() : 0} />
+              <span style={{ display: 'flex', gap: 5 }}>
+                <span>
+                  {/* <SlotCounter value={myBoardNum ? myBoardNum?.toLocaleString() : 0} /> */}
+                  <FlipNumbers
+                    play
+                    color="#000"
+                    width={14}
+                    height={22}
+                    numbers={myBoardNum ? myBoardNum?.toLocaleString() : '0'}
+                  />
                 </span>
                 개
               </span>
@@ -106,9 +114,16 @@ const MyActivities = () => {
           <div className="box-div">
             <div className="number">
               <CommentOutlined />
-              <span>
-                <span style={{ verticalAlign: 'bottom', margin: '0 3px' }}>
-                  <SlotCounter value={myCommentNum ? myCommentNum?.toLocaleString() : 0} />
+              <span style={{ display: 'flex', gap: 5 }}>
+                <span>
+                  {/* <SlotCounter value={myCommentNum ? myCommentNum?.toLocaleString() : 0} /> */}
+                  <FlipNumbers
+                    play
+                    color="#000"
+                    width={14}
+                    height={22}
+                    numbers={myCommentNum ? myCommentNum?.toLocaleString() : '0'}
+                  />
                 </span>
                 개
               </span>
@@ -202,7 +217,7 @@ const StyledTopBoxDiv = styled.div`
   .number {
     display: flex;
     justify-content: space-between;
-    font-size: 20px;
+    font-size: 18px;
   }
 `;
 
