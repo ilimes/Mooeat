@@ -115,7 +115,8 @@ const Admin = () => {
                       <FlipNumbers
                         play
                         color="#000"
-                        width={12}
+                        duration={1.5}
+                        width={13}
                         height={22}
                         numbers={todayVisitorCount?.toLocaleString() ?? '0'}
                       />
@@ -143,7 +144,8 @@ const Admin = () => {
                   <FlipNumbers
                     play
                     color="#000"
-                    width={12}
+                    duration={1.5}
+                    width={13}
                     height={22}
                     numbers={totalMemberCount ? totalMemberCount?.toLocaleString() : '0'}
                   />
@@ -165,7 +167,8 @@ const Admin = () => {
                   <FlipNumbers
                     play
                     color="#000"
-                    width={12}
+                    duration={1.5}
+                    width={13}
                     height={22}
                     numbers={todayApiCount ? todayApiCount?.toLocaleString() : '0'}
                   />

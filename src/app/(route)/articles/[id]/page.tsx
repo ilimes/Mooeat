@@ -259,6 +259,7 @@ const Articles = () => {
                   <FlipNumbers
                     play
                     color="#808080"
+                    duration={1.5}
                     width={10}
                     height={13}
                     numbers={data?.like_cnt?.toString() || '0'}

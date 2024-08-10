@@ -57,6 +57,7 @@ const Point = () => {
                 <FlipNumbers
                   play
                   color="#000"
+                  duration={1.5}
                   width={14}
                   height={22}
                   numbers={myPoint ? myPoint?.toLocaleString() : '0'}

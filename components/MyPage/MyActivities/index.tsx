@@ -97,7 +97,8 @@ const MyActivities = () => {
                   <FlipNumbers
                     play
                     color="#000"
-                    width={14}
+                    duration={1.5}
+                    width={13}
                     height={22}
                     numbers={myBoardNum ? myBoardNum?.toLocaleString() : '0'}
                   />
@@ -120,7 +121,8 @@ const MyActivities = () => {
                   <FlipNumbers
                     play
                     color="#000"
-                    width={14}
+                    duration={1.5}
+                    width={13}
                     height={22}
                     numbers={myCommentNum ? myCommentNum?.toLocaleString() : '0'}
                   />

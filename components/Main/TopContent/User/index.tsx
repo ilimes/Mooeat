@@ -55,6 +55,7 @@ const User = ({
           {/* {value ? <SlotCounter value={value?.toLocaleString()} /> : 0} */}
           <FlipNumbers
             play
+            duration={1.5}
             color="#000"
             width={10}
             height={16}
