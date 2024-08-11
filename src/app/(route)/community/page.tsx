@@ -306,4 +306,23 @@ const SearchListDiv = styled.div`
     padding: 15px;
     border-radius: 10px;
   }
+
+  animation: fadeIn 400ms;
+  opacity: 0;
+  animation-fill-mode: forwards;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    99% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  > .fade-slow {
+    animation-delay: 300ms;
+  }
 `;

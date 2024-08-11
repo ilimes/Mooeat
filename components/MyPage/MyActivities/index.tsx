@@ -17,6 +17,7 @@ const columns1: ColumnsType<DataType1> = [
     dataIndex: 'title',
     key: 'title',
     align: 'center',
+    render: (text) => <u>{text}</u>,
   },
   {
     title: '작성일',
@@ -34,6 +35,7 @@ const columns2: ColumnsType<DataType2> = [
     dataIndex: 'board_title',
     key: 'board_title',
     align: 'center',
+    render: (text) => <u>{text}</u>,
   },
   {
     title: '댓글 내용',
@@ -172,7 +174,7 @@ const MyActivities = () => {
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={false} />
         )}
         {myCommentList?.length !== 0 && (
-          <Table
+          <StyledTable
             rowKey={(record) => record?.comment_seq}
             columns={columns2}
             dataSource={myCommentList}
@@ -180,6 +182,11 @@ const MyActivities = () => {
               pageSize: 5,
               showTotal: (total, range) => `${range[0]}-${range[1]} / 총 ${total}건`,
             }}
+            onRow={(record, rowIndex) => ({
+              onClick: () => {
+                router.push(`/articles/${record?.board_seq}`);
+              },
+            })}
           />
         )}
       </StyledBoxDiv>
@@ -249,7 +256,7 @@ const SubTitle = styled.div`
   }
 `;
 
-const StyledTable = styled(Table)<TableProps<DataType1>>`
+const StyledTable = styled(Table)<TableProps<any>>`
   .ant-table-row: hover {
     cursor: pointer;
   }
