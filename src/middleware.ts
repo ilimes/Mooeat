@@ -55,6 +55,27 @@ export async function middleware(req: NextRequest) {
   }
 }
 
+/**
+ * 아래 경로 제외하고 middleware 적용
+ * ------
+ * api: 경로에 api가 포함된 경우
+ * _next/static: 경로에 _next/static이 포함된 경우
+ * _next/image: 경로에 _next/image가 포함된 경우
+ * robot: 경로에 robot이 포함된 경우
+ * sitemap: 경로에 sitemap이 포함된 경우
+ * images: 경로에 images가 포함된 경우
+ * fonts: 경로에 fonts가 포함된 경우
+ * assets: 경로에 assets가 포함된 경우
+ * favicon.ico: 경로에 favicon.ico가 포함된 경우
+ * sw.js: 경로에 sw.js가 포함된 경우
+ * manifest.webmanifest: 경로에 manifest.webmanifest가 포함된 경우
+ * ------
+ */
+
 export const config = {
-  matcher: [...withAuthList, ...withOutAuthList],
+  matcher: [
+    ...withAuthList,
+    ...withOutAuthList,
+    '/((?!api|_next/static|_next/image|robot|sitemap|images|fonts|assets|favicon.ico|sw.js|manifest.webmanifest).*)',
+  ],
 };

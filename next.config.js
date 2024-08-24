@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+});
+
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app www.googletagmanager.com;
@@ -107,4 +113,4 @@ const nextConfig = {
   // },
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);

@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     initialScale: 1,
     maximumScale: 1,
   },
+  manifest: '/manifest.webmanifest',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

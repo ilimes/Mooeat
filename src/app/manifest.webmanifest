@@ -1,0 +1,22 @@
+{
+  "theme_color": "#4f4791",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "icon512_maskable.png",
+      "type": "image/png"
+    },
+    { "purpose": "any", "sizes": "512x512", "src": "icon512_rounded.png", "type": "image/png" }
+  ],
+  "orientation": "any",
+  "display": "standalone",
+  "dir": "auto",
+  "lang": "ko-KR",
+  "name": "mooeat",
+  "short_name": "mooeat",
+  "start_url": "/",
+  "scope": "/",
+  "description": "mooeat에서 식단을 공유하세요"
+}
