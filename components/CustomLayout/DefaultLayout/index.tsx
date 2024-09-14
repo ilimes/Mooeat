@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Layout } from 'antd';
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import PWAPrompt from 'react-ios-pwa-prompt';
 import Header from '../../Header';
 import Footer from '../../Footer';
 import Wrapper from '../Wrapper';
@@ -19,12 +20,17 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [isMobile, setIsMobile] = useRecoilState(isMobileState);
   const setCollapsed = useSetRecoilState<boolean>(collapseState);
+  const [shouldShowPWAPrompt, setShouldShowPWAPrompt] = useState(false);
 
   useEffect(() => {
     setCollapsed(false);
 
-    if (mobile) setIsMobile(true);
-    else setIsMobile(false);
+    if (mobile) {
+      setIsMobile(true);
+      setShouldShowPWAPrompt(true);
+    } else {
+      setIsMobile(false);
+    }
   }, [mobile]);
 
   return (
@@ -36,6 +42,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       <Footer />
       {isMobile && <MobileNav />}
       {isMobile && <BottomNavbar />}
+      <PWAPrompt promptOnVisit={1} timesToShow={1} isShown={shouldShowPWAPrompt} />
     </>
   );
 };

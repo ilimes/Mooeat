@@ -33,6 +33,7 @@
     "react-dom": "^18",
     "react-fast-marquee": "^1.6.5",
     "react-flip-numbers": "^3.0.8",
+    "react-ios-pwa-prompt": "^2.0.6",
     "react-quill": "^2.0.0",
     "react-responsive": "^9.0.2",
     "react-slot-counter": "^3.0.1",
