@@ -32,6 +32,7 @@ export default function BottomNavbar() {
 const NavbarContainer = styled.div`
   position: fixed;
   bottom: 0;
+  z-index: 1;
   width: 100%;
   display: flex;
   justify-content: space-around;

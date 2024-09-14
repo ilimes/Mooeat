@@ -3,13 +3,24 @@
 import { Layout, Row, Col } from 'antd';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
+import useIsMobile from '@/hooks/useIsMobile';
 
 const { Footer } = Layout;
 
 const FooterPage = () => {
   const router = useRouter();
+  const isMobile = useIsMobile();
+
   return (
-    <Footer style={{ padding: 0, fontSize: 13, color: '#44576c', background: '#F5F5F5' }}>
+    <Footer
+      style={{
+        padding: 0,
+        fontSize: 13,
+        color: '#44576c',
+        background: '#F5F5F5',
+        marginBottom: isMobile ? 66 : 0,
+      }}
+    >
       <div className="container">
         <div style={{ marginBottom: 10 }}>
           <div style={{ fontWeight: 800, color: '#98a8b9', marginBottom: 10 }}>2023 Mooeat</div>
