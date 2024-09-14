@@ -38,8 +38,7 @@ const NavbarContainer = styled.div`
   background-color: #ffffff;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   width: 100%;
-  padding: 14px 0;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding: 14px 14px env(safe-area-inset-bottom, 14px) 0;
 `;
 
 const IconDiv = styled.div`
