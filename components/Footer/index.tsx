@@ -18,7 +18,7 @@ const FooterPage = () => {
         fontSize: 13,
         color: '#44576c',
         background: '#F5F5F5',
-        marginBottom: isMobile ? 66 : 0,
+        marginBottom: isMobile ? 'calc(env(safe-area-inset-bottom) + 66px)' : 0,
       }}
     >
       <div className="container">
