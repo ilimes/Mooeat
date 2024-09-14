@@ -33,13 +33,13 @@ const NavbarContainer = styled.div`
   position: fixed;
   bottom: 0;
   z-index: 1;
-  width: 100%;
   display: flex;
   justify-content: space-around;
   background-color: #ffffff;
-  /* iPhone의 안전 영역을 감안한 여유 공간 추가 */
-  padding: 12px 12px calc(env(safe-area-inset-bottom) + 12px) 0;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  padding-top: 12px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
 `;
 
 const IconDiv = styled.div`
