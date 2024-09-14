@@ -10,6 +10,7 @@ import Wrapper from '../Wrapper';
 import MobileNav from '../../MobileNav';
 import useIsMobile from '@/hooks/useIsMobile';
 import { collapseState, isMobileState, menuState } from '@/recoil/states';
+import BottomNavbar from '@/components/BottomNav';
 
 const { Content } = Layout;
 
@@ -34,6 +35,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       </Wrapper>
       <Footer />
       {isMobile && <MobileNav />}
+      {isMobile && <BottomNavbar />}
     </>
   );
 };
