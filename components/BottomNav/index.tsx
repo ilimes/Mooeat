@@ -39,8 +39,11 @@ const NavbarContainer = styled.div`
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   width: 100%;
   padding: 14px 0;
-  /* 안전 영역이 있을 경우 padding-bottom 적용 */
-  padding-bottom: env(safe-area-inset-bottom, 14px);
+  padding-bottom: 14px; /* 기본적으로 14px의 padding-bottom */
+
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    padding-bottom: env(safe-area-inset-bottom); /* 지원되는 경우 안전 영역 값을 적용 */
+  }
 `;
 
 const IconDiv = styled.div`
