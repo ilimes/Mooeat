@@ -39,6 +39,8 @@ const NavbarContainer = styled.div`
   background-color: #ffffff;
   padding: 12px 0;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  /* iPhone의 안전 영역을 감안한 여유 공간 추가 */
+  padding-bottom: env(safe-area-inset-bottom);
 `;
 
 const IconDiv = styled.div`
