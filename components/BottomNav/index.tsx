@@ -1,4 +1,10 @@
-import { UserOutlined, MessageOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  MessageOutlined,
+  SettingOutlined,
+  HomeOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons';
 import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
@@ -9,6 +15,7 @@ export default function BottomNavbar() {
   const menuItems = [
     { key: '/', label: '홈', icon: <HomeOutlined /> },
     { key: '/friends', label: '친구 목록', icon: <UserOutlined /> },
+    { key: '/share', label: '공유하기', icon: <ShareAltOutlined /> },
     { key: '/community', label: '커뮤니티', icon: <MessageOutlined /> },
     { key: '/myPage', label: '마이페이지', icon: <SettingOutlined /> },
   ];
@@ -52,6 +59,7 @@ const MenuItem = styled.div<{ $isActiveItem: boolean }>`
   align-items: center;
   flex: 1;
   color: ${({ $isActiveItem }) => ($isActiveItem ? '#372D7C' : '#545454')};
+  font-weight: ${({ $isActiveItem }) => ($isActiveItem ? 'bold' : 'normal')};
   font-size: 13px;
   cursor: pointer;
 `;
