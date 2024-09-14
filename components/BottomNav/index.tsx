@@ -1,13 +1,9 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { UserOutlined, MessageOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons';
-import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 export default function BottomNavbar() {
-  const router = useRouter();
-  const pathname = usePathname();
+  const [activeItem, setActiveItem] = useState('/');
 
   const menuItems = [
     { key: '/', label: '홈', icon: <HomeOutlined /> },
@@ -17,37 +13,37 @@ export default function BottomNavbar() {
   ];
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        bottom: 0,
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-around',
-        backgroundColor: '#ffffff',
-        padding: '12px 0',
-        boxShadow: '0 -2px 5px rgba(0, 0, 0, 0.2)',
-      }}
-    >
+    <NavbarContainer>
       {menuItems.map((item) => (
-        <StyledMenuDiv
+        <MenuItem
           key={item.key}
-          onClick={() => router.push(item.key)}
-          $isActiveItem={pathname === item.key}
+          onClick={() => setActiveItem(item.key)}
+          $isActiveItem={activeItem === item.key}
         >
           <IconDiv>{item.icon}</IconDiv>
           <span>{item.label}</span>
-        </StyledMenuDiv>
+        </MenuItem>
       ))}
-    </div>
+    </NavbarContainer>
   );
 }
+
+const NavbarContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #ffffff;
+  padding: 12px 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+`;
 
 const IconDiv = styled.div`
   font-size: 18px;
 `;
 
-const StyledMenuDiv = styled.div<{ $isActiveItem: boolean }>`
+const MenuItem = styled.div<{ $isActiveItem: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
