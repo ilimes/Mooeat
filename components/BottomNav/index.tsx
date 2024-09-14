@@ -38,8 +38,8 @@ const NavbarContainer = styled.div`
   background-color: #ffffff;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
   width: 100%;
-  padding-top: 12px;
-  padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
+  padding-top: 14px;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 14px);
 `;
 
 const IconDiv = styled.div`
@@ -51,7 +51,7 @@ const MenuItem = styled.div<{ $isActiveItem: boolean }>`
   flex-direction: column;
   align-items: center;
   flex: 1;
-  color: ${({ $isActiveItem }) => ($isActiveItem ? '#372D7C' : '#B0B0B0')};
+  color: ${({ $isActiveItem }) => ($isActiveItem ? '#372D7C' : '#545454')};
   font-size: 13px;
   cursor: pointer;
 `;
