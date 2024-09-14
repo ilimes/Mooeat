@@ -1,9 +1,10 @@
 import { UserOutlined, MessageOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 export default function BottomNavbar() {
-  const [activeItem, setActiveItem] = useState('/');
+  const router = useRouter();
+  const pathname = usePathname();
 
   const menuItems = [
     { key: '/', label: '홈', icon: <HomeOutlined /> },
@@ -17,8 +18,8 @@ export default function BottomNavbar() {
       {menuItems.map((item) => (
         <MenuItem
           key={item.key}
-          onClick={() => setActiveItem(item.key)}
-          $isActiveItem={activeItem === item.key}
+          onClick={() => router.push(item.key)}
+          $isActiveItem={pathname === item.key}
         >
           <IconDiv>{item.icon}</IconDiv>
           <span>{item.label}</span>
