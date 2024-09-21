@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Layout } from 'antd';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { getToken } from 'firebase/messaging';
+import Script from 'next/script';
 import Header from '../../Header';
 import Footer from '../../Footer';
 import Wrapper from '../Wrapper';
@@ -24,36 +25,35 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   const setCollapsed = useSetRecoilState<boolean>(collapseState);
 
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/firebase-messaging-sw.js')
-        .then((registration) => {
-          console.log('Service Worker registration successful with scope: ', registration.scope);
-        })
-        .catch((err) => {
-          console.error('Service Worker registration failed: ', err);
-        });
-    }
+    // 클라이언트 환경에서만 실행
+    if (typeof window !== 'undefined') {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/firebase-messaging-sw.js')
+          .then((registration) => {
+            console.log('Service Worker registration successful with scope: ', registration.scope);
 
-    async function requestPermission() {
-      console.log('권한 요청 중...');
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        console.log('알림 권한이 허용됨');
-        try {
-          const currentToken = await getToken(messaging, {
-            vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
+            // 푸시 알림 권한 요청 및 토큰 받기
+            getToken(messaging, {
+              vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
+              serviceWorkerRegistration: registration,
+            })
+              .then((currentToken) => {
+                if (currentToken) {
+                  console.log('FCM Token:', currentToken);
+                } else {
+                  console.log('No registration token available.');
+                }
+              })
+              .catch((err) => {
+                console.error('Error getting token:', err);
+              });
+          })
+          .catch((err) => {
+            console.error('Service Worker registration failed:', err);
           });
-          // server 측에게 토큰 넘겨줘서 관리
-          console.log('currentToken:', currentToken);
-        } catch (error) {
-          console.error('Error getting token:', error);
-        }
-      } else {
-        console.log('알림 권한 허용 안됨');
       }
     }
-    requestPermission();
   }, []);
 
   useEffect(() => {
@@ -69,6 +69,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       <Wrapper>
         <Content style={{ background: 'white' }}>{children}</Content>
       </Wrapper>
+      <Script src="/service-worker.js" />
       <Footer />
       {isMobile && <MobileNav />}
       {isMobile && <BottomNavbar />}
