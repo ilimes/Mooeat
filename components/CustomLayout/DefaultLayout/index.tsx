@@ -13,6 +13,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 import { collapseState, isMobileState, menuState } from '@/recoil/states';
 import { messaging } from '@/firebase';
 import BottomNavbar from '@/components/BottomNav';
+import '@/utils/fcm';
 
 const { Content } = Layout;
 
@@ -23,6 +24,17 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   const setCollapsed = useSetRecoilState<boolean>(collapseState);
 
   useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/firebase-messaging-sw.js')
+        .then((registration) => {
+          console.log('Service Worker registration successful with scope: ', registration.scope);
+        })
+        .catch((err) => {
+          console.error('Service Worker registration failed: ', err);
+        });
+    }
+
     async function requestPermission() {
       console.log('권한 요청 중...');
       const permission = await Notification.requestPermission();
