@@ -69,7 +69,7 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
       <Wrapper>
         <Content style={{ background: 'white' }}>{children}</Content>
       </Wrapper>
-      <Script src="/service-worker.js" />
+      <Script src="/firebase-messaging-sw.js" />
       <Footer />
       {isMobile && <MobileNav />}
       {isMobile && <BottomNavbar />}
