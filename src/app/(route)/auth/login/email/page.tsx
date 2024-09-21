@@ -40,7 +40,7 @@ const onFinish = async (
       await getSession();
 
       // 세션 갱신 후 홈으로 리다이렉트
-      redirect('/');
+      window.location.href = '/';
     }
   } catch (error) {
     // 에러 핸들링
