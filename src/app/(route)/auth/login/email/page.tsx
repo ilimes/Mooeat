@@ -1,6 +1,6 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import { Button, Checkbox, Form, Input, Drawer, message, Spin } from 'antd';
 import { LeftOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
@@ -16,25 +16,37 @@ const onFinish = async (
   router: AppRouterInstance | any,
 ) => {
   setIsLoading(true);
-  const res = await signIn('credentials', {
-    user_id: values?.user_id,
-    password: values?.password,
-    redirect: false,
-  });
 
-  if (res?.ok) {
+  try {
+    // 로그인 시도
+    const res = await signIn('credentials', {
+      user_id: values?.user_id,
+      password: values?.password,
+      redirect: false, // 리다이렉트는 false로 설정
+    });
+
     // 로딩 스피너 종료
     setIsLoading(false);
-  } else {
-    setIsLoading(false);
-  }
 
-  // 에러 핸들링
-  if (res?.status === 401) {
-    message.warning(res?.error || '아이디 혹은 비밀번호가 일치하지 않습니다.');
-    router.push('/auth/login/email');
-  } else {
-    router.push('/');
+    // 로그인 실패 시
+    if (res?.status === 401) {
+      message.warning(res?.error || '아이디 혹은 비밀번호가 일치하지 않습니다.');
+      return router.push('/auth/login/email');
+    }
+
+    // 로그인 성공 시
+    if (res?.ok) {
+      // 세션을 강제로 갱신하여 최신 세션 정보를 가져옴
+      await getSession();
+
+      // 세션 갱신 후 홈으로 리다이렉트
+      router.push('/');
+    }
+  } catch (error) {
+    // 에러 핸들링
+    setIsLoading(false);
+    console.error('로그인 에러:', error);
+    message.error('로그인 중 문제가 발생했습니다. 다시 시도해 주세요.');
   }
 };
 
