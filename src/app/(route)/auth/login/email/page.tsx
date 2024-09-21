@@ -5,7 +5,7 @@ import { Button, Checkbox, Form, Input, Drawer, message, Spin } from 'antd';
 import { LeftOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { ValuesTypes } from '@/types/User/User.interface';
 import TopTitle from '@/components/SharedComponents/TopTitle';
@@ -40,7 +40,7 @@ const onFinish = async (
       await getSession();
 
       // 세션 갱신 후 홈으로 리다이렉트
-      router.push('/');
+      redirect('/');
     }
   } catch (error) {
     // 에러 핸들링
