@@ -1,5 +1,3 @@
-import { getToken, getMessaging } from 'firebase/messaging';
-
 export const getDayKorean = (value: number) => {
   switch (value) {
     case 0:

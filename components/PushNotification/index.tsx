@@ -44,10 +44,10 @@ const PushNotification = () => {
               }
 
               // 포그라운드에서 메시지를 수신할 때의 처리 로직
-              // onMessage(messaging, (payload) => {
-              //   console.log('Message received in foreground: ', payload);
-              //   // 포그라운드 메시지를 처리하는 로직 추가
-              // });
+              onMessage(messaging, (payload) => {
+                console.log('Message received in foreground: ', payload);
+                // 포그라운드 메시지를 처리하는 로직 추가
+              });
             } else {
               console.log('Unable to get permission to notify.');
             }
