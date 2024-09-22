@@ -1,14 +1,10 @@
-// components/PushNotification.js
-
 'use client';
 
 import { useEffect } from 'react';
-import { getToken, onMessage } from 'firebase/messaging';
-import { messaging } from '@/firebase/initFirebase';
+import { app } from '@/firebase/initFirebase';
 
 const PushNotification = () => {
   useEffect(() => {
-    // 서비스 워커 등록 및 권한 요청
     const registerServiceWorkerAndRequestPermission = async () => {
       try {
         if ('serviceWorker' in navigator) {
@@ -19,9 +15,14 @@ const PushNotification = () => {
           if (status === 'granted') {
             console.log('Notification permission granted.');
 
+            // 동적으로 Firebase Messaging 모듈 가져오기
+            const { getMessaging, getToken, onMessage } = await import('firebase/messaging');
+
+            const messaging = getMessaging(app);
+
             const currentToken = await getToken(messaging, {
               vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
-              serviceWorkerRegistration: registration, // 등록한 서비스 워커 전달
+              serviceWorkerRegistration: registration,
             });
 
             if (currentToken) {

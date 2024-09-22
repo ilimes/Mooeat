@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Layout } from 'antd';
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import dynamic from 'next/dynamic';
 import Header from '../../Header';
 import Footer from '../../Footer';
 import Wrapper from '../Wrapper';
@@ -11,7 +12,8 @@ import MobileNav from '../../MobileNav';
 import useIsMobile from '@/hooks/useIsMobile';
 import { collapseState, isMobileState, menuState } from '@/recoil/states';
 import BottomNavbar from '@/components/BottomNav';
-import PushNotification from '@/components/PushNotification';
+
+const PushNotification = dynamic(() => import('../../PushNotification'), { ssr: false });
 
 const { Content } = Layout;
 
