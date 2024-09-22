@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        {/* <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> */}
         <link rel="apple-touch-icon" sizes="192x192" href="maskable_icon_x192.png" />
         <link rel="apple-touch-icon" sizes="512x512" href="maskable_icon_x512.png" />
         <link href="/apple_splash_2048.png" sizes="2048x2732" rel="apple-touch-startup-image" />
