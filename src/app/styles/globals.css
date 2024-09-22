@@ -1,5 +1,6 @@
 html {
   scroll-behavior: smooth;
+  padding-top: env(safe-area-inset-top);
 }
 
 body {
