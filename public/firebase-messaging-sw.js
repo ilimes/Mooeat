@@ -13,9 +13,11 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function(payload) {
   console.log("[firebase-messaging-sw.js] Received background message ", payload);
-  const notificationTitle = payload.notification.title;
+
+  // data 필드에서 알림 정보 추출
+  const notificationTitle = payload.data.title;
   const notificationOptions = {
-    body: payload.notification.body,
+    body: payload.data.body,
     icon: "/icon192_maskable.png",
   };
 
