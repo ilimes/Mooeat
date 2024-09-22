@@ -2,13 +2,11 @@ importScripts("https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"
 importScripts("https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js");
 
 firebase.initializeApp({
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyAFvqdevKUT93A_IwP7g7Q-KvSiEOnQfWw",
+  authDomain: "mooeat-98f72.firebaseapp.com",
+  projectId: "mooeat-98f72",
+  messagingSenderId: "617860525828",
+  appId: "1:617860525828:web:b27c059a24e539a823aa51",
 });
 
 const messaging = firebase.messaging();
