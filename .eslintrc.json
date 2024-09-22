@@ -46,5 +46,6 @@
     "jsx-a11y/label-has-associated-control": "warn",
     "no-nested-ternary": "warn",
     "no-plusplus": "off"
-  }
+  },
+  "ignorePatterns": ["public/firebase-messaging-sw.js"]
 }
