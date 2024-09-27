@@ -32,9 +32,9 @@ const Main: React.FC = () => {
       <Buttons router={router} />
       <div>
         <TopContent />
-        <div style={{ height: 490 }}>
+        {/* <div style={{ height: 490 }}>
           <RecentPosts />
-        </div>
+        </div> */}
         <div style={{ background: '#fff8f2', padding: '20px 0' }}>
           <Content>
             <div style={{ margin: '0 auto', maxWidth: 1200, padding: '0 16px' }}>
