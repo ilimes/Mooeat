@@ -16,6 +16,10 @@ import InstallPrompt from '@/components/InstallPrompt';
 
 const PushNotification = dynamic(() => import('../../PushNotification'), { ssr: false });
 
+interface NavigatorStandalone extends Navigator {
+  standalone?: boolean;
+}
+
 const { Content } = Layout;
 
 const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
@@ -32,8 +36,15 @@ const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
     else setIsMobile(false);
   }, [mobile]);
 
+  const checkPWA = () => {
+    const nav = navigator as NavigatorStandalone;
+    return window.matchMedia('(display-mode: standalone)').matches || nav.standalone;
+  };
+
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (checkPWA()) {
+      setIsPromptClosed('true');
+    } else if (typeof window !== 'undefined') {
       const closed = localStorage.getItem('installPromptClosed');
       setIsPromptClosed(closed);
     }
