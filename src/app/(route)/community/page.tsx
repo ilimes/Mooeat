@@ -270,6 +270,7 @@ const Community = () => {
                 <PostList
                   key={`list-search${i}`}
                   obj={{ ...e, cate_color: item?.cateColor, bg_color: item?.bgColor }}
+                  disableFade
                 />
               );
             })}
@@ -307,7 +308,7 @@ const SearchListDiv = styled.div`
     border-radius: 10px;
   }
 
-  animation: fadeIn 400ms;
+  animation: fadeIn 100ms;
   opacity: 0;
   animation-fill-mode: forwards;
 
@@ -321,8 +322,5 @@ const SearchListDiv = styled.div`
     100% {
       opacity: 1;
     }
-  }
-  > .fade-slow {
-    animation-delay: 300ms;
   }
 `;

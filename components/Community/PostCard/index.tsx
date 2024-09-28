@@ -10,6 +10,7 @@ import CntComponent from '../CntComponent';
 import { BoardTypes } from '@/types/Board/Board.interface';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import noImg from '@/public/img/noimg.png';
+import { extHexToRGB } from '@/utils/util';
 
 const { Meta } = Card;
 
@@ -94,7 +95,7 @@ const StyledCard = styled(Card)<{ background: string | null; catecolor: string |
     background: ${(props) => props.background};
     border: 0.5px solid #dddddd;
     &:hover {
-      border: 0.5px solid ${(props) => props.catecolor};
+      border: 0.5px solid ${(props) => props.catecolor}6E;
       cursor: pointer;
     }
     .ant-card-meta-title {

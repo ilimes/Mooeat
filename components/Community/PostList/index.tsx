@@ -13,7 +13,7 @@ import { BoardTypes } from '@/types/Board/Board.interface';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
 import noImg from '@/public/img/noimg.png';
 
-const PostList = ({ obj }: { obj: BoardTypes }) => {
+const PostList = ({ obj, disableFade }: { obj: BoardTypes; disableFade?: boolean }) => {
   const router = useRouter();
   const profileImg = obj?.profile_path ? `${obj?.profile_path}?thumb=1` : null;
   const profile = profileImg ? (
@@ -24,7 +24,10 @@ const PostList = ({ obj }: { obj: BoardTypes }) => {
   const thumbnailUrl = obj?.thumbnail_url ? `${obj?.thumbnail_url}?thumb=1` : noImg;
 
   return (
-    <div className="fade-slow" style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
+    <div
+      className={disableFade ? '' : 'fade-slow'}
+      style={{ display: 'flex', flexDirection: 'column', gap: 15 }}
+    >
       <div>
         <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
           <div>

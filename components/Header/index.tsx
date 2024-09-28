@@ -54,7 +54,7 @@ import {
 
 const { Header } = Layout;
 
-const HeaderPage = () => {
+const HeaderPage = ({ isPromptClosed }: { isPromptClosed: string | null }) => {
   const { data: session, status, update } = useSession();
   const user = session?.user;
   const router = useRouter();
@@ -118,9 +118,15 @@ const HeaderPage = () => {
     }
   }, [isMobile]);
 
+  const getHeaderTop = () => {
+    if (!isMobile) return 0;
+    if (isMobile && isPromptClosed === 'true') return 0;
+    return 60;
+  };
+
   const HeaderStyle: React.CSSProperties = {
     position: 'sticky',
-    top: 0,
+    top: getHeaderTop(),
     zIndex: 100,
     width: '100%',
     display: 'flex',
@@ -240,7 +246,6 @@ const HeaderPage = () => {
     </Header>
   );
 };
-
 const notiPopOverContent = (notiList: any) => (
   <StyledPopoverDiv
     style={{
