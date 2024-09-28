@@ -1,7 +1,7 @@
 import type { ThemeConfig } from 'antd';
 import localFont from 'next/font/local';
 
-const suitVariable = localFont({
+export const suitVariable = localFont({
   variable: '--suit-variable',
   src: [
     {

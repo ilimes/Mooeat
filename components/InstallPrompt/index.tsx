@@ -4,6 +4,7 @@ import { CloseOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import Image from 'next/image';
 import IconImg from '@/public/maskable_icon_x192.png';
+import { suitVariable } from '@/theme/themeConfig';
 
 declare global {
   export interface WindowEventMap {
@@ -108,6 +109,7 @@ export default InstallPrompt;
 const PromptWrap = styled.div`
   display: flex;
   align-items: center;
+  font-family: ${suitVariable.style.fontFamily};
   gap: 10px;
   position: sticky;
   top: 0;
@@ -122,7 +124,7 @@ const MessageWrap = styled.div`
   color: #111827;
   div:nth-child(1) {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
   }
   div:nth-child(2) {
     font-size: 12px;
