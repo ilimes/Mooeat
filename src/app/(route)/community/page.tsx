@@ -181,7 +181,7 @@ const Community = () => {
             <div style={{ fontSize: 12, textAlign: 'center', color: 'grey' }}>List</div>
           </button>
         </div>
-        <div style={{ marginTop: 15, display: 'flex' }}>
+        <TagWrap>
           <div style={{ fontWeight: 800, width: 105, verticalAlign: 'middle', lineHeight: 2.55 }}>
             인기 태그 Top5
           </div>
@@ -193,7 +193,7 @@ const Community = () => {
               </StyledTagSpan>
             ))}
           </div>
-        </div>
+        </TagWrap>
         <Tabs
           activeKey={activeKey}
           items={items}
@@ -268,7 +268,7 @@ const Community = () => {
               const item = items?.find((ele: any) => ele.key === String(e?.cate_seq));
               return (
                 <PostList
-                  key={`list-search${i}`}
+                  key={`list-search-${i}`}
                   obj={{ ...e, cate_color: item?.cateColor, bg_color: item?.bgColor }}
                   disableFade
                 />
@@ -322,5 +322,14 @@ const SearchListDiv = styled.div`
     100% {
       opacity: 1;
     }
+  }
+`;
+
+const TagWrap = styled.div`
+  margin-top: 15px;
+  display: flex;
+  gap: 7px;
+  @media screen and (max-width: 991px) {
+    flex-direction: column;
   }
 `;
