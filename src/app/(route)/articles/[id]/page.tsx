@@ -532,7 +532,7 @@ const CommentDiv = ({
     };
 
     // 스크롤 시점을 렌더링 완료 후로 지연
-    setTimeout(handleScrollToComment, 0);
+    setTimeout(handleScrollToComment, 100);
   }, [pathname, e?.comment_seq]);
 
   return (
