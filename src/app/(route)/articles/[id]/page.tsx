@@ -513,7 +513,9 @@ const CommentDiv = ({
       const { hash } = window.location;
 
       if (hash === `#comment-${e.comment_seq}` && commentRef.current) {
-        commentRef.current.scrollIntoView({ behavior: 'smooth' });
+        requestAnimationFrame(() => {
+          commentRef.current.scrollIntoView({ behavior: 'smooth' });
+        });
 
         // 깜빡임 효과 함수
         const blink = (delay: number) =>
@@ -532,7 +534,7 @@ const CommentDiv = ({
     };
 
     // 스크롤 시점을 렌더링 완료 후로 지연
-    setTimeout(handleScrollToComment, 100);
+    setTimeout(handleScrollToComment, 0);
   }, [pathname, e?.comment_seq]);
 
   return (
