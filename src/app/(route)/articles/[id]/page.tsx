@@ -30,8 +30,8 @@ import {
   NotificationOutlined,
 } from '@ant-design/icons';
 import styled from 'styled-components';
-import { useRouter, useParams } from 'next/navigation';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useRouter, useParams, usePathname } from 'next/navigation';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import moment from 'moment';
 import 'moment/locale/ko';
@@ -395,7 +395,7 @@ const Articles = () => {
                   }}
                 >
                   {e?.children?.map((ele: Comment, idx: number) => (
-                    <div key={idx}>
+                    <div key={idx} id={`comment-${ele?.comment_seq}`}>
                       <CommentDiv
                         e={ele}
                         selectedCommentSeq={selectedCommentSeq}
@@ -491,6 +491,9 @@ const CommentDiv = ({
   getCommentList: any;
 }) => {
   const { data: session, status } = useSession();
+  const commentRef = useRef<any>(null);
+  const pathname = usePathname();
+  const [isHighlighted, setIsHighlighted] = useState(false);
 
   const onClickDeleteComment = async () => {
     const formData = {
@@ -505,9 +508,40 @@ const CommentDiv = ({
     }
   };
 
+  useEffect(() => {
+    const handleScrollToComment = async () => {
+      const { hash } = window.location;
+
+      if (hash === `#comment-${e.comment_seq}` && commentRef.current) {
+        commentRef.current.scrollIntoView({ behavior: 'smooth' });
+
+        // 깜빡임 효과 함수
+        const blink = (delay: number) =>
+          new Promise((resolve) => {
+            setIsHighlighted(true);
+            setTimeout(() => {
+              setIsHighlighted(false);
+              setTimeout(resolve, delay);
+            }, delay);
+          });
+
+        // 두 번 깜빡이기
+        await blink(500);
+        await blink(500);
+      }
+    };
+
+    // 스크롤 시점을 렌더링 완료 후로 지연
+    setTimeout(handleScrollToComment, 0);
+  }, [pathname, e?.comment_seq]);
+
   return (
     <>
-      <div style={{ display: 'flex' }}>
+      <StyledCommentWrapDiv
+        ref={commentRef}
+        id={`comment-${e?.comment_seq}`}
+        $isHighlighted={isHighlighted}
+      >
         <div style={{ marginRight: 10 }}>
           <Avatar
             size={55}
@@ -565,7 +599,7 @@ const CommentDiv = ({
             )}
           </div>
         </div>
-      </div>
+      </StyledCommentWrapDiv>
     </>
   );
 };
@@ -662,6 +696,12 @@ const StyledContentDiv = styled.div`
   img {
     max-width: 100%;
   }
+`;
+
+const StyledCommentWrapDiv = styled.div<{ $isHighlighted?: boolean }>`
+  display: flex;
+  transition: background-color 0.5s ease;
+  background-color: ${({ $isHighlighted }) => ($isHighlighted ? 'yellow' : 'transparent')};
 `;
 
 const ReplyDiv = ({

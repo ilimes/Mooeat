@@ -31,7 +31,13 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
 
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotification = (message: string, type?: string, link?: string, seq?: string) => {
+  const openNotification = (
+    message: string,
+    type?: string,
+    link?: string,
+    seq?: string,
+    subSeq?: string,
+  ) => {
     const key = `open${Date.now()}`;
 
     const notiConfirm = async () => {
@@ -46,7 +52,11 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
 
     const onClickViewArticle = async () => {
       api.destroy(key);
-      router.push(`${link}` ?? '/');
+      if (subSeq && type === '댓글 알림') {
+        router.push(`${link}#comment-${subSeq}` ?? '/');
+      } else {
+        router.push(`${link}` ?? '/');
+      }
       await notiConfirm();
     };
 
@@ -84,11 +94,12 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
           const type: string = JSON.parse(event.data)?.type;
           const link: string = JSON.parse(event.data)?.link;
           const seq: string = JSON.parse(event.data)?.seq;
+          const subSeq: string = JSON.parse(event.data)?.sub_seq;
 
           if (JSON.parse(event.data).isClients) {
             setClients(JSON.parse(event.data)?.clients);
           } else {
-            openNotification(message, type, link, seq);
+            openNotification(message, type, link, seq, subSeq);
             notiListRefetch();
           }
         } catch (e) {
