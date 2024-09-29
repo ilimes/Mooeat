@@ -211,8 +211,6 @@ const Articles = () => {
     if (status !== 'loading') {
       getArticleData();
       getCommentList();
-      // 최상단으로 스크롤
-      window.scrollTo(0, 0);
     }
   }, [status]);
 
