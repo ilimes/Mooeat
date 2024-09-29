@@ -512,29 +512,42 @@ const CommentDiv = ({
     const handleScrollToComment = async () => {
       const { hash } = window.location;
 
-      if (hash === `#comment-${e.comment_seq}` && commentRef.current) {
-        requestAnimationFrame(() => {
-          commentRef.current.scrollIntoView({ behavior: 'smooth' });
-        });
+      if (hash === `#comment-${e?.comment_seq}` && commentRef.current) {
+        // 스크롤 이동
+        commentRef.current.scrollIntoView({ behavior: 'smooth' });
 
-        // 깜빡임 효과 함수
-        const blink = (delay: number) =>
-          new Promise((resolve) => {
-            setIsHighlighted(true);
-            setTimeout(() => {
-              setIsHighlighted(false);
-              setTimeout(resolve, delay);
-            }, delay);
-          });
+        // IntersectionObserver를 이용해 스크롤 감지
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const entry = entries[0];
+            if (entry.isIntersecting) {
+              // 요소가 뷰포트에 도달했을 때 깜빡임 효과
+              const blink = (delay: number) =>
+                new Promise((resolve) => {
+                  setIsHighlighted(true);
+                  setTimeout(() => {
+                    setIsHighlighted(false);
+                    setTimeout(resolve, delay);
+                  }, delay);
+                });
 
-        // 두 번 깜빡이기
-        await blink(500);
-        await blink(500);
+              // 두 번 깜빡이기
+              blink(500).then(() => blink(500));
+
+              // 관찰 중지
+              observer.disconnect();
+            }
+          },
+          { threshold: 1.0 },
+        );
+
+        // 관찰 시작
+        observer.observe(commentRef.current);
       }
     };
 
     // 스크롤 시점을 렌더링 완료 후로 지연
-    setTimeout(handleScrollToComment, 300);
+    setTimeout(handleScrollToComment, 100); // 약간의 지연 시간 추가
   }, [pathname, e?.comment_seq]);
 
   return (

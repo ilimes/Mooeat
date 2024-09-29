@@ -366,7 +366,11 @@ const Alert = ({ data }: { data: any }) => {
   };
 
   const onClickViewArticle = async (seq: number) => {
-    router.push(data?.link);
+    if (data?.sub_seq && data?.type_kor === '댓글 알림') {
+      router.push(`${data?.link}#comment-${data?.sub_seq}` ?? '/');
+    } else {
+      router.push(data?.link);
+    }
     setNotiCollapsed(false);
     setNotiPopoverOpen(false);
     await notiConfirm(seq);
