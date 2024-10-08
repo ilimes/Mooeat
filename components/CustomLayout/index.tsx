@@ -53,9 +53,9 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
     const onClickViewArticle = async () => {
       api.destroy(key);
       if (subSeq && type === '댓글 알림') {
-        router.push(`${link}#comment-${subSeq}` ?? '/');
+        router.push(`${link}#comment-${subSeq}` || '/');
       } else {
-        router.push(`${link}` ?? '/');
+        router.push(`${link}` || '/');
       }
       await notiConfirm();
     };
