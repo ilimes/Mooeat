@@ -31,21 +31,21 @@ import { useSession } from 'next-auth/react';
 import moment from 'moment';
 import Image from 'next/image';
 import { useRecoilValue } from 'recoil';
-import { useModal } from '@/hooks/useModal';
-import { InfoTypes } from '@/types/Common/Common.interface';
-import { Friend, FriendTypes } from '@/types/Friend/Friend.interface';
-import useIsMobile from '@/hooks/useIsMobile';
+import { useModal } from '@/src/hooks/useModal';
+import { InfoTypes } from '@/src/types/Common/Common.interface';
+import { Friend, FriendTypes } from '@/src/types/Friend/Friend.interface';
+import useIsMobile from '@/src/hooks/useIsMobile';
 import {
   deleteFriendData,
   loadFriendList,
   loadRegUserInfo,
   putFriendData,
   updateFriendData,
-} from '@/api/Api';
-import { DataType1, DataType2 } from '@/types/Board/Board.interface';
+} from '@/src/app/api/Api';
+import { DataType1, DataType2 } from '@/src/types/Board/Board.interface';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
-import TopTitle from '@/components/SharedComponents/TopTitle';
-import { clientsState } from '@/recoil/states';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
+import { clientsState } from '@/src/recoil/states';
 
 const items: InfoTypes[] = [
   {

@@ -1,5 +1,5 @@
-import CarouselComponent from '@/components/Carousel';
-import Main from '@/components/Main';
+import CarouselComponent from '@/src/components/Carousel';
+import Main from '@/src/components/Main';
 
 const App: React.FC = () => (
   <>

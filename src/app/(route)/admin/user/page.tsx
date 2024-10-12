@@ -7,9 +7,9 @@ import { useRouter } from 'next/navigation';
 import { ColumnProps } from 'antd/es/table';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { UserInfoTypes } from '@/types/User/User.interface';
-import { loadUserList } from '@/api/Api';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import { UserInfoTypes } from '@/src/types/User/User.interface';
+import { loadUserList } from '@/src/app/api/Api';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const User = () => {
   const router = useRouter();

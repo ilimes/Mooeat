@@ -2,7 +2,7 @@
 
 import { Button, Empty, Row } from 'antd';
 import styled from 'styled-components';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const Feed = () => (
   <div>

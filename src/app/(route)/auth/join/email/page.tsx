@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { putJoinData } from '@/api/Api';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import { putJoinData } from '@/src/app/api/Api';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 interface IValuesType {
   user_id: string;

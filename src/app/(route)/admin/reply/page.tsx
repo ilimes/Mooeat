@@ -7,9 +7,9 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/ko';
 import { useRouter } from 'next/navigation';
-import { BoardTypes } from '@/types/Board/Board.interface';
-import { loadAllCommentList, loadBoardList } from '@/api/Api';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import { BoardTypes } from '@/src/types/Board/Board.interface';
+import { loadAllCommentList, loadBoardList } from '@/src/app/api/Api';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const Reply = () => {
   const router = useRouter();

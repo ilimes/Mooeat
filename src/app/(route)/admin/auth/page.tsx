@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 function Auth() {
   return (

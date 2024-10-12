@@ -4,7 +4,7 @@ import { Button } from 'antd';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import Mail from '@/public/svg/mail.svg';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const FindId = () => {
   const router = useRouter();

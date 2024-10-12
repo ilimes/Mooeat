@@ -14,13 +14,13 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
-import PostCard from '@/components/Community/PostCard';
-import PostList from '@/components/Community/PostList';
-import { BoardTypes } from '@/types/Board/Board.interface';
-import { loadBoardList, loadInfoList, loadTagsTop5 } from '@/api/Api';
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import TopTitle from '@/components/SharedComponents/TopTitle';
-import { useModal } from '@/hooks/useModal';
+import PostCard from '@/src/components/Community/PostCard';
+import PostList from '@/src/components/Community/PostList';
+import { BoardTypes } from '@/src/types/Board/Board.interface';
+import { loadBoardList, loadInfoList, loadTagsTop5 } from '@/src/app/api/Api';
+import { useIntersectionObserver } from '@/src/hooks/useIntersectionObserver';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
+import { useModal } from '@/src/hooks/useModal';
 
 interface IInfoTypes {
   key: string;

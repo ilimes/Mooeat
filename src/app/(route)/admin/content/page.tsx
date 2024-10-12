@@ -6,9 +6,9 @@ import { ColumnProps } from 'antd/es/table';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { BoardTypes } from '@/types/Board/Board.interface';
-import { loadBoardList } from '@/api/Api';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import { BoardTypes } from '@/src/types/Board/Board.interface';
+import { loadBoardList } from '@/src/app/api/Api';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const Content = () => {
   const [boardList, setBoardList] = useState([]);

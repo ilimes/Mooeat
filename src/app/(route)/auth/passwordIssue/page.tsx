@@ -5,8 +5,8 @@ import { LeftOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { postTempPw } from '@/api/Api';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import { postTempPw } from '@/src/app/api/Api';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const PasswordIssue = () => {
   const [email, setEmail] = useState<string>('');

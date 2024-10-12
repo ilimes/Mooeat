@@ -5,8 +5,8 @@ import { Button, Col, Row } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import IpCountTable from '@/components/Admin/IpCountTable';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import IpCountTable from '@/src/components/Admin/IpCountTable';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const Ip = () => {
   const router = useRouter();
