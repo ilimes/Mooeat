@@ -12,6 +12,12 @@ export const Title = styled.div`
   gap: 10px;
 `;
 
+export const Number = styled.span`
+  font-weight: 400;
+  font-size: 13px;
+  color: grey;
+`;
+
 export const Explain = styled.div`
   font-size: 14px;
   color: #606060;

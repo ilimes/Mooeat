@@ -236,6 +236,9 @@ const Friends = () => {
                     router.push(`/articles/${record?.board_seq}`);
                   },
                 })}
+                bordered
+                tableLayout="fixed"
+                scroll={{ x: 500 }}
               />
             )}
           </StyledCard>
@@ -261,6 +264,9 @@ const Friends = () => {
                     router.push(`/articles/${record?.board_seq}`);
                   },
                 })}
+                bordered
+                tableLayout="fixed"
+                scroll={{ x: 800 }}
               />
             )}
           </StyledCard>

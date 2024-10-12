@@ -71,17 +71,7 @@ const Content = () => {
 
   return (
     <div>
-      <TopTitle
-        title={
-          <>
-            글 관리{' '}
-            <span style={{ fontWeight: 400, fontSize: 13, color: 'grey' }}>
-              {boardList?.length}
-            </span>
-          </>
-        }
-        explain="글 관리 화면"
-      />
+      <TopTitle title="글 관리" number={boardList?.length} explain="글 관리 화면" />
       <div style={{ overflow: 'auto' }}>
         <Table
           rowKey={(e) => e?.board_seq}
@@ -91,6 +81,9 @@ const Content = () => {
             pageSize: 10,
             showTotal: (total, range) => `${range[0]}-${range[1]} / 총 ${total}건`,
           }}
+          bordered
+          tableLayout="fixed"
+          scroll={{ x: 800 }}
         />
       </div>
     </div>

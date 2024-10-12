@@ -30,18 +30,21 @@ const User = () => {
       dataIndex: 'user_seq',
       title: 'Seq.',
       align: 'center',
+      width: 70,
     },
     {
       key: '1',
       dataIndex: 'user_nm',
       title: '이름',
       align: 'center',
+      width: 200,
     },
     {
       key: '2',
       dataIndex: 'user_id',
       title: '아이디',
       align: 'center',
+      width: 200,
     },
     {
       key: '3',
@@ -49,12 +52,14 @@ const User = () => {
       title: '자기소개',
       align: 'center',
       render: (text) => text ?? <span style={{ color: '#ababab' }}>없음</span>,
+      width: 500,
     },
     {
       key: '4',
       dataIndex: 'point',
       title: '포인트',
       align: 'center',
+      width: 200,
     },
     {
       key: '5',
@@ -62,6 +67,7 @@ const User = () => {
       title: '가입 수단',
       align: 'center',
       render: (text) => text ?? '일반',
+      width: 100,
     },
     {
       key: '6',
@@ -69,6 +75,7 @@ const User = () => {
       title: '가입일',
       align: 'center',
       render: (text) => (text ? moment(text).format('L') : '-'),
+      width: 150,
     },
     {
       key: '7',
@@ -76,20 +83,13 @@ const User = () => {
       title: '수정일',
       align: 'center',
       render: (text) => (text ? moment(text).format('L') : '-'),
+      width: 150,
     },
   ];
 
   return (
     <div>
-      <TopTitle
-        title={
-          <>
-            회원 관리{' '}
-            <span style={{ fontWeight: 400, fontSize: 13, color: 'grey' }}>{userList?.length}</span>
-          </>
-        }
-        explain="회원 관리 화면"
-      />
+      <TopTitle title="회원 관리" number={userList?.length} explain="회원 관리 화면" />
       <div style={{ overflow: 'auto' }}>
         <Table
           rowKey={(e) => e?.user_seq}
@@ -99,6 +99,9 @@ const User = () => {
             pageSize: 10,
             showTotal: (total, range) => `${range[0]}-${range[1]} / 총 ${total}건`,
           }}
+          bordered
+          tableLayout="fixed"
+          scroll={{ x: 800 }}
         />
       </div>
     </div>

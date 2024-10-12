@@ -21,6 +21,7 @@ const Reply = () => {
       dataIndex: 'comment_seq',
       title: 'Seq.',
       align: 'center',
+      width: 80,
     },
     {
       key: '1',
@@ -32,12 +33,14 @@ const Reply = () => {
           {text}
         </Tag>
       ),
+      width: 100,
     },
     {
       key: '2',
       dataIndex: 'content',
       title: '내용',
       align: 'center',
+      width: 150,
     },
     {
       key: '3',
@@ -59,12 +62,14 @@ const Reply = () => {
           {text}
         </span>
       ),
+      width: 150,
     },
     {
       key: '4',
       dataIndex: 'reg_user_nm',
       title: '댓글 작성자',
       align: 'center',
+      width: 100,
     },
     {
       key: '5',
@@ -72,6 +77,7 @@ const Reply = () => {
       title: '등록일',
       align: 'center',
       render: (text) => (text ? moment(text).format('L') : '-'),
+      width: 110,
     },
     {
       key: '6',
@@ -79,6 +85,7 @@ const Reply = () => {
       title: '수정일',
       align: 'center',
       render: (text) => (text ? moment(text).format('L') : '-'),
+      width: 110,
     },
   ];
 
@@ -94,14 +101,8 @@ const Reply = () => {
   return (
     <div>
       <TopTitle
-        title={
-          <>
-            댓글 관리{' '}
-            <span style={{ fontWeight: 400, fontSize: 13, color: 'grey' }}>
-              {commentList?.length}
-            </span>
-          </>
-        }
+        title="댓글 관리"
+        number={commentList?.length}
         explain={
           <div>
             댓글 관리 페이지 입니다. 전체 댓글이 표시되며,
@@ -119,6 +120,9 @@ const Reply = () => {
             pageSize: 10,
             showTotal: (total, range) => `${range[0]}-${range[1]} / 총 ${total}건`,
           }}
+          bordered
+          tableLayout="fixed"
+          scroll={{ x: 800 }}
         />
       </div>
     </div>

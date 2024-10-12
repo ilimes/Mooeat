@@ -16,7 +16,7 @@ import {
   Area,
 } from 'recharts';
 import { loadApiData } from '@/src/app/api/Api';
-import { yearOptions } from '@/src/meta/select';
+import { yearOptions } from '@/src/const/select';
 
 const ApiCountChart = () => {
   const { data: session, status } = useSession();

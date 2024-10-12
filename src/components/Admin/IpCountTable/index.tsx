@@ -25,7 +25,7 @@ const columns: TableColumnsType<DataType> = [
     title: 'No.',
     dataIndex: 'idx',
     key: 'idx',
-    width: 80,
+    width: 70,
     align: 'center',
   },
   {
@@ -33,6 +33,7 @@ const columns: TableColumnsType<DataType> = [
     dataIndex: 'ip',
     key: 'ip',
     align: 'center',
+    width: 260,
   },
   {
     title: '횟수',
@@ -40,6 +41,7 @@ const columns: TableColumnsType<DataType> = [
     key: 'count',
     align: 'center',
     render: (text) => `${text}회`,
+    width: 120,
   },
 ];
 
@@ -85,7 +87,14 @@ const IpCountTable = () => {
       </div>
       <Row>
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12}>
-          <Table rowKey={(record) => record?.idx} columns={columns} dataSource={data} />
+          <Table
+            rowKey={(record) => record?.idx}
+            columns={columns}
+            dataSource={data}
+            bordered
+            tableLayout="fixed"
+            scroll={{ x: 450 }}
+          />
         </Col>
         <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={12} style={{ height: 650 }}>
           <ResponsiveContainer width="100%" height="100%">
