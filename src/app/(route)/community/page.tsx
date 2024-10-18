@@ -11,12 +11,11 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import PostCard from '@/src/components/Community/PostCard';
 import PostList from '@/src/components/Community/PostList';
-import { BoardTypes } from '@/src/types/Board/Board.interface';
 import { loadBoardList, loadInfoList, loadTagsTop5 } from '@/src/app/api/Api';
 import { useIntersectionObserver } from '@/src/hooks/useIntersectionObserver';
 import TopTitle from '@/src/components/SharedComponents/TopTitle';
@@ -118,7 +117,6 @@ const Community = () => {
   };
 
   const onCloseModal = () => {
-    // 검색 정보 초기화
     setSearchContent('');
     setSearchTag('');
   };
@@ -160,46 +158,37 @@ const Community = () => {
     <>
       <div>
         <TopTitle title="커뮤니티" explain="커뮤니티에서 자유롭게 이야기를 나눠보세요 :)" />
-        <Button
-          type="primary"
-          disabled={status !== 'authenticated'}
-          onClick={() => router.push('/articles/write')}
-          style={{ width: 125, height: 47, fontWeight: 'bold', fontSize: 16 }}
-        >
-          <FormOutlined /> 작성하기
-        </Button>
-        <div style={{ fontSize: 24, float: 'right' }}>
-          <button style={{ fontSize: 24, marginRight: 10 }} onClick={() => setType('tile')}>
-            <div>
+        <TopBtnSection>
+          <StyledButton
+            type="primary"
+            disabled={status !== 'authenticated'}
+            onClick={() => router.push('/articles/write')}
+          >
+            <FormOutlined /> 작성하기
+          </StyledButton>
+          <ButtonWrap>
+            <StyledButtonWrap onClick={() => setType('tile')}>
               {type === 'tile' && <AppstoreFilled style={{ color: '#4F4791' }} />}
               {type !== 'tile' && <AppstoreOutlined style={{ color: '#bcbcbc' }} />}
-            </div>
-            <div style={{ fontSize: 12, textAlign: 'center', color: 'grey' }}>Tile</div>
-          </button>
-          <button style={{ fontSize: 24 }} onClick={() => setType('list')}>
-            <UnorderedListOutlined style={{ color: type === 'list' ? '#4F4791' : '#bcbcbc' }} />
-            <div style={{ fontSize: 12, textAlign: 'center', color: 'grey' }}>List</div>
-          </button>
-        </div>
+              <div>Tile</div>
+            </StyledButtonWrap>
+            <StyledButtonWrap onClick={() => setType('list')}>
+              <UnorderedListOutlined style={{ color: type === 'list' ? '#4F4791' : '#bcbcbc' }} />
+              <div>List</div>
+            </StyledButtonWrap>
+          </ButtonWrap>
+        </TopBtnSection>
         <TagWrap>
-          <div style={{ fontWeight: 800, width: 105, verticalAlign: 'middle', lineHeight: 2.55 }}>
-            인기 태그 Top5
-          </div>
-          {/* 태그 영역 */}
-          <div style={{ margin: '0', display: 'flex', flexWrap: 'wrap', gap: 7, flex: 1 }}>
+          <StyledTitle>인기 태그 Top5</StyledTitle>
+          <TagListWrap>
             {top5TagList?.map((e: any, i: number) => (
               <StyledTagSpan key={i} onClick={() => onClickTag(e?.tag_nm)}>
                 #{e?.tag_nm} ({e?.tag_count}회)
               </StyledTagSpan>
             ))}
-          </div>
+          </TagListWrap>
         </TagWrap>
-        <Tabs
-          activeKey={activeKey}
-          items={items}
-          onChange={onChange}
-          style={{ fontWeight: 800, marginTop: 15 }}
-        />
+        <StyledTabs activeKey={activeKey} items={items} onChange={onChange} />
         <Row gutter={[25, 25]}>
           {filteredArr?.map((e: any, i: number) => {
             const item = items?.find((ele: any) => ele.key === String(e?.cate_seq));
@@ -229,7 +218,7 @@ const Community = () => {
                       {i !== filteredArr?.length - 1 && (
                         <Divider
                           key={`divider${i}`}
-                          style={{ margin: '15px 0 0 0', borderColor: '#D2D4D8' }}
+                          style={{ margin: '15px 0 0 0', background: '#d2d4d8' }}
                         />
                       )}
                     </>
@@ -250,19 +239,17 @@ const Community = () => {
         destroyOnClose
         afterOpenChange={(open) => {
           if (!open) {
-            setSearchBoardList([]); // 모달이 닫힐 때 searchBoardList 초기화
+            setSearchBoardList([]);
           }
         }}
         styles={{ content: { maxWidth: 860, margin: '0 auto' } }}
       >
-        <div style={{ margin: '30px 0' }}>
-          <div style={{ fontWeight: 800, fontSize: 20 }}>
-            <span style={{ fontWeight: 'bold', color: '#4f4791' }}>
-              "{searchTag || searchContent}"{' '}
-            </span>
+        <ModalContent>
+          <SearchHeader>
+            <span>"{searchTag || searchContent}"</span>
             {searchTag && '태그'} {searchContent && '게시글'} 검색 결과
-          </div>
-          <div style={{ marginBottom: 20 }}>{searchBoardList?.length}건의 게시물을 찾았습니다.</div>
+          </SearchHeader>
+          <SearchResult>{searchBoardList?.length}건의 게시물을 찾았습니다.</SearchResult>
           <SearchListDiv>
             {searchBoardList?.map((e: any, i: number) => {
               const item = items?.find((ele: any) => ele.key === String(e?.cate_seq));
@@ -277,15 +264,69 @@ const Community = () => {
           </SearchListDiv>
           {!searchBoardList?.length && (
             <Spin style={{ display: 'flex', justifyContent: 'center' }} size="large" />
-            // <div style={{ textAlign: 'center', marginTop: 20 }}>검색 결과가 존재하지 않습니다.</div>
           )}
-        </div>
+        </ModalContent>
       </Modal>
     </>
   );
 };
 
 export default Community;
+
+const StyledButton = styled(Button)`
+  width: 125px !important;
+  height: 47px !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  gap: 10px;
+  font-size: 24px;
+`;
+
+const StyledButtonWrap = styled.button`
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  div {
+    font-size: 12px;
+    text-align: center;
+    color: grey;
+  }
+`;
+
+const TopBtnSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const TagWrap = styled.div`
+  margin-top: 15px;
+  display: flex;
+  gap: 7px;
+  @media screen and (max-width: 991px) {
+    flex-direction: column;
+  }
+`;
+
+const StyledTitle = styled.div`
+  font-weight: 800;
+  width: 105px;
+  vertical-align: middle;
+  line-height: 2.55;
+`;
+
+const TagListWrap = styled.div`
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  flex: 1;
+`;
 
 const StyledTagSpan = styled.span`
   background: #f9f9ff;
@@ -296,6 +337,24 @@ const StyledTagSpan = styled.span`
     cursor: pointer;
     color: #7944f4;
   }
+`;
+
+const ModalContent = styled.div`
+  margin: 30px 0;
+`;
+
+const SearchHeader = styled.div`
+  font-weight: 800;
+  font-size: 20px;
+
+  span {
+    font-weight: bold;
+    color: #4f4791;
+  }
+`;
+
+const SearchResult = styled.div`
+  margin-bottom: 20px;
 `;
 
 const SearchListDiv = styled.div`
@@ -325,11 +384,7 @@ const SearchListDiv = styled.div`
   }
 `;
 
-const TagWrap = styled.div`
-  margin-top: 15px;
-  display: flex;
-  gap: 7px;
-  @media screen and (max-width: 991px) {
-    flex-direction: column;
-  }
+const StyledTabs = styled(Tabs)`
+  font-weight: 800;
+  margin-top: 15px !important;
 `;

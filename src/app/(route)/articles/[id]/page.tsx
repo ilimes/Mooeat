@@ -1,27 +1,11 @@
 'use client';
 
-import {
-  Avatar,
-  Button,
-  Checkbox,
-  Col,
-  Divider,
-  Input,
-  Modal,
-  Popconfirm,
-  Row,
-  Skeleton,
-  Tabs,
-  Tooltip,
-  message,
-} from 'antd';
+import { Avatar, Button, Divider, Input, Popconfirm, Skeleton, Tooltip, message } from 'antd';
 import {
   DeleteOutlined,
   PlusOutlined,
   EyeOutlined,
   CommentOutlined,
-  LikeOutlined,
-  ShareAltOutlined,
   RollbackOutlined,
   InfoCircleOutlined,
   EditOutlined,
@@ -35,11 +19,9 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import moment from 'moment';
 import 'moment/locale/ko';
-import SlotCounter from 'react-slot-counter';
 import type { Session } from 'next-auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Image from 'next/image';
-import { useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import FlipNumbers from 'react-flip-numbers';
 import KakaoSvg from '@/public/svg/kakao.svg';
@@ -61,7 +43,6 @@ import {
   CommentTypes,
   RegUserInfoTypes,
 } from '@/src/types/Board/Board.interface';
-import { userInfoState } from '@/src/recoil/states';
 import { useModal } from '@/src/hooks/useModal';
 
 const Articles = () => {
@@ -185,9 +166,6 @@ const Articles = () => {
 
   const handleShearToKakao = () => {
     const { Kakao, location } = window;
-    // Kakao.Share.sendScrap({
-    //   requestUrl: location.href,
-    // });
     Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
@@ -258,7 +236,6 @@ const Articles = () => {
               <span style={{ display: 'flex', gap: 3 }}>
                 <HeartFilled style={{ color: '#F04C53' }} />
                 <span>
-                  {/* <SlotCounter value={data?.like_cnt || 0} /> */}
                   <FlipNumbers
                     play
                     color="#808080"
