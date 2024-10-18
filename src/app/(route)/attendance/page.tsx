@@ -8,11 +8,11 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import moment from 'moment';
-import { AttendanceLogTypes } from '@/types/Attendance/Attendance.interface';
-import Calendar from '@/components/Calendar';
-import { loadAttendanceLogData, updateAttendanceData } from '@/api/Api';
-import TopTitle from '@/components/SharedComponents/TopTitle';
-import Freepik from '@/components/Freepik';
+import { AttendanceLogTypes } from '@/src/types/Attendance/Attendance.interface';
+import Calendar from '@/src/components/Calendar';
+import { loadAttendanceLogData, updateAttendanceData } from '@/src/app/api/Api';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
+import Freepik from '@/src/components/Freepik';
 
 const freepikLink =
   'https://kr.freepik.com/free-photo/3d-illustration-of-calendar-with-checkmarks-pen_33309561.htm#query=%EB%8B%AC%EB%A0%A5%203d&position=28&from_view=keyword&track=ais&uuid=797e4121-2ab3-4646-ab1d-72a6e8376f7d';

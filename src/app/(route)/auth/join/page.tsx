@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
 import Mail from '@/public/svg/mail.svg';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const Join = () => {
   const router = useRouter();

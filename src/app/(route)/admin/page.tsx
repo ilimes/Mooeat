@@ -22,11 +22,11 @@ import {
   YAxis,
 } from 'recharts';
 import FlipNumbers from 'react-flip-numbers';
-import { adminCollapsedState } from '@/recoil/states';
-import TopTitle from '@/components/SharedComponents/TopTitle';
-import { loadApiData, loadTodayVisitorCount, loadUserList } from '@/api/Api';
-import { UserInfoTypes } from '@/types/User/User.interface';
-import useCountUp from '@/hooks/useCountUp';
+import { adminCollapsedState } from '@/src/recoil/states';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
+import { loadApiData, loadTodayVisitorCount, loadUserList } from '@/src/app/api/Api';
+import { UserInfoTypes } from '@/src/types/User/User.interface';
+import useCountUp from '@/src/hooks/useCountUp';
 
 const Admin = () => {
   const {

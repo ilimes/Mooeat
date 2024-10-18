@@ -7,8 +7,8 @@ import { signIn } from 'next-auth/react';
 import GoogleIcon from '@/public/svg/google.svg';
 import Kakao from '@/public/svg/kakao.svg';
 import Mail from '@/public/svg/mail.svg';
-import TopTitle from '@/components/SharedComponents/TopTitle';
-import TopMsg from '@/components/Login/TopMsg';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
+import TopMsg from '@/src/components/Login/TopMsg';
 
 const Login = () => {
   const router = useRouter();

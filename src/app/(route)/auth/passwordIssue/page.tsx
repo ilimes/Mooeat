@@ -5,8 +5,8 @@ import { LeftOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { postTempPw } from '@/api/Api';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import { postTempPw } from '@/src/app/api/Api';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const PasswordIssue = () => {
   const [email, setEmail] = useState<string>('');
@@ -53,14 +53,10 @@ const PasswordIssue = () => {
           style={{ height: 40 }}
         />
       </div>
-      <Button
-        type="primary"
-        onClick={pushTempPwEmail}
-        style={{ width: '100%', height: 47, fontWeight: 'bold', fontSize: 14 }}
-      >
+      <EmailButton type="primary" onClick={pushTempPwEmail}>
         {isLoading && <StyledSpin />}
         {!isLoading && <>이메일 전송</>}
-      </Button>
+      </EmailButton>
       <BtnGroup>
         <StyledSpan style={{ marginLeft: 0 }} onClick={() => router.push('/auth/login')}>
           <LeftOutlined style={{ marginRight: 5 }} />
@@ -102,4 +98,11 @@ const StyledSpin = styled(Spin)`
       background-color: white;
     }
   }
+`;
+
+const EmailButton = styled(Button)`
+  width: 100%;
+  height: 47px;
+  font-weight: bold;
+  font-size: 14px;
 `;

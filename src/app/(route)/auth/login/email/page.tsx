@@ -7,8 +7,8 @@ import styled from 'styled-components';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { redirect, useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { ValuesTypes } from '@/types/User/User.interface';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import { ValuesTypes } from '@/src/types/User/User.interface';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const onFinish = async (
   values: ValuesTypes,

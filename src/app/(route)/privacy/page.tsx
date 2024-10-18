@@ -1,6 +1,6 @@
 'use client';
 
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const Privacy = () => (
   <div>

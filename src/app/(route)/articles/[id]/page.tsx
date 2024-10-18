@@ -53,11 +53,16 @@ import {
   loadUserInfoData,
   putBoardLike,
   writeComment,
-} from '@/api/Api';
+} from '@/src/app/api/Api';
 import unknownAvatar from '@/public/img/profile/unknown-avatar.png';
-import { BoardTypes, Comment, CommentTypes, RegUserInfoTypes } from '@/types/Board/Board.interface';
-import { userInfoState } from '@/recoil/states';
-import { useModal } from '@/hooks/useModal';
+import {
+  BoardTypes,
+  Comment,
+  CommentTypes,
+  RegUserInfoTypes,
+} from '@/src/types/Board/Board.interface';
+import { userInfoState } from '@/src/recoil/states';
+import { useModal } from '@/src/hooks/useModal';
 
 const Articles = () => {
   const router = useRouter();

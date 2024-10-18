@@ -4,7 +4,7 @@ import { Card, Col, Row } from 'antd';
 import { ShareAltOutlined, CommentOutlined, SaveOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import Image from 'next/image';
-import Freepik from '@/components/Freepik';
+import Freepik from '@/src/components/Freepik';
 
 const freepikLink =
   'https://kr.freepik.com/free-vector/happy-tiny-people-near-huge-welcome-word-flat-illustration_11235579.htm#page=2&query=welcome&position=38&from_view=search&track=sph&uuid=6287d2e5-782a-4493-9732-1435f02ee2c0';

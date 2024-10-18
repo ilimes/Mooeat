@@ -5,12 +5,12 @@ import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/navigation';
-import AccountManagement from '@/components/MyPage/AccountManagement';
-import MyActivities from '@/components/MyPage/MyActivities';
-import Point from '@/components/MyPage/Point';
-import Subscribe from '@/components/MyPage/Subscribe';
-import Friend from '@/components/MyPage/Friend';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import AccountManagement from '@/src/components/MyPage/AccountManagement';
+import MyActivities from '@/src/components/MyPage/MyActivities';
+import Point from '@/src/components/MyPage/Point';
+import Subscribe from '@/src/components/MyPage/Subscribe';
+import Friend from '@/src/components/MyPage/Friend';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 const list: TabsProps['items'] = [
   {

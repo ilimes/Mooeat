@@ -3,13 +3,13 @@
 import { Tabs } from 'antd';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { InfoTypes } from '@/types/Common/Common.interface';
-import { Friend, FriendTypes } from '@/types/Friend/Friend.interface';
-import { loadFriendList } from '@/api/Api';
-import TopTitle from '@/components/SharedComponents/TopTitle';
-import ShareContent from '@/components/Share/ShareContent';
-import ReceivedList from '@/components/Share/ReceivedList';
-import SentList from '@/components/Share/SentList';
+import { InfoTypes } from '@/src/types/Common/Common.interface';
+import { Friend, FriendTypes } from '@/src/types/Friend/Friend.interface';
+import { loadFriendList } from '@/src/app/api/Api';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
+import ShareContent from '@/src/components/Share/ShareContent';
+import ReceivedList from '@/src/components/Share/ReceivedList';
+import SentList from '@/src/components/Share/SentList';
 
 const items: InfoTypes[] = [
   {

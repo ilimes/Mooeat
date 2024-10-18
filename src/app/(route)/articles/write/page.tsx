@@ -14,9 +14,9 @@ import { KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { loadArticleData, loadInfoList, uploadImgFileOne, writeBoard } from '@/api/Api';
-import QuillNoSSRWrapper from '@/components/QuillNoSSRWrappper';
-import TopTitle from '@/components/SharedComponents/TopTitle';
+import { loadArticleData, loadInfoList, uploadImgFileOne, writeBoard } from '@/src/app/api/Api';
+import QuillNoSSRWrapper from '@/src/components/QuillNoSSRWrappper';
+import TopTitle from '@/src/components/SharedComponents/TopTitle';
 
 interface TagInputProps {
   placeholder: string;
